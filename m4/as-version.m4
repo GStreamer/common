@@ -1,3 +1,7 @@
+dnl version.m4 0.0.1
+dnl autostars m4 macro for versioning
+dnl thomas@apestaart.org
+dnl
 dnl AS_VERSION(PACKAGE, PREFIX, MAJOR, MINOR, MICRO, ACTION_IF_DEV, ACTION_IF_NOT_DEV)
 dnl example
 dnl AS_VERSION(gstreamer, GST_VERSION, 0, 3, 2)
@@ -26,7 +30,7 @@ AC_DEFUN(AS_VERSION,
       fi
       AC_MSG_NOTICE(configuring [$1] for development with nano $NANO)
       VERSION=[$3].[$4].[$5].$NANO
-      [$2]_RELEASE=`date +%Y%m%d-%H%M%S`
+      [$2]_RELEASE=`date +%Y%m%d_%H%M%S`
       dnl execute action
       [$6]
     ],
@@ -38,9 +42,10 @@ AC_DEFUN(AS_VERSION,
       [$7]
     ])
 
-  AC_DEFINE_UNQUOTED([$2], "VERSION")
+  [$2]=$VERSION
+  AC_DEFINE_UNQUOTED([$2], "$[$2]")
   AC_SUBST([$2])
-  AC_DEFINE_UNQUOTED([$2]_RELEASE, "[$2]_RELEASE")
+  AC_DEFINE_UNQUOTED([$2]_RELEASE, "$[$2]_RELEASE")
   AC_SUBST([$2]_RELEASE)
 
   AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
