@@ -133,7 +133,7 @@ AC_DEFUN([GST_CHECK_CONFIGPROG],
     [$1]_CFLAGS=
     HAVE_[$1]=no
   else
-    [$1]_LIBS=`[$2] --plugin-libs [$3]`
+    [$1]_LIBS=`[$2] --plugin-libs [$3] 2> /dev/null`
     if test "x$[$1]_LIBS" = x; then
       [$1]_LIBS=`[$2] --libs [$3]`
     fi
