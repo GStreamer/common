@@ -36,7 +36,9 @@ AC_SUBST(HAVE_GTK_DOC)
 AC_SUBST(GTK_DOC_SCANOBJ)
 
 dnl check for docbook tools
-AC_CHECK_PROG(HAVE_XMLTO, xmlto, true, false)
+AC_CHECK_PROG(HAVE_DOCBOOK2PS, docbook2ps, true, false)
+AC_CHECK_PROG(HAVE_DOCBOOK2HTML, docbook2html, true, false)
+AC_CHECK_PROG(HAVE_JADETEX, jadetex, true, false)
 AC_CHECK_PROG(HAVE_PS2PDF, ps2pdf, true, false)
 
 dnl check for image conversion tools
@@ -74,7 +76,7 @@ AC_CHECK_PROG(HAVE_PNMTOPS,  pnmtops,  true, false)
 AC_CHECK_PROG(HAVE_EPSTOPDF, epstopdf, true, false)
 
 dnl check if we can generate HTML
-if test "x$HAVE_XMLTO" = "xtrue" && \
+if test "x$HAVE_DOCBOOK2HTML" = "xtrue" && \
    test "x$HAVE_FIG2DEV_PNG" = "xtrue"; then
   DOC_HTML=true
   AC_MSG_NOTICE(Will output HTML documentation)
@@ -84,7 +86,8 @@ else
 fi
 
 dnl check if we can generate PS
-if test "x$HAVE_XMLTO" = "xtrue" && \
+if test "x$HAVE_DOCBOOK2PS" = "xtrue" && \
+   test "x$HAVE_JADETEX" = "xtrue" && \
    test "x$HAVE_FIG2DEV_EPS" = "xtrue" && \
    test "x$HAVE_PNGTOPNM" = "xtrue" && \
    test "x$HAVE_PNMTOPS" = "xtrue"; then
