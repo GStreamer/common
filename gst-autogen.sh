@@ -198,19 +198,12 @@ die_check ()
 
 autogen_options ()
 {
-  if test "x`getopt --version | cut -d' ' -f2`" != "x(enhanced)"; then
-    echo "- non-gnu getopt(1) detected, not running getopt on autogen command-line options"
+  if test "x$1" == "x"; then
     return 0
   fi
 
-  # we use getopt stuff here, copied things from the example example.bash
-  # prefix is explicitly carried over to configure by request of jdahlin
-  TEMP=`getopt -o h --long noconfigure,nocheck,debug,help,with-automake:,with-autoconf:,prefix:\
-       -- "$@"`
-
-  eval set -- "$TEMP"
-
-  while true ; do
+  while test "x$1" != "x" ; do
+    optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
     case "$1" in
       --noconfigure)
           NOCONFIGURE=defined
@@ -230,10 +223,10 @@ autogen_options ()
           echo "+ debug output enabled"
           shift
           ;;
-      --prefix)
-	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT --prefix=$2"
-	  echo "+ passing --prefix=$2 to configure"
-          shift 2
+      --prefix=*)
+	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT --prefix=$optarg"
+	  echo "+ passing --prefix=$optarg to configure"
+          shift
           ;;
       -h|--help)
           echo "autogen.sh (autogen options) -- (configure options)"
@@ -249,17 +242,17 @@ autogen_options ()
           echo "to pass options to configure, put them as arguments after -- "
 	  exit 1
           ;;
-      --with-automake)
-          AUTOMAKE=$2
-          echo "+ using alternate automake in $2"
+      --with-automake=*)
+          AUTOMAKE=$optarg
+          echo "+ using alternate automake in $optarg"
 	  CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-automake=$AUTOMAKE"
-          shift 2
+          shift
           ;;
-      --with-autoconf)
-          AUTOCONF=$2
-          echo "+ using alternate autoconf in $2"
+      --with-autoconf=*)
+          AUTOCONF=$optarg
+          echo "+ using alternate autoconf in $optarg"
 	  CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoconf=$AUTOCONF"
-          shift 2
+          shift
           ;;
        --) shift ; break ;;
       *) echo "Internal error !" ; exit 1 ;;
