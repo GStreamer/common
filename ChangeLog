@@ -1,8 +1,6 @@
-2004-03-16  Thomas Vander Stichele  <thomas at apestaart dot org>
+2004-03-17  Thomas Vander Stichele  <thomas at apestaart dot org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* gst-autogen.sh:
+	* release.mak: add a release target
 
 2004-03-09  Thomas Vander Stichele  <thomas at apestaart dot org>
 
