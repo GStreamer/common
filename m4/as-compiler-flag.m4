@@ -16,7 +16,7 @@ AC_DEFUN(AS_COMPILER_FLAG,
   if test "X$flag_ok" = Xyes; then
     $2
   else
-    $2
+    $3
   fi
   AC_MSG_RESULT([$flag_ok])
 ])
