@@ -1,3 +1,8 @@
+2004-02-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-feature.m4:
+          rename and fix up GST_CHECK_DISABLE_SUBSYSTEM
+
 2004-02-11  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* common/m4/as-ac-expand.m4:

@@ -166,27 +166,39 @@ AC_DEFUN([GST_CHECK_LIBHEADER],
 ]
 )
 
-dnl 2003-06-27 Benjamin Otte - make this work with gstconfig.h
+dnl 2004-02-14 Thomas - changed to get set properly and use proper output
+dnl 2003-06-27 Benjamin Otte - changed to make this work with gstconfig.h
 dnl
 dnl Add a subsystem --disable flag and all the necessary symbols and substitions
 dnl
-dnl GST_SUBSYSTEM_DISABLE(SYSNAME, [subsystem name])
+dnl GST_CHECK_SUBSYSTEM_DISABLE(SYSNAME, [subsystem name])
 dnl
-AC_DEFUN([GST_SUBSYSTEM_DISABLE],
-[AC_ARG_ENABLE(translit([$1], A-Z, a-z), 
-[  ]builtin(format, --disable-%-17s  disable %s, translit([$1], A-Z, a-z), $2),
-[ case "${enableval}" in
-    yes) GST_DISABLE_[$1]=no ;;
-    no) GST_DISABLE_[$1]=yes ;;
-    *) AC_MSG_ERROR(bad value ${enableval} for --enable-translit([$1], A-Z, a-z)) ;;
-  esac],
-[GST_DISABLE_[$1]=no]) dnl Default value
-if test x$GST_DISABLE_[$1] = xyes; then
-  GST_DISABLE_[$1]_DEFINE="#define GST_DISABLE_$1 1" 
-else
-  GST_DISABLE_[$1]_DEFINE="/* #undef GST_DISABLE_$1 */"
-fi
-AM_CONDITIONAL(GST_DISABLE_[$1], test x$GST_DISABLE_[$1] = xyes)
-AC_SUBST(GST_DISABLE_[$1]_DEFINE)
+AC_DEFUN([GST_CHECK_SUBSYSTEM_DISABLE],
+[
+  dnl this define will replace each literal subsys_def occurrence with
+  dnl the lowercase hyphen-separated subsystem
+  dnl e.g. if $1 is GST_DEBUG then subsys_def will be a macro with gst-debug
+  define([subsys_def],translit([$1], _A-Z, -a-z))
+
+  AC_ARG_ENABLE(subsys_def, 
+    AC_HELP_STRING(--disable-subsys_def, [disable $2]),
+    [
+      case "${enableval}" in
+        yes) GST_DISABLE_[$1]=no ;;
+        no) GST_DISABLE_[$1]=yes ;;
+        *) AC_MSG_ERROR([bad value ${enableval} for --enable-subsys_def]) ;;
+       esac
+    ],
+    [GST_DISABLE_[$1]=no]) dnl Default value
+
+  if test x$GST_DISABLE_[$1] = xyes; then
+    AC_MSG_NOTICE([disabled subsystem [$2]])
+    GST_DISABLE_[$1]_DEFINE="#define GST_DISABLE_$1 1" 
+  else
+    GST_DISABLE_[$1]_DEFINE="/* #undef GST_DISABLE_$1 */"
+  fi
+  AM_CONDITIONAL(GST_DISABLE_[$1], test x$GST_DISABLE_[$1] = xyes)
+  AC_SUBST(GST_DISABLE_[$1]_DEFINE)
+  undefine([subsys_def])
 ])
 
