@@ -136,7 +136,7 @@ die_check ()
 autogen_options ()
 {
   # we use getopt stuff here, copied things from the example example.bash
-  TEMP=`getopt -o h --long noconfigure,nocheck,debug,help,with-automake:,with-autoconf: \
+  TEMP=`getopt -o h --long noconfigure,nocheck,debug,help,with-automake:,with-autoconf:,prefix:\
        -- "$@"`
 
   eval set -- "$TEMP"
@@ -161,12 +161,18 @@ autogen_options ()
           echo "+ debug output enabled"
           shift
           ;;
+      --prefix)
+	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT --prefix=$2"
+	  echo "+ passing --prefix=$2 to configure"
+          shift 2
+          ;;
       -h|--help)
           echo "autogen.sh (autogen options) -- (configure options)"
           echo "autogen.sh help options: "
-          echo " --noconfigure            don\'t run the configure script"
-          echo " --nocheck                don\'t do version checks"
+          echo " --noconfigure            don't run the configure script"
+          echo " --nocheck                don't do version checks"
           echo " --debug                  debug the autogen process"
+	  echo " --prefix		  will be passed on to configure"
           echo
           echo " --with-autoconf PATH     use autoconf in PATH"
           echo " --with-automake PATH     use automake in PATH"
