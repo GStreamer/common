@@ -1,3 +1,8 @@
+2004-05-03  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* po.mak:
+          snippet for updating .po files
+
 2004-03-18  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* Makefile.am:
