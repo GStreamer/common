@@ -1,6 +1,6 @@
 # a silly hack that generates autoregen.sh but it's handy
 echo "#!/bin/sh" > autoregen.sh
-echo "./autogen.sh $@" >> autoregen.sh
+echo "./autogen.sh $@ \$@" >> autoregen.sh
 chmod +x autoregen.sh
 
 # helper functions for autogen.sh

@@ -2,7 +2,7 @@ AC_DEFUN(GST_DOC, [
 AC_ARG_WITH(html-dir, AC_HELP_STRING([--with-html-dir=PATH], [path to installed docs]))
 
 if test "x$with_html_dir" = "x" ; then
-  HTML_DIR='${datadir}/doc/$(PACKAGE)-$(VERSION)/html'
+  HTML_DIR='${datadir}/gtk-doc/html'
 else
   HTML_DIR=$with_html_dir
 fi
