@@ -1,4 +1,4 @@
-dnl version.m4 0.0.4
+dnl version.m4 0.0.5
 dnl autostars m4 macro for versioning
 dnl thomas@apestaart.org
 dnl
@@ -32,13 +32,13 @@ AC_DEFUN(AS_VERSION,
       VERSION=[$3].[$4].[$5]
       [$2]_RELEASE=1
       dnl execute action
-      [$7]
+      ifelse([$7], , :, [$7])
   else
       AC_MSG_NOTICE(configuring [$1] for development with nano $NANO)
       VERSION=[$3].[$4].[$5].$NANO
       [$2]_RELEASE=`date +%Y%m%d_%H%M%S`
       dnl execute action
-      [$8]
+      ifelse([$8], , :, [$8])
   fi
 
   [$2]=$VERSION
