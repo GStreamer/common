@@ -48,25 +48,6 @@ esac
 dnl Determine endianness
 AC_C_BIGENDIAN
 
-dnl Check for MMX-capable compiler
-AC_MSG_CHECKING(for MMX-capable compiler)
-AC_TRY_RUN([
-#include "include/mmx.h"
-
-main()
-{ movq_r2r(mm0, mm1); return 0; }
-],
-[
-HAVE_LIBMMX="yes"
-AC_MSG_RESULT(yes)
-],
-HAVE_LIBMMX="no"
-AC_MSG_RESULT(no)
-,
-HAVE_LIBMMX="no"
-AC_MSG_RESULT(no)
-)
-
 AM_CONDITIONAL(HAVE_CPU_I386,       test "x$HAVE_CPU_I386" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_PPC,        test "x$HAVE_CPU_PPC" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_ALPHA,      test "x$HAVE_CPU_ALPHA" = "xyes")
@@ -78,7 +59,6 @@ AM_CONDITIONAL(HAVE_CPU_S390,       test "x$HAVE_CPU_S390" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_IA64,       test "x$HAVE_CPU_IA64" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_M68K,       test "x$HAVE_CPU_M68K" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_X86_64,     test "x$HAVE_CPU_X86_64" = "xyes")
-AM_CONDITIONAL(HAVE_LIBMMX,         test "x$USE_LIBMMX" = "xyes")
 
 ])
 

@@ -1,3 +1,8 @@
+2004-12-14  David Schleef  <ds@schleef.org>
+
+	* m4/gst-arch.m4: remove MMX stuff, since it doesn't work and
+	isn't needed anywhere
+
 2004-12-08  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gst-autogen.sh:
