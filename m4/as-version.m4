@@ -1,14 +1,15 @@
-dnl version.m4 0.0.1
+dnl version.m4 0.0.2
 dnl autostars m4 macro for versioning
 dnl thomas@apestaart.org
 dnl
-dnl AS_VERSION(PACKAGE, PREFIX, MAJOR, MINOR, MICRO, ACTION_IF_DEV, ACTION_IF_NOT_DEV)
+dnl AS_VERSION(PACKAGE, PREFIX, MAJOR, MINOR, MICRO, NANO, ACTION_IF_NO_NANO, ACTION_IF_NANO)
 dnl example
-dnl AS_VERSION(gstreamer, GST_VERSION, 0, 3, 2)
+dnl AS_VERSION(gstreamer, GST_VERSION, 0, 3, 2,)
+dnl for a 0.3.2 release version
 dnl
 dnl this macro
 dnl - defines [$PREFIX]_MAJOR, MINOR and MICRO
-dnl - adds an --with-dev[=nano] option to configure
+dnl - if NANO is empty, then we're in release mode, else in cvs/dev mode
 dnl - defines [$PREFIX], VERSION, and [$PREFIX]_RELEASE
 dnl - executes the relevant action
 dnl - AC_SUBST's PACKAGE, VERSION, [$PREFIX] and [$PREFIX]_RELEASE
@@ -20,27 +21,21 @@ AC_DEFUN(AS_VERSION,
   [$2]_MAJOR=[$3]
   [$2]_MINOR=[$4]
   [$2]_MICRO=[$5]
-  AC_ARG_WITH(dev, 
-    [  --with-dev=[nano] with nano dev version],
-    [
-      if test "$withval" = "yes"; then
-        NANO=1
-      else
-        NANO=$withval
-      fi
-      AC_MSG_NOTICE(configuring [$1] for development with nano $NANO)
-      VERSION=[$3].[$4].[$5].$NANO
-      [$2]_RELEASE=`date +%Y%m%d_%H%M%S`
-      dnl execute action
-      [$6]
-    ],
-    [
+  NANO=[$6]
+  if test "x$NANO" = "x" || test "x$NANO" = "x0";
+  then
       AC_MSG_NOTICE(configuring [$1] for release)
       VERSION=[$3].[$4].[$5]
       [$2]_RELEASE=1
       dnl execute action
       [$7]
-    ])
+  else
+      AC_MSG_NOTICE(configuring [$1] for development with nano $NANO)
+      VERSION=[$3].[$4].[$5].$NANO
+      [$2]_RELEASE=`date +%Y%m%d_%H%M%S`
+      dnl execute action
+      [$8]
+  fi
 
   [$2]=$VERSION
   AC_DEFINE_UNQUOTED([$2], "$[$2]")
