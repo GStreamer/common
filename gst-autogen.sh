@@ -291,10 +291,12 @@ tool_run ()
 {
   tool=$1
   options=$2
+  run_if_fail=$3
   echo "+ running $tool $options..."
   $tool $options || {
     echo
     echo $tool failed
+    eval $run_if_fail
     exit 1
   }
 }
