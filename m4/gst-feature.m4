@@ -152,7 +152,7 @@ AC_DEFUN(GST_CHECK_LIBHEADER,
       ifelse([$7], , :, [$7])
     fi
   else
-    AC_MSG_WARN([$1] not found)
+    ifelse([$7], , :, [$7])
   fi
   AC_SUBST(HAVE_[$1])
 ]
