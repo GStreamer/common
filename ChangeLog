@@ -1,3 +1,9 @@
+2004-03-18  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* m4/Makefile.am:
+          integrate these with the dist
+
 2004-03-17  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* release.mak: add a release target
