@@ -1,12 +1,11 @@
-dnl as-scrub-include.m4 0.0.3
+dnl as-scrub-include.m4 0.0.4
 
 dnl autostars m4 macro for scrubbing CFLAGS of system include dirs
 dnl because gcc 3.x complains about including system including dirs
 
-
 dnl Thomas Vander Stichele <thomas at apestaart dot org>
 
-dnl $Id: as-scrub-include.m4,v 1.6 2004/05/24 16:13:27 thomasvs Exp $
+dnl $Id: as-scrub-include.m4,v 1.7 2004/06/12 08:30:20 thomasvs Exp $
 
 dnl This macro uses output of cpp -v and expects it to contain text that 
 dnl looks a little bit like this:
@@ -30,7 +29,8 @@ AC_DEFUN([AS_SCRUB_INCLUDE],
   dnl line
   INCLUDE_DIRS=`echo $INCLUDE_DIRS | sed -e 's/.*<...> search starts here://' | sed -e 's/End of search list.*//'`
   for dir in $INCLUDE_DIRS; do
-    GIVEN_CFLAGS=`echo $GIVEN_CFLAGS | sed -e 's#-I$dir ##'`
+    dnl use "" as the sed script so $dir gets expanded
+    GIVEN_CFLAGS=`echo $GIVEN_CFLAGS | sed -e "s#-I$dir ##"`
   done
   [$1]=$GIVEN_CFLAGS
 ])
