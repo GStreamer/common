@@ -4,7 +4,7 @@ dnl ==============================================
 
 dnl Determine CPU
 case "x${target_cpu}" in
-  xi?86 | k?) HAVE_CPU_I386=yes
+  xi?86 | xk?) HAVE_CPU_I386=yes
               AC_DEFINE(HAVE_CPU_I386, 1, [Define if the target CPU is an 
 x86])
               dnl FIXME could use some better detection
@@ -69,6 +69,11 @@ AM_CONDITIONAL(HAVE_CPU_PPC,        test "x$HAVE_CPU_PPC" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_ALPHA,      test "x$HAVE_CPU_ALPHA" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_ARM,        test "x$HAVE_CPU_ARM" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_SPARC,      test "x$HAVE_CPU_SPARC" = "xyes")
+AM_CONDITIONAL(HAVE_CPU_HPPA,       test "x$HAVE_CPU_HPPA" = "xyes")
+AM_CONDITIONAL(HAVE_CPU_MIPS,       test "x$HAVE_CPU_MIPS" = "xyes")
+AM_CONDITIONAL(HAVE_CPU_S390,       test "x$HAVE_CPU_S390" = "xyes")
+AM_CONDITIONAL(HAVE_CPU_IA64,       test "x$HAVE_CPU_IA64" = "xyes")
+AM_CONDITIONAL(HAVE_CPU_M68K,       test "x$HAVE_CPU_M68K" = "xyes")
 AM_CONDITIONAL(HAVE_LIBMMX,         test "x$USE_LIBMMX" = "xyes")
 
 ])
