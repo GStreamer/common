@@ -1,3 +1,7 @@
+2004-07-12  David Schleef  <ds@schleef.org>
+
+	* m4/as-objc.m4:  Add a macro to test for objective C
+
 2004-06-12  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-feature.m4:
