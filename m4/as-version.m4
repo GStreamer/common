@@ -26,6 +26,7 @@ AC_DEFUN(AS_VERSION,
   [$2]_MINOR=[$4]
   [$2]_MICRO=[$5]
   NANO=[$6]
+  [$2]_NANO=$NANO
   if test "x$NANO" = "x" || test "x$NANO" = "x0";
   then
       AC_MSG_NOTICE(configuring [$1] for release)
