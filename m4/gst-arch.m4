@@ -13,7 +13,7 @@ x86])
                 xi386 | xi486) ;;
                 *)             AC_DEFINE(HAVE_RDTSC, 1, [Define if RDTSC is available]) ;;
               esac ;;
-  xpowerpc)   HAVE_CPU_PPC=yes
+  xpowerpc*)   HAVE_CPU_PPC=yes
               AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the target CPU is a 
 PowerPC]) ;;
   xalpha*)    HAVE_CPU_ALPHA=yes
