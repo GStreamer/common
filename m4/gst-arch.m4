@@ -40,9 +40,6 @@ IA64]) ;;
   xm68k*)     HAVE_CPU_M68K=yes
               AC_DEFINE(HAVE_CPU_M68K, 1, [Define if the target CPU is a 
 M68K]) ;;
-  xx86_64)    HAVE_CPU_X86_64=yes
-              AC_DEFINE(HAVE_CPU_X86_64, 1, [Define if the target CPU is a 
-x86_64]) ;;
 esac
 
 dnl Determine endianness
@@ -77,7 +74,6 @@ AM_CONDITIONAL(HAVE_CPU_MIPS,       test "x$HAVE_CPU_MIPS" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_S390,       test "x$HAVE_CPU_S390" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_IA64,       test "x$HAVE_CPU_IA64" = "xyes")
 AM_CONDITIONAL(HAVE_CPU_M68K,       test "x$HAVE_CPU_M68K" = "xyes")
-AM_CONDITIONAL(HAVE_CPU_X86_64,     test "x$HAVE_CPU_X86_64" = "xyes")
 AM_CONDITIONAL(HAVE_LIBMMX,         test "x$USE_LIBMMX" = "xyes")
 
 ])

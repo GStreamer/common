@@ -166,7 +166,7 @@ autoheader_check ()
   fi
 
 }
-autoconf_2_52d_check ()
+autoconf_2.52d_check ()
 {
   # autoconf 2.52d has a weird issue involving a yes:no error
   # so don't allow it's use
@@ -198,7 +198,7 @@ die_check ()
 
 autogen_options ()
 {
-  if test "x$1" = "x"; then
+  if test "x$1" == "x"; then
     return 0
   fi
 
