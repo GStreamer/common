@@ -1,3 +1,9 @@
+2004-06-07  Benjamin Otte  <otte@gnome.org>
+
+	* m4/gst-feature.m4:
+	  write a big marker into configure output when checking next plugin
+	  to allow easier parsing of why plugins are(n't) built.
+
 2004-06-01  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/as-compiler-flag.m4:
