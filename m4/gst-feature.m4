@@ -197,7 +197,6 @@ AC_DEFUN([GST_CHECK_SUBSYSTEM_DISABLE],
   else
     GST_DISABLE_[$1]_DEFINE="/* #undef GST_DISABLE_$1 */"
   fi
-  AM_CONDITIONAL(GST_DISABLE_[$1], test x$GST_DISABLE_[$1] = xyes)
   AC_SUBST(GST_DISABLE_[$1]_DEFINE)
   undefine([subsys_def])
 ])
