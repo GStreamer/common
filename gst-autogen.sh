@@ -171,7 +171,7 @@ autoconf_2_52d_check ()
   # autoconf 2.52d has a weird issue involving a yes:no error
   # so don't allow it's use
   test -z "$NOCHECK" && {
-    ac_version=`$autoconf --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
+    ac_version=`$autoconf --version|head -n 1|sed 's/^[a-zA-Z\.\ ()]*//;s/ .*$//'`
     if test "$ac_version" = "2.52d"; then
       echo "autoconf 2.52d has an issue with our current build."
       echo "We don't know who's to blame however.  So until we do, get a"
