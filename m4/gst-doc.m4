@@ -16,8 +16,8 @@ if $HAVE_GTK_DOC ; then
     gtk_doc_version=`gtkdoc-mkdb --version`
     AC_MSG_CHECKING([gtk-doc version ($gtk_doc_version) >= $gtk_doc_min_version])
     if perl -w <<EOF
-      (\$min_version_major, \$min_version_minor ) = "$gtk_doc_min_version" =~ /^(\d)+\.(\d+)$/;
-      (\$gtk_doc_version_major, \$gtk_doc_version_minor ) = "$gtk_doc_version" =~ /^(\d)+\.(\d+)$/;
+      (\$min_version_major, \$min_version_minor ) = "$gtk_doc_min_version" =~ /^(\d+)\.(\d+)$/;
+      (\$gtk_doc_version_major, \$gtk_doc_version_minor ) = "$gtk_doc_version" =~ /^(\d+)\.(\d+)$/;
       exit (("$gtk_doc_version" =~ /^[[0-9]]+\.[[0-9]]+$/) &&
             ((\$gtk_doc_version_major > \$min_version_major) ||
 	     (\$gtk_doc_version_major == \$min_version_major) &&
@@ -41,6 +41,30 @@ AC_CHECK_PROG(HAVE_DOCBOOK2PS, docbook2ps, true, false)
 AC_CHECK_PROG(HAVE_DOCBOOK2HTML, docbook2html, true, false)
 AC_CHECK_PROG(HAVE_JADETEX, jadetex, true, false)
 AC_CHECK_PROG(HAVE_PS2PDF, ps2pdf, true, false)
+
+# -V option appeared in 0.6.10
+docbook2html_min_version=0.6.10
+if $HAVE_DOCBOOK2HTML ; then
+    docbook2html_version=`docbook2html --version`
+    AC_MSG_CHECKING([docbook2html version ($docbook2html_version) >= $docbook2html_min_version])
+    if perl -w <<EOF
+      (\$min_version_major, \$min_version_minor, \$min_version_micro ) = "$docbook2html_min_version" =~ /(\d+)\.(\d+)\.(\d+)/;
+      (\$docbook2html_version_major, \$docbook2html_version_minor, \$docbook2html_version_micro ) = "$docbook2html_version" =~ /(\d+)\.(\d+)\.(\d+)/;
+      exit (((\$docbook2html_version_major > \$min_version_major) ||
+	     ((\$docbook2html_version_major == \$min_version_major) &&
+	      (\$docbook2html_version_minor >= \$min_version_minor)) ||
+	     ((\$docbook2html_version_major == \$min_version_major) &&
+	      (\$docbook2html_version_minor >= \$min_version_minor) &&
+	      (\$docbook2html_version_micro >= \$min_version_micro)))
+	     ? 0 : 1);
+EOF
+   then
+      AC_MSG_RESULT(yes)
+   else
+      AC_MSG_RESULT(no)
+      HAVE_DOCBOOK2HTML=false
+   fi
+fi
 
 dnl check if we can process docbook stuff
 AS_DOCBOOK(HAVE_DOCBOOK=true, HAVE_DOCBOOK=false)
