@@ -190,7 +190,7 @@ autogen_options ()
   done
 
   for arg do CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $arg"; done
-  if test -z "$CONFIGURE_EXT_OPT"
+  if test ! -z "$CONFIGURE_EXT_OPT"
   then
     echo "+ options passed to configure: $CONFIGURE_EXT_OPT"
   fi
