@@ -119,7 +119,7 @@ AS_PATH_PYTHON(2.1)
 AC_SUBST(PYTHON)
 
 AC_ARG_ENABLE(docs-build,
-AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
+AC_HELP_STRING([--disable-docs-build],[disable building of documentation]),
 [case "${enableval}" in
   yes)
     if test "x$HAVE_GTK_DOC" = "xtrue" && \
@@ -129,7 +129,7 @@ AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
       BUILD_DOCS=no
     fi ;;
   no)  BUILD_DOCS=no ;;
-  *) AC_MSG_ERROR(bad value ${enableval} for --enable-docs-build) ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --disable-docs-build) ;;
 esac],
 [BUILD_DOCS=yes]) dnl Default value
 
