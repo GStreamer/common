@@ -4,7 +4,6 @@
 #glib_enum_headers=$(colorbalance_headers)
 #glib_enum_define=GST_COLOR_BALANCE
 #glib_enum_prefix=gst_color_balance
-#glib_root=colorbalance
 
 # these are all the rules generating the relevant files
 %-marshal.h: %-marshal.list
@@ -33,3 +32,11 @@
 	--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
 	--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
 	$^ > $@
+
+# a hack rule to make sure .Plo files exist because they get include'd
+# from Makefile's
+.deps/%-marshal.Plo:
+	touch $@
+
+.deps/%-enumtypes.Plo:
+	touch $@
