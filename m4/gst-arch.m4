@@ -4,7 +4,7 @@ dnl ==============================================
 
 dnl Determine CPU
 case "x${target_cpu}" in
-  xi?86 | xk?) HAVE_CPU_I386=yes
+  xi?86 | xk? | xi?86_64) HAVE_CPU_I386=yes
               AC_DEFINE(HAVE_CPU_I386, 1, [Define if the target CPU is an 
 x86])
               dnl FIXME could use some better detection
