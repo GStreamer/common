@@ -47,9 +47,11 @@ version_check ()
   # the following line is carefully crafted sed magic
   pkg_version=`$PACKAGE --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
   debug "pkg_version $pkg_version"
-  pkg_major=`echo $pkg_version | cut -d. -f1`
-  pkg_minor=`echo $pkg_version | cut -d. -f2`
-  pkg_micro=`echo $pkg_version | cut -d. -f3`
+  # remove any non-digit characters from the version numbers to permit numeric
+  # comparison
+  pkg_major=`echo $pkg_version | cut -d. -f1 | tr -d -c [:digit:]`
+  pkg_minor=`echo $pkg_version | cut -d. -f2 | tr -d -c [:digit:]`
+  pkg_micro=`echo $pkg_version | cut -d. -f3 | tr -d -c [:digit:]`
   test -z "$pkg_minor" && pkg_minor=0
   test -z "$pkg_micro" && pkg_micro=0
 
