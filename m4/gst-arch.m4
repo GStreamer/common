@@ -13,33 +13,24 @@ x86])
                 xi386 | xi486) ;;
                 *)             AC_DEFINE(HAVE_RDTSC, 1, [Define if RDTSC is available]) ;;
               esac ;;
-  xpowerpc)   HAVE_CPU_PPC=yes
-              AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the target CPU is a 
-PowerPC]) ;;
+  xpowerpc*)   HAVE_CPU_PPC=yes
+              AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the target CPU is a PowerPC]) ;;
   xalpha*)    HAVE_CPU_ALPHA=yes
-              AC_DEFINE(HAVE_CPU_ALPHA, 1, [Define if the target CPU is an 
-Alpha]) ;;
+              AC_DEFINE(HAVE_CPU_ALPHA, 1, [Define if the target CPU is an Alpha]) ;;
   xarm*)      HAVE_CPU_ARM=yes
-              AC_DEFINE(HAVE_CPU_ARM, 1, [Define if the target CPU is an 
-ARM]) ;;
+              AC_DEFINE(HAVE_CPU_ARM, 1, [Define if the target CPU is an ARM]) ;;
   xsparc*)    HAVE_CPU_SPARC=yes
-              AC_DEFINE(HAVE_CPU_SPARC, 1, [Define if the target CPU is a 
-PPC]) ;;
+              AC_DEFINE(HAVE_CPU_SPARC, 1, [Define if the target CPU is a PPC]) ;;
   xmips*)     HAVE_CPU_MIPS=yes
-              AC_DEFINE(HAVE_CPU_MIPS, 1, [Define if the target CPU is a 
-MIPS]) ;;
+              AC_DEFINE(HAVE_CPU_MIPS, 1, [Define if the target CPU is a MIPS]) ;;
   xhppa*)     HAVE_CPU_HPPA=yes
-              AC_DEFINE(HAVE_CPU_HPPA, 1, [Define if the target CPU is a 
-HPPA]) ;;
+              AC_DEFINE(HAVE_CPU_HPPA, 1, [Define if the target CPU is a HPPA]) ;;
   xs390*)     HAVE_CPU_S390=yes
-              AC_DEFINE(HAVE_CPU_S390, 1, [Define if the target CPU is a 
-S390]) ;;
+              AC_DEFINE(HAVE_CPU_S390, 1, [Define if the target CPU is a S390]) ;;
   xia64*)     HAVE_CPU_IA64=yes
-              AC_DEFINE(HAVE_CPU_IA64, 1, [Define if the target CPU is a 
-IA64]) ;;
+              AC_DEFINE(HAVE_CPU_IA64, 1, [Define if the target CPU is a IA64]) ;;
   xm68k*)     HAVE_CPU_M68K=yes
-              AC_DEFINE(HAVE_CPU_M68K, 1, [Define if the target CPU is a 
-M68K]) ;;
+              AC_DEFINE(HAVE_CPU_M68K, 1, [Define if the target CPU is a M68K]) ;;
 esac
 
 dnl Determine endianness
