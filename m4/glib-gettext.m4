@@ -184,6 +184,8 @@ glib_DEFUN([GLIB_WITH_NLS],
 	GLIB_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
 	  [test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
 	if test "$MSGFMT" != "no"; then
+          glib_save_LIBS="$LIBS"
+          LIBS="$LIBS $INTLLIBS"
 	  AC_CHECK_FUNCS(dcgettext)
 	  AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
 	  GLIB_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
@@ -210,6 +212,7 @@ glib_DEFUN([GLIB_WITH_NLS],
             DATADIRNAME=lib
 	    ;;
 	    esac])
+          LIBS="$glib_save_LIBS"
 	  INSTOBJEXT=.mo
 	else
 	  gt_cv_have_gettext=no
@@ -274,7 +277,7 @@ glib_DEFUN([GLIB_WITH_NLS],
 # on various variables needed by the Makefile.in.in installed by 
 # glib-gettextize.
 dnl
-glib_DEFUN(GLIB_GNU_GETTEXT,
+glib_DEFUN([GLIB_GNU_GETTEXT],
   [AC_REQUIRE([AC_PROG_CC])dnl
    AC_REQUIRE([AC_HEADER_STDC])dnl
    
@@ -351,7 +354,7 @@ glib_DEFUN(GLIB_GNU_GETTEXT,
 # -------------------------------
 # Define VARIABLE to the location where catalog files will
 # be installed by po/Makefile.
-glib_DEFUN(GLIB_DEFINE_LOCALEDIR,
+glib_DEFUN([GLIB_DEFINE_LOCALEDIR],
 [glib_REQUIRE([GLIB_GNU_GETTEXT])dnl
 glib_save_prefix="$prefix"
 glib_save_exec_prefix="$exec_prefix"
