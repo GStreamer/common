@@ -37,24 +37,10 @@ AC_SUBST(HAVE_GTK_DOC)
 AC_SUBST(GTK_DOC_SCANOBJ)
 
 dnl check for docbook tools
-AC_CHECK_PROG(HAVE_XSLTPROC, xsltproc, true, false)
-AC_CHECK_PROG(HAVE_PDFTOPS, pdftops, true, false)
-dnl this does not yet work properly, at least on debian -- wingo
-HAVE_PDFXMLTEX=false
+AC_CHECK_PROG(HAVE_XMLTO, xmlto, true, false)
+AC_CHECK_PROG(HAVE_PS2PDF, ps2pdf, true, false)
 
-dnl check if net access for xsltproc is enabled
-AC_SUBST(XSLTPROC_OPTIONS)
-AC_ARG_ENABLE(xsltproc-net,
-AC_HELP_STRING([--disable-xsltproc-net],[pass --nonet to xsltproc]),
-[case "${enableval}" in
-  yes) XSLTPROC_OPTIONS="" ;;
-  no)  XSLTPROC_OPTIONS="--nonet" ;;
-  *) AC_MSG_ERROR(bad value ${enableval} for --disable-xsltproc-net) ;;
-esac],
-[XSLTPROC_OPTIONS=""]) dnl Default value
-
-
-dnl check for image conversion tool
+dnl check for image conversion tools
 AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, true, false)
 if test "x$HAVE_FIG2DEV" = "xfalse" ; then
   AC_MSG_WARN([Did not find fig2dev (from xfig), images will not be generated.])
@@ -62,6 +48,13 @@ fi
 
 dnl The following is a hack: if fig2dev doesn't display an error message
 dnl for the desired type, we assume it supports it.
+HAVE_FIG2DEV_EPS=false
+if test "x$HAVE_FIG2DEV" = "xtrue" ; then
+  fig2dev_quiet=`fig2dev -L pdf </dev/null 2>&1 >/dev/null`
+  if test "x$fig2dev_quiet" = "x" ; then
+    HAVE_FIG2DEV_EPS=true
+  fi
+fi
 HAVE_FIG2DEV_PNG=false
 if test "x$HAVE_FIG2DEV" = "xtrue" ; then
   fig2dev_quiet=`fig2dev -L png </dev/null 2>&1 >/dev/null`
@@ -75,6 +68,42 @@ if test "x$HAVE_FIG2DEV" = "xtrue" ; then
   if test "x$fig2dev_quiet" = "x" ; then
     HAVE_FIG2DEV_PDF=true
   fi
+fi
+
+AC_CHECK_PROG(HAVE_PNGTOPNM, pngtopnm, true, false)
+AC_CHECK_PROG(HAVE_PNMTOPS,  pnmtops,  true, false)
+AC_CHECK_PROG(HAVE_EPSTOPDF, epstopdf, true, false)
+
+dnl check if we can generate HTML
+if test "x$HAVE_XMLTO" = "xtrue" && \
+   test "x$HAVE_FIG2DEV_PNG" = "xtrue"; then
+  DOC_HTML=true
+  AC_MSG_NOTICE(Will output HTML documentation)
+else
+  DOC_HTML=false
+  AC_MSG_NOTICE(Will not output HTML documentation)
+fi
+
+dnl check if we can generate PS
+if test "x$HAVE_XMLTO" = "xtrue" && \
+   test "x$HAVE_FIG2DEV_EPS" = "xtrue" && \
+   test "x$HAVE_PNGTOPNM" = "xtrue" && \
+   test "x$HAVE_PNMTOPS" = "xtrue"; then
+  DOC_PS=true
+  AC_MSG_NOTICE(Will output PS documentation)
+else
+  DOC_PS=false
+  AC_MSG_NOTICE(Will not output PS documentation)
+fi
+
+dnl check if we can generate PDF - using only ps2pdf
+if test "x$DOC_PS" = "xtrue" && \
+   test "x$HAVE_PS2PDF" = "xtrue"; then
+  DOC_PDF=true
+  AC_MSG_NOTICE(Will output PDF documentation)
+else
+  DOC_PDF=false
+  AC_MSG_NOTICE(Will not output PDF documentation)
 fi
 
 AS_PATH_PYTHON(2.1)
@@ -109,11 +138,8 @@ BUILD_PLUGIN_DOCS=no
 AM_CONDITIONAL(HAVE_GTK_DOC,        $HAVE_GTK_DOC)
 AM_CONDITIONAL(BUILD_DOCS,          test "x$BUILD_DOCS" = "xyes")
 AM_CONDITIONAL(BUILD_PLUGIN_DOCS,   test "x$BUILD_PLUGIN_DOCS" = "xyes")
-AM_CONDITIONAL(HAVE_PDFXMLTEX,      $HAVE_PDFXMLTEX)
-AM_CONDITIONAL(HAVE_PDFTOPS,        $HAVE_PDFTOPS)
-AM_CONDITIONAL(HAVE_XSLTPROC,       $HAVE_XSLTPROC)
-AM_CONDITIONAL(HAVE_FIG2DEV_PNG,    $HAVE_FIG2DEV_PNG)
-AM_CONDITIONAL(HAVE_FIG2DEV_PDF,    $HAVE_FIG2DEV_PDF)
-
+AM_CONDITIONAL(DOC_HTML,            $DOC_HTML)
+AM_CONDITIONAL(DOC_PDF,             $DOC_PDF)
+AM_CONDITIONAL(DOC_PS,              $DOC_PS)
 ])
 
