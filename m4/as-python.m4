@@ -2,9 +2,10 @@
 ## Python file handling
 ## From Andrew Dalke
 ## Updated by James Henstridge
+## Updated by Andy Wingo to loop through possible pythons
 ## ------------------------
 
-# AM_PATH_PYTHON([MINIMUM-VERSION])
+# AS_PATH_PYTHON([MINIMUM-VERSION])
 
 # Adds support for distributing Python modules and packages.  To
 # install modules, copy them to $(pythondir), using the python_PYTHON
@@ -22,7 +23,7 @@
 # environment variable, or create a .pth file (see the python
 # documentation for details).
 
-# If the MINIUMUM-VERSION argument is passed, AM_PATH_PYTHON will
+# If the MINIMUM-VERSION argument is passed, AS_PATH_PYTHON will
 # cause an error if the version of python installed on the system
 # doesn't meet the requirement.  MINIMUM-VERSION should consist of
 # numbers and dots only.
@@ -38,10 +39,12 @@ AC_DEFUN([AS_PATH_PYTHON],
   dnl in 1.5, and I don't want to maintain that logic.
 
   dnl should we do the version check?
+  PYTHON_CANDIDATES="python python2.2 python2.1 python2.0 python2 \
+                     python1.6 python1.5"
   ifelse([$1],[],
-         [AC_PATH_PROG(PYTHON, python python2.1 python2.0 python1.6 python1.5)],
+         [AC_PATH_PROG(PYTHON, $PYTHON_CANDIDATES)],
          [
-    AC_MSG_CHECKING(if Python version >= $1)
+     AC_MSG_NOTICE(Looking for Python version >= $1)
     changequote(<<, >>)dnl
     prog="
 import sys, string
@@ -58,17 +61,20 @@ else:
     changequote([, ])dnl
 
     python_good=false
-    for python_candidate in python python2.1 python2.0 python1.6 python1.5; do
-      AC_PATH_PROG(PYTHON, $python_candidate)
+    for python_candidate in $PYTHON_CANDIDATES; do
+      unset PYTHON
+      AC_PATH_PROG(PYTHON, $python_candidate) 1> /dev/null 2> /dev/null
 
       if test "x$PYTHON" = "x"; then continue; fi
 
       if $PYTHON -c "$prog" 1>&AC_FD_CC 2>&AC_FD_CC; then
-        AC_MSG_RESULT(["$PYTHON": okay])
+        AC_MSG_CHECKING(["$PYTHON":])
+	AC_MSG_RESULT([okay])
         python_good=true
         break;
       else
-        AC_MSG_RESULT(["$PYTHON": too old])
+        dnl clear the cache val
+        unset ac_cv_path_PYTHON
       fi
     done
   ])
