@@ -50,7 +50,7 @@ END
     AC_MSG_RESULT($XSLTPROC_WORKS)
   fi
 
-  if test "x$XSLTPROC_WORKS" == "xyes"; then
+  if test "x$XSLTPROC_WORKS" = "xyes"; then
     dnl execute ACTION-IF-FOUND
     ifelse([$1], , :, [$1])
   else
