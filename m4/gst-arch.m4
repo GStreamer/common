@@ -11,7 +11,7 @@ x86])
               dnl       (ie CPUID)
               case "x${target_cpu}" in
                 xi386 | xi486) ;;
-                *)             AC_DEFINE(HAVE_RDTSC) ;;
+                *)             AC_DEFINE(HAVE_RDTSC, 1, [Define if RDTSC is available]) ;;
               esac ;;
   xpowerpc)   HAVE_CPU_PPC=yes
               AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the target CPU is a 
