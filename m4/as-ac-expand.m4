@@ -15,7 +15,7 @@ AC_DEFUN(AS_AC_EXPAND,
   fi
   exec_prefix_save=$exec_prefix
   if test "x$exec_prefix" = "xNONE"; then
-    exec_prefix=/usr/local
+    exec_prefix=$prefix
   fi
 
   full_var="$FROM_VAR"
