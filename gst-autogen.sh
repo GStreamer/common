@@ -100,13 +100,16 @@ autogen_options ()
   for i in $@; do
       if test "$i" = "--autogen-noconfigure"; then
           NOCONFIGURE=defined
+	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --autogen-noconfigure"
           echo "+ configure run disabled"
       elif test "$i" = "--autogen-nocheck"; then
+	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --autogen-nocheck"
           NOCHECK=defined
           echo "+ autotools version check disabled"
       elif test "$i" = "--autogen-debug"; then
           DEBUG=defined
           echo "+ debug output enabled"
+	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --autogen-debug"
       elif test "$i" = "--help"; then
           echo "autogen.sh help options: "
           echo " --autogen-noconfigure    don't run the configure script"
