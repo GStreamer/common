@@ -1,3 +1,11 @@
+2004-06-01  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/as-compiler-flag.m4:
+	* m4/as-compiler.m4:
+	* m4/as-libtool.m4:
+	* m4/as-version.m4:
+	  sync with upstream, change sticky options to -ko
+
 2004-05-24  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/as-scrub-include.m4: synced with upstream

@@ -1,7 +1,15 @@
-dnl as-compiler-flag.m4 0.0.1
+dnl as-compiler-flag.m4 0.1.0
+
 dnl autostars m4 macro for detection of compiler flags
-dnl
-dnl ds@schleef.org
+
+dnl David Schleef <ds@schleef.org>
+
+dnl $Id: as-compiler-flag.m4,v 1.1 2004/06/01 09:33:45 thomasvs Exp $
+
+dnl AS_COMPILER_FLAG(CFLAGS, ACTION-IF-ACCEPTED, [ACTION-IF-NOT-ACCEPTED])
+dnl Tries to compile with the given CFLAGS.
+dnl Runs ACTION-IF-ACCEPTED if the compiler can compile with the flags,
+dnl and ACTION-IF-NOT-ACCEPTED otherwise.
 
 AC_DEFUN([AS_COMPILER_FLAG],
 [
