@@ -198,6 +198,7 @@ autogen_options ()
   fi
 
   # we use getopt stuff here, copied things from the example example.bash
+  # prefix is explicitly carried over to configure by request of jdahlin
   TEMP=`getopt -o h --long noconfigure,nocheck,debug,help,with-automake:,with-autoconf:,prefix:\
        -- "$@"`
 
