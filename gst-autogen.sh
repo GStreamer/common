@@ -45,7 +45,7 @@ version_check ()
   
   test -z "$NOCHECK" && {
       echo -n "  checking for $1 >= $VERSION"
-      if test ! -z "$PKG_PATH"; then echo -n " (in $PKG_PATH)"; fi
+      if test ! -z "$PKG_PATH"; then echo; echo -n "  (in $PKG_PATH)"; fi
       echo -n "... "
   } || {
     # we set a var with the same name as the package, but stripped of
