@@ -45,7 +45,6 @@ dnl GST_PLUGINS_YES will contain all plugins to be built
 dnl                 that were checked through GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
 
-dnl  [  ]builtin(format, --%-26s gst_endisable %s, gst_endisable-translit([$1], A-Z, a-z), [$2]ifelse([$3],,,: [$3])),
 AC_DEFUN(GST_CHECK_FEATURE,
 [dnl
 builtin(define, [gst_endisable], ifelse($5, [disabled], [enable], [disable]))dnl
@@ -55,10 +54,8 @@ if test "x$USE_[$1]" = "xno"; then
   NOUSE="yes"
 fi
 AC_ARG_ENABLE(translit([$1], A-Z, a-z),
-  AC_HELP_STRING(--gst_endisable-translit([$1], A-Z, a-z),
-  [$2]ifelse([$3],,,: [$3])),
-  [ 
-    case "${enableval}" in
+  [  ]builtin(format, --%-26s gst_endisable %s, gst_endisable-translit([$1], A-Z, a-z), [$2]ifelse([$3],,,: [$3])),
+  [ case "${enableval}" in
       yes) USE_[$1]=yes;;
       no) USE_[$1]=no;;
       *) AC_MSG_ERROR(bad value ${enableval} for --enable-translit([$1], A-Z, a-z)) ;;
@@ -75,13 +72,18 @@ NOUSE=
 dnl *** If it's enabled
 
 if test x$USE_[$1] = xyes; then
+  dnl save compile variables before the test
+
   gst_check_save_LIBS=$LIBS
   gst_check_save_LDFLAGS=$LDFLAGS
   gst_check_save_CFLAGS=$CFLAGS
   gst_check_save_CPPFLAGS=$CPPFLAGS
   gst_check_save_CXXFLAGS=$CXXFLAGS
+
   HAVE_[$1]=no
+  dnl TEST_FOR_FEATURE
   $4
+
   LIBS=$gst_check_save_LIBS
   LDFLAGS=$gst_check_save_LDFLAGS
   CFLAGS=$gst_check_save_CFLAGS
@@ -97,6 +99,7 @@ dnl *** Warn if it's disabled or not found
 if test x$USE_[$1] = xyes; then
   ifelse([$6], , :, [$6])
   GST_PLUGINS_YES="$GST_PLUGINS_YES \n\t[$3]"
+  AC_DEFINE(HAVE_[$1], , [support for features: $3])
 else
   ifelse([$3], , :, [AC_MSG_NOTICE(
 These plugins will not be built: [$3]
@@ -183,3 +186,4 @@ AM_CONDITIONAL(GST_DISABLE_[$1], test x$GST_DISABLE_[$1] = xyes)
 AC_SUBST(GST_DISABLE_[$1]_DEFINE)
 GST_SUBSYSTEM_DISABLE_DEFINES="$GST_SUBSYTEM_DISABLE_DEFINES $GST_DISABLE_[$1]_DEFINE"
 ])
+
