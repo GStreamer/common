@@ -24,7 +24,7 @@ Alpha]) ;;
 ARM]) ;;
   xsparc*)    HAVE_CPU_SPARC=yes
               AC_DEFINE(HAVE_CPU_SPARC, 1, [Define if the target CPU is a 
-PPC]) ;;
+SPARC]) ;;
   xmips*)     HAVE_CPU_MIPS=yes
               AC_DEFINE(HAVE_CPU_MIPS, 1, [Define if the target CPU is a 
 MIPS]) ;;
