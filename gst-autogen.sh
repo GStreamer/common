@@ -20,6 +20,8 @@ version_check ()
 # second argument : optional path where to look for it instead
 # third argument : source download url
 # rest of arguments : major, minor, micro version
+# all consecutive ones : suggestions for binaries to use
+# (if not specified in second argument)
 {
   PACKAGE=$1
   PKG_PATH=$2
@@ -30,12 +32,8 @@ version_check ()
 
   WRONG=
 
-  if test ! -z "$PKG_PATH"
-  then
-    COMMAND="$PKG_PATH"
-  else
-    COMMAND="$PACKAGE"  
-  fi
+  # for backwards compatibility, we let PKG_PATH=PACKAGE when PKG_PATH null
+  if test -z "$PKG_PATH"; then PKG_PATH=$PACKAGE; fi
   debug "major $MAJOR minor $MINOR micro $MICRO"
   VERSION=$MAJOR
   if test ! -z "$MINOR"; then VERSION=$VERSION.$MINOR; else MINOR=0; fi
@@ -43,74 +41,77 @@ version_check ()
 
   debug "major $MAJOR minor $MINOR micro $MICRO"
   
-  test -z "$NOCHECK" && {
-      echo -n "  checking for $1 >= $VERSION"
-      if test ! -z "$PKG_PATH"; then echo; echo -n "  (in $PKG_PATH)"; fi
-      echo -n "... "
-  } || {
-    # we set a var with the same name as the package, but stripped of
-    # unwanted chars
-    VAR=`echo $PACKAGE | sed 's/-//g'`
-    debug "setting $VAR"
-    eval $VAR="$COMMAND"
+  for SUGGESTION in $PKG_PATH; do 
+    COMMAND="$SUGGESTION"
+
+    # don't check if asked not to
+    test -z "$NOCHECK" && {
+      echo -n "  checking for $COMMAND >= $VERSION ... "
+    } || {
+      # we set a var with the same name as the package, but stripped of
+      # unwanted chars
+      VAR=`echo $PACKAGE | sed 's/-//g'`
+      debug "setting $VAR"
+      eval $VAR="$COMMAND"
       return 0
-  }
+    }
 
-  debug "checking version with $COMMAND"
-  ($COMMAND --version) < /dev/null > /dev/null 2>&1 || 
-  {
-	echo "not found !"
-	echo "You must have $PACKAGE installed to compile $package."
-	echo "Download the appropriate package for your distribution,"
-	echo "or get the source tarball at $URL"
-	return 1
-  }
-  # the following line is carefully crafted sed magic
-  #pkg_version=`$COMMAND --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
-  pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*) //'|sed 's/ (.*)//'`
-  debug "pkg_version $pkg_version"
-  # remove any non-digit characters from the version numbers to permit numeric
-  # comparison
-  pkg_major=`echo $pkg_version | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
-  pkg_minor=`echo $pkg_version | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
-  pkg_micro=`echo $pkg_version | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
-  test -z "$pkg_major" && pkg_major=0
-  test -z "$pkg_minor" && pkg_minor=0
-  test -z "$pkg_micro" && pkg_micro=0
+    debug "checking version with $COMMAND"
+    ($COMMAND --version) < /dev/null > /dev/null 2>&1 || 
+    {
+      echo "not found."
+      continue
+    }
+    # the following line is carefully crafted sed magic
+    # you don't want to mess with it
+    #pkg_version=`$COMMAND --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
+    pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*) //'|sed 's/ (.*)//'`
+    debug "pkg_version $pkg_version"
+    # remove any non-digit characters from the version numbers to permit numeric
+    # comparison
+    pkg_major=`echo $pkg_version | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
+    pkg_minor=`echo $pkg_version | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
+    pkg_micro=`echo $pkg_version | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
+    test -z "$pkg_major" && pkg_major=0
+    test -z "$pkg_minor" && pkg_minor=0
+    test -z "$pkg_micro" && pkg_micro=0
+    debug "found major $pkg_major minor $pkg_minor micro $pkg_micro"
 
-  debug "found major $pkg_major minor $pkg_minor micro $pkg_micro"
+    #start checking the version
+    debug "version check"
 
-  #start checking the version
-  debug "version check"
-
-  if [ ! "$pkg_major" -gt "$MAJOR" ]; then
-    debug "$pkg_major <= $MAJOR"
-    if [ "$pkg_major" -lt "$MAJOR" ]; then
-      WRONG=1
-    elif [ ! "$pkg_minor" -gt "$MINOR" ]; then
-      if [ "$pkg_minor" -lt "$MINOR" ]; then
+    if [ ! "$pkg_major" -gt "$MAJOR" ]; then
+      debug "$pkg_major <= $MAJOR"
+      if [ "$pkg_major" -lt "$MAJOR" ]; then
         WRONG=1
-      elif [ "$pkg_micro" -lt "$MICRO" ]; then
-	WRONG=1
+      elif [ ! "$pkg_minor" -gt "$MINOR" ]; then
+        if [ "$pkg_minor" -lt "$MINOR" ]; then
+          WRONG=1
+        elif [ "$pkg_micro" -lt "$MICRO" ]; then
+	  WRONG=1
+        fi
       fi
     fi
-  fi
 
-  if test ! -z "$WRONG"; then
-    echo "found $pkg_version, not ok !"
-    echo
-    echo "You must have $PACKAGE $VERSION or greater to compile $package."
-    echo "Get the latest version from $URL"
-    echo
-    return 1
-  else
-    echo "found $pkg_version, ok."
-    # we set a var with the same name as the package, but stripped of
-    # unwanted chars
-    VAR=`echo $PACKAGE | sed 's/-//g'`
-    debug "setting $VAR"
-    eval $VAR="$COMMAND"
-  fi
+    if test ! -z "$WRONG"; then
+      echo "found $pkg_version, not ok !"
+      continue
+    else
+      echo "found $pkg_version, ok."
+      # we set a var with the same name as the package, but stripped of
+      # unwanted chars
+      VAR=`echo $PACKAGE | sed 's/-//g'`
+      debug "setting $VAR"
+      eval $VAR="$COMMAND"
+      return 0
+    fi
+  done
+
+  echo "not found !"
+  echo "You must have $PACKAGE installed to compile $package."
+  echo "Download the appropriate package for your distribution,"
+  echo "or get the source tarball at $URL"
+  return 1;
 }
 
 aclocal_check ()
