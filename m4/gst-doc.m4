@@ -14,8 +14,7 @@ AC_CHECK_PROG(HAVE_GTK_DOC, gtkdoc-scangobj, true, false)
 gtk_doc_min_version=0.6
 if $HAVE_GTK_DOC ; then
     gtk_doc_version=`gtkdoc-mkdb --version`
-    AC_MSG_CHECKING([gtk-doc version ($gtk_doc_version) >= 
-$gtk_doc_min_version])
+    AC_MSG_CHECKING([gtk-doc version ($gtk_doc_version) >= $gtk_doc_min_version])
     if perl <<EOF ; then
       exit (("$gtk_doc_version" =~ /^[[0-9]]+\.[[0-9]]+$/) &&
             ("$gtk_doc_version" >= "$gtk_doc_min_version") ? 0 : 1);
