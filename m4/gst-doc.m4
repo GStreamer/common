@@ -2,7 +2,7 @@ AC_DEFUN(GST_DOC, [
 AC_ARG_WITH(html-dir, AC_HELP_STRING([--with-html-dir=PATH], [path to installed docs]))
 
 if test "x$with_html_dir" = "x" ; then
-  HTML_DIR='${datadir}/gst/html'
+  HTML_DIR='${datadir}/doc/$(PACKAGE)-$(VERSION)/html'
 else
   HTML_DIR=$with_html_dir
 fi
@@ -11,7 +11,7 @@ AC_SUBST(HTML_DIR)
 
 dnl check for gtk-doc
 AC_CHECK_PROG(HAVE_GTK_DOC, gtkdoc-scangobj, true, false)
-gtk_doc_min_version=0.6
+gtk_doc_min_version=0.7
 if $HAVE_GTK_DOC ; then
     gtk_doc_version=`gtkdoc-mkdb --version`
     AC_MSG_CHECKING([gtk-doc version ($gtk_doc_version) >= $gtk_doc_min_version])
@@ -22,6 +22,7 @@ EOF
       AC_MSG_RESULT(yes)
    else
       AC_MSG_RESULT(no)
+      AC_MSG_WARN(gtk-doc version is too low, need $gtk_doc_min_version)
       HAVE_GTK_DOC=false
    fi
 fi
