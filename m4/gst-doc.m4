@@ -42,6 +42,18 @@ AC_CHECK_PROG(HAVE_PDFTOPS, pdftops, true, false)
 dnl this does not yet work properly, at least on debian -- wingo
 HAVE_PDFXMLTEX=false
 
+dnl check if net access for xsltproc is enabled
+AC_SUBST(XSLTPROC_OPTIONS)
+AC_ARG_ENABLE(xsltproc-net,
+AC_HELP_STRING([--disable-xsltproc-net],[pass --nonet to xsltproc]),
+[case "${enableval}" in
+  yes) XSLTPROC_OPTIONS="" ;;
+  no)  XSLTPROC_OPTIONS="--nonet" ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --disable-xsltproc-net) ;;
+esac],
+[XSLTPROC_OPTIONS=""]) dnl Default value
+
+
 dnl check for image conversion tool
 AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, true, false)
 if test "x$HAVE_FIG2DEV" = "xfalse" ; then
