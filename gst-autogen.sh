@@ -27,7 +27,7 @@ version_check ()
 
   if test ! -z "$PKG_PATH"
   then
-    COMMAND="$PKG_PATH/$PACKAGE"
+    COMMAND="$PKG_PATH"
   else
     COMMAND="$PACKAGE"  
   fi
@@ -61,7 +61,8 @@ version_check ()
 	return 1
   }
   # the following line is carefully crafted sed magic
-  pkg_version=`$COMMAND --version|head -n 1|sed 's/^[a-zA-z\/\.\ ()]*//;s/ .*$//'`
+  #pkg_version=`$COMMAND --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
+  pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*) //'|sed 's/ (.*)//'`
   debug "pkg_version $pkg_version"
   # remove any non-digit characters from the version numbers to permit numeric
   # comparison
