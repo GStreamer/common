@@ -26,16 +26,20 @@ AC_DEFUN(AS_VERSION,
   [$2]_MINOR=[$4]
   [$2]_MICRO=[$5]
   NANO=[$6]
-  if test "x$NANO" = "x" || test "x$NANO" = "x0";
+  # releases (nano==0) or prereleases (nano>1)
+  if test "x$NANO" = "x" || test "x$NANO" != "x1";
   then
       AC_MSG_NOTICE(configuring [$1] for release)
       VERSION=[$3].[$4].[$5]
       [$2]_RELEASE=1
+      # this macro makes maintainer mode off by default, but adds a configure option
+      AM_MAINTAINER_MODE
       dnl execute action
       ifelse([$7], , :, [$7])
   else
       AC_MSG_NOTICE(configuring [$1] for development with nano $NANO)
       VERSION=[$3].[$4].[$5].$NANO
+      # no AM_MAINTAINER_MODE macro == maintainer mode always on
       [$2]_RELEASE=`date +%Y%m%d_%H%M%S`
       dnl execute action
       ifelse([$8], , :, [$8])
