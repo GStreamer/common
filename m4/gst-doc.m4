@@ -30,6 +30,7 @@ EOF
       HAVE_GTK_DOC=false
    fi
 fi
+
 # don't you love undocumented command line options?
 GTK_DOC_SCANOBJ="gtkdoc-scangobj --nogtkinit"
 AC_SUBST(HAVE_GTK_DOC)
@@ -40,6 +41,9 @@ AC_CHECK_PROG(HAVE_DOCBOOK2PS, docbook2ps, true, false)
 AC_CHECK_PROG(HAVE_DOCBOOK2HTML, docbook2html, true, false)
 AC_CHECK_PROG(HAVE_JADETEX, jadetex, true, false)
 AC_CHECK_PROG(HAVE_PS2PDF, ps2pdf, true, false)
+
+dnl check if we can process docbook stuff
+AS_DOCBOOK(HAVE_DOCBOOK=true, HAVE_DOCBOOK=false)
 
 dnl check for image conversion tools
 AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, true, false)
@@ -77,6 +81,7 @@ AC_CHECK_PROG(HAVE_EPSTOPDF, epstopdf, true, false)
 
 dnl check if we can generate HTML
 if test "x$HAVE_DOCBOOK2HTML" = "xtrue" && \
+   test "x$HAVE_DOCBOOK" = "xtrue" && \
    test "x$HAVE_FIG2DEV_PNG" = "xtrue"; then
   DOC_HTML=true
   AC_MSG_NOTICE(Will output HTML documentation)
@@ -87,6 +92,7 @@ fi
 
 dnl check if we can generate PS
 if test "x$HAVE_DOCBOOK2PS" = "xtrue" && \
+   test "x$HAVE_DOCBOOK" = "xtrue" && \
    test "x$HAVE_JADETEX" = "xtrue" && \
    test "x$HAVE_FIG2DEV_EPS" = "xtrue" && \
    test "x$HAVE_PNGTOPNM" = "xtrue" && \
@@ -100,6 +106,7 @@ fi
 
 dnl check if we can generate PDF - using only ps2pdf
 if test "x$DOC_PS" = "xtrue" && \
+   test "x$HAVE_DOCBOOK" = "xtrue" && \
    test "x$HAVE_PS2PDF" = "xtrue"; then
   DOC_PDF=true
   AC_MSG_NOTICE(Will output PDF documentation)
@@ -115,7 +122,8 @@ AC_ARG_ENABLE(docs-build,
 AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
 [case "${enableval}" in
   yes)
-    if test "x$HAVE_GTK_DOC" = "xtrue" ; then
+    if test "x$HAVE_GTK_DOC" = "xtrue" && \
+       test "x$HAVE_DOCBOOK" = "xtrue"; then
       BUILD_DOCS=yes
     else
       BUILD_DOCS=no
@@ -137,6 +145,7 @@ dnl [BUILD_PLUGIN_DOCS=yes]) dnl Default value
 BUILD_PLUGIN_DOCS=no
 
 AM_CONDITIONAL(HAVE_GTK_DOC,        $HAVE_GTK_DOC)
+AM_CONDITIONAL(HAVE_DOCBOOK,        $HAVE_DOCBOOK)
 AM_CONDITIONAL(BUILD_DOCS,          test "x$BUILD_DOCS" = "xyes")
 AM_CONDITIONAL(BUILD_PLUGIN_DOCS,   test "x$BUILD_PLUGIN_DOCS" = "xyes")
 AM_CONDITIONAL(DOC_HTML,            $DOC_HTML)
