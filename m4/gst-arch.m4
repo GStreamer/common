@@ -85,6 +85,20 @@ AM_CONDITIONAL(HAVE_LIBMMX,         test "x$USE_LIBMMX" = "xyes")
 AC_DEFUN([GST_UNALIGNED_ACCESS], [
   AC_MSG_CHECKING([if unaligned memory access works correctly])
   if test x"$as_cv_unaligned_access" = x ; then
+    case $host in
+      alpha*|arm*|hp*|mips*|sh*|sparc*|ia64*)
+        _AS_ECHO_N([(blacklisted) ])
+        as_cv_unaligned_access=no
+	;;
+      i?86*|powerpc*|m68k*)
+        _AS_ECHO_N([(whitelisted) ])
+        as_cv_unaligned_access=yes
+	;;
+    esac
+  else
+    _AS_ECHO_N([(cached) ])
+  fi
+  if test x"$as_cv_unaligned_access" = x ; then
     AC_TRY_RUN([
 int main(int argc, char **argv)
 {
