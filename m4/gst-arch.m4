@@ -1,4 +1,4 @@
-AC_DEFUN(GST_ARCH, [
+AC_DEFUN([GST_ARCH], [
 dnl Set up conditionals for (target) architecture:
 dnl ==============================================
 

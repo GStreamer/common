@@ -6,7 +6,7 @@ dnl but xsltproc seemed to happily run anyway, so we can't check for that
 dnl and version
 dnl this macro takes inspiration from
 dnl http://www.movement.uklinux.net/docs/docbook-autotools/configure.html
-AC_DEFUN(AS_DOCBOOK,
+AC_DEFUN([AS_DOCBOOK],
 [
   XSLTPROC_FLAGS=--nonet
   DOCBOOK_ROOT=

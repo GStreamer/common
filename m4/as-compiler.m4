@@ -9,7 +9,7 @@ dnl - gcc
 dnl - forte
 dnl - (empty) if no guess could be made
 
-AC_DEFUN(AS_COMPILER,
+AC_DEFUN([AS_COMPILER],
 [
   as_compiler=
   AC_MSG_CHECKING(for compiler flavour)

@@ -1,4 +1,4 @@
-AC_DEFUN(GST_GLIB2_CHECK, [
+AC_DEFUN([GST_GLIB2_CHECK], [
 dnl === GLib 2 ===
 dnl Minimum required version of GLib2
 GLIB2_REQ="1.3.12"

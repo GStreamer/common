@@ -1,4 +1,4 @@
-AC_DEFUN(GST_LIBXML2_CHECK,
+AC_DEFUN([GST_LIBXML2_CHECK],
 [
   dnl Minimum required version of libxml2
   LIBXML2_REQ="2.4.0"

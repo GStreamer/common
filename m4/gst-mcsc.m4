@@ -8,7 +8,7 @@ dnl ##  configure.in:
 dnl ##     AC_CHECK_MCSC(<success-action>, <failure-action>)
 dnl ##
 
-AC_DEFUN(AC_CHECK_MCSC, [
+AC_DEFUN([AC_CHECK_MCSC], [
 AC_MSG_CHECKING(for usable SVR4/SUSv2 makecontext(2)/swapcontext(2))
 AC_CACHE_VAL(ac_cv_check_mcsc, [
 AC_TRY_RUN([

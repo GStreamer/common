@@ -16,7 +16,7 @@ dnl if USE_RELEASE is used, then add a -release option to the LDFLAGS
 dnl with the given release version
 dnl then use [$PREFIX]_LT_LDFLAGS in the relevant Makefile.am's
 
-AC_DEFUN(AS_LIBTOOL,
+AC_DEFUN([AS_LIBTOOL],
 [
   [$1]_CURRENT=[$2]
   [$1]_REVISION=[$3]

@@ -1,4 +1,4 @@
-AC_DEFUN(GST_CHECK_MAKECONTEXT, [
+AC_DEFUN([GST_CHECK_MAKECONTEXT], [
   AC_MSG_CHECKING([whether we have makecontext])
   AC_TRY_RUN([
 #include <ucontext.h>

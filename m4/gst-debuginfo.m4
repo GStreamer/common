@@ -1,4 +1,4 @@
-AC_DEFUN(GST_DEBUGINFO, [
+AC_DEFUN([GST_DEBUGINFO], [
 AC_ARG_ENABLE(debug,
 AC_HELP_STRING([--disable-debug],[disable addition of -g debugging info]),
 [case "${enableval}" in

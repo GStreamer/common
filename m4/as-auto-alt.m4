@@ -6,7 +6,7 @@ dnl AS_AUTOTOOLS_ALTERNATE()
 dnl
 dnl supplies --with arguments for autoconf, autoheader, automake, aclocal
 
-AC_DEFUN(AS_AUTOTOOLS_ALTERNATE,
+AC_DEFUN([AS_AUTOTOOLS_ALTERNATE],
 [
   dnl allow for different autoconf version
   AC_ARG_WITH(autoconf,

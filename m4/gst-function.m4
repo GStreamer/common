@@ -2,7 +2,7 @@ dnl
 dnl Check for compiler mechanism to show functions in debugging
 dnl copied from an Ali patch floating on the internet
 dnl
-AC_DEFUN(GST_CHECK_FUNCTION,[
+AC_DEFUN([GST_CHECK_FUNCTION],[
   dnl #1: __PRETTY_FUNCTION__
   AC_MSG_CHECKING(whether $CC implements __PRETTY_FUNCTION__)
   AC_CACHE_VAL(have_pretty_function,[

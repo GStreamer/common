@@ -45,7 +45,7 @@ dnl GST_PLUGINS_YES will contain all plugins to be built
 dnl                 that were checked through GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
 
-AC_DEFUN(GST_CHECK_FEATURE,
+AC_DEFUN([GST_CHECK_FEATURE],
 [dnl
 builtin(define, [gst_endisable], ifelse($5, [disabled], [enable], [disable]))dnl
 dnl if it is set to NO, then don't even consider it for building
@@ -122,7 +122,7 @@ dnl
 dnl This check was written for GStreamer: it should be renamed and checked
 dnl for portability if you decide to use it elsewhere.
 dnl
-AC_DEFUN(GST_CHECK_CONFIGPROG,
+AC_DEFUN([GST_CHECK_CONFIGPROG],
 [
   AC_PATH_PROG([$1]_CONFIG, [$2], no)
   if test x$[$1]_CONFIG = xno; then
@@ -148,7 +148,7 @@ dnl
 dnl This check was written for GStreamer: it should be renamed and checked
 dnl for portability if you decide to use it elsewhere.
 dnl
-AC_DEFUN(GST_CHECK_LIBHEADER,
+AC_DEFUN([GST_CHECK_LIBHEADER],
 [
   AC_CHECK_LIB([$2], [$3], HAVE_[$1]=yes, HAVE_[$1]=no,[$4])
   if test "x$HAVE_[$1]" = "xyes"; then
@@ -172,7 +172,7 @@ dnl Add a subsystem --disable flag and all the necessary symbols and substitions
 dnl
 dnl GST_SUBSYSTEM_DISABLE(SYSNAME, [subsystem name])
 dnl
-AC_DEFUN(GST_SUBSYSTEM_DISABLE,
+AC_DEFUN([GST_SUBSYSTEM_DISABLE],
 [AC_ARG_ENABLE(translit([$1], A-Z, a-z), 
 [  ]builtin(format, --disable-%-17s  disable %s, translit([$1], A-Z, a-z), $2),
 [ case "${enableval}" in
