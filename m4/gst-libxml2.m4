@@ -1,7 +1,9 @@
+dnl call this macro with the minimum required version as an argument
 AC_DEFUN([GST_LIBXML2_CHECK],
 [
   dnl Minimum required version of libxml2
-  LIBXML2_REQ="2.4.0"
+  dnl default to 2.4.9 if not specified
+  LIBXML2_REQ=ifelse([$1],,2.4.9,[$1])
   AC_SUBST(LIBXML2_REQ)
 
   dnl check for libxml2

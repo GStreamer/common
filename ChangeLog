@@ -1,3 +1,9 @@
+2004-02-13  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-libxml2.m4:
+          take required version as argument, and default to 2.4.9 if not
+          specified
+
 2004-02-12  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-feature.m4:
