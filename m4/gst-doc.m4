@@ -80,7 +80,7 @@ if test "x$HAVE_XMLTO" = "xtrue" && \
   AC_MSG_NOTICE(Will output HTML documentation)
 else
   DOC_HTML=false
-  AC_MSG_NOTICE(Will not ioutput HTML documentation)
+  AC_MSG_NOTICE(Will not output HTML documentation)
 fi
 
 dnl check if we can generate PS
