@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     ], as_cv_unaligned_access="yes", as_cv_unaligned_access="no")
   fi
   AC_MSG_RESULT($as_cv_unaligned_access)
-  if test "$gst_unaligned_access" = "yes"; then
+  if test "$as_cv_unaligned_access" = "yes"; then
     AC_DEFINE_UNQUOTED(HAVE_UNALIGNED_ACCESS, 1,
       [defined if unaligned memory access works correctly])
   fi
