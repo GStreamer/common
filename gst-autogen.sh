@@ -198,7 +198,7 @@ die_check ()
 
 autogen_options ()
 {
-  if test `getopt --version | cut -d' ' -f2` != "(enhanced)"; then
+  if test "x`getopt --version | cut -d' ' -f2`" != "x(enhanced)"; then
     echo "- non-gnu getopt(1) detected, not running getopt on autogen command-line options"
     return 0
   fi
