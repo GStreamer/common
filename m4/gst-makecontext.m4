@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 }
 ], HAVE_MAKECONTEXT="yes", HAVE_MAKECONTEXT="no")
 AC_MSG_RESULT($HAVE_MAKECONTEXT)
-if test "$HAVE_MAKECONTEXT" == "yes"; then
+if test "$HAVE_MAKECONTEXT" = "yes"; then
   AC_DEFINE_UNQUOTED(HAVE_MAKECONTEXT, $HAVE_MAKECONTEXT,
                      [defined if we have makecontext ()])
 fi
