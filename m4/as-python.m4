@@ -79,7 +79,7 @@ else:
   ])
 
   if test "$python_good" != "true"; then
-    AC_MSG_WARNING([No suitable version of python found])
+    AC_MSG_WARN([No suitable version of python found])
     PYTHON=
   else
 
