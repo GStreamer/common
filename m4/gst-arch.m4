@@ -15,7 +15,7 @@ x86])
               esac ;;
   xpowerpc)   HAVE_CPU_PPC=yes
               AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the target CPU is a 
-PPC]) ;;
+PowerPC]) ;;
   xalpha)     HAVE_CPU_ALPHA=yes
               AC_DEFINE(HAVE_CPU_ALPHA, 1, [Define if the target CPU is an 
 Alpha]) ;;
@@ -31,6 +31,15 @@ MIPS]) ;;
   xhppa*)     HAVE_CPU_HPPA=yes
               AC_DEFINE(HAVE_CPU_HPPA, 1, [Define if the target CPU is a 
 HPPA]) ;;
+  xs390*)     HAVE_CPU_S390=yes
+              AC_DEFINE(HAVE_CPU_S390, 1, [Define if the target CPU is a 
+S390]) ;;
+  xia64*)     HAVE_CPU_IA64=yes
+              AC_DEFINE(HAVE_CPU_IA64, 1, [Define if the target CPU is a 
+IA64]) ;;
+  xm68k*)     HAVE_CPU_M68K=yes
+              AC_DEFINE(HAVE_CPU_M68K, 1, [Define if the target CPU is a 
+M68K]) ;;
 esac
 
 dnl Determine endianness
