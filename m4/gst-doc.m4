@@ -65,13 +65,14 @@ if test "x$HAVE_FIG2DEV" = "xtrue" ; then
   fi
 fi
 
+AS_PATH_PYTHON(2.1)
+AC_SUBST(PYTHON)
+
 AC_ARG_ENABLE(docs-build,
 AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
 [case "${enableval}" in
   yes)
     if test "x$HAVE_GTK_DOC" = "xtrue" ; then
-      AS_PATH_PYTHON(2.1)
-      AC_SUBST(PYTHON)
       BUILD_DOCS=yes
     else
       AC_MSG_ERROR([you don't have gtk-doc, so don't use --enable-docs-build])
