@@ -16,7 +16,7 @@ x86])
   xpowerpc)   HAVE_CPU_PPC=yes
               AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the target CPU is a 
 PowerPC]) ;;
-  xalpha)     HAVE_CPU_ALPHA=yes
+  xalpha*)    HAVE_CPU_ALPHA=yes
               AC_DEFINE(HAVE_CPU_ALPHA, 1, [Define if the target CPU is an 
 Alpha]) ;;
   xarm*)      HAVE_CPU_ARM=yes
