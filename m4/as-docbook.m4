@@ -12,7 +12,7 @@ AC_DEFUN(AS_DOCBOOK,
   DOCBOOK_ROOT=
   TYPE_LC=xml
   TYPE_UC=XML
-  VERSION=4.1.2
+  DOCBOOK_VERSION=4.1.2
 
   if test ! -f /etc/xml/catalog; then
     for i in /usr/share/sgml/docbook/stylesheet/xsl/nwalsh /usr/share/sgml/docbook/xsl-stylesheets/;
@@ -40,7 +40,7 @@ AC_DEFUN(AS_DOCBOOK,
     fi
     $XSLTPROC $XSLTPROC_FLAGS $DB_FILE >/dev/null 2>&1 << END
 <?xml version="1.0" encoding='ISO-8859-1'?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook $TYPE_UC V$VERSION//EN" "http://www.oasis-open.org/docbook/$TYPE_LC/$VERSION/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook $TYPE_UC V$DOCBOOK_VERSION//EN" "http://www.oasis-open.org/docbook/$TYPE_LC/$DOCBOOK_VERSION/docbookx.dtd">
 <book id="test">
 </book>
 END
