@@ -107,6 +107,24 @@ version_check ()
   fi
 }
 
+aclocal_check ()
+{
+  # normally aclocal is part of automake
+  # so we expect it to be in the same place as automake
+  # so if a different automake is supplied, we need to adapt as well
+  # so how's about replacing automake with aclocal in the set var,
+  # and saving that in $aclocal ?
+  # note, this will fail if the actual automake isn't called automake*
+  # or if part of the path before it contains it
+  if [ -z "$automake" ]; then
+    echo "Error: no automake variable set !"
+    return 1
+  else
+    aclocal=`echo $automake | sed s/automake/aclocal/`
+    debug "aclocal: $aclocal"
+  fi
+}
+
 autoconf_2.52d_check ()
 {
   # autoconf 2.52d has a weird issue involving a yes:no error
