@@ -86,7 +86,6 @@ AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
     if test "x$HAVE_GTK_DOC" = "xtrue" ; then
       BUILD_DOCS=yes
     else
-      AC_MSG_ERROR([you don't have gtk-doc, so don't use --enable-docs-build])
       BUILD_DOCS=no
     fi ;;
   no)  BUILD_DOCS=no ;;
