@@ -30,6 +30,7 @@
 
 # Updated to loop over all possible python binaries by Andy Wingo
 # <wingo@pobox.com>
+# Updated to only warn and unset PYTHON if no good one is found
 
 AC_DEFUN([AS_PATH_PYTHON],
  [
@@ -78,8 +79,9 @@ else:
   ])
 
   if test "$python_good" != "true"; then
-    AC_MSG_ERROR([No suitable version of python found])
-  fi
+    AC_MSG_WARNING([No suitable version of python found])
+    PYTHON=
+  else
 
   AC_MSG_CHECKING([local Python configuration])
 
@@ -145,4 +147,6 @@ else:
   pkgpyexecdir=\${pyexecdir}/$PACKAGE
 
   AC_MSG_RESULT([looks good])
+
+  fi
 ])
