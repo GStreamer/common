@@ -127,9 +127,38 @@ aclocal_check ()
   else
     aclocal=`echo $automake | sed s/automake/aclocal/`
     debug "aclocal: $aclocal"
+    if [ "$aclocal" != "aclocal" ];
+    then
+      CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-aclocal=$aclocal"
+    fi
+    if [ ! -x $aclocal ]; then
+      echo "Error: cannot execute $aclocal !"
+      return 1
+    fi
   fi
 }
 
+autoheader_check ()
+{
+  # same here - autoheader is part of autoconf
+  # use the same voodoo
+  if [ -z "$autoconf" ]; then
+    echo "Error: no autoconf variable set !"
+    return 1
+  else
+    autoheader=`echo $autoconf | sed s/autoconf/autoheader/`
+    debug "autoheader: $autoheader"
+    if [ "$autoheader" != "autoheader" ];
+    then
+      CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoheader=$autoheader"
+    fi
+    if [ ! -x $autoheader ]; then
+      echo "Error: cannot execute $autoheader !"
+      return 1
+    fi
+  fi
+
+}
 autoconf_2.52d_check ()
 {
   # autoconf 2.52d has a weird issue involving a yes:no error
@@ -215,11 +244,13 @@ autogen_options ()
       --with-automake)
           AUTOMAKE=$2
           echo "+ using alternate automake in $2"
+	  CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-automake=$AUTOMAKE"
           shift 2
           ;;
       --with-autoconf)
           AUTOCONF=$2
           echo "+ using alternate autoconf in $2"
+	  CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoconf=$AUTOCONF"
           shift 2
           ;;
        --) shift ; break ;;
