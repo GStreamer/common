@@ -58,14 +58,14 @@ version_check ()
   #start checking the version
   debug "version check"
 
-  if [ ! "$pkg_major" \> "$MAJOR" ]; then
+  if [ ! "$pkg_major" -gt "$MAJOR" ]; then
     debug "$pkg_major <= $MAJOR"
-    if [ "$pkg_major" \< "$MAJOR" ]; then
+    if [ "$pkg_major" -lt "$MAJOR" ]; then
       WRONG=1
-    elif [ ! "$pkg_minor" \> "$MINOR" ]; then
-      if [ "$pkg_minor" \< "$MINOR" ]; then
+    elif [ ! "$pkg_minor" -gt "$MINOR" ]; then
+      if [ "$pkg_minor" -lt "$MINOR" ]; then
         WRONG=1
-      elif [ "$pkg_micro" \< "$MICRO" ]; then
+      elif [ "$pkg_micro" -lt "$MICRO" ]; then
 	WRONG=1
       fi
     fi
@@ -113,6 +113,8 @@ autogen_options ()
           echo " --autogen-nocheck        don't do version checks"
           echo " --autogen-debug          debug the autogen process"
 	  exit 1
+      else
+          CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $i"
       fi
   done
 }
