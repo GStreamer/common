@@ -103,9 +103,7 @@ if test x$USE_[$1] = xyes; then
   fi
   AC_DEFINE(HAVE_[$1], , [support for features: $3])
 else
-  ifelse([$3], , :, [AC_MSG_NOTICE(
-These plugins will not be built: [$3]
-)])
+  ifelse([$3], , :, [AC_MSG_NOTICE(*** These plugins will not be built: [$3])])
   if test "x$3" != "x"; then
     GST_PLUGINS_NO="\t[$3]\n$GST_PLUGINS_NO"
   fi
