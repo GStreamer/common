@@ -12,6 +12,8 @@ AC_DEFUN(GST_LIBXML2_CHECK,
   else
     AC_MSG_ERROR([Need libxml2 for glib2 builds -- you should be able to do without it -- this needs fixing])
   fi
+  dnl this is for the .pc file
+  LIBXML_PKG=', libxml-2.0' 
   AC_SUBST(LIBXML_PKG)
   AC_SUBST(XML_LIBS)
   AC_SUBST(XML_CFLAGS)
