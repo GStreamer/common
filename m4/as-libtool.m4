@@ -1,4 +1,4 @@
-dnl as-libtool.m4 0.1.1
+dnl as-libtool.m4 0.1.2
 dnl autostars m4 macro for libtool versioning
 dnl thomas@apestaart.org
 dnl

@@ -1,4 +1,4 @@
-dnl as-scrub-include.m4 0.0.1
+dnl as-scrub-include.m4 0.0.2
 dnl autostars m4 macro for scrubbing CFLAGS of system include dirs
 dnl because gcc 3.x complains about including system including dirs
 dnl

@@ -1,4 +1,4 @@
-dnl as-compiler.m4 0.0.1
+dnl as-compiler.m4 0.0.2
 dnl autostars m4 macro for detection of compiler flavour
 dnl
 dnl thomas@apestaart.org

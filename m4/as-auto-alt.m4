@@ -1,4 +1,4 @@
-dnl as-auto-alt.m4 0.0.1
+dnl as-auto-alt.m4 0.0.2
 dnl autostars m4 macro for supplying alternate autotools versions to configure
 dnl thomas@apestaart.org
 dnl
