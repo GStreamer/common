@@ -38,7 +38,15 @@ AC_SUBST(GTK_DOC_SCANOBJ)
 
 dnl check for docbook tools
 AC_CHECK_PROG(HAVE_XMLTO, xmlto, true, false)
+dnl we don't really need xmltex per se, but xmlto uses it
+AC_CHECK_PROG(HAVE_XMLTEX, xmltex, true, false)
 AC_CHECK_PROG(HAVE_PS2PDF, ps2pdf, true, false)
+
+dnl we might be better off making a separate variable and using that
+dnl but I'm a little lazy today and this ought to do fine
+if test "x$HAVE_XMLTEX" = "xfalse"; then
+  HAVE_XMLTO=false
+fi
 
 dnl check for image conversion tools
 AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, true, false)
@@ -72,7 +80,8 @@ fi
 
 AC_CHECK_PROG(HAVE_PNGTOPNM, pngtopnm, true, false)
 AC_CHECK_PROG(HAVE_PNMTOPS,  pnmtops,  true, false)
-AC_CHECK_PROG(HAVE_EPSTOPDF, epstopdf, true, false)
+AC_CHECK_PROG(HAVE_DVIPS,    dvips,    true, false)
+dnl AC_CHECK_PROG(HAVE_EPSTOPDF, epstopdf, true, false)
 
 dnl check if we can generate HTML
 if test "x$HAVE_XMLTO" = "xtrue" && \
@@ -88,6 +97,7 @@ dnl check if we can generate PS
 if test "x$HAVE_XMLTO" = "xtrue" && \
    test "x$HAVE_FIG2DEV_EPS" = "xtrue" && \
    test "x$HAVE_PNGTOPNM" = "xtrue" && \
+   test "x$HAVE_DVIPS" = "xtrue" && \
    test "x$HAVE_PNMTOPS" = "xtrue"; then
   DOC_PS=true
   AC_MSG_NOTICE(Will output PS documentation)
