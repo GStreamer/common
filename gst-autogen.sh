@@ -262,6 +262,11 @@ autogen_options ()
 	  CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoconf=$AUTOCONF"
           shift
           ;;
+      --disable*|--enable*|--with*)
+          echo "+ passing option $1 to configure"
+	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $1"
+          shift
+          ;;
        --) shift ; break ;;
       *) echo "- ignoring unknown autogen.sh argument $1"; shift ;;
     esac
