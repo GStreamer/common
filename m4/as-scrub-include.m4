@@ -26,7 +26,7 @@ AC_DEFUN([AS_SCRUB_INCLUDE],
   dnl line
   INCLUDE_DIRS=`echo $INCLUDE_DIRS | sed -e 's/.*<...> search starts here://' | sed -e 's/End of search list.*//'`
   for dir in $INCLUDE_DIRS; do
-    command="sed -e s#-I$dir##"
+    command="sed -e s#-I$dir ##"
     GIVEN_CFLAGS=`echo $GIVEN_CFLAGS | $command`
   done
   [$1]=$GIVEN_CFLAGS
