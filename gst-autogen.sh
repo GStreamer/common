@@ -63,7 +63,7 @@ version_check ()
     # the following line is carefully crafted sed magic
     # you don't want to mess with it
     #pkg_version=`$COMMAND --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
-    pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*) //'|sed 's/ (.*)//'`
+    pkg_version=`$COMMAND --version|head -n 1|sed 's/^[^0-9]*//'|cut -d' ' -f1`
     debug "pkg_version $pkg_version"
     # remove any non-digit characters from the version numbers to permit numeric
     # comparison
