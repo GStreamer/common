@@ -61,11 +61,12 @@ AC_ARG_ENABLE(docs-build,
 AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
 [case "${enableval}" in
   yes)
-    if $HAVE_GTK_DOC; then
+    if test "x$HAVE_GTK_DOC" = "xtrue" ; then
       AM_PATH_PYTHON(2.1)
       BUILD_DOCS=yes
     else
-      AC_MSG_ERROR([you don't have gtk-doc, so don't use --docs-build])
+      AC_MSG_ERROR([you don't have gtk-doc, so don't use --enable-docs-build])
+      BUILD_DOCS=no
     fi ;;
   no)  BUILD_DOCS=no ;;
   *) AC_MSG_ERROR(bad value ${enableval} for --enable-docs-build) ;;
