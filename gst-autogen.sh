@@ -162,6 +162,11 @@ die_check ()
 
 autogen_options ()
 {
+  if test `getopt --version | cut -d' ' -f2` != "(enhanced)"; then
+    echo "- non-gnu getopt(1) detected, not running getopt on autogen command-line options"
+    return 0
+  fi
+
   # we use getopt stuff here, copied things from the example example.bash
   TEMP=`getopt -o h --long noconfigure,nocheck,debug,help,with-automake:,with-autoconf:,prefix:\
        -- "$@"`
