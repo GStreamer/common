@@ -15,10 +15,15 @@ gtk_doc_min_version=0.7
 if $HAVE_GTK_DOC ; then
     gtk_doc_version=`gtkdoc-mkdb --version`
     AC_MSG_CHECKING([gtk-doc version ($gtk_doc_version) >= $gtk_doc_min_version])
-    if perl <<EOF ; then
+    if perl -w <<EOF
+      (\$min_version_major, \$min_version_minor ) = "$gtk_doc_min_version" =~ /^(\d)+\.(\d+)$/;
+      (\$gtk_doc_version_major, \$gtk_doc_version_minor ) = "$gtk_doc_version" =~ /^(\d)+\.(\d+)$/;
       exit (("$gtk_doc_version" =~ /^[[0-9]]+\.[[0-9]]+$/) &&
-            ("$gtk_doc_version" >= "$gtk_doc_min_version") ? 0 : 1);
+            ((\$gtk_doc_version_major > \$min_version_major) ||
+	     (\$gtk_doc_version_major == \$min_version_major) &&
+	     (\$gtk_doc_version_minor > \$min_version_minor))  ? 0 : 1);
 EOF
+   then
       AC_MSG_RESULT(yes)
    else
       AC_MSG_RESULT(no)
