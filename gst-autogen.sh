@@ -49,9 +49,9 @@ version_check ()
   debug "pkg_version $pkg_version"
   # remove any non-digit characters from the version numbers to permit numeric
   # comparison
-  pkg_major=`echo $pkg_version | cut -d. -f1 | tr -d -c [:digit:]`
-  pkg_minor=`echo $pkg_version | cut -d. -f2 | tr -d -c [:digit:]`
-  pkg_micro=`echo $pkg_version | cut -d. -f3 | tr -d -c [:digit:]`
+  pkg_major=`echo $pkg_version | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
+  pkg_minor=`echo $pkg_version | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
+  pkg_micro=`echo $pkg_version | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
   test -z "$pkg_minor" && pkg_minor=0
   test -z "$pkg_micro" && pkg_micro=0
 
@@ -78,6 +78,7 @@ version_check ()
     echo
     echo "You must have $PACKAGE $VERSION or greater to compile $package."
     echo "Get the latest version from $URL"
+    echo
     return 1
   else
     echo "found $pkg_version, ok."
@@ -93,6 +94,20 @@ autoconf_2.52d_check ()
     echo "autoconf 2.52d has an issue with our current build."
     echo "We don't know who's to blame however.  So until we do, get a"
     echo "regular version.  RPM's of a working version are on the gstreamer site."
+    exit 1
+  fi
+}
+
+die_check ()
+{
+  # call with $DIE
+  # if set to 1, we need to print something helpful then die
+  DIE=$1
+  if test "x$DIE" = "x1";
+  then
+    echo
+    echo "- Please get the right tools before proceeding."
+    echo "- Alternatively, if you're sure we're wrong, run with --autogen-nocheck."
     exit 1
   fi
 }
