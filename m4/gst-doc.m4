@@ -39,6 +39,9 @@ HAVE_PDFXMLTEX=false
 
 dnl check for image conversion tool
 AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, true, false)
+if test "x$HAVE_FIG2DEV" = "xfalse" ; then
+  AC_MSG_WARN([Did not find fig2dev (from xfig), images will not be generated.])
+fi
 
 dnl The following is a hack: if fig2dev doesn't display an error message
 dnl for the desired type, we assume it supports it.
