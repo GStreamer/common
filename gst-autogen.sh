@@ -12,17 +12,25 @@ debug ()
 version_check ()
 # check the version of a package
 # first argument : package name (executable)
-# second argument : source download url
+# second argument : optional path where to look for it instead
+# third argument : source download url
 # rest of arguments : major, minor, micro version
 {
   PACKAGE=$1
-  URL=$2
-  MAJOR=$3
-  MINOR=$4
-  MICRO=$5
+  PKG_PATH=$2
+  URL=$3
+  MAJOR=$4
+  MINOR=$5
+  MICRO=$6
 
   WRONG=
 
+  if test ! -z "$PKG_PATH"
+  then
+    COMMAND="$PKG_PATH/$PACKAGE"
+  else
+    COMMAND="$PACKAGE"  
+  fi
   debug "major $MAJOR minor $MINOR micro $MICRO"
   VERSION=$MAJOR
   if test ! -z "$MINOR"; then VERSION=$VERSION.$MINOR; else MINOR=0; fi
@@ -31,21 +39,29 @@ version_check ()
   debug "major $MAJOR minor $MINOR micro $MICRO"
   
   test -z "$NOCHECK" && {
-      echo -n "  checking for $1 >= $VERSION ... "
+      echo -n "  checking for $1 >= $VERSION"
+      if test ! -z "$PKG_PATH"; then echo -n " (in $PKG_PATH)"; fi
+      echo -n "... "
   } || {
+    # we set a var with the same name as the package, but stripped of
+    # unwanted chars
+    VAR=`echo $PACKAGE | sed 's/-//g'`
+    debug "setting $VAR"
+    eval $VAR="$COMMAND"
       return 0
   }
-  
-  ($PACKAGE --version) < /dev/null > /dev/null 2>&1 || 
+
+  debug "checking version with $COMMAND"
+  ($COMMAND --version) < /dev/null > /dev/null 2>&1 || 
   {
-	echo
+	echo "not found !"
 	echo "You must have $PACKAGE installed to compile $package."
 	echo "Download the appropriate package for your distribution,"
 	echo "or get the source tarball at $URL"
 	return 1
   }
   # the following line is carefully crafted sed magic
-  pkg_version=`$PACKAGE --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
+  pkg_version=`$COMMAND --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
   debug "pkg_version $pkg_version"
   # remove any non-digit characters from the version numbers to permit numeric
   # comparison
@@ -82,6 +98,11 @@ version_check ()
     return 1
   else
     echo "found $pkg_version, ok."
+    # we set a var with the same name as the package, but stripped of
+    # unwanted chars
+    VAR=`echo $PACKAGE | sed 's/-//g'`
+    debug "setting $VAR"
+    eval $VAR="$COMMAND"
   fi
 }
 
@@ -89,7 +110,7 @@ autoconf_2.52d_check ()
 {
   # autoconf 2.52d has a weird issue involving a yes:no error
   # so don't allow it's use
-  ac_version=`autoconf --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
+  ac_version=`$autoconf --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
   if test "$ac_version" = "2.52d"; then
     echo "autoconf 2.52d has an issue with our current build."
     echo "We don't know who's to blame however.  So until we do, get a"
@@ -107,36 +128,72 @@ die_check ()
   then
     echo
     echo "- Please get the right tools before proceeding."
-    echo "- Alternatively, if you're sure we're wrong, run with --autogen-nocheck."
+    echo "- Alternatively, if you're sure we're wrong, run with --nocheck."
     exit 1
   fi
 }
 
 autogen_options ()
 {
-  for i in $@; do
-      if test "$i" = "--autogen-noconfigure"; then
+  # we use getopt stuff here, copied things from the example example.bash
+  TEMP=`getopt -o h --long noconfigure,nocheck,debug,help,with-automake:,with-autoconf: \
+       -- "$@"`
+
+  eval set -- "$TEMP"
+
+  while true ; do
+    case "$1" in
+      --noconfigure)
           NOCONFIGURE=defined
-	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --autogen-noconfigure"
+	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --noconfigure"
           echo "+ configure run disabled"
-      elif test "$i" = "--autogen-nocheck"; then
-	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --autogen-nocheck"
+          shift
+          ;;
+      --nocheck)
+	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --nocheck"
           NOCHECK=defined
           echo "+ autotools version check disabled"
-      elif test "$i" = "--autogen-debug"; then
+          shift
+          ;;
+      --debug)
           DEBUG=defined
+	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --debug"
           echo "+ debug output enabled"
-	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --autogen-debug"
-      elif test "$i" = "--help"; then
+          shift
+          ;;
+      -h|--help)
+          echo "autogen.sh (autogen options) -- (configure options)"
           echo "autogen.sh help options: "
-          echo " --autogen-noconfigure    don't run the configure script"
-          echo " --autogen-nocheck        don't do version checks"
-          echo " --autogen-debug          debug the autogen process"
+          echo " --noconfigure            don\'t run the configure script"
+          echo " --nocheck                don\'t do version checks"
+          echo " --debug                  debug the autogen process"
+          echo
+          echo " --with-autoconf PATH     use autoconf in PATH"
+          echo " --with-automake PATH     use automake in PATH"
+          echo
+          echo "to pass options to configure, put them as arguments after -- "
 	  exit 1
-      else
-          CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $i"
-      fi
+          ;;
+      --with-automake)
+          AUTOMAKE=$2
+          echo "+ using alternate automake in $2"
+          shift 2
+          ;;
+      --with-autoconf)
+          AUTOCONF=$2
+          echo "+ using alternate autoconf in $2"
+          shift 2
+          ;;
+       --) shift ; break ;;
+      *) echo "Internal error !" ; exit 1 ;;
+    esac
   done
+
+  for arg do CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $arg"; done
+  if test -z "$CONFIGURE_EXT_OPT"
+  then
+    echo "+ options passed to configure: $CONFIGURE_EXT_OPT"
+  fi
 }
 
 toplevel_check ()
