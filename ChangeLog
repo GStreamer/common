@@ -1,3 +1,8 @@
+2004-02-11  Johan Dahlin  <johan@gnome.org>
+
+	* gst-autogen.sh: Use A-Z instead of A-z in sed expression to
+	avoid a warning
+
 2004-02-05  Thomas Vander Stichele  <thomas (at) apestaart (dot) org>
 
 	* m4/gst-doc.m4:
