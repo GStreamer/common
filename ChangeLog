@@ -1,3 +1,10 @@
+2004-03-09  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	patch by: Stephane Loeuillet
+
+	* m4/ax_create_stdint_h.m4:
+          use head -n instead of head - (#136500)
+
 2004-03-05  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-doc.m4: don't build PS without dvips binary
