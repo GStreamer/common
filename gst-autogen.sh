@@ -30,8 +30,6 @@ version_check ()
   MINOR=$5
   MICRO=$6
 
-  WRONG=
-
   # for backwards compatibility, we let PKG_PATH=PACKAGE when PKG_PATH null
   if test -z "$PKG_PATH"; then PKG_PATH=$PACKAGE; fi
   debug "major $MAJOR minor $MINOR micro $MICRO"
@@ -80,14 +78,21 @@ version_check ()
     #start checking the version
     debug "version check"
 
+    # reset check
+    WRONG=
+
     if [ ! "$pkg_major" -gt "$MAJOR" ]; then
-      debug "$pkg_major <= $MAJOR"
+      debug "major: $pkg_major <= $MAJOR"
       if [ "$pkg_major" -lt "$MAJOR" ]; then
+        debug "major: $pkg_major < $MAJOR"
         WRONG=1
       elif [ ! "$pkg_minor" -gt "$MINOR" ]; then
+        debug "minor: $pkg_minor <= $MINOR"
         if [ "$pkg_minor" -lt "$MINOR" ]; then
+          debug "minor: $pkg_minor < $MINOR"
           WRONG=1
         elif [ "$pkg_micro" -lt "$MICRO" ]; then
+          debug "micro: $pkg_micro < $MICRO"
 	  WRONG=1
         fi
       fi
