@@ -255,7 +255,7 @@ autogen_options ()
           shift
           ;;
        --) shift ; break ;;
-      *) echo "Internal error !" ; exit 1 ;;
+      *) echo "- ignoring unknown autogen.sh arguments; run $0 --help"; shift ;;
     esac
   done
 
