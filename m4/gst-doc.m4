@@ -11,7 +11,7 @@ AC_SUBST(HTML_DIR)
 
 dnl check for gtk-doc
 AC_CHECK_PROG(HAVE_GTK_DOC, gtkdoc-scangobj, true, false)
-gtk_doc_min_version=0.7
+gtk_doc_min_version=1.0
 if $HAVE_GTK_DOC ; then
     gtk_doc_version=`gtkdoc-mkdb --version`
     AC_MSG_CHECKING([gtk-doc version ($gtk_doc_version) >= $gtk_doc_min_version])
