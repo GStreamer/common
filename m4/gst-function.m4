@@ -59,5 +59,5 @@ dnl now define FUNCTION to whatever works, and fallback to ""
       fi
     fi
   fi
-  AC_DEFINE_UNQUOTED(FUNCTION, $function, [macro to use to show function name])
+  AC_DEFINE_UNQUOTED(GST_FUNCTION, $function, [macro to use to show function name])
 ])

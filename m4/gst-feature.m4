@@ -164,6 +164,7 @@ AC_DEFUN(GST_CHECK_LIBHEADER,
 ]
 )
 
+dnl 2003-06-27 Benjamin Otte - make this work with gstconfig.h
 dnl
 dnl Add a subsystem --disable flag and all the necessary symbols and substitions
 dnl
@@ -179,11 +180,11 @@ AC_DEFUN(GST_SUBSYSTEM_DISABLE,
   esac],
 [GST_DISABLE_[$1]=no]) dnl Default value
 if test x$GST_DISABLE_[$1] = xyes; then
-  AC_DEFINE(GST_DISABLE_[$1], 1, [Disable $2])
-  GST_DISABLE_[$1]_DEFINE=-DGST_DISABLE_[$1]
+  GST_DISABLE_[$1]_DEFINE="#define GST_DISABLE_$1 1" 
+else
+  GST_DISABLE_[$1]_DEFINE="/* #undef GST_DISABLE_$1 */"
 fi
 AM_CONDITIONAL(GST_DISABLE_[$1], test x$GST_DISABLE_[$1] = xyes)
 AC_SUBST(GST_DISABLE_[$1]_DEFINE)
-GST_SUBSYSTEM_DISABLE_DEFINES="$GST_SUBSYTEM_DISABLE_DEFINES $GST_DISABLE_[$1]_DEFINE"
 ])
 
