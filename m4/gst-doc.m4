@@ -45,6 +45,9 @@ AC_CHECK_PROG(HAVE_PS2PDF, ps2pdf, true, false)
 dnl check if we can process docbook stuff
 AS_DOCBOOK(HAVE_DOCBOOK=true, HAVE_DOCBOOK=false)
 
+dnl check for extra tools
+AC_CHECK_PROG(HAVE_DVIPS, dvips, true, false)
+
 dnl check for image conversion tools
 AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, true, false)
 if test "x$HAVE_FIG2DEV" = "xfalse" ; then
@@ -95,6 +98,7 @@ if test "x$HAVE_DOCBOOK2PS" = "xtrue" && \
    test "x$HAVE_DOCBOOK" = "xtrue" && \
    test "x$HAVE_JADETEX" = "xtrue" && \
    test "x$HAVE_FIG2DEV_EPS" = "xtrue" && \
+   test "x$HAVE_DVIPS" = "xtrue" && \
    test "x$HAVE_PNGTOPNM" = "xtrue" && \
    test "x$HAVE_PNMTOPS" = "xtrue"; then
   DOC_PS=true
