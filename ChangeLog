@@ -1,0 +1,5 @@
+2004-01-13  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+        * gettext.patch: added; used by autogen.sh to make sure
+          GETTEXT_PACKAGE is understood from po/Makefile.in.in -> po/Makefile.in
+
