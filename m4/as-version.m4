@@ -1,4 +1,4 @@
-dnl version.m4 0.0.2
+dnl version.m4 0.0.3
 dnl autostars m4 macro for versioning
 dnl thomas@apestaart.org
 dnl
@@ -13,7 +13,10 @@ dnl - if NANO is empty, then we're in release mode, else in cvs/dev mode
 dnl - defines [$PREFIX], VERSION, and [$PREFIX]_RELEASE
 dnl - executes the relevant action
 dnl - AC_SUBST's PACKAGE, VERSION, [$PREFIX] and [$PREFIX]_RELEASE
+dnl   as well as the little ones
 dnl - calls AM_INIT_AUTOMAKE
+dnl
+dnl don't forget to put #undef [$2] and [$2]_RELEASE in acconfig.h
 
 AC_DEFUN(AS_VERSION,
 [
@@ -43,6 +46,9 @@ AC_DEFUN(AS_VERSION,
   AC_DEFINE_UNQUOTED([$2]_RELEASE, "$[$2]_RELEASE")
   AC_SUBST([$2]_RELEASE)
 
+  AC_SUBST([$2]_MAJOR)
+  AC_SUBST([$2]_MINOR)
+  AC_SUBST([$2]_MICRO)
   AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
   AC_SUBST(PACKAGE)
   AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
