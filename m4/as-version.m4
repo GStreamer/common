@@ -1,4 +1,4 @@
-dnl version.m4 0.0.3
+dnl version.m4 0.0.4
 dnl autostars m4 macro for versioning
 dnl thomas@apestaart.org
 dnl
@@ -14,7 +14,8 @@ dnl - defines [$PREFIX], VERSION, and [$PREFIX]_RELEASE
 dnl - executes the relevant action
 dnl - AC_SUBST's PACKAGE, VERSION, [$PREFIX] and [$PREFIX]_RELEASE
 dnl   as well as the little ones
-dnl - calls AM_INIT_AUTOMAKE
+dnl - doesn't call AM_INIT_AUTOMAKE anymore because it prevents
+dnl   maintainer mode from running ok
 dnl
 dnl don't forget to put #undef [$2] and [$2]_RELEASE in acconfig.h
 
@@ -53,5 +54,4 @@ AC_DEFUN(AS_VERSION,
   AC_SUBST(PACKAGE)
   AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
   AC_SUBST(VERSION)
-  AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 ])
