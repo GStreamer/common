@@ -198,7 +198,7 @@ die_check ()
 
 autogen_options ()
 {
-  if test "x$1" == "x"; then
+  if test "x$1" = "x"; then
     return 0
   fi
 
