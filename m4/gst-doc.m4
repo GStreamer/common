@@ -21,13 +21,13 @@ if $HAVE_GTK_DOC ; then
       exit (("$gtk_doc_version" =~ /^[[0-9]]+\.[[0-9]]+$/) &&
             ((\$gtk_doc_version_major > \$min_version_major) ||
 	     (\$gtk_doc_version_major == \$min_version_major) &&
-	     (\$gtk_doc_version_minor > \$min_version_minor))  ? 0 : 1);
+	     (\$gtk_doc_version_minor >= \$min_version_minor))  ? 0 : 1);
 EOF
    then
       AC_MSG_RESULT(yes)
    else
       AC_MSG_RESULT(no)
-      AC_MSG_ERROR(gtk-doc version is too low, need $gtk_doc_min_version, please disable doc building)
+      AC_MSG_ERROR([gtk-doc version is too low, need $gtk_doc_min_version, please disable doc building])
       HAVE_GTK_DOC=false
    fi
 fi
