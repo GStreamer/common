@@ -27,7 +27,6 @@ EOF
       AC_MSG_RESULT(yes)
    else
       AC_MSG_RESULT(no)
-      AC_MSG_ERROR([gtk-doc version is too low, need $gtk_doc_min_version, please disable doc building])
       HAVE_GTK_DOC=false
    fi
 fi
