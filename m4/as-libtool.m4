@@ -1,4 +1,4 @@
-dnl as-libtool.m4 0.1.0
+dnl as-libtool.m4 0.1.1
 dnl autostars m4 macro for libtool versioning
 dnl thomas@apestaart.org
 dnl
@@ -35,5 +35,4 @@ dnl  [$1]_LT_LDFLAGS="$[$1]_LT_LDFLAGS -version-info $[$1]_LIBVERSION"
   AC_SUBST([$1]_LT_LDFLAGS)
 
   AC_LIBTOOL_DLOPEN
-  AM_PROG_LIBTOOL
 ])

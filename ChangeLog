@@ -1,3 +1,8 @@
+2004-02-04  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/as-libtool.m4: remove AM_PROG_LIBTOOL so it can move back
+          to configure.ac to shut up libtoolize
+
 2004-02-03  Thomas Vander Stichele  <thomas at apestaart dot org>
 
         * glib-gen.mak: added; used to generate enums and marshal code
