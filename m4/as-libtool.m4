@@ -1,4 +1,4 @@
-dnl as-libtool.m4 0.1.2
+dnl as-libtool.m4 0.1.3
 dnl autostars m4 macro for libtool versioning
 dnl thomas@apestaart.org
 dnl
@@ -35,4 +35,21 @@ dnl  [$1]_LT_LDFLAGS="$[$1]_LT_LDFLAGS -version-info $[$1]_LIBVERSION"
   AC_SUBST([$1]_LT_LDFLAGS)
 
   AC_LIBTOOL_DLOPEN
+  AM_PROG_LIBTOOL
+
+  case "$host" in
+    *-*-mingw*)
+      as_libtool_win32=yes
+      enable_static=no
+      enable_shared=yes
+      ;;
+    *)
+      as_libtool_win32=no
+      ;;
+  esac
+  AM_CONDITIONAL(AS_LIBTOOL_WIN32, [test "$as_libtool_win32" = "yes"])
+
+  m4_pattern_allow([AS_LIBTOOL_WIN32])
+  m4_pattern_allow([AS_LIBTOOL_WIN32_TRUE])
+  m4_pattern_allow([AS_LIBTOOL_WIN32_FALSE])
 ])
