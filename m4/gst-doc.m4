@@ -120,7 +120,7 @@ AC_HELP_STRING([--enable-docs-build],[enable building of documentation]),
   no)  BUILD_DOCS=no ;;
   *) AC_MSG_ERROR(bad value ${enableval} for --enable-docs-build) ;;
 esac],
-[BUILD_DOCS=no]) dnl Default value
+[BUILD_DOCS=yes]) dnl Default value
 
 dnl AC_ARG_ENABLE(plugin-docs,
 dnl [  --enable-plugin-docs         enable the building of plugin documentation
@@ -130,7 +130,7 @@ dnl   yes) BUILD_PLUGIN_DOCS=yes ;;
 dnl   no)  BUILD_PLUGIN_DOCS=no ;;
 dnl   *) AC_MSG_ERROR(bad value ${enableval} for --enable-plugin-docs) ;;
 dnl esac], 
-dnl [BUILD_PLUGIN_DOCS=no]) dnl Default value
+dnl [BUILD_PLUGIN_DOCS=yes]) dnl Default value
 BUILD_PLUGIN_DOCS=no
 
 AM_CONDITIONAL(HAVE_GTK_DOC,        $HAVE_GTK_DOC)
