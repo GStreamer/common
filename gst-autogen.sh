@@ -131,7 +131,7 @@ aclocal_check ()
     then
       CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-aclocal=$aclocal"
     fi
-    if [ ! -x $aclocal ]; then
+    if [ ! -x `which $aclocal` ]; then
       echo "Error: cannot execute $aclocal !"
       return 1
     fi
@@ -152,7 +152,7 @@ autoheader_check ()
     then
       CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoheader=$autoheader"
     fi
-    if [ ! -x $autoheader ]; then
+    if [ ! -x `which $autoheader` ]; then
       echo "Error: cannot execute $autoheader !"
       return 1
     fi
