@@ -228,6 +228,14 @@ autogen_options ()
 	  echo "+ passing --prefix=$optarg to configure"
           shift
           ;;
+      --prefix)
+	  shift
+	  echo "DEBUG: $1"
+	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT --prefix=$1"
+	  echo "+ passing --prefix=$1 to configure"
+          shift
+          ;;
+
       -h|--help)
           echo "autogen.sh (autogen options) -- (configure options)"
           echo "autogen.sh help options: "
@@ -255,7 +263,7 @@ autogen_options ()
           shift
           ;;
        --) shift ; break ;;
-      *) echo "- ignoring unknown autogen.sh arguments; run $0 --help"; shift ;;
+      *) echo "- ignoring unknown autogen.sh argument $1"; shift ;;
     esac
   done
 
