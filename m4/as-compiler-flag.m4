@@ -5,7 +5,7 @@ dnl ds@schleef.org
 
 AC_DEFUN([AS_COMPILER_FLAG],
 [
-  AC_MSG_CHECKING(to see if compiler understands $1)
+  AC_MSG_CHECKING([to see if compiler understands $1])
 
   save_CFLAGS="$CFLAGS"
   CFLAGS="$CFLAGS $1"
