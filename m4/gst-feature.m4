@@ -45,6 +45,7 @@ dnl GST_PLUGINS_YES will contain all plugins to be built
 dnl                 that were checked through GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
 
+dnl  [  ]builtin(format, --%-26s gst_endisable %s, gst_endisable-translit([$1], A-Z, a-z), [$2]ifelse([$3],,,: [$3])),
 AC_DEFUN(GST_CHECK_FEATURE,
 [dnl
 builtin(define, [gst_endisable], ifelse($5, [disabled], [enable], [disable]))dnl
@@ -54,8 +55,10 @@ if test "x$USE_[$1]" = "xno"; then
   NOUSE="yes"
 fi
 AC_ARG_ENABLE(translit([$1], A-Z, a-z),
-  [  ]builtin(format, --%-26s gst_endisable %s, gst_endisable-translit([$1], A-Z, a-z), [$2]ifelse([$3],,,: [$3])),
-  [ case "${enableval}" in
+  AC_HELP_STRING(--gst_endisable-translit([$1], A-Z, a-z),
+  [$2]ifelse([$3],,,: [$3])),
+  [ 
+    case "${enableval}" in
       yes) USE_[$1]=yes;;
       no) USE_[$1]=no;;
       *) AC_MSG_ERROR(bad value ${enableval} for --enable-translit([$1], A-Z, a-z)) ;;
