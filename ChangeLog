@@ -1,3 +1,6 @@
+2004-09-03  Zeeshan Ali Khattak <zeenix@gmail.com>
+	* m4/gst-feature.m4: Trying to correct the GST_CHECK_CONFIGPROG macro
+
 2004-07-21  Benjamin Otte  <otte@gnome.org>
 
 	* m4/.cvsignore: exciting updates for libtool m4 files
