@@ -1,3 +1,8 @@
+2004-12-13  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/check.m4:
+	  macro for checking for the "check" unittest library
+
 2004-09-03  Zeeshan Ali Khattak <zeenix@gmail.com>
 	* m4/gst-feature.m4: Trying to correct the GST_CHECK_CONFIGPROG macro
 
