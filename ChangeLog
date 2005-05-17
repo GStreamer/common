@@ -1,3 +1,7 @@
+2005-05-17  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst-autogen.sh: only update autoregen.sh on actual runs
+
 2005-03-11  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/check.m4: m4 from the check unit test suite
