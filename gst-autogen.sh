@@ -195,6 +195,11 @@ autogen_options ()
     return 0
   fi
 
+  # a silly hack that generates autoregen.sh but it's handy
+  echo "#!/bin/sh" > autoregen.sh
+  echo "./autogen.sh $@ \$@" >> autoregen.sh
+  chmod +x autoregen.sh
+
   while test "x$1" != "x" ; do
     optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
     case "$1" in
@@ -264,12 +269,6 @@ autogen_options ()
       *) echo "- ignoring unknown autogen.sh argument $1"; shift ;;
     esac
   done
-
-  # a silly hack that generates autoregen.sh but it's handy
-  echo "#!/bin/sh" > autoregen.sh
-  echo "./autogen.sh $@ \$@" >> autoregen.sh
-  chmod +x autoregen.sh
-
 
   for arg do CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $arg"; done
   if test ! -z "$CONFIGURE_EXT_OPT"

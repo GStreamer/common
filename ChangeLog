@@ -1,3 +1,7 @@
+2005-06-03  Stefan Kost  <ensonic@users.sf.net>
+
+	* gst-autogen.sh: create autoregen.sh *before* shifting the options
+
 2005-05-17  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gst-autogen.sh: only update autoregen.sh on actual runs
