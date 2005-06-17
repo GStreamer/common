@@ -1,3 +1,8 @@
+# a silly hack that generates autoregen.sh but it's handy
+echo "#!/bin/sh" > autoregen.sh
+echo "./autogen.sh $@ \$@" >> autoregen.sh
+chmod +x autoregen.sh
+
 # helper functions for autogen.sh
 
 debug ()
@@ -194,11 +199,6 @@ autogen_options ()
   if test "x$1" = "x"; then
     return 0
   fi
-
-  # a silly hack that generates autoregen.sh but it's handy
-  echo "#!/bin/sh" > autoregen.sh
-  echo "./autogen.sh $@ \$@" >> autoregen.sh
-  chmod +x autoregen.sh
 
   while test "x$1" != "x" ; do
     optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
