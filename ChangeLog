@@ -1,3 +1,8 @@
+2005-06-29  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gtk-doc.m4:
+	  added
+
 2005-06-03  Stefan Kost  <ensonic@users.sf.net>
 
 	* gst-autogen.sh: create autoregen.sh *before* shifting the options
