@@ -1,4 +1,10 @@
 # a silly hack that generates autoregen.sh but it's handy
+# Remove the old autoregen.sh first to create a new file,
+# as the current one may be being read by the shell executing
+# this script.
+if [ -f "autoregen.sh" ]; then
+  rm autoregen.sh
+fi
 echo "#!/bin/sh" > autoregen.sh
 echo "./autogen.sh $@ \$@" >> autoregen.sh
 chmod +x autoregen.sh

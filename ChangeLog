@@ -1,3 +1,10 @@
+2005-06-30  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* gst-autogen.sh:
+	  Remove the old autoregen.sh if it exists before recreating it,
+	  to prevent confusing any shell process that might be reading it
+	  currently.
+
 2005-06-29  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gtk-doc.m4:
