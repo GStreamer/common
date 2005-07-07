@@ -126,6 +126,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	if test -d html; then rm -rf html; fi
 	mkdir html
 	cp $(srcdir)/$(DOC_MAIN_SGML_FILE) html
+	@for f in $(content_files); do cp $(srcdir)/$$f html; done
 	cp -pr xml html
 	cp ../version.entities html
 	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
