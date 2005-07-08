@@ -118,9 +118,6 @@ sgml.stamp: sgml-build.stamp
 
 #### html ####
 
-# FIXME: setting LANG=C is a hack to work with gtk-doc < 1.1, because
-# that forces a non-utf8 locale.  gtk-doc >= 1.1 solves this by calling
-# use bytes; in gtkdoc-fixxref
 html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@echo '*** Building HTML ***'
 	if test -d html; then rm -rf html; fi
@@ -136,7 +133,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
 	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
 	@echo '-- Fixing Crossreferences' 
-	LANG=C && gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+	gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	touch html-build.stamp
 else
 all-local:
