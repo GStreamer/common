@@ -1,31 +1,8 @@
-2005-07-08  Thomas Vander Stichele  <thomas at apestaart dot org>
-
-	* m4/gst-error.m4:
-	  add macro to set ERROR_CFLAGS
-
-2005-06-30  Jan Schmidt  <thaytan@mad.scientist.com>
+2005-07-16  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
 
 	* gst-autogen.sh:
-	  Remove the old autoregen.sh if it exists before recreating it,
-	  to prevent confusing any shell process that might be reading it
-	  currently.
-
-2005-06-29  Thomas Vander Stichele  <thomas at apestaart dot org>
-
-	* m4/gtk-doc.m4:
-	  added
-
-2005-06-03  Stefan Kost  <ensonic@users.sf.net>
-
-	* gst-autogen.sh: create autoregen.sh *before* shifting the options
-
-2005-05-17  Thomas Vander Stichele  <thomas at apestaart dot org>
-
-	* gst-autogen.sh: only update autoregen.sh on actual runs
-
-2005-03-11  Thomas Vander Stichele  <thomas at apestaart dot org>
-
-	* m4/check.m4: m4 from the check unit test suite
+	  Do not parse unrecognized options, but pass blindly to ./configure.
+	  Should fix x86-64 build error in jhbuild, including #307352.
 
 2004-12-14  David Schleef  <ds@schleef.org>
 

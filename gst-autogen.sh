@@ -1,10 +1,4 @@
 # a silly hack that generates autoregen.sh but it's handy
-# Remove the old autoregen.sh first to create a new file,
-# as the current one may be being read by the shell executing
-# this script.
-if [ -f "autoregen.sh" ]; then
-  rm autoregen.sh
-fi
 echo "#!/bin/sh" > autoregen.sh
 echo "./autogen.sh $@ \$@" >> autoregen.sh
 chmod +x autoregen.sh
@@ -227,19 +221,6 @@ autogen_options ()
           echo "+ debug output enabled"
           shift
           ;;
-      --prefix=*)
-	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT --prefix=$optarg"
-	  echo "+ passing --prefix=$optarg to configure"
-          shift
-          ;;
-      --prefix)
-	  shift
-	  echo "DEBUG: $1"
-	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT --prefix=$1"
-	  echo "+ passing --prefix=$1 to configure"
-          shift
-          ;;
-
       -h|--help)
           echo "autogen.sh (autogen options) -- (configure options)"
           echo "autogen.sh help options: "
@@ -266,13 +247,12 @@ autogen_options ()
 	  CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoconf=$AUTOCONF"
           shift
           ;;
-      --disable*|--enable*|--with*)
-          echo "+ passing option $1 to configure"
-	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $1"
+      --) shift ; break ;;
+      *)
+          CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $1"
+          echo "+ passing unknown option $1 to configure"
           shift
           ;;
-       --) shift ; break ;;
-      *) echo "- ignoring unknown autogen.sh argument $1"; shift ;;
     esac
   done
 
