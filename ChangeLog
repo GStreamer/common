@@ -1,5 +1,8 @@
 2005-07-18  Andy Wingo  <wingo@pobox.com>
 
+	* m4/as-libtool-tags.m4: Ooh, backported from libtool 1.6. Much
+	better. Thanks, Paolo Bonzini!
+	
 	* m4/Makefile.am (EXTRA_DIST): 
 	* m4/as-libtool-tags.m4: New file, tries to disable some CXX and
 	fortran checks.
