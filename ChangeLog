@@ -1,3 +1,8 @@
+2005-07-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
+
+	* m4/gst-doc.m4:
+	  s/pdf/eps/ in test for whether we output EPS images (#309379).
+
 2005-07-18  Andy Wingo  <wingo@pobox.com>
 
 	* m4/as-libtool-tags.m4: Ooh, backported from libtool 1.6. Much

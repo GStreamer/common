@@ -82,7 +82,7 @@ dnl The following is a hack: if fig2dev doesn't display an error message
 dnl for the desired type, we assume it supports it.
 HAVE_FIG2DEV_EPS=false
 if test "x$HAVE_FIG2DEV" = "xtrue" ; then
-  fig2dev_quiet=`fig2dev -L pdf </dev/null 2>&1 >/dev/null`
+  fig2dev_quiet=`fig2dev -L eps </dev/null 2>&1 >/dev/null`
   if test "x$fig2dev_quiet" = "x" ; then
     HAVE_FIG2DEV_EPS=true
   fi
