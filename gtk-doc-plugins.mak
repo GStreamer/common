@@ -98,8 +98,16 @@ tmpl.stamp: tmpl-build.stamp
 ### FIXME: make this error out again when docs are fixed for 0.9
 sgml-build.stamp: tmpl.stamp $(CFILE_GLOB)
 	@echo '*** Building XML ***'
-	gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --main-sgml-file=$(srcdir)/$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS) | tee sgml-build.log
+	gtkdoc-mkdb \
+		--module=$(DOC_MODULE) \
+		--source-dir=$(DOC_SOURCE_DIR) \
+		--main-sgml-file=$(srcdir)/$(DOC_MAIN_SGML_FILE) \
+		--output-format=xml \
+		--ignore-files="$(IGNORE_HFILES) $(IGNORE_CFILES)" \
+		$(MKDB_OPTIONS) \
+		| tee sgml-build.log
 	@if grep "WARNING:" sgml-build.log > /dev/null; then true; fi # exit 1; fi
+	cp ../version.entities xml
 	rm sgml-build.log
 	touch sgml-build.stamp
 
