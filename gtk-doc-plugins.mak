@@ -19,7 +19,6 @@ EXTRA_DIST = 				\
 	$(extra_files)			\
 	$(HTML_IMAGES)			\
 	$(DOC_MAIN_SGML_FILE)		\
-	$(DOC_MODULE).types		\
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
@@ -51,8 +50,6 @@ all-local: html-build.stamp
 # to gtk-doc scanning; but only then, to avoid duplicates
 scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	@echo '*** Scanning header files ***'
-	if grep -l '^..*$$' $(srcdir)/$(DOC_MODULE).types > /dev/null;	\
-	then								\
 	    if test x"$(srcdir)" != x. ; then				\
 	        cp $(srcdir)/$(DOC_MODULE).types . ;			\
 	        chmod u+w $(DOC_MODULE).types ;				\
@@ -61,14 +58,8 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    GST_PLUGIN_PATH_ONLY=1					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
 	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
-	    $(GTK_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
+	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) ;				\
-	else								\
-	    cd $(srcdir) ;						\
-	    for i in $(SCANOBJ_FILES) ; do				\
-               test -f $$i || touch $$i ;				\
-	    done							\
-	fi
 	if test "x$(top_srcdir)" != "x$(top_builddir)";			\
         then								\
           export BUILT_OPTIONS="--source-dir=$(top_builddir)/gst";	\
@@ -76,7 +67,6 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	gtkdoc-scan							\
 		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 		--module=$(DOC_MODULE)					\
-		--source-dir=$(DOC_SOURCE_DIR)				\
 		$$BUILT_OPTIONS						\
 		--ignore-headers="$(IGNORE_HFILES)"
 	touch scan-build.stamp
