@@ -25,6 +25,7 @@ EXTRA_DIST = 				\
 DOC_STAMPS =				\
 	scan-build.stamp		\
 	tmpl-build.stamp		\
+	inspect-build.stamp		\
 	sgml-build.stamp		\
 	html-build.stamp		\
 	$(srcdir)/tmpl.stamp		\
@@ -93,11 +94,39 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 tmpl.stamp: tmpl-build.stamp
 	@true
 
+#### inspect stuff ####
+# this is stuff that should be built/updated manually by people that work
+# on docs
+
+# only look at the plugins in this module when building inspect .xml stuff
+INSPECT_REGISTRY=$(top_builddir)/docs/plugins/inspect-registry.xml
+INSPECT_ENVIRONMENT=\
+        GST_PLUGIN_PATH_ONLY=yes \
+        GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext \
+        GST_REGISTRY=$(INSPECT_REGISTRY)
+
+
+# update the element and plugin XML descriptions; store in inspect/
+inspect:
+	mkdir inspect
+
+inspect-build.stamp: inspect
+	$(INSPECT_ENVIRONMENT) $(PYTHON) \
+		$(top_srcdir)/common/gst-xmlinspect.py inspect
+	touch inspect-build.stamp
+
+inspect.stamp: inspect-build.stamp
+	@true
+
 #### xml ####
 
 ### FIXME: make this error out again when docs are fixed for 0.9
-sgml-build.stamp: tmpl.stamp $(CFILE_GLOB)
+# first convert inspect/*.xml to xml
+sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB)
 	@echo '*** Building XML ***'
+	@-mkdir -p xml
+	@for a in inspect/*.xml; do \
+            xsltproc $(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
 	gtkdoc-mkdb \
 		--module=$(DOC_MODULE) \
 		--source-dir=$(DOC_SOURCE_DIR) \

@@ -1,3 +1,13 @@
+2005-08-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst-xmlinspect.py:
+	  a first stab at inspecting plugins and outputting an xml description
+	* gtk-doc-plugins.mak:
+	  a gtk-doc using snippet for plugins documentation
+	* plugins.xsl:
+	  a stylesheet to convert gst-xmlinspect.py output to docbook output
+	  for inclusion in the gtk-doc stuff
+
 2005-07-20  Ronald S. Bultje  <rbultje@ronald.bitfreak.net>
 
 	* m4/gst-doc.m4:

@@ -1,0 +1,91 @@
+<?xml version='1.0'?> <!--*- mode: xml -*-->
+
+<xsl:stylesheet
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:exsl="http://exslt.org/common"
+  extension-element-prefixes="exsl"
+  version="1.0">
+<xsl:output method="xml" indent="yes"
+            doctype-public ="-//OASIS//DTD DocBook XML V4.1.2//EN"
+            doctype-system = "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"/> 
+
+  <xsl:template match="element">
+    <xsl:element name="varlistentry">
+      <xsl:element name="term">
+        <xsl:element name="link">
+          <xsl:attribute name="linkend">gst-plugins-base-plugins-<xsl:value-of select="name"/></xsl:attribute>
+          <xsl:value-of select="name" />
+        </xsl:element>
+      </xsl:element>
+      <xsl:element name="listitem">
+        <xsl:element name="simpara"><xsl:value-of select="description" /></xsl:element>
+      </xsl:element>
+    </xsl:element>
+    <xsl:variable name="name"><xsl:copy-of select="name"/></xsl:variable>
+    <!-- here we write an element-(name)-details.xml file for the element -->
+    <exsl:document href="{concat ('xml/element-', $name, '-details.xml')}" method="xml" indent="yes">
+      <xsl:element name="variablelist">
+        <xsl:element name="varlistentry">
+          <xsl:element name="term">author</xsl:element>
+          <xsl:element name="listitem">
+            <xsl:element name="simpara"><xsl:value-of select="author" /></xsl:element>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+
+    </exsl:document>
+  </xsl:template>
+
+  <xsl:template match="plugin">
+    <xsl:element name="refentry">
+      <xsl:attribute name="id">gst-plugins-base-plugins-plugin-<xsl:value-of select="name"/></xsl:attribute>
+
+      <xsl:element name="refmeta">
+        <xsl:element name="refentrytitle">
+          <xsl:value-of select="name"/>
+        </xsl:element>
+        <xsl:element name="manvolnum">3</xsl:element>
+        <xsl:element name="refmiscinfo">FIXME Library</xsl:element>
+      </xsl:element> <!-- refmeta -->
+
+      <xsl:element name="refnamediv">
+        <xsl:element name="refname">
+          <xsl:element name="anchor">
+            <xsl:attribute name="id">plugin-<xsl:value-of select="name"/></xsl:attribute>
+            <xsl:value-of select="name"/>
+          </xsl:element>
+        </xsl:element>
+  
+        <xsl:element name="refpurpose">
+          <xsl:value-of select="description"/>
+        </xsl:element>
+      </xsl:element>
+
+      <xsl:element name="refsect1">
+        <xsl:element name="title">Plugin Information</xsl:element>
+        <xsl:element name="variablelist">
+          <xsl:element name="varlistentry">
+            <xsl:element name="term">filename</xsl:element>
+            <xsl:element name="listitem">
+              <xsl:element name="simpara"><xsl:value-of select="basename" /></xsl:element>
+            </xsl:element>
+          </xsl:element>
+        </xsl:element>
+      </xsl:element>
+
+      <xsl:element name="refsect1">
+        <xsl:element name="title">Elements</xsl:element>
+        <!-- process all elements -->
+        <xsl:element name="variablelist">
+          <xsl:apply-templates select="elements"/>
+        </xsl:element>
+      </xsl:element>
+
+    </xsl:element>
+
+  </xsl:template>
+
+  <!-- ignore -->
+  <xsl:template match="gst-plugin-paths" />
+
+</xsl:stylesheet>
