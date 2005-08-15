@@ -116,6 +116,8 @@ inspect:
 inspect-build.stamp: inspect
 	$(INSPECT_ENVIRONMENT) $(PYTHON) \
 		$(top_srcdir)/common/gst-xmlinspect.py inspect
+	$(INSPECT_ENVIRONMENT) $(PYTHON) \
+		$(top_srcdir)/common/mangle-tmpl.py tmpl
 	echo -n "timestamp" > inspect.stamp
 	touch inspect-build.stamp
 
