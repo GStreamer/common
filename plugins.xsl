@@ -85,12 +85,47 @@
       <xsl:element name="refsect1">
         <xsl:element name="title">Plugin Information</xsl:element>
         <xsl:element name="variablelist">
+
           <xsl:element name="varlistentry">
             <xsl:element name="term">filename</xsl:element>
             <xsl:element name="listitem">
               <xsl:element name="simpara"><xsl:value-of select="basename" /></xsl:element>
             </xsl:element>
           </xsl:element>
+
+          <xsl:element name="varlistentry">
+            <xsl:element name="term">version</xsl:element>
+            <xsl:element name="listitem">
+              <xsl:element name="simpara"><xsl:value-of select="version" /></xsl:element>
+            </xsl:element>
+          </xsl:element>
+
+          <xsl:element name="varlistentry">
+            <xsl:element name="term">run-time license</xsl:element>
+            <xsl:element name="listitem">
+              <xsl:element name="simpara"><xsl:value-of select="license" /></xsl:element>
+            </xsl:element>
+          </xsl:element>
+
+          <xsl:element name="varlistentry">
+            <xsl:element name="term">package</xsl:element>
+            <xsl:element name="listitem">
+              <xsl:element name="simpara"><xsl:value-of select="package" /></xsl:element>
+            </xsl:element>
+          </xsl:element>
+
+          <xsl:element name="varlistentry">
+            <xsl:element name="term">origin</xsl:element>
+            <xsl:element name="listitem">
+              <xsl:element name="simpara">
+                <xsl:element name="ulink">
+                  <xsl:attribute name="url"><xsl:value-of select="origin" /></xsl:attribute>
+                  <xsl:value-of select="origin" />
+                </xsl:element>
+              </xsl:element>
+            </xsl:element>
+          </xsl:element>
+
         </xsl:element>
       </xsl:element>
 

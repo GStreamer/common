@@ -1,5 +1,13 @@
 2005-08-15  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* mangle-tmpl.py:
+	  keep original Long_Description; only insert an include if it's
+	  not already the first line in there
+	* plugins.xsl:
+	  output more information for plugins, including an origin hyperlink
+
+2005-08-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* gst-xmlinspect.py:
 	  a first stab at inspecting plugins and outputting an xml description
 	* gtk-doc-plugins.mak:

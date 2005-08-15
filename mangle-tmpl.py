@@ -39,6 +39,12 @@ class Tmpl:
                 else:
                     self._sections[id].append(line)
 
+    def get_section(self, id):
+        """
+        Get the content from the given section.
+        """
+        return self._sections[id]
+
     def set_section(self, id, content):
         """
         Replace the given section id with the given content.
@@ -88,9 +94,14 @@ def main():
             feature = elements[element]
             description = feature.get_description()
             tmpl.set_section("Short_Description", "%s\n\n" % description)
-        tmpl.set_section("Long_Description",
-            '<include xmlns="http://www.w3.org/2003/XInclude" href="element-' +
-            element + '-details.xml" />\n<para>\n\n</para>\n')
+
+        # put in an include if not yet there
+        line = '<include xmlns="http://www.w3.org/2003/XInclude" href="' + \
+            'element-' + element + '-details.xml" />\n'
+        section = tmpl.get_section("Long_Description")
+        if not section[0]  == line:
+            section.insert(0, line)
+        tmpl.set_section("Long_Description", section)
         tmpl.write()
 
 main()
