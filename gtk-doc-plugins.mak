@@ -111,6 +111,10 @@ INSPECT_ENVIRONMENT=\
 inspect:
 	mkdir inspect
 
+inspect-update:
+	rm inspect-build.stamp
+	make inspect-build.stamp
+
 # FIXME: inspect.timestamp should be written to by gst-xmlinspect.py
 # IFF the output changed; see gtkdoc-mktmpl
 inspect-build.stamp: inspect
@@ -128,7 +132,7 @@ inspect.stamp: inspect-build.stamp
 
 ### FIXME: make this error out again when docs are fixed for 0.9
 # first convert inspect/*.xml to xml
-sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB)
+sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
 	@for a in inspect/*.xml; do \
@@ -151,7 +155,7 @@ sgml.stamp: sgml-build.stamp
 
 #### html ####
 
-html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
+html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files) $(top_srcdir)/common/plugins.xsl
 	@echo '*** Building HTML ***'
 	if test -d html; then rm -rf html; fi
 	mkdir html
