@@ -61,16 +61,22 @@ def output_element_factory(elf, indent=0):
     offset = get_offset(indent)
     return offset + ("\n" + offset).join(block.split("\n"))
 
-
 def output_plugin(plugin, indent=0):
     print "PLUGIN", plugin.get_name()
     version = ".".join([str(i) for i in plugin.get_version()])
     
-    elements = []
+    elements = {}
     for feature in plugin.get_feature_list():
         if isinstance(feature, gst.ElementFactory):
-            elements.append(output_element_factory(feature, indent + 2))
+            elements[feature.get_name()] = feature
         
+    elementsoutput = []
+    keys = elements.keys()
+    keys.sort()
+    for name in keys:
+        feature = elements[name]
+        elementsoutput.append(output_element_factory(feature, indent + 2))
+
     filename = plugin.get_filename()
     basename = filename
     if basename:
@@ -84,7 +90,7 @@ def output_plugin(plugin, indent=0):
         'license':     xmlencode(plugin.get_license()),
         'package':     xmlencode(plugin.get_package()),
         'origin':      xmlencode(plugin.get_origin()),
-        'elements': "\n".join(elements),
+        'elements': "\n".join(elementsoutput),
     }
     block = PLUGIN_TEMPLATE % d
     

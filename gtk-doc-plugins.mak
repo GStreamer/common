@@ -22,10 +22,11 @@ EXTRA_DIST = 				\
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
+# we don't add inspect-build.stamp here since this is run manually
+# by docs maintainers and result is commited to CVS
 DOC_STAMPS =				\
 	scan-build.stamp		\
 	tmpl-build.stamp		\
-	inspect-build.stamp		\
 	sgml-build.stamp		\
 	html-build.stamp		\
 	$(srcdir)/tmpl.stamp		\
@@ -110,9 +111,12 @@ INSPECT_ENVIRONMENT=\
 inspect:
 	mkdir inspect
 
+# FIXME: inspect.timestamp should be written to by gst-xmlinspect.py
+# IFF the output changed; see gtkdoc-mktmpl
 inspect-build.stamp: inspect
 	$(INSPECT_ENVIRONMENT) $(PYTHON) \
 		$(top_srcdir)/common/gst-xmlinspect.py inspect
+	echo -n "timestamp" > inspect.stamp
 	touch inspect-build.stamp
 
 inspect.stamp: inspect-build.stamp
