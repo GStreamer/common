@@ -19,7 +19,7 @@ endif
 
 # valgrind any given test by running make test.valgrind
 %.valgrind: % $(CHECK_REGISTRY)
-	@$(TESTS_ENVIRONMENT)					\
+	$(TESTS_ENVIRONMENT)					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
 	--tool=memcheck --leak-check=yes --trace-children=yes	\
@@ -28,7 +28,7 @@ endif
 # valgrind all tests
 valgrind: $(TESTS)
 	@echo "Valgrinding tests ..."
-	$(TESTS_ENVIRONMENT) $(top_builddir)/tools/gst-register
+	$(TESTS_ENVIRONMENT) $(GST_TOOLS_DIR)/gst-register-@GST_MAJORMINOR@
 	@failed=0;							\
 	for t in $(filter-out $(VALGRIND_TESTS_DISABLE),$(TESTS)); do	\
 		make $$t.valgrind;					\
