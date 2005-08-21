@@ -19,7 +19,7 @@ endif
 
 # valgrind any given test by running make test.valgrind
 %.valgrind: % $(CHECK_REGISTRY)
-	$(TESTS_ENVIRONMENT)					\
+	$(REGISTRY_ENVIRONMENT)					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
 	--tool=memcheck --leak-check=yes --trace-children=yes	\

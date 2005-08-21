@@ -1,6 +1,13 @@
 2005-08-21  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* check.mak:
+	  separate out REGISTRY_ENVIRONMENT; we want to use that from
+	  our valgrind runs, but we also want TESTS_ENVIRONMENT to contain
+	  everything that the first test, gst-register, needs
+
+2005-08-21  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* check.mak:
 	  parse output of valgrind and check for definitely lost, and error
 	  out; somehow I was led to believe valgrind returns non-zero for
 	  leaks, but I can't make it do that, so let's parse
