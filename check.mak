@@ -20,6 +20,7 @@ endif
 # valgrind any given test by running make test.valgrind
 %.valgrind: % $(CHECK_REGISTRY)
 	$(REGISTRY_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=20					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
 	--tool=memcheck --leak-check=yes --trace-children=yes	\
