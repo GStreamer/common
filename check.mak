@@ -23,18 +23,16 @@ endif
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
 	--tool=memcheck --leak-check=yes --trace-children=yes	\
-	$* > valgrind.log 2>&1
+	$* 2>&1 | tee valgrind.log
 	@if grep "tely lost" valgrind.log; then			\
-	    cat valgrind.log;					\
 	    rm valgrind.log;					\
 	    exit 1;						\
 	fi
-	rm valgrind.log
+	@rm valgrind.log
 
 # valgrind all tests
-valgrind: $(TESTS)
+valgrind: $(TESTS) $(CHECK_REGISTRY)
 	@echo "Valgrinding tests ..."
-	$(TESTS_ENVIRONMENT) $(GST_TOOLS_DIR)/gst-register-@GST_MAJORMINOR@
 	@failed=0;							\
 	for t in $(filter-out $(VALGRIND_TESTS_DISABLE),$(TESTS)); do	\
 		make $$t.valgrind;					\
