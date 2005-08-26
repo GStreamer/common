@@ -12,13 +12,17 @@ check-local-disabled:
 	@true
 endif
 
+$(CHECK_REGISTRY).rebuild:
+	-rm $(CHECK_REGISTRY)
+	make $(CHECK_REGISTRY)
+
 # run any given test by running make test.check
-%.check: % $(CHECK_REGISTRY)
+%.check: % $(CHECK_REGISTRY).rebuild
 	@$(TESTS_ENVIRONMENT)					\
 	$*
 
 # valgrind any given test by running make test.valgrind
-%.valgrind: % $(CHECK_REGISTRY)
+%.valgrind: % $(CHECK_REGISTRY).rebuild
 	$(REGISTRY_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	libtool --mode=execute					\
@@ -31,8 +35,16 @@ endif
 	fi
 	@rm valgrind.log
 
+# gdb any given test by running make test.gdb
+%.gdb: % $(CHECK_REGISTRY).rebuild
+	$(REGISTRY_ENVIRONMENT)					\
+	CK_FORK=no						\
+	libtool --mode=execute					\
+	gdb $*
+
+
 # valgrind all tests
-valgrind: $(TESTS) $(CHECK_REGISTRY)
+valgrind: $(TESTS)
 	@echo "Valgrinding tests ..."
 	@failed=0;							\
 	for t in $(filter-out $(VALGRIND_TESTS_DISABLE),$(TESTS)); do	\

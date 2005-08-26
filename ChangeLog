@@ -1,3 +1,11 @@
+2005-08-26  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* check.mak:
+	  add a .gdb target; rebuild registry for each target, otherwise
+	  a code rebuild always triggers a reg rebuild, and it's just too
+	  annoying
+	* gstdoc-scangobj:
+
 2005-08-21  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* check.mak:
