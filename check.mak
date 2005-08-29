@@ -19,6 +19,7 @@ $(CHECK_REGISTRY).rebuild:
 # run any given test by running make test.check
 %.check: % $(CHECK_REGISTRY).rebuild
 	@$(TESTS_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
 # valgrind any given test by running make test.valgrind
