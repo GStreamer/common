@@ -136,7 +136,8 @@ sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/pl
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
 	@for a in inspect/*.xml; do \
-            xsltproc $(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
+            xsltproc --stringparam module $(MODULE) \
+		$(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
 	gtkdoc-mkdb \
 		--module=$(DOC_MODULE) \
 		--source-dir=$(DOC_SOURCE_DIR) \

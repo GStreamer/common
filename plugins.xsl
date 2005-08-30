@@ -9,11 +9,12 @@
             doctype-public ="-//OASIS//DTD DocBook XML V4.1.2//EN"
             doctype-system = "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"/> 
 
+<xsl:param name="module" />
   <xsl:template match="element">
     <xsl:element name="varlistentry">
       <xsl:element name="term">
         <xsl:element name="link">
-          <xsl:attribute name="linkend">gst-plugins-base-plugins-<xsl:value-of select="name"/></xsl:attribute>
+          <xsl:attribute name="linkend"><xsl:value-of select="$module" />-plugins-<xsl:value-of select="name"/></xsl:attribute>
           <xsl:value-of select="name" />
         </xsl:element>
       </xsl:element>
@@ -59,7 +60,7 @@
 
   <xsl:template match="plugin">
     <xsl:element name="refentry">
-      <xsl:attribute name="id">gst-plugins-base-plugins-plugin-<xsl:value-of select="name"/></xsl:attribute>
+      <xsl:attribute name="id"><xsl:value-of select="$module" />-plugins-plugin-<xsl:value-of select="name"/></xsl:attribute>
 
       <xsl:element name="refmeta">
         <xsl:element name="refentrytitle">
