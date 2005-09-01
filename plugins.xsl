@@ -25,34 +25,38 @@
     <xsl:variable name="name"><xsl:copy-of select="name"/></xsl:variable>
     <!-- here we write an element-(name)-details.xml file for the element -->
     <exsl:document href="{concat ('xml/element-', $name, '-details.xml')}" method="xml" indent="yes">
-      <xsl:element name="variablelist">
 
-        <!-- plugin name and link -->
-        <xsl:element name="varlistentry">
-          <xsl:element name="term">plugin</xsl:element>
-          <xsl:element name="listitem">
-            <xsl:element name="simpara">
-              <xsl:element name="link">
-                <xsl:attribute name="linkend">plugin-<xsl:value-of select="../../name"/></xsl:attribute>
-                <xsl:value-of select="../../name" />
+    <xsl:element name="refsect2">
+      <xsl:element name="title">Element Information</xsl:element>
+          <xsl:element name="variablelist">
+    
+            <!-- plugin name and link -->
+            <xsl:element name="varlistentry">
+              <xsl:element name="term">plugin</xsl:element>
+              <xsl:element name="listitem">
+                <xsl:element name="simpara">
+                  <xsl:element name="link">
+                    <xsl:attribute name="linkend">plugin-<xsl:value-of select="../../name"/></xsl:attribute>
+                    <xsl:value-of select="../../name" />
+                  </xsl:element>
+                </xsl:element>
               </xsl:element>
             </xsl:element>
-          </xsl:element>
-        </xsl:element>
-
-        <xsl:element name="varlistentry">
-          <xsl:element name="term">author</xsl:element>
-          <xsl:element name="listitem">
-            <xsl:element name="simpara"><xsl:value-of select="author" /></xsl:element>
-          </xsl:element>
-        </xsl:element>
-
-        <xsl:element name="varlistentry">
-          <xsl:element name="term">class</xsl:element>
-          <xsl:element name="listitem">
-            <xsl:element name="simpara"><xsl:value-of select="class" /></xsl:element>
-          </xsl:element>
-        </xsl:element>
+    
+            <xsl:element name="varlistentry">
+              <xsl:element name="term">author</xsl:element>
+              <xsl:element name="listitem">
+                <xsl:element name="simpara"><xsl:value-of select="author" /></xsl:element>
+              </xsl:element>
+            </xsl:element>
+    
+            <xsl:element name="varlistentry">
+              <xsl:element name="term">class</xsl:element>
+              <xsl:element name="listitem">
+                <xsl:element name="simpara"><xsl:value-of select="class" /></xsl:element>
+              </xsl:element>
+            </xsl:element>
+          </xsl:element> <!-- variablelist -->
       </xsl:element>
 
     </exsl:document>
