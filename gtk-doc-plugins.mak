@@ -43,7 +43,7 @@ SCANOBJ_FILES =				\
 
 CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS)
 
-if HAVE_GTK_DOC
+if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
 #### scan ####
@@ -267,7 +267,7 @@ uninstall-local:
 #
 # Require gtk-doc when making dist
 #
-if HAVE_GTK_DOC
+if ENABLE_GTK_DOC
 dist-check-gtkdoc:
 else
 dist-check-gtkdoc:

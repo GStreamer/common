@@ -42,7 +42,7 @@ SCANOBJ_FILES =				\
 
 CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS)
 
-if HAVE_GTK_DOC
+if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
 #### scan ####
@@ -61,7 +61,7 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    GST_PLUGIN_PATH_ONLY=1					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
 	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
-	    $(GTK_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
+	    gtkdoc-scangobj --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) ;				\
 	else								\
 	    cd $(srcdir) ;						\
@@ -229,7 +229,7 @@ uninstall-local:
 #
 # Require gtk-doc when making dist
 #
-if HAVE_GTK_DOC
+if ENABLE_GTK_DOC
 dist-check-gtkdoc:
 else
 dist-check-gtkdoc:
