@@ -8,6 +8,8 @@ used as part of the plugin documentation build
 
 import sys
 import os
+import pygst
+pygst.require('0.9')
 import gst
 
 INDENT_SIZE = 2
@@ -100,11 +102,19 @@ def output_plugin(plugin, indent=0):
     return offset + ("\n" + offset).join(block.split("\n"))
 
 def main():
-    if sys.argv[1]:
-        os.chdir(sys.argv[1])
+    if len(sys.argv) == 1:
+        sys.stderr.write("Please specify a source module to inspect")
+        sys.exit(1)
+    source = sys.argv[1]
+
+    if len(sys.argv) > 2:
+        os.chdir(sys.argv[2])
 
     all = gst.registry_pool_plugin_list()
     for plugin in all:
+        if plugin.get_source() != source:
+            continue
+
         filename = "plugin-%s.xml" % plugin.get_name()
         handle = open(filename, "w")
         handle.write(output_plugin(plugin))

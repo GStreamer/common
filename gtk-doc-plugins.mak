@@ -119,7 +119,7 @@ inspect-update:
 # IFF the output changed; see gtkdoc-mktmpl
 inspect-build.stamp: inspect
 	$(INSPECT_ENVIRONMENT) $(PYTHON) \
-		$(top_srcdir)/common/gst-xmlinspect.py inspect
+		$(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect
 	$(INSPECT_ENVIRONMENT) $(PYTHON) \
 		$(top_srcdir)/common/mangle-tmpl.py tmpl
 	echo -n "timestamp" > inspect.stamp
