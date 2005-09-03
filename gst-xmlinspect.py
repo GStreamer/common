@@ -66,11 +66,11 @@ def output_plugin(plugin, indent=0):
     version = plugin.get_version()
     
     elements = {}
-    gst.debug('getting features for plugin %s' % plugin.get_name())
+    #gst.debug('getting features for plugin %s' % plugin.get_name())
     for feature in plugin.get_feature_list():
         if isinstance(feature, gst.ElementFactory):
             elements[feature.get_name()] = feature
-    gst.debug("got features")
+    #gst.debug("got features")
         
     elementsoutput = []
     keys = elements.keys()
