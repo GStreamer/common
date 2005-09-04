@@ -10,6 +10,9 @@ import glob
 import re
 import sys
 import os
+
+import pygst
+pygst.require('0.9')
 import gst
 
 class Tmpl:
