@@ -19,6 +19,7 @@ EXTRA_DIST = 				\
 	$(extra_files)			\
 	$(HTML_IMAGES)			\
 	$(DOC_MAIN_SGML_FILE)		\
+        $(DOC_MODULE).types             \
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
@@ -118,12 +119,18 @@ inspect-update:
 # FIXME: inspect.timestamp should be written to by gst-xmlinspect.py
 # IFF the output changed; see gtkdoc-mktmpl
 inspect-build.stamp: inspect
-	$(INSPECT_ENVIRONMENT) $(PYTHON) \
-		$(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect
-	$(INSPECT_ENVIRONMENT) $(PYTHON) \
-		$(top_srcdir)/common/mangle-tmpl.py tmpl
-	echo -n "timestamp" > inspect.stamp
-	touch inspect-build.stamp
+	@echo '*** Rebuilding plugin inspection files ***'
+	if test x"$(srcdir)" != x. ; then \
+	    cp $(srcdir)/inspect.stamp . ; \
+	    cp $(srcdir)/inspect-build.stamp . ; \
+	else \
+	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
+	        $(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect; \
+	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
+		$(top_srcdir)/common/mangle-tmpl.py tmpl; \
+	    echo -n "timestamp" > inspect.stamp; \
+	    touch inspect-build.stamp; \
+        fi
 
 inspect.stamp: inspect-build.stamp
 	@true
@@ -135,7 +142,7 @@ inspect.stamp: inspect-build.stamp
 sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
-	@for a in inspect/*.xml; do \
+	@for a in $(srcdir)/inspect/*.xml; do \
             xsltproc --stringparam module $(MODULE) \
 		$(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
 	gtkdoc-mkdb \
