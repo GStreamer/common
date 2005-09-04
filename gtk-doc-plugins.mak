@@ -15,6 +15,9 @@ GPATH = $(srcdir)
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@
 
 EXTRA_DIST = 				\
+	inspect.stamp			\
+	inspect-build.stamp		\
+	$(srcdir)/inspect/*.xml		\
 	$(content_files)		\
 	$(extra_files)			\
 	$(HTML_IMAGES)			\
