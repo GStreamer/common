@@ -66,16 +66,17 @@ class Tmpl:
 
         return "".join(lines)
 
-    def write(self):
+    def write(self, backup=False):
         """
         Write out the template file again, backing up the previous one.
         """
-        target = self.filename + ".mangle.bak"
-        os.rename(self.filename, target)
+        if backup:
+            target = self.filename + ".mangle.bak"
+            os.rename(self.filename, target)
+
         handle = open(self.filename, "w")
         handle.write(self.output())
         handle.close()
-
         
 def main():
     if len(sys.argv) > 1 and sys.argv[1]:
