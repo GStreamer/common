@@ -45,6 +45,10 @@ SCANOBJ_FILES =				\
 	.libs/$(DOC_MODULE)-scan.o	\
 	$(DOC_MODULE).signals
 
+# FC3 seems to need this to clean up the built source;
+# no idea why FC4 can do without
+BUILT_SOURCES = $(DOC_MODULE)-scan.c
+
 CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS)
 
 if ENABLE_GTK_DOC
