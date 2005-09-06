@@ -45,11 +45,9 @@ SCANOBJ_FILES =				\
 	.libs/$(DOC_MODULE)-scan.o	\
 	$(DOC_MODULE).signals
 
-# FC3 seems to need this to clean up the built source;
+# FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
 # no idea why FC4 can do without
-BUILT_SOURCES = $(DOC_MODULE)-scan.c
-
-CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS)
+CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS) $(DOC_MODULE)-scan.c
 
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
