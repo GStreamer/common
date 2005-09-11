@@ -30,6 +30,7 @@ PLUGIN_TEMPLATE = """<plugin>
   <basename>%(basename)s</basename>
   <version>%(version)s</version>
   <license>%(license)s</license>
+  <source>%(source)s</source>
   <package>%(package)s</package>
   <origin>%(origin)s</origin>
   <elements>
@@ -92,6 +93,7 @@ def output_plugin(plugin, indent=0):
         'basename':    basename,
         'version':     version,
         'license':     xmlencode(plugin.get_license()),
+        'source':      xmlencode(plugin.get_source()),
         'package':     xmlencode(plugin.get_package()),
         'origin':      xmlencode(plugin.get_origin()),
         'elements': "\n".join(elementsoutput),
