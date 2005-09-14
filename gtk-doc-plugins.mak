@@ -150,6 +150,8 @@ sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/pl
 	@for a in $(srcdir)/inspect/*.xml; do \
             xsltproc --stringparam module $(MODULE) \
 		$(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
+	@for f in $(EXAMPLE_CFILES); do \
+		$(PYTHON) $(top_srcdir)/common/c-to-xml.py $$f > xml/element-`basename $$f .c`.xml; done
 	gtkdoc-mkdb \
 		--module=$(DOC_MODULE) \
 		--source-dir=$(DOC_SOURCE_DIR) \
