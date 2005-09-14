@@ -166,7 +166,7 @@ get_object_types (void)
     }
 
     num_object_types = g_list_length (factories);
-    g_debug ("number of element factories: %d", g_list_length (factories));
+    g_message ("number of element factories: %d", g_list_length (factories));
 
     /* allocate the object_types array to hold them */
     object_types = g_new0 (GType, g_list_length (factories));
@@ -178,9 +178,9 @@ get_object_types (void)
     while (l) {
       GType type;
       factory = GST_ELEMENT_FACTORY (l->data);
-      g_debug ("adding type for factory %s", gst_element_factory_get_longname (factory));
+      g_message ("adding type for factory %s", gst_element_factory_get_longname (factory));
       type = gst_element_factory_get_element_type (factory);
-      g_debug ("adding type %p", (void *) type);
+      g_message ("adding type %p", (void *) type);
       object_types[i] = type;
       i++;
       l = g_list_next (l);
@@ -192,7 +192,7 @@ print OUTPUT <<EOT;
     /* Need to make sure all the types are loaded in and initialize
      * their signals and properties.
      */
-    g_debug ("class reffing");
+    g_message ("class reffing");
 
     for (i=0; i < num_object_types; i++) {
       if (G_TYPE_IS_CLASSED (object_types[i]))
@@ -251,13 +251,13 @@ main (int argc, char *argv[])
 
   get_object_types ();
 
-  g_debug ("output signals");
+  g_message ("output signals");
   output_signals ();
-  g_debug ("output widget hierarchy");
+  g_message ("output widget hierarchy");
   output_widget_hierarchy ();
   output_widget_interfaces ();
   output_interface_prerequisites ();
-  g_debug ("output args");
+  g_message ("output args");
   output_args ();
 
   return 0;
@@ -1501,10 +1501,10 @@ system("./$MODULE-scan") == 0 or die "Scan failed\n";
 
 unlink "./$MODULE-scan.c", "./$MODULE-scan.o", "./$MODULE-scan.lo", "./$MODULE-scan";
 
-&UpdateFileIfChanged ($old_signals_filename, $new_signals_filename, 0);
-&UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
-&UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
-&UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
-&UpdateFileIfChanged ($old_args_filename, $new_args_filename, 0);
+#&UpdateFileIfChanged ($old_signals_filename, $new_signals_filename, 0);
+#&UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
+#&UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
+#&UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
+#&UpdateFileIfChanged ($old_args_filename, $new_args_filename, 0);
 
 

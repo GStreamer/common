@@ -5,6 +5,6 @@ EXTRA_DIST = \
 	gettext.patch \
 	glib-gen.mak gtk-doc.mak release.mak \
 	gst-autogen.sh \
-	gst-xmlinspect.py mangle-tmpl.py gtk-doc-plugins.mak \
+	c-to-xml.py gst-xmlinspect.py mangle-tmpl.py gtk-doc-plugins.mak \
 	plugins.xsl gstdoc-scangobj \
 	gst.supp check.mak
