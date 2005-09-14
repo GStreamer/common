@@ -118,7 +118,7 @@ inspect:
 	mkdir inspect
 
 inspect-update:
-	rm inspect-build.stamp
+	-rm inspect-build.stamp
 	make inspect-build.stamp
 
 # FIXME: inspect.timestamp should be written to by gst-xmlinspect.py
@@ -130,10 +130,10 @@ inspect-build.stamp: inspect
 	    cp $(srcdir)/inspect-build.stamp . ; \
 	else \
 	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
-	        $(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect; \
+	        $(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect && \
 	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
-		$(top_srcdir)/common/mangle-tmpl.py tmpl; \
-	    echo -n "timestamp" > inspect.stamp; \
+		$(top_srcdir)/common/mangle-tmpl.py tmpl && \
+	    echo -n "timestamp" > inspect.stamp && \
 	    touch inspect-build.stamp; \
         fi
 
