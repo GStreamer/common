@@ -4,7 +4,7 @@ dnl autostars m4 macro for versioning
 
 dnl Thomas Vander Stichele <thomas at apestaart dot org>
 
-dnl $Id: as-version.m4,v 1.13 2004/06/01 09:44:19 thomasvs Exp $
+dnl $Id: as-version.m4,v 1.14 2005/09/15 05:51:34 ds Exp $
 
 dnl AS_VERSION(PACKAGE, PREFIX, MAJOR, MINOR, MICRO, NANO,
 dnl            ACTION-IF-NO-NANO, [ACTION-IF-NANO])
@@ -52,7 +52,6 @@ AC_DEFUN([AS_VERSION],
   [$2]=$VERSION
   AC_DEFINE_UNQUOTED([$2], "$[$2]", [Define the version])
   AC_SUBST([$2])
-  AC_DEFINE_UNQUOTED([$2]_RELEASE, "$[$2]_RELEASE", [Define the release version])
   AC_SUBST([$2]_RELEASE)
 
   AC_SUBST([$2]_MAJOR)
