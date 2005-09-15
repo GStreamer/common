@@ -86,7 +86,7 @@ scanobj-update:
 # TODO: finish elite script that updates the output files of this step
 # instead of rewriting them, so that multiple maintainers can generate
 # a collective set of args and signals
-scanobj-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
+scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	@echo '*** Scanning GObjects ***'
 	if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES);					\
