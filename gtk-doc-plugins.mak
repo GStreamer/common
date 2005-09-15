@@ -87,7 +87,7 @@ scanobj-update:
 # instead of rewriting them, so that multiple maintainers can generate
 # a collective set of args and signals
 scanobj-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
-	@echo '*** Scanning header files ***'
+	@echo '*** Scanning GObjects ***'
 	if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES);					\
 	    do								\
