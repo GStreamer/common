@@ -6,14 +6,19 @@ use the output from gst-xmlinspect.py to mangle tmpl/*.sgml and
 insert/overwrite Short Description and Long Description
 """
 
+# FIXME: right now it uses pygst and scans on its own;
+# we really should use inspect/*.xml instead since the result of
+# gst-xmlinspect.py is commited by the docs maintainer, who can be
+# expected to have pygst, but this step should be done for every docs build,
+# so no pygst allowed
+
+# read in inspect/*.xml
+# for every tmpl/element-(name).xml: mangle with details from element
+
 import glob
 import re
 import sys
 import os
-
-import pygst
-pygst.require('0.9')
-import gst
 
 class Tmpl:
     def __init__(self, filename):
@@ -77,26 +82,65 @@ class Tmpl:
         handle = open(self.filename, "w")
         handle.write(self.output())
         handle.close()
+
+from xml.dom.ext.reader import Sax2
+from xml.dom.NodeFilter import NodeFilter
+
+def get_elements(file):
+    elements = {}
+    handle = open(file)
+    reader = Sax2.Reader()
+    doc = reader.fromStream(handle)
+    handle.close()
+
+    walker = doc.createTreeWalker(doc.documentElement,
+        NodeFilter.SHOW_ELEMENT, None, 0)
+    while walker.currentNode and walker.currentNode.tagName != 'elements':
+        walker.nextNode()
+        
+    # we're at elements now
+    el = walker.firstChild()
+    while walker.currentNode:
+        element = walker.firstChild()
+        # loop over children of <element>
+        name = None
+        description = None
+        while walker.currentNode:
+            if walker.currentNode.tagName == 'name':
+                name = walker.currentNode.firstChild.data.encode('UTF-8')
+            if walker.currentNode.tagName == 'description':
+                description = walker.currentNode.firstChild.data.encode('UTF-8')
+            if not walker.nextSibling(): break
+        # back up to <element>
+        walker.parentNode()
+        elements[name] = {'description': description}
+
+        if not walker.nextSibling(): break
+
+    return elements
+
         
 def main():
-    if len(sys.argv) > 1 and sys.argv[1]:
-        os.chdir(sys.argv[1])
+    if not len(sys.argv) == 3:
+        sys.stderr.write('Please specify the inspect/ dir and the tmpl/ dir')
+        sys.exit(1)
 
+    inspectdir = sys.argv[1]
+    tmpldir = sys.argv[2]
+
+    # parse all .xml files; build map of element name -> short desc
+    #for file in glob.glob("inspect/plugin-*.xml"):
     elements = {}
-    all = gst.registry_pool_plugin_list()
-    for plugin in all:
-        for feature in plugin.get_feature_list():
-            if isinstance(feature, gst.ElementFactory):
-                elements[feature.get_name()] = feature
-                
-    for file in glob.glob("element-*.sgml"):
+    for file in glob.glob("%s/plugin-*.xml" % inspectdir):
+        elements.update(get_elements(file))
+
+    for file in glob.glob("%s/element-*.sgml" % tmpldir):
         base = os.path.basename(file)
         element = base[len("element-"):-len(".sgml")]
         tmpl = Tmpl(file)
         tmpl.read()
         if element in elements.keys():
-            feature = elements[element]
-            description = feature.get_description()
+            description = elements[element]['description']
             tmpl.set_section("Short_Description", "%s\n\n" % description)
 
         # put in an include if not yet there

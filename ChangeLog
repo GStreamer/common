@@ -1,3 +1,17 @@
+2005-09-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gtk-doc-plugins.mak:
+	  split out scanobj step (which will be run by doc maintainer)
+	  from scan step (which will be run on every build)
+	  clean up some of the commands for make distcheck
+
+2005-09-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gtk-doc-plugins.mak:
+	* mangle-tmpl.py:
+	  first stab at reorganizing the plugins build so we can maintain
+	  element docs
+
 2005-09-14  David Schleef  <ds@schleef.org>
 
 	* as-libtool.mak: Remove

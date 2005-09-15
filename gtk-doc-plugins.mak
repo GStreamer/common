@@ -1,9 +1,6 @@
-###########################################################################
-# Everything below here is generic and you shouldn't need to change it.
-###########################################################################
-# thomas: except of course that we did
+# This is an include file specifically tuned for building documentation
+# for GStreamer plug-ins
 
-# thomas: copied from glib-2
 # We set GPATH here; this gives us semantics for GNU make
 # which are more like other make's VPATH, when it comes to
 # whether a source that is a target of one rule is then
@@ -15,9 +12,12 @@ GPATH = $(srcdir)
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@
 
 EXTRA_DIST = 				\
+	scanobj.stamp			\
+	scanobj-build.stamp		\
+	$(srcdir)/inspect/*.xml		\
 	inspect.stamp			\
 	inspect-build.stamp		\
-	$(srcdir)/inspect/*.xml		\
+	$(SCANOBJ_FILES)		\
 	$(content_files)		\
 	$(extra_files)			\
 	$(HTML_IMAGES)			\
@@ -26,84 +26,74 @@ EXTRA_DIST = 				\
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
-# we don't add inspect-build.stamp here since this is run manually
-# by docs maintainers and result is commited to CVS
+# we don't add inspect-build.stamp and scanobj-build.stamp here since they are
+# built manually by docs maintainers and result is commited to CVS
 DOC_STAMPS =				\
 	scan-build.stamp		\
 	tmpl-build.stamp		\
 	sgml-build.stamp		\
 	html-build.stamp		\
-	$(srcdir)/tmpl.stamp		\
-	$(srcdir)/sgml.stamp		\
-	$(srcdir)/html.stamp
+	scan.stamp			\
+	tmpl.stamp			\
+	sgml.stamp			\
+	html.stamp
 
+# files generated/updated by gtkdoc-scangobj
 SCANOBJ_FILES =				\
-	$(DOC_MODULE).args		\
-	$(DOC_MODULE).hierarchy		\
-	$(DOC_MODULE).interfaces	\
-	$(DOC_MODULE).prerequisites	\
-	.libs/$(DOC_MODULE)-scan.o	\
-	$(DOC_MODULE).signals
+	$(DOC_MODULE).signals           \
+        $(DOC_MODULE).hierarchy         \
+        $(DOC_MODULE).interfaces        \
+        $(DOC_MODULE).prerequisites     \
+        $(DOC_MODULE).args
+
+SCANOBJ_FILES_O =			\
+	.libs/$(DOC_MODULE)-scan.o
+
+# files generated/updated by gtkdoc-scan
+SCAN_FILES =				\
+	$(DOC_MODULE)-sections.txt	\
+	$(DOC_MODULE)-overrides.txt	\
+	$(DOC_MODULE)-undocumented.txt	\
+	$(DOC_MODULE)-decl.txt		\
+	$(DOC_MODULE)-decl-list.txt
 
 # FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
 # no idea why FC4 can do without
-CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS) $(DOC_MODULE)-scan.c
+CLEANFILES = $(SCANOBJ_FILES_O) $(DOC_MODULE)-unused.txt $(DOC_STAMPS) $(DOC_MODULE)-scan.c
 
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
-#### scan ####
+#### scan gobjects; done by documentation maintainer ####
 
 # in the case of non-srcdir builds, the built gst directory gets added
 # to gtk-doc scanning; but only then, to avoid duplicates
-scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
+# FIXME: since we don't have the scan step as part of the build anymore,
+# we could remove that
+# TODO: finish elite script that updates the output files of this step
+# instead of rewriting them, so that multiple maintainers can generate
+# a collective set of args and signals
+scanobj-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	@echo '*** Scanning header files ***'
-	    if test x"$(srcdir)" != x. ; then				\
-	        cp $(srcdir)/$(DOC_MODULE).types . ;			\
-	        chmod u+w $(DOC_MODULE).types ;				\
-	    fi ;							\
+	if test x"$(srcdir)" != x. ; then				\
+	    for f in $(SCANOBJ_FILES);					\
+	    do								\
+	        cp $(srcdir)/$$f . ;					\
+	    done;							\
+	else								\
 	    GST_PLUGIN_PATH=`cd $(top_builddir) && pwd`			\
 	    GST_PLUGIN_PATH_ONLY=1					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
 	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) ;				\
-	if test "x$(top_srcdir)" != "x$(top_builddir)";			\
-        then								\
-          export BUILT_OPTIONS="--source-dir=$(top_builddir)/gst";	\
-        fi;								\
-	gtkdoc-scan							\
-		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
-		--module=$(DOC_MODULE)					\
-		$$BUILT_OPTIONS						\
-		--ignore-headers="$(IGNORE_HFILES)"
-	touch scan-build.stamp
-
-$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES): scan-build.stamp
-	@true
-
-#### templates ####
-
-### FIXME: make this error out again when docs are fixed for 0.9
-tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
-	@echo '*** Rebuilding template files ***'
-	if test x"$(srcdir)" != x. ; then \
-	    cp $(srcdir)/$(DOC_MODULE)-sections.txt . ; \
-	    touch $(DOC_MODULE)-decl.txt ; \
 	fi
-	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
-	@cat $(DOC_MODULE)-unused.txt
-	@if ! test -z "`grep -v GstPoptOption $(DOC_MODULE)-unused.txt`"; then \
-	    true; fi # exit 1; fi
-	rm -f tmpl-build.log
-	touch tmpl-build.stamp
+	touch scanobj-build.stamp
 
-tmpl.stamp: tmpl-build.stamp
+$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 	@true
 
-#### inspect stuff ####
-# this is stuff that should be built/updated manually by people that work
-# on docs
+### inspect GStreamer plug-ins; done by documentation maintainer ###
 
 # only look at the plugins in this module when building inspect .xml stuff
 INSPECT_REGISTRY=$(top_builddir)/docs/plugins/inspect-registry.xml
@@ -112,18 +102,17 @@ INSPECT_ENVIRONMENT=\
         GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext \
         GST_REGISTRY=$(INSPECT_REGISTRY)
 
-
 # update the element and plugin XML descriptions; store in inspect/
 inspect:
 	mkdir inspect
 
-inspect-update:
+inspect-update: inspect
 	-rm inspect-build.stamp
 	make inspect-build.stamp
 
-# FIXME: inspect.timestamp should be written to by gst-xmlinspect.py
+# FIXME: inspect.stamp should be written to by gst-xmlinspect.py
 # IFF the output changed; see gtkdoc-mktmpl
-inspect-build.stamp: inspect
+inspect-build.stamp:
 	@echo '*** Rebuilding plugin inspection files ***'
 	if test x"$(srcdir)" != x. ; then \
 	    cp $(srcdir)/inspect.stamp . ; \
@@ -131,19 +120,49 @@ inspect-build.stamp: inspect
 	else \
 	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
 	        $(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect && \
-	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
-		$(top_srcdir)/common/mangle-tmpl.py tmpl && \
 	    echo -n "timestamp" > inspect.stamp && \
 	    touch inspect-build.stamp; \
         fi
 
-inspect.stamp: inspect-build.stamp
-	@true
+### scan headers; done on every build ###
+scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp
+	    if test "x$(top_srcdir)" != "x$(top_builddir)";		\
+            then							\
+              export BUILT_OPTIONS="--source-dir=$(top_builddir)/gst";	\
+            fi;								\
+	    gtkdoc-scan							\
+		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
+		--module=$(DOC_MODULE)					\
+		$$BUILT_OPTIONS						\
+		--ignore-headers="$(IGNORE_HFILES)";			\
+	    touch scan-build.stamp
 
-#### xml ####
+#### update templates; done on every build ####
 
 ### FIXME: make this error out again when docs are fixed for 0.9
-# first convert inspect/*.xml to xml
+# in a non-srcdir build, we need to copy files from the previous step
+# and the files from previous runs of this step
+tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
+	@echo '*** Rebuilding template files ***'
+	if test x"$(srcdir)" != x. ; then				\
+	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
+	    do								\
+	        if test -e $(srcdir)/$$f; then cp $(srcdir)/$$f . ; fi; \
+	    done;							\
+	fi
+	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
+	$(PYTHON) \
+		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/inspect tmpl
+	@cat $(DOC_MODULE)-unused.txt
+	rm -f tmpl-build.log
+	touch tmpl-build.stamp
+
+tmpl.stamp: tmpl-build.stamp
+	@true
+
+#### build xml; done on every build ####
+
+### FIXME: make this error out again when docs are fixed for 0.9
 sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
@@ -168,9 +187,9 @@ sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/pl
 sgml.stamp: sgml-build.stamp
 	@true
 
-#### html ####
+#### build html; done on every step ####
 
-html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files) $(top_srcdir)/common/plugins.xsl
+html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@echo '*** Building HTML ***'
 	if test -d html; then rm -rf html; fi
 	mkdir html
@@ -191,34 +210,26 @@ else
 all-local:
 endif
 
+# FIXME: these rules need a little cleaning up
 clean-local:
 	rm -f *~ *.bak
-	rm -rf xml html
 	rm -rf .libs
+# clean files copied/generated for nonsrcdir tmpl build
+	if test x"$(srcdir)" != x. ; then \
+	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES)			\
+	        tmpl;							\
+	fi
+# clean files generated for xml build
+	-rm -rf xml
+# clean files generate for html build
+	-rm -rf html
 
 maintainer-clean-local: clean
 	cd $(srcdir) && rm -rf xml html $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
-# company: don't delete .sgml and -sections.txt as they're in CVS
-# FIXME : thomas added all sgml files and some other things to make
-# make distcheck work
 distclean-local: clean
-	rm -f $(DOC_MODULE)-decl-list.txt
-	rm -f $(DOC_MODULE)-decl.txt
-	rm -f $(DOC_MODULE)-undocumented.txt
-	rm -f $(DOC_MODULE)-unused.txt
 	rm -rf tmpl/*.sgml.bak
-	rm -f $(DOC_MODULE).hierarchy
 	rm -f *.stamp || true
-	if test x"$(srcdir)" != x. ; then \
-	    rm -f $(DOC_MODULE)-docs.sgml ; \
-	    rm -f $(DOC_MODULE).types ; \
-	    rm -f $(DOC_MODULE).interfaces ; \
-            rm -f $(DOC_MODULE)-overrides.txt ; \
-	    rm -f $(DOC_MODULE).prerequisites ; \
-	    rm -f $(DOC_MODULE)-sections.txt ; \
-	    rm -rf tmpl/*.sgml ; \
-	fi
 	rm -rf *.o
 
 # thomas: make docs parallel installable; devhelp requires majorminor too
@@ -289,6 +300,7 @@ dist-check-gtkdoc:
 	@false
 endif
 
+# FIXME: decide whether we want to dist generated html or not
 dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/tmpl
 	mkdir $(distdir)/xml
