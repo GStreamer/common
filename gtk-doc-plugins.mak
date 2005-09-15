@@ -1,6 +1,15 @@
 # This is an include file specifically tuned for building documentation
 # for GStreamer plug-ins
 
+help:
+	@echo "If you are a doc maintainer, run 'make update' to update"
+	@echo "the documentation files maintained in CVS"
+
+# update the stuff maintained by doc maintainers
+update:
+	make inspect-update
+	make scanobj-update
+
 # We set GPATH here; this gives us semantics for GNU make
 # which are more like other make's VPATH, when it comes to
 # whether a source that is a target of one rule is then
@@ -25,6 +34,11 @@ EXTRA_DIST = 				\
         $(DOC_MODULE).types             \
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
+
+MAINTAINER_DOC_STAMPS =			\
+	scanobj-build.stamp		\
+	inspect-build.stamp		\
+	inspect.stamp
 
 # we don't add inspect-build.stamp and scanobj-build.stamp here since they are
 # built manually by docs maintainers and result is commited to CVS
@@ -57,14 +71,13 @@ SCAN_FILES =				\
 	$(DOC_MODULE)-decl.txt		\
 	$(DOC_MODULE)-decl-list.txt
 
-# FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
-# no idea why FC4 can do without
-CLEANFILES = $(SCANOBJ_FILES_O) $(DOC_MODULE)-unused.txt $(DOC_STAMPS) $(DOC_MODULE)-scan.c
-
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
 #### scan gobjects; done by documentation maintainer ####
+scanobj-update:
+	-rm scanobj-build.stamp
+	make scanobj-build.stamp
 
 # in the case of non-srcdir builds, the built gst directory gets added
 # to gtk-doc scanning; but only then, to avoid duplicates
@@ -86,7 +99,7 @@ scanobj-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
 	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
-	        --module=$(DOC_MODULE) ;				\
+	        --module=$(DOC_MODULE) --source=$(PACKAGE);				\
 	fi
 	touch scanobj-build.stamp
 
@@ -210,22 +223,29 @@ else
 all-local:
 endif
 
+# FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
+# no idea why FC4 can do without
+CLEANFILES = \
+	$(SCANOBJ_FILES_O) \
+	$(DOC_MODULE)-scan.c \
+	$(DOC_MODULE)-unused.txt \
+	$(DOC_STAMPS) \
+	inspect-registry.xml
+
 # FIXME: these rules need a little cleaning up
 clean-local:
 	rm -f *~ *.bak
 	rm -rf .libs
+# clean files generated for tmpl build
+	-rm -rf tmpl
 # clean files copied/generated for nonsrcdir tmpl build
 	if test x"$(srcdir)" != x. ; then \
-	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES)			\
-	        tmpl;							\
+	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	fi
 # clean files generated for xml build
 	-rm -rf xml
 # clean files generate for html build
 	-rm -rf html
-
-maintainer-clean-local: clean
-	cd $(srcdir) && rm -rf xml html $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
 distclean-local: clean
 	rm -rf tmpl/*.sgml.bak

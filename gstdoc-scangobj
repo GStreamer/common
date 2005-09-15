@@ -44,6 +44,7 @@ my $TYPE_INIT_FUNC="g_type_init ()";
 
 # --nogtkinit is deprecated, as it is the default now anyway.
 %optctl = (module => \$MODULE,
+           source => \$SOURCE,
 	   types => \$TYPES_FILE,
 	   nogtkinit => \$NO_GTK_INIT,
 	   'type-init-func' => \$TYPE_INIT_FUNC,
@@ -51,7 +52,7 @@ my $TYPE_INIT_FUNC="g_type_init ()";
 	   'version' => \$PRINT_VERSION,
 	   'help' => \$PRINT_HELP);
 	   
-GetOptions(\%optctl, "module=s", "types:s", "output-dir:s", "nogtkinit", "type-init-func:s", "version", "help");
+GetOptions(\%optctl, "module=s", "source=s", "types:s", "output-dir:s", "nogtkinit", "type-init-func:s", "version", "help");
 
 if ($NO_GTK_INIT) {
   # Do nothing. This just avoids a warning.
@@ -67,8 +68,9 @@ if (!$MODULE) {
 }
 
 if ($PRINT_HELP) {
-    print "gtkdoc-scangobj version 1.3\n";
+    print "gstdoc-scangobj version 1.3\n";
     print "\n--module=MODULE_NAME  Name of the doc module being parsed";
+    print "\n--source=SOURCE_NAME  Name of the source module for plugins";
     print "\n--types=FILE          The name of the file to store the types in";
     print "\n--type-init-func=FUNC The init function to call instead of g_type_init ()";
     print "\n--output-dir=DIRNAME  The directory where the results are stored";
@@ -147,6 +149,9 @@ get_object_types (void)
 
       plugin = (GstPlugin *) (plugins->data);
       plugins = g_list_next (plugins);
+      if (strcmp (gst_plugin_get_source (plugin), "$SOURCE") != 0) {
+        continue;
+      }
 
       features = gst_plugin_get_feature_list (plugin);
       while (features) {
