@@ -21,7 +21,6 @@ GPATH = $(srcdir)
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@
 
 EXTRA_DIST = 				\
-	scanobj.stamp			\
 	scanobj-build.stamp		\
 	$(srcdir)/inspect/*.xml		\
 	inspect.stamp			\
