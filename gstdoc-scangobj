@@ -140,16 +140,18 @@ get_object_types (void)
 
     gint i = 0;
 
-    /* get the number of types from the registry */
-    plugins = gst_registry_pool_plugin_list ();
+    /* get the list of plugins from the registry */
+    plugins = gst_registry_get_plugin_list (gst_registry_get_default());
 
     while (plugins) {
       GList *features;
       GstPlugin *plugin;
+      gchar *source;
 
       plugin = (GstPlugin *) (plugins->data);
       plugins = g_list_next (plugins);
-      if (strcmp (gst_plugin_get_source (plugin), "$SOURCE") != 0) {
+      source = gst_plugin_get_source(plugin);
+      if (!source || strcmp (gst_plugin_get_source (plugin), "$SOURCE") != 0) {
         continue;
       }
 
@@ -157,7 +159,7 @@ get_object_types (void)
       while (features) {
         GstPluginFeature *feature;
         feature = GST_PLUGIN_FEATURE (features->data);
-        if (!gst_plugin_feature_ensure_loaded (feature)) {
+        if (!gst_plugin_feature_load (feature)) {
           g_warning ("Could not load plugin feature %s",
                      gst_plugin_feature_get_name (feature));
         }
@@ -1488,7 +1490,7 @@ close OUTPUT;
 
 $CC = $ENV{CC} ? $ENV{CC} : "gcc";
 $LD = $ENV{LD} ? $ENV{LD} : $CC;
-$CFLAGS = $ENV{CFLAGS} ? $ENV{CFLAGS} : "";
+$CFLAGS = $ENV{CFLAGS} ? "$ENV{CFLAGS} -Wall -g" : "-Wall -g";
 $LDFLAGS = $ENV{LDFLAGS} ? $ENV{LDFLAGS} : "";
 
 my $o_file;

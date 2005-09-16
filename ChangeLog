@@ -1,3 +1,8 @@
+2005-09-16  Michael Smith <msmith@fluendo.com>
+
+	* gstdoc-scangobj:
+	  Make the scanobj code reflect registry/plugin API changes
+
 2005-09-15  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gtk-doc-plugins.mak:
