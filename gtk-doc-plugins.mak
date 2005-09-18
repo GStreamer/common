@@ -93,10 +93,10 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	        cp $(srcdir)/$$f . ;					\
 	    done;							\
 	else								\
-	    GST_PLUGIN_PATH=`cd $(top_builddir) && pwd`			\
-	    GST_PLUGIN_PATH_ONLY=1					\
+	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
+	    GST_PLUGIN_PATH=						\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
-	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
+	    CFLAGS="-g $(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) --source=$(PACKAGE);				\
 	fi

@@ -1,3 +1,7 @@
+2005-09-17  David Schleef  <ds@schleef.org>
+
+	* gtk-doc-plugins.mak: Use new environment variables.
+
 2005-09-16  Michael Smith <msmith@fluendo.com>
 
 	* gstdoc-scangobj:
