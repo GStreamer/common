@@ -5,25 +5,21 @@ clean-local-check:
 
 if HAVE_VALGRIND
 # hangs spectacularly on some machines, so let's not do this by default yet
-check-local-disabled:
+check-valgrind:
 	make valgrind
 else
-check-local-disabled:
+check-valgrind:
 	@true
 endif
 
-$(CHECK_REGISTRY).rebuild:
-	-rm $(CHECK_REGISTRY)
-	make $(CHECK_REGISTRY)
-
 # run any given test by running make test.check
-%.check: % $(CHECK_REGISTRY).rebuild
+%.check:
 	@$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
 # valgrind any given test by running make test.valgrind
-%.valgrind: % $(CHECK_REGISTRY).rebuild
+%.valgrind:
 	$(REGISTRY_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	libtool --mode=execute					\
@@ -37,7 +33,7 @@ $(CHECK_REGISTRY).rebuild:
 	@rm valgrind.log
 
 # gdb any given test by running make test.gdb
-%.gdb: % $(CHECK_REGISTRY).rebuild
+%.gdb: %
 	$(REGISTRY_ENVIRONMENT)					\
 	CK_FORK=no						\
 	libtool --mode=execute					\
