@@ -20,7 +20,7 @@ endif
 
 # valgrind any given test by running make test.valgrind
 %.valgrind:
-	$(REGISTRY_ENVIRONMENT)					\
+	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
