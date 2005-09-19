@@ -13,13 +13,13 @@ check-valgrind:
 endif
 
 # run any given test by running make test.check
-%.check:
+%.check: %
 	@$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
 # valgrind any given test by running make test.valgrind
-%.valgrind:
+%.valgrind: %
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	libtool --mode=execute					\
