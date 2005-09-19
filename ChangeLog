@@ -1,3 +1,11 @@
+2005-09-20  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst-xmlinspect.py:
+	* gstdoc-scangobj:
+	  some fixes for new API
+	* gtk-doc-plugins.mak:
+	  set environment properly
+
 2005-09-17  David Schleef  <ds@schleef.org>
 
 	* gtk-doc-plugins.mak: Use new environment variables.

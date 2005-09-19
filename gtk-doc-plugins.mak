@@ -93,8 +93,7 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	        cp $(srcdir)/$$f . ;					\
 	    done;							\
 	else								\
-	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
-	    GST_PLUGIN_PATH=						\
+	    $(INSPECT_ENVIRONMENT) 					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
 	    CFLAGS="-g $(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
@@ -110,7 +109,7 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 # only look at the plugins in this module when building inspect .xml stuff
 INSPECT_REGISTRY=$(top_builddir)/docs/plugins/inspect-registry.xml
 INSPECT_ENVIRONMENT=\
-        GST_PLUGIN_PATH_ONLY=yes \
+        GST_PLUGIN_SYSTEM_PATH= \
         GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext \
         GST_REGISTRY=$(INSPECT_REGISTRY)
 

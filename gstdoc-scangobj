@@ -146,16 +146,19 @@ get_object_types (void)
     while (plugins) {
       GList *features;
       GstPlugin *plugin;
-      gchar *source;
+      const gchar *source;
 
       plugin = (GstPlugin *) (plugins->data);
       plugins = g_list_next (plugins);
-      source = gst_plugin_get_source(plugin);
+      source = gst_plugin_get_source (plugin);
+      g_print ("source: %s\\n", source);
       if (!source || strcmp (gst_plugin_get_source (plugin), "$SOURCE") != 0) {
         continue;
       }
 
-      features = gst_plugin_get_feature_list (plugin);
+      features =
+          gst_registry_get_feature_list_by_plugin (gst_registry_get_default (),
+          plugin->desc.name);
       while (features) {
         GstPluginFeature *feature;
         feature = GST_PLUGIN_FEATURE (features->data);

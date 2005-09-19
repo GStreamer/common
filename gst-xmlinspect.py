@@ -112,7 +112,8 @@ def main():
     if len(sys.argv) > 2:
         os.chdir(sys.argv[2])
 
-    all = gst.registry_pool_plugin_list()
+    registry = gst.registry_get_default()
+    all = registry.get_plugin_list()
     for plugin in all:
         if plugin.get_source() != source:
             continue
