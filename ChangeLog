@@ -1,5 +1,10 @@
 2005-09-23  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* gtk-doc.mak:
+	  make certain doc warnings fatal so people maintain docs again
+
+2005-09-23  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* Makefile.am:
 	* gtk-doc-plugins.mak:
 	* scangobj-merge.py:

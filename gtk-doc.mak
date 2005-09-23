@@ -96,7 +96,7 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
 	@cat $(DOC_MODULE)-unused.txt
 	@if ! test -z "`grep -v GstPoptOption $(DOC_MODULE)-unused.txt`"; then \
-	    true; fi # exit 1; fi
+	    exit 1; fi
 	rm -f tmpl-build.log
 	touch tmpl-build.stamp
 
@@ -109,7 +109,7 @@ tmpl.stamp: tmpl-build.stamp
 sgml-build.stamp: tmpl.stamp $(CFILE_GLOB)
 	@echo '*** Building XML ***'
 	gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --main-sgml-file=$(srcdir)/$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS) | tee sgml-build.log
-	@if grep "WARNING:" sgml-build.log > /dev/null; then true; fi # exit 1; fi
+	@if grep "WARNING:" sgml-build.log > /dev/null; then exit 1; fi
 	rm sgml-build.log
 	touch sgml-build.stamp
 
