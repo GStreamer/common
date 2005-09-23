@@ -1,3 +1,10 @@
+2005-09-23  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst-xmlinspect.py:
+	* gstdoc-scangobj:
+	* gtk-doc-plugins.mak:
+	  fix properly for new API; make update in plugins dir now works
+
 2005-09-20  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gst-xmlinspect.py:

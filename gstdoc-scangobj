@@ -140,7 +140,7 @@ get_object_types (void)
 
     gint i = 0;
 
-    /* get the list of plugins from the registry */
+    /* get a list of features from plugins in our source module */
     plugins = gst_registry_get_plugin_list (gst_registry_get_default());
 
     while (plugins) {
@@ -162,7 +162,8 @@ get_object_types (void)
       while (features) {
         GstPluginFeature *feature;
         feature = GST_PLUGIN_FEATURE (features->data);
-        if (!gst_plugin_feature_load (feature)) {
+        feature = gst_plugin_feature_load (feature);
+        if (!feature) {
           g_warning ("Could not load plugin feature %s",
                      gst_plugin_feature_get_name (feature));
         }

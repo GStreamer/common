@@ -69,8 +69,11 @@ def output_plugin(plugin, indent=0):
     version = plugin.get_version()
     
     elements = {}
-    #gst.debug('getting features for plugin %s' % plugin.get_name())
-    for feature in plugin.get_feature_list():
+    gst.debug('getting features for plugin %s' % plugin.get_name())
+    registry = gst.registry_get_default()
+    features = registry.get_feature_list_by_plugin(plugin.get_name())
+    gst.debug('plugin %s has %d features' % (plugin.get_name(), len(features)))
+    for feature in features:
         if isinstance(feature, gst.ElementFactory):
             elements[feature.get_name()] = feature
     #gst.debug("got features")
@@ -115,6 +118,8 @@ def main():
     registry = gst.registry_get_default()
     all = registry.get_plugin_list()
     for plugin in all:
+        gst.debug("inspecting plugin %s from source %s" % (
+            plugin.get_name(), plugin.get_source()))
         if plugin.get_source() != source:
             continue
 

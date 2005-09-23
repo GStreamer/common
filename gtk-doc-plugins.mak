@@ -118,6 +118,7 @@ inspect:
 	mkdir inspect
 
 inspect-update: inspect
+	-rm $(INSPECT_REGISTRY)
 	-rm inspect-build.stamp
 	make inspect-build.stamp
 
