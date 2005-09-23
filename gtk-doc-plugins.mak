@@ -97,7 +97,9 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
 	    CFLAGS="-g $(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
-	        --module=$(DOC_MODULE) --source=$(PACKAGE);				\
+	        --module=$(DOC_MODULE) --source=$(PACKAGE) &&		\
+		$(PYTHON)						\
+		$(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
 	fi
 	touch scanobj-build.stamp
 

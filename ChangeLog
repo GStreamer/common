@@ -1,5 +1,13 @@
 2005-09-23  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* Makefile.am:
+	* gtk-doc-plugins.mak:
+	* scangobj-merge.py:
+	  merge additions from the .signals.new and .args.new file in
+	  the original ones, only updating if necessary
+
+2005-09-23  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* gst-xmlinspect.py:
 	* gstdoc-scangobj:
 	* gtk-doc-plugins.mak:
