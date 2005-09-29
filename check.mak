@@ -32,7 +32,7 @@ LOOPS = 10
 	@while true; do						\
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
-	$*; done
+	$* || break; done
 
 # valgrind any given test by running make test.valgrind
 %.valgrind: %
