@@ -12,11 +12,27 @@ check-valgrind:
 	@true
 endif
 
+LOOPS = 10
+
 # run any given test by running make test.check
 %.check: %
 	@$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
+
+# run any given test in a loop
+%.torture: %
+	@for i in `seq 1 $(LOOPS)`; do				\
+	$(TESTS_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=20					\
+	$*; done
+
+# run any given test in an infinite loop
+%.forever: %
+	@while true; do						\
+	$(TESTS_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=20					\
+	$*; done
 
 # valgrind any given test by running make test.valgrind
 %.valgrind: %
@@ -39,6 +55,15 @@ endif
 	libtool --mode=execute					\
 	gdb $*
 
+# torture tests
+torture: $(TESTS)
+	@echo "Torturing tests ..."
+	for i in `seq 1 $(LOOPS)`; do				\
+		make check ||					\
+		(echo "Failure after $$i runs"; exit 1) ||	\
+		exit 1;						\
+	done
+
 
 # valgrind all tests
 valgrind: $(TESTS)
@@ -57,3 +82,15 @@ valgrind: $(TESTS)
 		echo "$$whicht";					\
 		false;							\
 	fi
+
+help:
+	@echo "make check                 -- run all checks"
+	@echo "make torture               -- run all checks repeatedly"
+	@echo "make (dir)/(test).check    -- run the given check once"
+	@echo "make (dir)/(test).forever  -- run the given check forever"
+	@echo "make (dir)/(test).torture  -- run the given check forever"
+	@echo
+	@echo "make (dir)/(test).gdb      -- start up gdb for the given test"
+	@echo
+	@echo "make valgrind              -- valgrind all tests"
+	@echo "make (dir)/(test).valgrind -- valgrind the given test"
