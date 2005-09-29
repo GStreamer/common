@@ -85,10 +85,10 @@ valgrind: $(TESTS)
 
 help:
 	@echo "make check                 -- run all checks"
-	@echo "make torture               -- run all checks repeatedly"
+	@echo "make torture               -- run all checks $(LOOPS) times"
 	@echo "make (dir)/(test).check    -- run the given check once"
 	@echo "make (dir)/(test).forever  -- run the given check forever"
-	@echo "make (dir)/(test).torture  -- run the given check forever"
+	@echo "make (dir)/(test).torture  -- run the given check $(LOOPS) times"
 	@echo
 	@echo "make (dir)/(test).gdb      -- start up gdb for the given test"
 	@echo
