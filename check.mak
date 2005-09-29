@@ -63,7 +63,9 @@ torture: $(TESTS)
 		(echo "Failure after $$i runs"; exit 1) ||	\
 		exit 1;						\
 	done
-
+	@banner="All $(LOOPS) loops passed";			\
+	dashes=`echo "$$banner" | sed s/./=/g`;			\
+	echo $$dashes; echo $$banner; echo $$dashes
 
 # valgrind all tests
 valgrind: $(TESTS)
