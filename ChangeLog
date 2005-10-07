@@ -1,3 +1,9 @@
+2005-10-07  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/Makefile.am:
+	* m4/gst-valgrind.m4:
+	  put the valgrind detection in an .m4
+
 2005-09-29  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* check.mak:
