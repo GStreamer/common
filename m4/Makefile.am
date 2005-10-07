@@ -9,7 +9,6 @@ EXTRA_DIST = \
 	as-libtool-tags.m4 \
 	as-python.m4 \
 	as-scrub-include.m4 \
-	as-valgrind.m4 \
 	as-version.m4 \
 	ax_create_stdint_h.m4 \
 	glib-gettext.m4 \
@@ -23,4 +22,5 @@ EXTRA_DIST = \
 	gst-libxml2.m4 \
 	gst-makecontext.m4 \
 	gst-mcsc.m4 \
+	gst-valgrind.m4 \
 	pkg.m4
