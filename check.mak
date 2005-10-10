@@ -40,9 +40,10 @@ LOOPS = 10
 	CK_DEFAULT_TIMEOUT=20					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
-	--tool=memcheck --leak-check=yes --trace-children=yes	\
+	--tool=memcheck --leak-check=full --trace-children=yes	\
+	--leak-resolution=high					\
 	$* 2>&1 | tee valgrind.log
-	@if grep "tely lost" valgrind.log; then			\
+	@if grep "==" valgrind.log; then			\
 	    rm valgrind.log;					\
 	    exit 1;						\
 	fi

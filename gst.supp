@@ -42,24 +42,33 @@
 ### glib suppressions
 
 {
-   <g_type_init>
+   <g_type_init malloc>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_strdup
+   fun:g_quark_from_string
+   obj:*
+   obj:*
+   fun:g_type_register_fundamental
+   obj:*
+   fun:g_type_init_with_debug_flags
+   fun:g_type_init
+   fun:init_pre
+}
+
+{
+   <g_type_init calloc>
    Memcheck:Leak
    fun:calloc
    fun:g_malloc0
    obj:*
    obj:*
-   fun:g_type_init_with_debug_flags
-   fun:g_type_init
-   fun:init_pre
-   fun:init_popt_callback
-   obj:*
-   obj:*
-   fun:poptGetContext
-   fun:gst_init_check_with_popt_table
+   fun:g_type_register_fundamental
 }
 
 {
-   <g_type_init>
+   <g_type_init calloc 2>
    Memcheck:Leak
    fun:calloc
    fun:g_malloc0
