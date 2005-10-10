@@ -58,6 +58,18 @@
    fun:gst_init_check_with_popt_table
 }
 
+{
+   <g_type_init>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   obj:*
+   obj:*
+   fun:g_type_init_with_debug_flags
+   fun:g_type_init
+   fun:init_pre
+}
+
 ### GStreamer suppressions
 
 # ds is saying he's rewriting the registry anyway
