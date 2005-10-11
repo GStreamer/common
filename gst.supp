@@ -39,6 +39,120 @@
    fun:__libc_freeres
 }
 
+{
+   <a conditional jump on wim's debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+}
+
+{
+   <g_module_open on wim's debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:do_sym
+   fun:_dl_sym
+   fun:dlsym_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlsym
+   fun:g_module_symbol
+   fun:g_module_open
+   fun:gst_plugin_load_file
+}
+{
+   <g_module_open on wim's debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+   fun:gst_plugin_load_file
+}
+{
+   <g_module_open on wim's debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+   fun:gst_plugin_load_file
+   fun:gst_plugin_load_by_name
+   fun:gst_plugin_feature_load
+}
+
+{
+   <leak on wim's ddebian in g_module_open>
+   Memcheck:Leak
+   fun:malloc
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+   fun:gst_plugin_load_file
+   fun:gst_plugin_load_by_name
+}
+
+{
+   <invalid read on wim's debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+}
+
+{
+   <invalid read on wim's debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+}
+
+
+
+
+
 ### glib suppressions
 
 {
