@@ -1,3 +1,10 @@
+2005-10-11  Edward Hervey  <edward@fluendo.com>
+
+	* gst.supp: 
+	made the <g_type_init calloc 2> suppression more generic
+	Added pthread memleak suppresions
+	Added nss_parse_* memleak suppresion (used by g_option_context_parse)
+
 2005-10-11  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* check.mak:

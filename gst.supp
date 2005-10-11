@@ -189,8 +189,6 @@
    obj:*
    obj:*
    fun:g_type_init_with_debug_flags
-   fun:g_type_init
-   fun:init_pre
 }
 
 ### GStreamer suppressions
@@ -213,3 +211,51 @@
    fun:init_popt_callback
 }
 
+#pthread memleaks
+
+{
+   Thread creation leak
+   Memcheck:Leak
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate*
+   fun:_dl_allocate*
+   fun:__pthread_initialize_minimal
+}
+
+{
+   Thread management leak
+   Memcheck:Leak
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate*
+   fun:_dl_allocate*
+   fun:__pthread_*
+}
+
+{
+   Thread management leak 2
+   Memcheck:Leak
+   fun:memalign
+   fun:_dl_allocate*
+   fun:_dl_allocate*
+   fun:__pthread_*
+}
+
+{
+   pthread_create Syscall param write(buf) points to uninitialised byte(s)
+   Memcheck:Param
+   write(buf)
+   fun:pthread_create@@GLIBC_2.2.5
+   fun:g_thread_create*
+
+}
+
+# nss_parse_* memleak (used by g_option_context_parse)
+{
+   nss_parse_* memleak
+   Memcheck:Leak
+   fun:malloc
+   fun:nss_parse_service_list
+   fun:__nss_database_lookup
+}
