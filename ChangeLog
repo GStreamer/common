@@ -1,3 +1,9 @@
+2005-10-11  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst.supp:
+	  commit 6 new suppressions related to g_module_open; can these
+	  really not be folded into one ?
+
 2005-10-11  Edward Hervey  <edward@fluendo.com>
 
 	* gst.supp: 

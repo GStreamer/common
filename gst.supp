@@ -49,6 +49,7 @@
    obj:/lib/ld-2.3.5.so
 }
 
+# g_module_open-related problems
 {
    <g_module_open on wim's debian>
    Memcheck:Cond
@@ -99,7 +100,7 @@
 }
 
 {
-   <leak on wim's ddebian in g_module_open>
+   <leak on wim's debian in g_module_open>
    Memcheck:Leak
    fun:malloc
    obj:/lib/ld-2.3.5.so
@@ -149,9 +150,98 @@
    fun:_dlerror_run
 }
 
+# valgrind doesn't allow me to specify a suppression for Addr1, Addr2, Addr4
+# as Addr*, so 3 copies for that; and then 2 of each for that pesky memcpy
+{
+   <Invalid read of size 1, 2, 4 on thomas's FC4>
+   Memcheck:Addr1
+   fun:_dl_signal_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
 
+{
+   <Invalid read of size 1, 2, 4 on thomas's FC4>
+   Memcheck:Addr2
+   fun:_dl_signal_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
+{
+   <Invalid read of size 1, 2, 4 on thomas's FC4>
+   Memcheck:Addr4
+   fun:_dl_signal_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
 
+{
+   <Invalid read of size 1, 2, 4 on thomas's FC4>
+   Memcheck:Addr1
+   fun:memcpy
+   fun:_dl_signal_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
 
+{
+   <Invalid read of size 1, 2, 4 on thomas's FC4>
+   Memcheck:Addr2
+   fun:memcpy
+   fun:_dl_signal_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
+{
+   <Invalid read of size 1, 2, 4 on thomas's FC4>
+   Memcheck:Addr4
+   fun:memcpy
+   fun:_dl_signal_error
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
 
 ### glib suppressions
 
