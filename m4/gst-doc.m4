@@ -22,7 +22,7 @@ AC_DEFUN([GST_DOCBOOK_CHECK],
 
     # -V option appeared in 0.6.10
     docbook2html_min_version=0.6.10
-    if test "x$HAVE_DOCBOOK2HTML" != "xyes"; then
+    if test "x$HAVE_DOCBOOK2HTML" != "xno"; then
       docbook2html_version=`docbook2html --version`
       AC_MSG_CHECKING([docbook2html version ($docbook2html_version) >= $docbook2html_min_version])
       if perl -w <<EOF
