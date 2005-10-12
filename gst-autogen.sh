@@ -67,7 +67,7 @@ version_check ()
       continue
     }
     # strip everything that's not a digit, then use cut to get the first field
-    pkg_version=`$COMMAND --version|head -n 1|sed 's/^[^0-9]*//'|cut -d' ' -f1`
+    pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*)[^0-9]*//'|cut -d' ' -f1`
     debug "pkg_version $pkg_version"
     # remove any non-digit characters from the version numbers to permit numeric
     # comparison

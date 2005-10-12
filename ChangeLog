@@ -1,3 +1,9 @@
+2005-10-12  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst-autogen.sh:
+	  update version detection expression to catch stuff like
+	  Libtool (libtool15) 1.5.0
+
 2005-10-11  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gst.supp:
