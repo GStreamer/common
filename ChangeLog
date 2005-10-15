@@ -1,5 +1,11 @@
 2005-10-15  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/Makefile.am:
+	* m4/gst-gettext.m4:
+	  add macro for setting up gettext
+
+2005-10-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/gst-args.m4:
 	  add some .m4's for argument checking that can be shared among modules
 
