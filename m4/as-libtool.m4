@@ -4,7 +4,7 @@ dnl autostars m4 macro for libtool versioning
 
 dnl Thomas Vander Stichele <thomas at apestaart dot org>
 
-dnl $Id: as-libtool.m4,v 1.9 2005/09/15 05:51:34 ds Exp $
+dnl $Id: as-libtool.m4,v 1.10 2005/10/15 13:44:23 thomasvs Exp $
 
 dnl AS_LIBTOOL(PREFIX, CURRENT, REVISION, AGE, [RELEASE])
 
@@ -34,7 +34,7 @@ AC_DEFUN([AS_LIBTOOL],
   AC_SUBST([$1]_AGE)
   AC_SUBST([$1]_LIBVERSION)
 
-dnl  [$1]_LT_LDFLAGS="$[$1]_LT_LDFLAGS -version-info $[$1]_LIBVERSION"
+  [$1]_LT_LDFLAGS="$[$1]_LT_LDFLAGS -version-info $[$1]_LIBVERSION"
   if test ! -z "[$5]"
   then
     [$1]_LT_LDFLAGS="$[$1]_LT_LDFLAGS -release [$5]"

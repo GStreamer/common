@@ -1,5 +1,12 @@
 2005-10-15  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/as-libtool.m4:
+	  set _LT_LDFLAGS
+	* m4/gst-libxml2.m4:
+	  document
+
+2005-10-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/gst-arch.m4:
 	  indent a little
 	  add AC_REQUIRE

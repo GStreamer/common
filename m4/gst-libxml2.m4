@@ -1,4 +1,7 @@
 dnl call this macro with the minimum required version as an argument
+dnl this macro sets and AC_SUBSTs XML_CFLAGS and XML_LIBS
+dnl it also sets LIBXML_PKG, used for the pkg-config file
+
 AC_DEFUN([GST_LIBXML2_CHECK],
 [
   dnl Minimum required version of libxml2
