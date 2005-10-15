@@ -1,5 +1,10 @@
 2005-10-15  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/gst-args.m4:
+	  add some .m4's for argument checking that can be shared among modules
+
+2005-10-15  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/as-libtool.m4:
 	  set _LT_LDFLAGS
 	* m4/gst-libxml2.m4:
