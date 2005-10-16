@@ -1,5 +1,10 @@
 2005-10-16  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/gst-error.m4:
+	  add GST_SET_DEFAULT_LEVEL
+
+2005-10-16  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/Makefile.am:
 	* m4/gst-gettext.m4:
 	  remove the AM_GNU_GETTEXT* calls, they need to be in configure.ac
