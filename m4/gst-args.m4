@@ -5,6 +5,8 @@ dnl GST_ARG_PROFILING
 dnl GST_ARG_VALGRIND
 dnl GST_ARG_GCOV
 
+dnl GST_ARG_EXAMPLES
+
 dnl GST_ARG_WITH_PKG_CONFIG_PATH
 dnl GST_ARG_PACKAGE_NAME
 dnl GST_ARG_PACKAGE_ORIGIN
@@ -22,6 +24,21 @@ AC_DEFUN([GST_ARG_DEBUG],
       esac
     ],
     [USE_DEBUG=yes]) dnl Default value
+])
+
+AC_DEFUN([GST_ARG_PROFILING],
+[
+  AC_ARG_ENABLE(profiling,
+    AC_HELP_STRING([--enable-profiling],
+      [adds -pg to compiler commandline, for profiling]),
+    [
+      case "${enableval}" in
+        yes) USE_PROFILING=yes ;;
+        no)  USE_PROFILING=no ;;
+        *)   AC_MSG_ERROR(bad value ${enableval} for --enable-profiling) ;;
+      esac
+    ], 
+    [USE_PROFILING=no]) dnl Default value
 ])
 
 AC_DEFUN([GST_ARG_VALGRIND],
@@ -71,6 +88,21 @@ AC_DEFUN([GST_ARG_GCOV],
   AM_CONDITIONAL(GST_GCOV_ENABLED, test x$enable_gcov = xyes)
 ])
 
+AC_DEFUN([GST_ARG_EXAMPLES],
+[
+  AC_ARG_ENABLE(examples,
+    AC_HELP_STRING([--disable-examples], [disable building examples]),
+      [
+        case "${enableval}" in
+          yes) BUILD_EXAMPLES=yes ;;
+          no)  BUILD_EXAMPLES=no ;;
+          *)   AC_MSG_ERROR(bad value ${enableval} for --disable-examples) ;;
+        esac
+      ],
+      [BUILD_EXAMPLES=yes]) dnl Default value
+  AM_CONDITIONAL(BUILD_EXAMPLES,      test "x$BUILD_EXAMPLES" = "xyes")
+])
+
 AC_DEFUN([GST_ARG_WITH_PKG_CONFIG_PATH],
 [
   dnl possibly modify pkg-config path
@@ -80,20 +112,6 @@ AC_DEFUN([GST_ARG_WITH_PKG_CONFIG_PATH],
      [export PKG_CONFIG_PATH=${withval}])
 ])
 
-AC_DEFUN([GST_ARG_PROFILING],
-[
-  AC_ARG_ENABLE(profiling,
-    AC_HELP_STRING([--enable-profiling],
-      [adds -pg to compiler commandline, for profiling]),
-    [
-      case "${enableval}" in
-        yes) USE_PROFILING=yes ;;
-        no)  USE_PROFILING=no ;;
-        *)   AC_MSG_ERROR(bad value ${enableval} for --enable-profiling) ;;
-      esac
-    ], 
-    [USE_PROFILING=no]) dnl Default value
-])
 
 AC_DEFUN([GST_ARG_WITH_PACKAGE_NAME],
 [
