@@ -4,10 +4,12 @@ dnl GST_GLIB_CHECK([minimum-version-required])
 
 AC_DEFUN([GST_GLIB_CHECK],
 [
-  AC_REQUIRE([AS_SCRUB_INCLUDE])
-
   dnl Minimum required version of GLib
   GLIB_REQ=[$1]
+  if test "x$GLIB_REQ" = "x"
+  then
+    AC_MSG_ERROR([Please specify a required version for [GST_GLIB_CHECK]])
+  fi
   AC_SUBST(GLIB_REQ)
 
   dnl Check for glib with everything
