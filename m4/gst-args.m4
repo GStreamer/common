@@ -113,15 +113,16 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_NAME],
       if test "x$GST_CVS" = "xyes"
       then
         dnl nano >= 1
-        GST_PACKAGE="[$1] CVS/prerelease"
+        GST_PACKAGE_NAME="[$1] CVS/prerelease"
       else
-        GST_PACKAGE="[$1] source release"
+        GST_PACKAGE_NAME="[$1] source release"
       fi
     ]
   )
-  AC_MSG_NOTICE(Using $GST_PACKAGE as package name)
-  AC_DEFINE_UNQUOTED(GST_PACKAGE, "$GST_PACKAGE", [package name in plugins])
-  AC_SUBST(GST_PACKAGE)
+  AC_MSG_NOTICE(Using $GST_PACKAGE_NAME as package name)
+  AC_DEFINE_UNQUOTED(GST_PACKAGE_NAME, "$GST_PACKAGE_NAME",
+      [package name in plugins])
+  AC_SUBST(GST_PACKAGE_NAME)
 ])
 
 AC_DEFUN([GST_ARG_WITH_PACKAGE_ORIGIN],
@@ -137,9 +138,10 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_ORIGIN],
         *)   GST_ORIGIN="${withval}" ;;
       esac
     ], 
-    [GST_ORIGIN="http://gstreamer.freedesktop.org/"] dnl Default value
+    [GST_PACKAGE_ORIGIN="[Unknown package origin]"] dnl Default value
   )
-  AC_MSG_NOTICE(Using $GST_ORIGIN as package origin)
-  AC_DEFINE_UNQUOTED(GST_ORIGIN, "$GST_ORIGIN", [package origin])
-  AC_SUBST(GST_ORIGIN)
+  AC_MSG_NOTICE(Using $GST_PACKAGE_ORIGIN as package origin)
+  AC_DEFINE_UNQUOTED(GST_PACKAGE_ORIGIN, "$GST_PACKAGE_ORIGIN",
+      [package origin])
+  AC_SUBST(GST_PACKAGE_ORIGIN)
 ])
