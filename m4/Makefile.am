@@ -24,5 +24,6 @@ EXTRA_DIST = \
 	gst-libxml2.m4 \
 	gst-makecontext.m4 \
 	gst-mcsc.m4 \
+	gst-plugindir.m4 \
 	gst-valgrind.m4 \
 	pkg.m4

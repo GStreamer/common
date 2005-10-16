@@ -1,18 +1,24 @@
-AC_DEFUN([GST_GLIB2_CHECK], [
-dnl === GLib 2 ===
-dnl Minimum required version of GLib2
-GLIB2_REQ="1.3.12"
-AC_SUBST(GLIB2_REQ)
+dnl check for a minimum version of GLib
 
-dnl Check for glib2
-PKG_CHECK_MODULES(GLIB2, glib-2.0 >= $GLIB2_REQ gobject-2.0 gthread-2.0 gmodule-2.0,
-  HAVE_GLIB2=yes,HAVE_GLIB2=no)
-GLIB_LIBS=$GLIB2_LIBS
-GLIB_CFLAGS=$GLIB2_CFLAGS
-AC_SUBST(GLIB_LIBS)
-AC_SUBST(GLIB_CFLAGS)
+dnl GST_GLIB_CHECK([minimum-version-required])
 
-if test "x$HAVE_GLIB2" = "xno"; then
-  AC_MSG_ERROR([This package requires GLib 2.0 to compile.])
-fi
+AC_DEFUN([GST_GLIB_CHECK],
+[
+  AC_REQUIRE([AS_SCRUB_INCLUDE])
+
+  dnl Minimum required version of GLib
+  GLIB_REQ=[$1]
+  AC_SUBST(GLIB_REQ)
+
+  dnl Check for glib with everything
+  PKG_CHECK_MODULES(GLIB,
+    glib-2.0 >= $GLIB_REQ gobject-2.0 gthread-2.0 gmodule-2.0,
+    HAVE_GLIB=yes,HAVE_GLIB=no)
+
+  if test "x$HAVE_GLIB" = "xno"; then
+    AC_MSG_ERROR([This package requires GLib >= GLIB_REQ to compile.])
+  fi
+
+  dnl for the poor souls who for example have glib in /usr/local
+  AS_SCRUB_INCLUDE(GLIB_CFLAGS)
 ])
