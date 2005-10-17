@@ -11,6 +11,7 @@ dnl GST_CHECK_GST_BASE([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_GDP([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_CONTROLLER([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_CHECK([MAJMIN], [MINVER], [REQUIRED])
+dnl GST_CHECK_GST_PLUGINS_BASE([MAJMIN], [MINVER], [REQUIRED])
 
 AC_DEFUN([GST_CHECK_MODULES],
 [
@@ -74,4 +75,10 @@ AC_DEFUN([GST_CHECK_GST_CHECK],
 [
   GST_CHECK_MODULES(GST_CHECK, gstreamer-check-[$1], [$2],
     [GStreamer Check unittest Library], [$3])
+])
+
+AC_DEFUN([GST_CHECK_GST_PLUGINS_BASE],
+[
+  GST_CHECK_MODULES(GST_CHECK, gstreamer-plugins-base-[$1], [$2],
+    [GStreamer Base Plug-ins Library], [$3])
 ])
