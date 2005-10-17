@@ -14,6 +14,7 @@ EXTRA_DIST = \
 	glib-gettext.m4 \
 	gst-arch.m4 \
 	gst-args.m4 \
+	gst-check.m4 \
 	gst-debuginfo.m4 \
 	gst-doc.m4 \
 	gst-feature.m4 \
