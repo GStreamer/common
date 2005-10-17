@@ -94,9 +94,8 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	    touch $(DOC_MODULE)-decl.txt ; \
 	fi
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
-	@cat $(DOC_MODULE)-unused.txt
-	@if ! test -z "`grep -v GstPoptOption $(DOC_MODULE)-unused.txt`"; then \
-	    true; fi # exit 1; fi
+	@if test -s $(DOC_MODULE)-unused.txt; then \
+	    exit 1; fi
 	rm -f tmpl-build.log
 	touch tmpl-build.stamp
 
