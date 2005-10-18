@@ -1,5 +1,10 @@
 2005-10-18  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/gst-check.m4:
+	  check for tools correctly
+
+2005-10-18  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* gtk-doc.mak:
 	  only enable breaking on new API when make distcheck passes,
 	  not before
