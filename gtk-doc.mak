@@ -95,7 +95,7 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	fi
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
 	@if test -s $(DOC_MODULE)-unused.txt; then \
-	    exit 1; fi
+	    true; fi # exit 1; fi
 	rm -f tmpl-build.log
 	touch tmpl-build.stamp
 
