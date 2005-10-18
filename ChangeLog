@@ -1,3 +1,8 @@
+2005-10-18  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-check.m4:
+	  Kill Julien
+
 2005-10-17  Julien MOUTTE  <julien@moutte.net>
 
 	* m4/gst-check.m4: I know Thomas will kill me but this 

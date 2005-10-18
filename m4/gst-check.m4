@@ -19,7 +19,7 @@ AC_DEFUN([GST_CHECK_MODULES],
   module=[$2]
   minver=[$3]
   name="[$4]"
-  required=ifelse("[$5]", "no", "no", "yes") dnl required by default
+  required=ifelse([$5], [$5], "yes") dnl required by default
 
   PKG_CHECK_MODULES([$1], $module >= $minver,
     HAVE_[$1]="yes", HAVE_[$1]="no")
