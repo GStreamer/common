@@ -5,8 +5,6 @@ dnl AC_SUBST plugindir, to be used in Makefile.am's
 
 AC_DEFUN([GST_SET_PLUGINDIR],
 [
-  AC_REQUIRE([AS_AC_EXPAND])
-
   dnl define location of plugin directory
   AS_AC_EXPAND(PLUGINDIR, ${libdir}/gstreamer-$GST_MAJORMINOR)
   AC_DEFINE_UNQUOTED(PLUGINDIR, "$PLUGINDIR",
