@@ -51,7 +51,7 @@ LOOPS = 10
 
 # gdb any given test by running make test.gdb
 %.gdb: %
-	$(REGISTRY_ENVIRONMENT)					\
+	$(TESTS_ENVIRONMENT)					\
 	CK_FORK=no						\
 	libtool --mode=execute					\
 	gdb $*
