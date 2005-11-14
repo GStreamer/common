@@ -2,6 +2,23 @@
 ### the gstreamer unit tests
 ### it might be useful for wider use as well
 
+### syscall suppressions
+
+{
+   <clone on Wim's Debian>
+   Memcheck:Param
+   clone(parent_tidptr)
+   fun:clone
+   fun:clone
+}
+
+{
+   <clone on Wim's Debian>
+   Memcheck:Param
+   clone(tlsinfo)
+   fun:clone
+   fun:clone
+}
 
 ### glibc suppressions
 
