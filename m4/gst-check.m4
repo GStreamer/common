@@ -78,6 +78,6 @@ AC_DEFUN([GST_CHECK_GST_CHECK],
 
 AC_DEFUN([GST_CHECK_GST_PLUGINS_BASE],
 [
-  GST_CHECK_MODULES(GST_CHECK, gstreamer-plugins-base-[$1], [$2],
+  GST_CHECK_MODULES(GST_PLUGINS_BASE, gstreamer-plugins-base-[$1], [$2],
     [GStreamer Base Plug-ins Library], [$3])
 ])

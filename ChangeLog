@@ -1,3 +1,11 @@
+2005-11-14  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/Makefile.am:
+	* m4/gst-check.m4:
+	  fix check for base plugins
+	* m4/gst-default.m4:
+	  add m4 to set default elements
+
 2005-10-18  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-check.m4:

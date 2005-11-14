@@ -16,6 +16,7 @@ EXTRA_DIST = \
 	gst-args.m4 \
 	gst-check.m4 \
 	gst-debuginfo.m4 \
+	gst-default.m4 \
 	gst-doc.m4 \
 	gst-feature.m4 \
 	gst-function.m4 \
