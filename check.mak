@@ -43,7 +43,7 @@ LOOPS = 10
 	--tool=memcheck --leak-check=full --trace-children=yes	\
 	--leak-resolution=high					\
 	$* 2>&1 | tee valgrind.log
-	@if grep "==" valgrind.log; then			\
+	@if grep "==" valgrind.log > /dev/null 2>&1; then	\
 	    rm valgrind.log;					\
 	    exit 1;						\
 	fi
