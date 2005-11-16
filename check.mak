@@ -37,11 +37,11 @@ LOOPS = 10
 # valgrind any given test by running make test.valgrind
 %.valgrind: %
 	$(TESTS_ENVIRONMENT)					\
-	CK_DEFAULT_TIMEOUT=20					\
+	CK_DEFAULT_TIMEOUT=60					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
-	--leak-resolution=high					\
+	--leak-resolution=high --num-callers=20			\
 	$* 2>&1 | tee valgrind.log
 	@if grep "==" valgrind.log > /dev/null 2>&1; then	\
 	    rm valgrind.log;					\
