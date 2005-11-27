@@ -49,6 +49,7 @@ EOF
  
     dnl check for extra tools
     AC_CHECK_PROG(HAVE_DVIPS, dvips, yes, no)
+    AC_CHECK_PROG(HAVE_XMLLINT, xmllint, yes, no)
  
     dnl check for image conversion tools
     AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, yes, no)
@@ -87,6 +88,7 @@ EOF
     dnl check if we can generate HTML
     if test "x$HAVE_DOCBOOK2HTML" = "xyes" && \
        test "x$enable_docbook" = "xyes" && \
+       test "x$HAVE_XMLLINT" = "xyes" && \
        test "x$HAVE_FIG2DEV_PNG" = "xyes"; then
       DOC_HTML=yes
       AC_MSG_NOTICE(Will output HTML documentation)
@@ -98,6 +100,7 @@ EOF
     dnl check if we can generate PS
     if test "x$HAVE_DOCBOOK2PS" = "xyes" && \
        test "x$enable_docbook" = "xyes" && \
+       test "x$HAVE_XMLLINT" = "xyes" && \
        test "x$HAVE_JADETEX" = "xyes" && \
        test "x$HAVE_FIG2DEV_EPS" = "xyes" && \
        test "x$HAVE_DVIPS" = "xyes" && \
@@ -113,6 +116,7 @@ EOF
     dnl check if we can generate PDF - using only ps2pdf
     if test "x$DOC_PS" = "xyes" && \
        test "x$enable_docbook" = "xyes" && \
+       test "x$HAVE_XMLLINT" = "xyes" && \
        test "x$HAVE_PS2PDF" = "xyes"; then
       DOC_PDF=yes
       AC_MSG_NOTICE(Will output PDF documentation)
