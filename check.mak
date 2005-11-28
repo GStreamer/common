@@ -63,6 +63,7 @@ LOOPS = 10
 
 # torture tests
 torture: $(TESTS)
+	rm test-registry.xml
 	@echo "Torturing tests ..."
 	for i in `seq 1 $(LOOPS)`; do				\
 		make check ||					\
