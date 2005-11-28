@@ -1,3 +1,9 @@
+2005-11-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* check.mak:
+	  when a "make test.check" run fails, make it rerun the test with	
+	  at least debug level 2
+
 2005-11-14  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/Makefile.am:

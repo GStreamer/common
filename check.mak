@@ -15,8 +15,13 @@ endif
 LOOPS = 10
 
 # run any given test by running make test.check
+# if the test fails, run it again at at least debug level 2
 %.check: %
 	@$(TESTS_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=20					\
+	$* ||							\
+	$(TESTS_ENVIRONMENT)					\
+	GST_DEBUG=$$GST_DEBUG,*:2				\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
