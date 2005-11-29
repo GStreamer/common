@@ -68,6 +68,56 @@
 
 # g_module_open-related problems
 {
+   <started showing up on fc4-quick>
+   Memcheck:Addr2
+   fun:memcpy
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+   fun:gst_plugin_load_file
+   fun:gst_registry_scan_path_level
+   fun:gst_registry_scan_path_level
+   fun:gst_registry_scan_path_level
+   fun:init_post
+   fun:g_option_context_parse
+   fun:gst_init_check
+   fun:gst_init
+   fun:gst_check_init
+   fun:main
+}
+
+{
+   <started showing up on fc4-quick>
+   Memcheck:Addr4
+   fun:memcpy
+   fun:_dl_map_object_deps
+   fun:dl_open_worker
+   fun:_dl_catch_error
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+   fun:gst_plugin_load_file
+   fun:gst_registry_scan_path_level
+   fun:gst_registry_scan_path_level
+   fun:gst_registry_scan_path_level
+   fun:init_post
+   fun:g_option_context_parse
+   fun:gst_init_check
+   fun:gst_init
+   fun:gst_check_init
+   fun:main
+}
+
+{
    <g_module_open on wim's debian>
    Memcheck:Cond
    obj:/lib/ld-2.3.5.so
