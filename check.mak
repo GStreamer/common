@@ -54,6 +54,11 @@ LOOPS = 10
 	fi
 	@rm valgrind.log
 
+# valgrind any given test until failure by running make test.valgrind-forever
+%.valgrind-forever: %
+	@while make $*.valgrind; do				\
+	  true; done
+
 # gdb any given test by running make test.gdb
 %.gdb: %
 	$(TESTS_ENVIRONMENT)					\
@@ -93,13 +98,14 @@ valgrind: $(TESTS)
 	fi
 
 help:
-	@echo "make check                 -- run all checks"
-	@echo "make torture               -- run all checks $(LOOPS) times"
-	@echo "make (dir)/(test).check    -- run the given check once"
-	@echo "make (dir)/(test).forever  -- run the given check forever"
-	@echo "make (dir)/(test).torture  -- run the given check $(LOOPS) times"
+	@echo "make check                         -- run all checks"
+	@echo "make torture                       -- run all checks $(LOOPS) times"
+	@echo "make (dir)/(test).check            -- run the given check once"
+	@echo "make (dir)/(test).forever          -- run the given check forever"
+	@echo "make (dir)/(test).torture          -- run the given check $(LOOPS) times"
 	@echo
-	@echo "make (dir)/(test).gdb      -- start up gdb for the given test"
+	@echo "make (dir)/(test).gdb              -- start up gdb for the given test"
 	@echo
-	@echo "make valgrind              -- valgrind all tests"
-	@echo "make (dir)/(test).valgrind -- valgrind the given test"
+	@echo "make valgrind                      -- valgrind all tests"
+	@echo "make (dir)/(test).valgrind         -- valgrind the given test"
+	@echo "make (dir)/(test).valgrind-forever -- valgrind the given test forever"
