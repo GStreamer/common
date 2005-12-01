@@ -120,6 +120,9 @@ def main():
     for plugin in all:
         gst.debug("inspecting plugin %s from source %s" % (
             plugin.get_name(), plugin.get_source()))
+        # this skips gstcoreelements, with bin and pipeline
+        if plugin.get_filename() is None:
+            continue
         if plugin.get_source() != source:
             continue
 
