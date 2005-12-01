@@ -9,7 +9,7 @@ used as part of the plugin documentation build
 import sys
 import os
 import pygst
-pygst.require('0.9')
+pygst.require('0.10')
 import gst
 
 INDENT_SIZE = 2
