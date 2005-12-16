@@ -1,6 +1,7 @@
 dnl GST_ARCH
 dnl sets up defines and automake conditionals for host architecture
 dnl checks endianness
+dnl defines HOST_CPU
 
 AC_DEFUN([GST_ARCH],
 [
@@ -106,4 +107,5 @@ int main(int argc, char **argv)
     AC_DEFINE_UNQUOTED(HAVE_UNALIGNED_ACCESS, 1,
       [defined if unaligned memory access works correctly])
   fi
+  AC_DEFINE_UNQUOTED(HOST_CPU, "$host_cpu", [the host CPU])
 ])

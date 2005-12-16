@@ -1,3 +1,8 @@
+2005-12-16  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-arch.m4:
+	  define HOST_CPU
+
 2005-11-29  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* check.mak:
