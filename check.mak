@@ -79,6 +79,16 @@ torture: $(TESTS)
 	dashes=`echo "$$banner" | sed s/./=/g`;			\
 	echo $$dashes; echo $$banner; echo $$dashes
 
+# forever tests
+forever: $(TESTS)
+	-rm test-registry.xml
+	@echo "Forever tests ..."
+	while true; do						\
+		make check ||					\
+		(echo "Failure"; exit 1) ||			\
+		exit 1;						\
+	done
+
 # valgrind all tests
 valgrind: $(TESTS)
 	@echo "Valgrinding tests ..."
