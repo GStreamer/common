@@ -102,7 +102,7 @@ valgrind: $(TESTS)
                 fi;							\
 	done;								\
 	if test "$$failed" -ne 0; then					\
-		echo "$$failed tests had leaks under valgrind:";	\
+		echo "$$failed tests had leaks or errors under valgrind:";	\
 		echo "$$whicht";					\
 		false;							\
 	fi
