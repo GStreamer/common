@@ -471,3 +471,17 @@
    fun:nss_parse_service_list
    fun:__nss_database_lookup
 }
+
+# liboil suppressions
+{
+   <liboil cpu_fault_check_try>
+   Memcheck:Value8
+   obj:/usr/lib/liboil-0.3.so.0.1.0
+   obj:/usr/lib/liboil-0.3.so.0.1.0
+   obj:/usr/lib/liboil-0.3.so.0.1.0
+   fun:oil_cpu_fault_check_try
+   fun:oil_test_check_impl
+   fun:oil_class_optimize
+   fun:oil_optimize_all
+   fun:oil_init
+}
