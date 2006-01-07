@@ -1,5 +1,5 @@
---- po/Makefile.in.in.orig	2004-01-09 16:35:54.000000000 +0100
-+++ po/Makefile.in.in	2004-01-09 16:36:43.000000000 +0100
+--- po/Makefile.in.in.orig	2006-01-07 12:03:45.000000000 +0100
++++ po/Makefile.in.in	2006-01-07 12:04:23.000000000 +0100
 @@ -11,6 +11,9 @@
  PACKAGE = @PACKAGE@
  VERSION = @VERSION@
@@ -9,3 +9,15 @@
 +
  SHELL = /bin/sh
  @SET_MAKE@
+ 
+@@ -305,7 +308,9 @@
+ update-gmo: Makefile $(GMOFILES)
+ 	@:
+ 
+-Makefile: Makefile.in.in $(top_builddir)/config.status POTFILES.in
++# thomas: add LINGUAS as a dependency so that the Makefile gets rebuilt
++# properly when we add languages
++Makefile: Makefile.in.in $(top_builddir)/config.status POTFILES.in LINGUAS
+ 	cd $(top_builddir) \
+ 	  && CONFIG_FILES=$(subdir)/$@.in CONFIG_HEADERS= \
+ 	       $(SHELL) ./config.status
