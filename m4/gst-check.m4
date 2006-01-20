@@ -21,7 +21,9 @@ AC_DEFUN([GST_CHECK_MODULES],
   required=ifelse([$5], , "yes", [$5]) dnl required by default
 
   PKG_CHECK_MODULES([$1], $module >= $minver,
-    HAVE_[$1]="yes", HAVE_[$1]="no")
+    [
+      HAVE_[$1]="yes"
+    ], HAVE_[$1]="no")
 
   if test "x$HAVE_[$1]" = "xno"; then
     if test "x$required" = "xyes"; then
@@ -30,10 +32,12 @@ AC_DEFUN([GST_CHECK_MODULES],
       AC_MSG_NOTICE([no $module >= $minver ($name) found])
     fi
   else
-    dnl PKG_CHECK_MODULES does not AC_SUBST our CFLAGS and LIBS;
-    dnl for convenience, we do
-    AC_SUBST([$module]_CFLAGS)
-    AC_SUBST([$module]_LIBS)
+    dnl PKG_CHECK_MODULES does not AC_SUBST our CFLAGS and LIBS automatically
+    AC_SUBST([$1]_CFLAGS)
+    AC_SUBST([$2]_LIBS)
+    dnl something is tricking us and removing the AC_SUBST calls, leaving
+    dnl an empty else block
+    echo -n
   fi
 ]))
 

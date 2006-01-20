@@ -2,6 +2,7 @@
 
 	* m4/gst-check.m4:
 	  AC_SUBST CFLAGS and LIBS
+	  do a non-command because something is stripping out our AC_SUBST
 
 2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
 
