@@ -31,14 +31,10 @@ AC_DEFUN([GST_CHECK_MODULES],
     else
       AC_MSG_NOTICE([no $module >= $minver ($name) found])
     fi
-  else
-    dnl PKG_CHECK_MODULES does not AC_SUBST our CFLAGS and LIBS automatically
-    AC_SUBST([$1]_CFLAGS)
-    AC_SUBST([$1]_LIBS)
-    dnl something is tricking us and removing the AC_SUBST calls, leaving
-    dnl an empty else block
-    echo -n
   fi
+  dnl AC_SUBST seems to be done automatically in automake >= 1.7
+  dnl AC_SUBST($1_CFLAGS)
+  dnl AC_SUBST($1_LIBS)
 ]))
 
 AC_DEFUN([GST_CHECK_GST],
