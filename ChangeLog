@@ -1,5 +1,10 @@
 2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/gst-check.m4:
+	  AC_SUBST CFLAGS and LIBS
+
+2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/gst-args.m4:
 	* m4/gst-valgrind.m4:
 	  properly give a "no" result manually when providing a

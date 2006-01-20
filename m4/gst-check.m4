@@ -29,6 +29,11 @@ AC_DEFUN([GST_CHECK_MODULES],
     else
       AC_MSG_NOTICE([no $module >= $minver ($name) found])
     fi
+  else
+    dnl PKG_CHECK_MODULES does not AC_SUBST our CFLAGS and LIBS;
+    dnl for convenience, we do
+    AC_SUBST([$module]_CFLAGS)
+    AC_SUBST([$module]_LIBS)
   fi
 ]))
 
