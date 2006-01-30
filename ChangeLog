@@ -1,3 +1,8 @@
+2006-01-30  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* release.mak:
+	  don't complain about disted enums in win32
+
 2006-01-20  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-check.m4:
