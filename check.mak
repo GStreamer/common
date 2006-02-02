@@ -53,7 +53,18 @@ LOOPS = 10
 	    exit 1;						\
 	fi
 	@rm valgrind.log
-
+	
+# valgrind any given test and generate suppressions for it
+%.valgrind.gen-suppressions: %
+	$(TESTS_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=60					\
+	libtool --mode=execute					\
+	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
+	--tool=memcheck --leak-check=full --trace-children=yes	\
+	--leak-resolution=high --num-callers=20			\
+	--gen-suppressions=all					\
+	$* 2>&1 | tee suppressions.log
+	
 # valgrind any given test until failure by running make test.valgrind-forever
 %.valgrind-forever: %
 	@while make $*.valgrind; do				\

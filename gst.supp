@@ -219,6 +219,53 @@
 }
 
 {
+   <invalid read on wim's debian - 2006-02-02>
+   Memcheck:Addr4
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
+
+{
+   <invalid read on wim's debian - 2006-02-02>
+   Memcheck:Addr4
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+}
+
+{
+   <invalid read on wim's debian - 2006-02-02>
+   Memcheck:Addr4
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   obj:/lib/ld-2.3.5.so
+   fun:do_sym
+   fun:_dl_sym
+   fun:dlsym_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlsym
+   fun:g_module_symbol
+   fun:g_module_open
+}
+
+{
    <futex on Andy's 64-bit ubuntu>
    Memcheck:Param
    futex(uaddr2)

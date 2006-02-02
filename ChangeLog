@@ -1,3 +1,11 @@
+2006-02-02  Wim Taymans  <wim@fluendo.com>
+
+	* check.mak:
+	  add a .valgrind.gen-suppressions target to aid in generating
+	  suppressions
+	* gst.supp:
+	  add more repressions from my debian glibc as of today
+
 2006-02-02  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gtk-doc-plugins.mak:
