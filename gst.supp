@@ -22,6 +22,25 @@
 
 ### glibc suppressions
 
+{
+   <conditional jump on wim's debian 2/2/06>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.5.so
+   fun:dl_open_worker
+   obj:/lib/ld-2.3.5.so
+   fun:_dl_open
+   fun:dlopen_doit
+   obj:/lib/ld-2.3.5.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+   fun:g_module_open
+   fun:gst_plugin_load_file
+   fun:gst_plugin_load
+   fun:test_load_coreelements
+   fun:srunner_run_all
+   fun:main
+}
+
 # glibc does not deallocate thread-local storage
 
 {
