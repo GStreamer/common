@@ -140,16 +140,17 @@ inspect-build.stamp:
 
 ### scan headers; done on every build ###
 scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp
-	    if test "x$(top_srcdir)" != "x$(top_builddir)";		\
-            then							\
-              export BUILT_OPTIONS="--source-dir=$(top_builddir)/gst";	\
-            fi;								\
-	    gtkdoc-scan							\
-		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
-		--module=$(DOC_MODULE)					\
-		$$BUILT_OPTIONS						\
-		--ignore-headers="$(IGNORE_HFILES)";			\
-	    touch scan-build.stamp
+	if test "x$(top_srcdir)" != "x$(top_builddir)" &&		\
+	   test -d "$(top_builddir)/gst";				\
+        then								\
+            export BUILT_OPTIONS="--source-dir=$(top_builddir)/gst";	\
+        fi;								\
+	gtkdoc-scan							\
+	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
+	    --module=$(DOC_MODULE)					\
+	    $$BUILT_OPTIONS						\
+	    --ignore-headers="$(IGNORE_HFILES)";			\
+	touch scan-build.stamp
 
 #### update templates; done on every build ####
 
