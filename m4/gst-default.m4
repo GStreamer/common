@@ -9,8 +9,8 @@ AC_DEFUN([GST_DEFAULT_ELEMENTS],
   dnl FIXME: describe where exactly this gets used
   dnl FIXME: decide if it's a problem that this could point to sinks from
   dnl        depending plugin modules
-  DEFAULT_AUDIOSINK="alsasink"
-  DEFAULT_VIDEOSINK="xvimagesink"
+  DEFAULT_AUDIOSINK="autoaudiosink"
+  DEFAULT_VIDEOSINK="autovideosink"
   DEFAULT_AUDIOSRC="alsasrc"
   DEFAULT_VIDEOSRC="v4lsrc"
   DEFAULT_VISUALIZER="goom"
