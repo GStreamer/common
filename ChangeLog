@@ -1,3 +1,9 @@
+2006-02-13  Andy Wingo  <wingo@pobox.com>
+
+	* m4/check.m4: Hack around Debian/Ubuntu's broken installation of
+	the PIC version of check as libcheck_pic.a. Should work with
+	cross-compilation too. Grr.
+
 2006-02-06  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-default.m4:

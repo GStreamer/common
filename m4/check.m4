@@ -1,36 +1,30 @@
-dnl AM_PATH_CHECK([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+dnl _AM_TRY_CHECK(MINIMUM-VERSION, EXTRA-CFLAGS, EXTRA-LIBS, CHECK-LIB-NAME
+dnl               [, ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 dnl Test for check, and define CHECK_CFLAGS and CHECK_LIBS
+dnl Done this way because of the brokenness that is
+dnl https://launchpad.net/distros/ubuntu/+source/check/+bug/5840
 dnl
 
-AC_DEFUN([AM_PATH_CHECK],
+AC_DEFUN([_AM_TRY_CHECK],
 [
-  AC_ARG_WITH(check,
-  [  --with-check=PATH       prefix where check is installed [default=auto]])
- 
-  min_check_version=ifelse([$1], ,0.8.2,$1)
+  min_check_version=$1
+  extra_cflags=$2
+  extra_libs=$3
+  check_lib_name=$4
+  
+  CHECK_CFLAGS="$extra_cflags"
+  CHECK_LIBS="$extra_libs -l$check_lib_name"
 
-  AC_MSG_CHECKING(for check - version >= $min_check_version)
+  ac_save_CFLAGS="$CFLAGS"
+  ac_save_LIBS="$LIBS"
 
-  if test x$with_check = xno; then
-    AC_MSG_RESULT(disabled)
-    ifelse([$3], , AC_MSG_ERROR([disabling check is not supported]), [$3])
-  else
-    if test "x$with_check" != x; then
-      CHECK_CFLAGS="-I$with_check/include"
-      CHECK_LIBS="-L$with_check/lib -lcheck"
-    else
-      CHECK_CFLAGS=""
-      CHECK_LIBS="-lcheck"
-    fi
+  CFLAGS="$CFLAGS $CHECK_CFLAGS"
+  LIBS="$CHECK_LIBS $LIBS"
 
-    ac_save_CFLAGS="$CFLAGS"
-    ac_save_LIBS="$LIBS"
+  AC_MSG_CHECKING(for check named $check_lib_name  - version >= $min_check_version)
 
-    CFLAGS="$CFLAGS $CHECK_CFLAGS"
-    LIBS="$CHECK_LIBS $LIBS"
-
-    rm -f conf.check-test
-    AC_TRY_RUN([
+  rm -f conf.check-test
+  AC_TRY_RUN([
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -83,21 +77,21 @@ int main ()
 }
 ],, no_check=yes, [echo $ac_n "cross compiling; assumed OK... $ac_c"])
 
-    CFLAGS="$ac_save_CFLAGS"
-    LIBS="$ac_save_LIBS"
+  CFLAGS="$ac_save_CFLAGS"
+  LIBS="$ac_save_LIBS"
 
-    if test "x$no_check" = x ; then
-      AC_MSG_RESULT(yes)
-      ifelse([$2], , :, [$2])
+  if test "x$no_check" = x ; then
+    AC_MSG_RESULT(yes)
+    ifelse([$5], , :, [$5])
+  else
+    AC_MSG_RESULT(no)
+    if test -f conf.check-test ; then
+      :
     else
-      AC_MSG_RESULT(no)
-      if test -f conf.check-test ; then
-        :
-      else
-        echo "*** Could not run check test program, checking why..."
-        CFLAGS="$CFLAGS $CHECK_CFLAGS"
-        LIBS="$CHECK_LIBS $LIBS"
-        AC_TRY_LINK([
+      echo "*** Could not run check test program, checking why..."
+      CFLAGS="$CFLAGS $CHECK_CFLAGS"
+      LIBS="$CHECK_LIBS $LIBS"
+      AC_TRY_LINK([
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -112,22 +106,73 @@ int main ()
         echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
       [ echo "*** The test program failed to compile or link. See the file config.log for"
         echo "*** the exact error that occured." ])
-      
-        CFLAGS="$ac_save_CFLAGS"
-        LIBS="$ac_save_LIBS"
+    
+      CFLAGS="$ac_save_CFLAGS"
+      LIBS="$ac_save_LIBS"
+    fi
+
+    CHECK_CFLAGS=""
+    CHECK_LIBS=""
+
+    rm -f conf.check-test
+    ifelse([$6], , AC_MSG_ERROR([check not found]), [$6])
+  fi
+])
+
+
+dnl AM_PATH_CHECK([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+dnl Test for check, and define CHECK_CFLAGS and CHECK_LIBS
+dnl
+
+AC_DEFUN([AM_PATH_CHECK],
+[
+  AC_ARG_WITH(check,
+  [  --with-check=PATH       prefix where check is installed [default=auto]])
+ 
+  AC_ARG_WITH(checklibname,
+    AC_HELP_STRING([--with-check-lib-name=NAME],
+      [name of the PIC check library (default=check)]))
+ 
+  min_check_version=ifelse([$1], ,0.8.2,$1)
+
+  if test x$with_check = xno; then
+    AC_MSG_RESULT(disabled)
+    ifelse([$3], , AC_MSG_ERROR([disabling check is not supported]), [$3])
+  else
+    if test "x$with_check" != x; then
+      CHECK_EXTRA_CFLAGS="-I$with_check/include"
+      CHECK_EXTRA_LIBS="-L$with_check/lib"
+    else
+      CHECK_EXTRA_CFLAGS=""
+      CHECK_EXTRA_LIBS=""
+    fi
+
+    if test x$with_checklibname = x; then
+      _AM_TRY_CHECK($min_check_version, $CHECK_EXTRA_CFLAGS, $CHECK_EXTRA_LIBS,
+        check_pic, [have_check=true], [have_check=false])
+      if test x$have_check = xtrue; then
+        ifelse([$2], , :, [$2])
+      else
+        _AM_TRY_CHECK($min_check_version, $CHECK_EXTRA_CFLAGS, $CHECK_EXTRA_LIBS,
+          check, [have_check=true], [have_check=false])
+        if test x$have_check = xtrue; then
+          ifelse([$2], , :, [$2])
+        else
+          ifelse([$3], , AC_MSG_ERROR([check not found]), [$3])
+        fi
       fi
-
-      CHECK_CFLAGS=""
-      CHECK_LIBS=""
-
-      rm -f conf.check-test
-      ifelse([$3], , AC_MSG_ERROR([check not found]), [$3])
+    else
+      _AM_TRY_CHECK($min_check_version, $CHECK_EXTRA_CFLAGS, $CHECK_EXTRA_LIBS,
+        $with_checklibname, [have_check=true], [have_check=false])
+      if test x$have_check = xtrue; then
+        ifelse([$2], , :, [$2])
+      else
+        ifelse([$3], , AC_MSG_ERROR([check not found]), [$3])
+      fi
     fi
 
     AC_SUBST(CHECK_CFLAGS)
     AC_SUBST(CHECK_LIBS)
-
     rm -f conf.check-test
-
   fi
 ])
