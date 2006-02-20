@@ -18,7 +18,7 @@ AC_DEFUN([GST_GLIB_CHECK],
     HAVE_GLIB=yes,HAVE_GLIB=no)
 
   if test "x$HAVE_GLIB" = "xno"; then
-    AC_MSG_ERROR([This package requires GLib >= GLIB_REQ to compile.])
+    AC_MSG_ERROR([This package requires GLib >= $GLIB_REQ to compile.])
   fi
 
   dnl for the poor souls who for example have glib in /usr/local

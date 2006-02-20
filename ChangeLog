@@ -1,3 +1,8 @@
+2006-02-21  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* m4/gst-glib2.m4:
+	Fix debug output when the GLib version prerequisite is not found
+
 2006-02-13  Andy Wingo  <wingo@pobox.com>
 
 	* m4/check.m4: Hack around Debian/Ubuntu's broken installation of
