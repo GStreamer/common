@@ -43,6 +43,7 @@ LOOPS = 10
 %.valgrind: %
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=60					\
+	G_SLICE=always-malloc					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\

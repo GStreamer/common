@@ -1,3 +1,9 @@
+2006-03-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* check.mak:
+	Set G_SLICE=always-malloc when valgrinding tests
+	(closes #333272)
+
 2006-02-21  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* m4/gst-glib2.m4:
