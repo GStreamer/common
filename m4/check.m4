@@ -24,6 +24,9 @@ AC_DEFUN([_AM_TRY_CHECK],
   AC_MSG_CHECKING(for check named $check_lib_name  - version >= $min_check_version)
 
   rm -f conf.check-test
+  dnl unset no_check, since in our second run it would have been set to yes
+  dnl before
+  no_check=
   AC_TRY_RUN([
 #include <stdio.h>
 #include <stdlib.h>
