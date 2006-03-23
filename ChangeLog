@@ -1,3 +1,9 @@
+2006-03-23  Stefan Kost  <ensonic@users.sf.net>
+
+	* gstdoc-scangobj:
+	* gtk-doc.mak:
+	  sync a little with gtk-doc mainline
+
 2006-03-17  Wim Taymans  <wim@fluendo.com>
 
 	* gst.supp:

@@ -512,6 +512,9 @@ get_type_name (GType type, gboolean * is_pointer)
      e.g. 'GtkWidget *'. */
   if (g_type_is_a (type, G_TYPE_OBJECT))
     *is_pointer = TRUE;
+    
+  if (G_TYPE_IS_CLASSED (type))
+    *is_pointer = TRUE;
 
   /* All boxed subtypes will be pointers as well. */
   if (g_type_is_a (type, G_TYPE_BOXED))

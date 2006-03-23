@@ -189,6 +189,10 @@ install-data-local:
 	  echo '-- Installing $(srcdir)/html/$(DOC_MODULE).devhelp' ; \
 	  $(INSTALL_DATA) $(srcdir)/html/$(DOC_MODULE).devhelp \
 	    $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp; \
+	  if test -e $(srcdir)/html/$(DOC_MODULE).devhelp2; then \
+        	  $(INSTALL_DATA) $(srcdir)/html/$(DOC_MODULE).devhelp2 \
+	           $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp2; \
+	  fi; \
 	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
 	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DESTDIR)$(TARGET_DIR); \
 		if test -e $(srcdir)/html/style.css; then \
@@ -244,7 +248,7 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	-cp $(srcdir)/sgml/*.xml $(distdir)/xml
 	-cp $(srcdir)/html/index.sgml $(distdir)/html
 	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
-	-cp $(srcdir)/html/$(DOC_MODULE).devhelp $(distdir)/html
+	-cp $(srcdir)/html/$(DOC_MODULE).devhelp* $(distdir)/html
 
 	images=$(HTML_IMAGES) ;    	      \
 	for i in "" $$images ; do		      \
