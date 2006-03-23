@@ -1,6 +1,11 @@
 2006-03-23  Stefan Kost  <ensonic@users.sf.net>
 
 	* gstdoc-scangobj:
+	  sync fully with gtkdoc-0.15
+
+2006-03-23  Stefan Kost  <ensonic@users.sf.net>
+
+	* gstdoc-scangobj:
 	* gtk-doc.mak:
 	  sync a little with gtk-doc mainline
 

@@ -59,7 +59,7 @@ if ($NO_GTK_INIT) {
 }
 
 if ($PRINT_VERSION) {
-    print "1.3\n";
+    print "1.5\n";
     exit 0;
 }
 
@@ -68,7 +68,7 @@ if (!$MODULE) {
 }
 
 if ($PRINT_HELP) {
-    print "gstdoc-scangobj version 1.3\n";
+    print "gstdoc-scangobj version 1.5\n";
     print "\n--module=MODULE_NAME  Name of the doc module being parsed";
     print "\n--source=SOURCE_NAME  Name of the source module for plugins";
     print "\n--types=FILE          The name of the file to store the types in";
@@ -84,8 +84,8 @@ $OUTPUT_DIR = $OUTPUT_DIR ? $OUTPUT_DIR : ".";
 # THOMAS: dynamic types; only use types file for headers
  $TYPES_FILE = $TYPES_FILE ? $TYPES_FILE : "$OUTPUT_DIR/$MODULE.types";
 
-open TYPES, $TYPES_FILE || die "Cannot open $TYPES_FILE: $!\n";
-open OUTPUT, ">$MODULE-scan.c" || die "Cannot open $MODULE-scan.c: $!\n";
+open (TYPES, $TYPES_FILE) || die "Cannot open $TYPES_FILE: $!\n";
+open (OUTPUT, ">$MODULE-scan.c") || die "Cannot open $MODULE-scan.c: $!\n";
 
 my $old_signals_filename = "$OUTPUT_DIR/$MODULE.signals";
 my $new_signals_filename = "$OUTPUT_DIR/$MODULE.signals.new";
@@ -122,12 +122,12 @@ print OUTPUT <<EOT;
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 
 $includes
 #ifdef GTK_IS_WIDGET_CLASS
 #include <gtk/gtkversion.h>
 #endif
-gint num_object_types = 0;
 GType *object_types = NULL;
 
 static GType *
@@ -176,11 +176,10 @@ get_object_types (void)
       }
     }
 
-    num_object_types = g_list_length (factories);
     g_message ("number of element factories: %d", g_list_length (factories));
 
     /* allocate the object_types array to hold them */
-    object_types = g_new0 (GType, g_list_length (factories));
+    object_types = g_new0 (GType, g_list_length (factories)+1);
 
     l = factories;
     i = 0;
@@ -196,6 +195,7 @@ get_object_types (void)
       i++;
       l = g_list_next (l);
     }
+    object_types[i] = 0;
 EOT
 
 print OUTPUT <<EOT;
@@ -203,9 +203,7 @@ print OUTPUT <<EOT;
     /* Need to make sure all the types are loaded in and initialize
      * their signals and properties.
      */
-    g_message ("class reffing");
-
-    for (i=0; i < num_object_types; i++) {
+    for (i=0; object_types[i]; i++) {
       if (G_TYPE_IS_CLASSED (object_types[i]))
         g_type_class_ref (object_types[i]);
     }
@@ -214,37 +212,36 @@ print OUTPUT <<EOT;
 }
 
 /*
- * This uses GTK type functions to output signal prototypes and the widget
+ * This uses GObject type functions to output signal prototypes and the object
  * hierarchy.
  */
 
 /* The output files */
-gchar *signals_filename = "$new_signals_filename";
-gchar *hierarchy_filename = "$new_hierarchy_filename";
-gchar *interfaces_filename = "$new_interfaces_filename";
-gchar *prerequisites_filename = "$new_prerequisites_filename";
-gchar *args_filename = "$new_args_filename";
+const gchar *signals_filename = "$new_signals_filename";
+const gchar *hierarchy_filename = "$new_hierarchy_filename";
+const gchar *interfaces_filename = "$new_interfaces_filename";
+const gchar *prerequisites_filename = "$new_prerequisites_filename";
+const gchar *args_filename = "$new_args_filename";
 
 
 static void output_signals (void);
-static void output_widget_signals (FILE *fp,
+static void output_object_signals (FILE *fp,
 				   GType object_type);
-static void output_widget_signal (FILE *fp,
-				  GType object_type,
+static void output_object_signal (FILE *fp,
 				  const gchar *object_class_name,
 				  guint signal_id);
 static const gchar * get_type_name (GType type,
 			            gboolean * is_pointer);
-static gchar * get_gdk_event (const gchar * signal_name);
-static gchar ** lookup_signal_arg_names (const gchar * type,
-					 const gchar * signal_name);
+static const gchar * get_gdk_event (const gchar * signal_name);
+static const gchar ** lookup_signal_arg_names (const gchar * type,
+					       const gchar * signal_name);
 
-static void output_widget_hierarchy (void);
+static void output_object_hierarchy (void);
 static void output_hierarchy (FILE *fp,
 			      GType type,
 			      guint level);
 
-static void output_widget_interfaces (void);
+static void output_object_interfaces (void);
 static void output_interfaces (FILE *fp,
 			       GType type);
 
@@ -253,22 +250,22 @@ static void output_prerequisites (FILE *fp,
 			          GType type);
 
 static void output_args (void);
-static void output_widget_args (FILE *fp, GType object_type);
+static void output_object_args (FILE *fp, GType object_type);
 
 int
 main (int argc, char *argv[])
 {
+  /* Silence the compiler: */
+  if (argv != argv) argc = argc;
+
   $TYPE_INIT_FUNC;
 
   get_object_types ();
 
-  g_message ("output signals");
   output_signals ();
-  g_message ("output widget hierarchy");
-  output_widget_hierarchy ();
-  output_widget_interfaces ();
+  output_object_hierarchy ();
+  output_object_interfaces ();
   output_interface_prerequisites ();
-  g_message ("output args");
   output_args ();
 
   return 0;
@@ -284,12 +281,12 @@ output_signals (void)
   fp = fopen (signals_filename, "w");
   if (fp == NULL)
     {
-      g_warning ("Couldn't open output file: %s", signals_filename);
+      g_warning ("Couldn't open output file: %s : %s", signals_filename, strerror(errno));
       return;
     }
 
-  for (i = 0; i < num_object_types; i++)
-    output_widget_signals (fp, object_types[i]);
+  for (i = 0; object_types[i]; i++)
+    output_object_signals (fp, object_types[i]);
 
   fclose (fp);
 }
@@ -303,9 +300,9 @@ compare_signals (const void *a, const void *b)
   return strcmp (g_signal_name (*signal_a), g_signal_name (*signal_b));
 }
 
-/* This outputs all the signals of one widget. */
+/* This outputs all the signals of one object. */
 static void
-output_widget_signals (FILE *fp, GType object_type)
+output_object_signals (FILE *fp, GType object_type)
 {
   const gchar *object_class_name;
   guint *signals, n_signals;
@@ -322,8 +319,7 @@ output_widget_signals (FILE *fp, GType object_type)
 
       for (sig = 0; sig < n_signals; sig++)
         {
-           output_widget_signal (fp, object_type, object_class_name,
-     		                 signals[sig]);
+           output_object_signal (fp, object_class_name, signals[sig]);
         }
       g_free (signals);
    }
@@ -332,25 +328,23 @@ output_widget_signals (FILE *fp, GType object_type)
 
 /* This outputs one signal. */
 static void
-output_widget_signal (FILE *fp,
-		      GType object_type,
+output_object_signal (FILE *fp,
 		      const gchar *object_name,
 		      guint signal_id)
 {
   GSignalQuery query_info;
-  const gchar *type_name, *ret_type, *object_arg;
-  gchar *pos, *arg_name, *object_arg_lower;
+  const gchar *type_name, *ret_type, *object_arg, *arg_name;
+  gchar *pos, *object_arg_lower;
   gboolean is_pointer;
   gchar ret_type_buffer[1024], buffer[1024];
   guint i, param;
-  gchar **arg_names;
+  const gchar **arg_names;
   gint param_num, widget_num, event_num, callback_num;
   gint *arg_num;
   gchar signal_name[128];
+  gchar flags[16];
 
-
-  /*  g_print ("Object: %s Type: %i Signal: %u\\n", object_name, object_type,
-      signal_id);*/
+  /*  g_print ("Object: %s Signal: %u\\n", object_name, signal_id);*/
 
   param_num = 1;
   widget_num = event_num = callback_num = 0;
@@ -451,9 +445,27 @@ output_widget_signal (FILE *fp,
 	}
     }
 
+  pos = flags;
+  /* We use one-character flags for simplicity. */
+  if (query_info.signal_flags & G_SIGNAL_RUN_FIRST)
+    *pos++ = 'f';
+  if (query_info.signal_flags & G_SIGNAL_RUN_LAST)
+    *pos++ = 'l';
+  if (query_info.signal_flags & G_SIGNAL_RUN_CLEANUP)
+    *pos++ = 'c';
+  if (query_info.signal_flags & G_SIGNAL_NO_RECURSE)
+    *pos++ = 'r';
+  if (query_info.signal_flags & G_SIGNAL_DETAILED)
+    *pos++ = 'd';
+  if (query_info.signal_flags & G_SIGNAL_ACTION)
+    *pos++ = 'a';
+  if (query_info.signal_flags & G_SIGNAL_NO_HOOKS)
+    *pos++ = 'h';
+  *pos = 0;
+
   fprintf (fp,
-	   "<SIGNAL>\\n<NAME>%s::%s</NAME>\\n<RETURNS>%s</RETURNS>\\n%s</SIGNAL>\\n\\n",
-	   object_name, query_info.signal_name, ret_type_buffer, buffer);
+	   "<SIGNAL>\\n<NAME>%s::%s</NAME>\\n<RETURNS>%s</RETURNS>\\n<FLAGS>%s</FLAGS>\\n%s</SIGNAL>\\n\\n",
+	   object_name, query_info.signal_name, ret_type_buffer, flags, buffer);
 }
 
 
@@ -508,11 +520,11 @@ get_type_name (GType type, gboolean * is_pointer)
     break;
   }
 
-  /* For all GtkObject subclasses we can use the class name with a "*",
+  /* For all GObject subclasses we can use the class name with a "*",
      e.g. 'GtkWidget *'. */
   if (g_type_is_a (type, G_TYPE_OBJECT))
     *is_pointer = TRUE;
-    
+
   if (G_TYPE_IS_CLASSED (type))
     *is_pointer = TRUE;
 
@@ -528,10 +540,10 @@ get_type_name (GType type, gboolean * is_pointer)
 }
 
 
-static gchar *
+static const gchar *
 get_gdk_event (const gchar * signal_name)
 {
-  static gchar *GbGDKEvents[] =
+  static const gchar *GbGDKEvents[] =
   {
     "button_press_event", "GdkEventButton",
     "button_release_event", "GdkEventButton",
@@ -584,12 +596,12 @@ get_gdk_event (const gchar * signal_name)
     It is passed a widget name, e.g. 'GtkCList' and a signal name, e.g.
     'select_row' and it returns a pointer to an array of argument types and
     names. */
-static gchar **
+static const gchar **
 lookup_signal_arg_names (const gchar * type, const gchar * signal_name)
 {
   /* Each arg array starts with the object type name and the signal name,
      and then signal arguments follow. */
-  static gchar *GbArgTable[][16] =
+  static const gchar *GbArgTable[][16] =
   {
     {"GtkCList", "select_row",
      "gint             row",
@@ -804,21 +816,32 @@ lookup_signal_arg_names (const gchar * type, const gchar * signal_name)
   return NULL;
 }
 
-/* This outputs the hierarchy of all widgets which have been initialized,
+/* This outputs the hierarchy of all objects which have been initialized,
    i.e. by calling their XXX_get_type() initialization function. */
 static void
-output_widget_hierarchy (void)
+output_object_hierarchy (void)
 {
   FILE *fp;
+  gint i;
 
   fp = fopen (hierarchy_filename, "w");
   if (fp == NULL)
     {
-      g_warning ("Couldn't open output file: %s", hierarchy_filename);
+      g_warning ("Couldn't open output file: %s : %s", hierarchy_filename, strerror(errno));
       return;
     }
   output_hierarchy (fp, G_TYPE_OBJECT, 0);
   output_hierarchy (fp, G_TYPE_INTERFACE, 0);
+  
+  for (i=0; object_types[i]; i++) {
+    if (!g_type_parent (object_types[i]) &&
+      (object_types[i] != G_TYPE_OBJECT) &&
+      (object_types[i] != G_TYPE_INTERFACE)
+    ) {
+      output_hierarchy (fp, object_types[i], 0);
+    }
+  }
+
   fclose (fp);
 }
 
@@ -848,14 +871,14 @@ output_hierarchy (FILE  *fp,
   g_free (children);
 }
 
-static void output_widget_interfaces (void)
+static void output_object_interfaces (void)
 {
   FILE *fp;
 
   fp = fopen (interfaces_filename, "w");
   if (fp == NULL)
     {
-      g_warning ("Couldn't open output file: %s", interfaces_filename);
+      g_warning ("Couldn't open output file: %s : %s", interfaces_filename, strerror(errno));
       return;
     }
   output_interfaces (fp, G_TYPE_OBJECT);
@@ -899,7 +922,7 @@ static void output_interface_prerequisites (void)
   fp = fopen (prerequisites_filename, "w");
   if (fp == NULL)
     {
-      g_warning ("Couldn't open output file: %s", prerequisites_filename);
+      g_warning ("Couldn't open output file: %s : %s", prerequisites_filename, strerror(errno));
       return;
     }
   output_prerequisites (fp, G_TYPE_INTERFACE);
@@ -947,12 +970,13 @@ output_args (void)
   fp = fopen (args_filename, "w");
   if (fp == NULL)
     {
-      g_warning ("Couldn't open output file: %s", args_filename);
+      g_warning ("Couldn't open output file: %s : %s", args_filename, strerror(errno));
       return;
     }
 
-  for (i = 0; i < num_object_types; i++)
-    output_widget_args (fp, object_types[i]);
+  for (i = 0; object_types[i]; i++) {
+    output_object_args (fp, object_types[i]);
+  }
 
   fclose (fp);
 }
@@ -971,22 +995,25 @@ compare_param_specs (const void *a, const void *b)
  * a bit nicer by spelling out the max constants.
  */
 
+/* Don't use "==" with floats, it might trigger a gcc warning.  */
+#define GTKDOC_COMPARE_FLOAT(x, y) (x <= y && x >= y)
+
 static gchar*
 describe_double_constant (gdouble value)
 {
   gchar *desc;
 
-  if (value == G_MAXDOUBLE)
+  if (GTKDOC_COMPARE_FLOAT (value, G_MAXDOUBLE))
     desc = g_strdup ("G_MAXDOUBLE");
-  else if (value == G_MINDOUBLE)
+  else if (GTKDOC_COMPARE_FLOAT (value, G_MINDOUBLE))
     desc = g_strdup ("G_MINDOUBLE");
-  else if (value == -G_MAXDOUBLE)
+  else if (GTKDOC_COMPARE_FLOAT (value, -G_MAXDOUBLE))
     desc = g_strdup ("-G_MAXDOUBLE");
-  else if (value == G_MAXFLOAT)
+  else if (GTKDOC_COMPARE_FLOAT (value, G_MAXFLOAT))
     desc = g_strdup ("G_MAXFLOAT");
-  else if (value == G_MINFLOAT)
+  else if (GTKDOC_COMPARE_FLOAT (value, G_MINFLOAT))
     desc = g_strdup ("G_MINFLOAT");
-  else if (value == -G_MAXFLOAT)
+  else if (GTKDOC_COMPARE_FLOAT (value, -G_MAXFLOAT))
     desc = g_strdup ("-G_MAXFLOAT");
   else
     desc = g_strdup_printf ("%lg", value);
@@ -1200,11 +1227,14 @@ describe_type (GParamSpec *spec)
 
       lower = describe_double_constant (pspec->minimum);
       upper = describe_double_constant (pspec->maximum);
-      if (pspec->minimum == -G_MAXFLOAT && pspec->maximum == G_MAXFLOAT)
-	desc = g_strdup ("");
-      else if (pspec->minimum == -G_MAXFLOAT)
-	desc = g_strdup_printf ("<= %s", upper);
-      else if (pspec->maximum == G_MAXFLOAT)
+      if (GTKDOC_COMPARE_FLOAT (pspec->minimum, -G_MAXFLOAT))
+	{
+	  if (GTKDOC_COMPARE_FLOAT (pspec->maximum, G_MAXFLOAT))
+	    desc = g_strdup ("");
+	  else
+	    desc = g_strdup_printf ("<= %s", upper);
+	}
+      else if (GTKDOC_COMPARE_FLOAT (pspec->maximum, G_MAXFLOAT))
 	desc = g_strdup_printf (">= %s", lower);
       else
 	desc = g_strdup_printf ("[%s,%s]", lower, upper);
@@ -1217,11 +1247,14 @@ describe_type (GParamSpec *spec)
 
       lower = describe_double_constant (pspec->minimum);
       upper = describe_double_constant (pspec->maximum);
-      if (pspec->minimum == -G_MAXDOUBLE && pspec->maximum == G_MAXDOUBLE)
-	desc = g_strdup ("");
-      else if (pspec->minimum == -G_MAXDOUBLE)
-	desc = g_strdup_printf ("<= %s", upper);
-      else if (pspec->maximum == G_MAXDOUBLE)
+      if (GTKDOC_COMPARE_FLOAT (pspec->minimum, -G_MAXDOUBLE))
+	{
+	  if (GTKDOC_COMPARE_FLOAT (pspec->maximum, G_MAXDOUBLE))
+	    desc = g_strdup ("");
+	  else
+	    desc = g_strdup_printf ("<= %s", upper);
+	}
+      else if (GTKDOC_COMPARE_FLOAT (pspec->maximum, G_MAXDOUBLE))
 	desc = g_strdup_printf (">= %s", lower);
       else
 	desc = g_strdup_printf ("[%s,%s]", lower, upper);
@@ -1382,7 +1415,7 @@ describe_default (GParamSpec *spec)
 
 
 static void
-output_widget_args (FILE *fp, GType object_type)
+output_object_args (FILE *fp, GType object_type)
 {
   gpointer class;
   const gchar *object_class_name;
@@ -1507,11 +1540,16 @@ if ($CC =~ /libtool/) {
   $o_file = "$MODULE-scan.o"
 }
 
-$command = "$CC $CFLAGS -c -o $o_file $MODULE-scan.c && $LD -o $MODULE-scan $o_file $LDFLAGS";
+print "gtk-doc: Compiling scanner\n";
+$command = "$CC $CFLAGS -c -o $o_file $MODULE-scan.c";
+system($command) == 0 or die "Compilation of scanner failed: $!\n";
 
-system($command) == 0 or die "Compilation of scanner failed\n";
+print "gtk-doc: Linking scanner\n";
+$command = "$LD -o $MODULE-scan $o_file $LDFLAGS";
+system($command) == 0 or die "Linking of scanner failed: $!\n";
 
-system("./$MODULE-scan") == 0 or die "Scan failed\n";
+print "gtk-doc: Running scanner $MODULE-scan\n";
+system("sh -c ./$MODULE-scan") == 0 or die "Scan failed: $!\n";
 
 unlink "./$MODULE-scan.c", "./$MODULE-scan.o", "./$MODULE-scan.lo", "./$MODULE-scan";
 
