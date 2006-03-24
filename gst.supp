@@ -440,6 +440,20 @@
 
 
 ### glib suppressions
+{
+   <g_parse_debug_string>
+   Memcheck:Cond
+   fun:g_parse_debug_string
+   obj:/usr/lib/libglib-2.0.so.0.1000.1
+   fun:g_slice_alloc
+   fun:g_slice_alloc0
+   fun:g_list_append
+   fun:g_option_context_add_group
+   fun:gst_init_check
+   fun:gst_init
+   fun:gst_check_init
+   fun:main
+}
 
 {
    <g_type_init malloc>

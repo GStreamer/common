@@ -1,3 +1,8 @@
+2006-03-24  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gst.supp:
+	  add a suppression for g_parse_debug_string
+
 2006-03-23  Stefan Kost  <ensonic@users.sf.net>
 
 	* gstdoc-scangobj:
