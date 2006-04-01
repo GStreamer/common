@@ -173,3 +173,67 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_ORIGIN],
       [package origin])
   AC_SUBST(GST_PACKAGE_ORIGIN)
 ])
+
+dnl sets GST_PLUGINS_SELECTED to the list given as an argument, or to
+dnl GST_PLUGINS_ALL
+AC_DEFUN([GST_ARG_WITH_PLUGINS],
+[
+  AC_ARG_WITH(plugins,
+    AC_HELP_STRING([--with-plugins],
+      [comma-separated list of dependencyless plug-ins to compile]),
+    [
+      for i in `echo $withval | tr , ' '`; do
+        if echo $GST_PLUGINS_ALL | grep $i > /dev/null
+        then
+            GST_PLUGINS_SELECTED="$GST_PLUGINS_SELECTED $i"
+        else
+            echo "plug-in $i not recognized, ignoring..."
+        fi
+    done],
+    [GST_PLUGINS_SELECTED=$GST_PLUGINS_ALL])
+])
+
+AC_DEFUN([GST_ARG_ENABLE_EXTERNAL],
+[
+  GST_CHECK_FEATURE(EXTERNAL, [enable building of plug-ins with external deps],,
+    HAVE_EXTERNAL=yes, enabled,
+    [
+      AC_MSG_NOTICE(building external plug-ins)
+      BUILD_EXTERNAL="yes"
+    ],[
+      AC_MSG_WARN(all plug-ins with external dependencies will not be built)
+      BUILD_EXTERNAL="no"
+    ])
+  # make BUILD_EXTERNAL available to Makefile.am
+  AM_CONDITIONAL(BUILD_EXTERNAL, test "x$BUILD_EXTERNAL" = "xyes")
+])
+
+dnl experimental plug-ins; stuff that hasn't had the dust settle yet
+dnl read 'builds, but might not work'
+AC_DEFUN([GST_ARG_ENABLE_EXPERIMENTAL],
+[
+  GST_CHECK_FEATURE(EXPERIMENTAL,
+    [enable building of experimental plug-ins],,
+    HAVE_EXPERIMENTAL=yes, enabled,
+    [
+      AC_MSG_WARN(building experimental plug-ins)
+      BUILD_EXPERIMENTAL="yes"
+    ],[
+      AC_MSG_NOTICE(not building experimental plug-ins)
+      BUILD_EXPERIMENTAL="no"
+    ])
+  # make BUILD_EXPERIMENTAL available to Makefile.am
+  AM_CONDITIONAL(BUILD_EXPERIMENTAL, test "x$BUILD_EXPERIMENTAL" = "xyes")
+])
+
+dnl broken plug-ins; stuff that doesn't seem to build at the moment
+AC_DEFUN([GST_ARG_ENABLE_BROKEN],
+[
+  GST_CHECK_FEATURE(BROKEN, [enable building of broken plug-ins],,
+    HAVE_BROKEN=yes, disabled,
+    [
+      AC_MSG_WARN([building broken plug-ins -- no bug reports on these, only patches ...])
+    ],[
+      AC_MSG_NOTICE([not building broken plug-ins])
+    ])
+])

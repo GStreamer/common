@@ -1,5 +1,13 @@
 2006-04-01  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* m4/gst-args.m4:
+	* m4/gst-feature.m4:
+	  add more macros
+	* m4/gst-x11.m4:
+	  X11-related checks
+
+2006-04-01  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/as-version.m4:
 	  newer version
 	* m4/gst-args.m4:

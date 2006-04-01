@@ -208,3 +208,23 @@ AC_DEFUN([GST_CHECK_SUBSYSTEM_DISABLE],
   undefine([subsys_def])
 ])
 
+dnl relies on GST_PLUGINS_ALL, GST_PLUGINS_YES, GST_PLUGINS_NO, and
+dnl BUILD_EXTERNAL
+AC_DEFUN([GST_OUTPUT_PLUGINS], [
+
+echo "configure: *** Plug-ins without external dependencies:"
+( for i in $GST_PLUGINS_ALL; do echo -e '\t'$i; done ) | sort
+
+echo
+if test "x$BUILD_EXTERNAL" = "xno"; then
+  echo "configure: *** No plug-ins with external dependencies will be built"
+else
+  echo -n "configure: *** Plug-ins with dependencies that will be built:"
+  echo -e "$GST_PLUGINS_YES" | sort
+  echo
+  echo -n "configure: *** Plug-ins with dependencies that will NOT be built:"
+  echo -e "$GST_PLUGINS_NO" | sort
+  echo
+fi
+])
+
