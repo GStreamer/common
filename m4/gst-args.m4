@@ -131,13 +131,19 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_NAME],
       esac
     ], 
     [
+      P=$1
+      if test "x$P" = "x"
+      then
+        P=$PACKAGE_NAME
+      fi
+      
       dnl default value
       if test "x$GST_CVS" = "xyes"
       then
         dnl nano >= 1
-        GST_PACKAGE_NAME="[$1] CVS/prerelease"
+        GST_PACKAGE_NAME="$P CVS/prerelease"
       else
-        GST_PACKAGE_NAME="[$1] source release"
+        GST_PACKAGE_NAME="$P source release"
       fi
     ]
   )

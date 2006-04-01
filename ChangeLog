@@ -1,3 +1,11 @@
+2006-04-01  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/as-version.m4:
+	  newer version
+	* m4/gst-args.m4:
+	* m4/gst-doc.m4:
+	  update and add other macros to be shared across projects
+
 2006-03-24  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gst.supp:

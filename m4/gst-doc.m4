@@ -1,7 +1,11 @@
 AC_DEFUN([GST_DOCBOOK_CHECK],
 [
   dnl choose a location to install docbook docs in
-  docdir="\$(datadir)/doc/$PACKAGE-$GST_MAJORMINOR"
+  if test "x$PACKAGE_TARNAME" = "x"
+  then
+    AC_MSG_ERROR([Internal error - PACKAGE_TARNAME not set])
+  fi
+  docdir="\$(datadir)/doc/$PACKAGE_TARNAME-$GST_MAJORMINOR"
 
   dnl enable/disable docbook documentation building
   AC_ARG_ENABLE(docbook,
