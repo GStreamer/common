@@ -1,5 +1,11 @@
 2006-04-01  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* plugins.xsl:
+	  Do not display an origin link if origin does not start with http
+	  See #323798
+
+2006-04-01  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/gst-args.m4:
 	* m4/gst-feature.m4:
 	  add more macros

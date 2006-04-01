@@ -123,10 +123,18 @@
             <xsl:element name="term">origin</xsl:element>
             <xsl:element name="listitem">
               <xsl:element name="simpara">
-                <xsl:element name="ulink">
-                  <xsl:attribute name="url"><xsl:value-of select="origin" /></xsl:attribute>
-                  <xsl:value-of select="origin" />
-                </xsl:element>
+                <!-- only show origin as link if it starts with http -->
+                <xsl:choose>
+                  <xsl:when test="substring(@href, 1, 4) = 'http'">
+                    <xsl:element name="ulink">
+                      <xsl:attribute name="url"><xsl:value-of select="origin" /></xsl:attribute>
+                      <xsl:value-of select="origin" />
+                    </xsl:element>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="origin" />
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:element>
             </xsl:element>
           </xsl:element>
