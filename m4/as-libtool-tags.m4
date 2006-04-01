@@ -24,6 +24,7 @@ dnl tags to enable
 AC_DEFUN([AS_LIBTOOL_TAGS],
 [m4_define([_LT_TAGS],[$1])
 m4_define([_LT_AC_TAGCONFIG], [
+  # redefined LT AC TAGCONFIG
   if test -f "$ltmain"; then
     if test ! -f "${ofile}"; then
       AC_MSG_WARN([output file `$ofile' does not exist])
@@ -39,9 +40,11 @@ m4_define([_LT_AC_TAGCONFIG], [
     fi
 
     AC_FOREACH([_LT_TAG], _LT_TAGS,
+      echo THOMAS: tag _LT_TAG
       [m4_case(_LT_TAG,
       [CXX], [
     if test -n "$CXX" && test "X$CXX" != "Xno"; then
+      echo "THOMAS: YAY CXX"
       AC_LIBTOOL_LANG_CXX_CONFIG
       available_tags="$available_tags _LT_TAG"
     fi],
@@ -63,6 +66,17 @@ m4_define([_LT_AC_TAGCONFIG], [
       [m4_errprintn(m4_location[: error: invalid tag name: ]"_LT_TAG")
       m4_exit(1)])
     ])
+    echo THOMAS: available tags: $available_tags
+  fi
+  # Now substitute the updated list of available tags.
+  if eval "sed -e 's/^available_tags=.*\$/available_tags=\"$available_tags\"/' \"$ofile\" > \"${ofile}T\""; then
+    mv "${ofile}T" "$ofile"
+    chmod +x "$ofile"
+    AC_MSG_NOTICE([updated available libtool tags with $available_tags.])
+  else
+    rm -f "${ofile}T"
+    AC_MSG_ERROR([unable to update list of available tagged configurations.])
+
   fi
 
 ])dnl _LT_AC_TAG_CONFIG
