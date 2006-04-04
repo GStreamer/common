@@ -1,6 +1,12 @@
 2006-04-04  Michael Smith <msmith@fluendo.com>
 
 	* gst.supp:
+	  Add a leak suppression: the existing glibc-doesn't-free-TLS one
+	  wasn't triggering here.
+
+2006-04-04  Michael Smith <msmith@fluendo.com>
+
+	* gst.supp:
 	  Add some minimally-neccesary suppressions for my x86/dapper system.
 
 2006-04-01  Thomas Vander Stichele  <thomas at apestaart dot org>
