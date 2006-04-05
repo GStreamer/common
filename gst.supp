@@ -498,12 +498,6 @@
    obj:/usr/lib*/libglib-2.0.so.*
    fun:g_slice_alloc
    fun:g_slice_alloc0
-   fun:g_list_append
-   fun:g_option_context_add_group
-   fun:gst_init_check
-   fun:gst_init
-   fun:gst_check_init
-   fun:main
 }
 
 {
@@ -540,26 +534,6 @@
    obj:*
    obj:*
    fun:g_type_init_with_debug_flags
-}
-
-### GStreamer suppressions
-
-# ds is saying he's rewriting the registry anyway
-{
-   <registry>
-   Memcheck:Leak
-   fun:malloc
-   fun:g_malloc
-   fun:g_strdup
-   fun:read_string
-   fun:load_plugin
-   fun:gst_xml_registry_load
-   fun:gst_registry_load
-   fun:_registry_load_func
-   fun:g_list_foreach
-   fun:gst_registry_pool_load_all
-   fun:init_post
-   fun:init_popt_callback
 }
 
 #pthread memleaks

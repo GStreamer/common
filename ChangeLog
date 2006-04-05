@@ -1,3 +1,9 @@
+2006-04-05  Michael Smith  <msmith@fluendo.com>
+
+	* gst.supp:
+	  Delete a bogus suppression for the registry code.
+	  Generalise a suppression for a glib bug (see #337404)
+
 2006-04-04  Michael Smith <msmith@fluendo.com>
 
 	* gst.supp:
