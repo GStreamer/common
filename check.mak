@@ -45,7 +45,8 @@ LOOPS = 10
 	CK_DEFAULT_TIMEOUT=60					\
 	G_SLICE=always-malloc					\
 	libtool --mode=execute					\
-	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
+	$(VALGRIND_PATH) -q					\
+	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
 	--leak-resolution=high --num-callers=20			\
 	$* 2>&1 | tee valgrind.log
@@ -60,7 +61,8 @@ LOOPS = 10
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=60					\
 	libtool --mode=execute					\
-	$(VALGRIND_PATH) -q --suppressions=$(SUPPRESSIONS)	\
+	$(VALGRIND_PATH) -q 					\
+	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
 	--leak-resolution=high --num-callers=20			\
 	--gen-suppressions=all					\
@@ -131,3 +133,5 @@ help:
 	@echo "make valgrind                      -- valgrind all tests"
 	@echo "make (dir)/(test).valgrind         -- valgrind the given test"
 	@echo "make (dir)/(test).valgrind-forever -- valgrind the given test forever"
+	@echo "make (dir)/(test).valgrind-gen-suppressions -- generate suppressions"
+	@echo "                                               and save to suppressions.log"
