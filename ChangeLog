@@ -1,3 +1,9 @@
+2006-05-09  Edward Hervey  <edward@fluendo.com>
+
+	* gst.supp: 
+	  Add suppression for GSlice version of
+	  g_type_init calloc leak
+
 2006-04-05  Michael Smith  <msmith@fluendo.com>
 
 	* gst.supp:
