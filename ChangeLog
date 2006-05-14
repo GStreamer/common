@@ -1,3 +1,8 @@
+2006-05-14  Jan Schmidt <thaytan@mad.scientist.com>
+
+	* gtk-doc.mak:
+	Add uninstall rule to remove .devhelp2 files.
+
 2006-05-09  Edward Hervey  <edward@fluendo.com>
 
 	* gst.supp: 
