@@ -220,6 +220,9 @@ uninstall-local:
 	  fi; \
 	  echo '-- Uninstalling $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE).devhelp' ; \
 	  rm -f $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp; \
+	  if test -e $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE).devhelp2; then \
+	    rm -f $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp2; \
+	  fi; \
 	  echo '-- Uninstalling $(DESTDIR)$(TARGET_DIR)/index.sgml' ; \
 	  rm -f $(DESTDIR)$(TARGET_DIR)/index.sgml; \
 		if test -e $(DESTDIR)$(TARGET_DIR)/style.css; then \
