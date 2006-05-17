@@ -2,7 +2,7 @@
 
 	* m4/gst-args.m4:
 	Fix the macros for command-line supplied package and origin names
-	so they don't end up being configure as ""
+	so they don't end up being configure as "" (Fixes #341479)
 
 2006-05-14  Jan Schmidt <thaytan@mad.scientist.com>
 
