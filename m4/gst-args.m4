@@ -133,7 +133,7 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_NAME],
       case "${withval}" in
         yes) AC_MSG_ERROR(bad value ${withval} for --with-package-name) ;;
         no)  AC_MSG_ERROR(bad value ${withval} for --with-package-name) ;;
-        *)   GST_PACKAGE="${withval}" ;;
+        *)   GST_PACKAGE_NAME="${withval}" ;;
       esac
     ], 
     [
@@ -169,7 +169,7 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_ORIGIN],
       case "${withval}" in
         yes) AC_MSG_ERROR(bad value ${withval} for --with-package-origin) ;;
         no)  AC_MSG_ERROR(bad value ${withval} for --with-package-origin) ;;
-        *)   GST_ORIGIN="${withval}" ;;
+        *)   GST_PACKAGE_ORIGIN="${withval}" ;;
       esac
     ], 
     [GST_PACKAGE_ORIGIN="[Unknown package origin]"] dnl Default value
