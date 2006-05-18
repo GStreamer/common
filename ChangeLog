@@ -1,3 +1,11 @@
+2006-05-18  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* check.mak:
+	  Fix 'make help' in check directories, it should be
+	  'valgrind.gen-suppressions' not 'valgrind-gen-suppressions'
+	  (not changing target to match help string on purpose to keep
+	  scripts etc. functional).
+
 2006-05-18  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	Patch by: Peter Kjellerstedt

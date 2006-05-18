@@ -133,5 +133,5 @@ help:
 	@echo "make valgrind                      -- valgrind all tests"
 	@echo "make (dir)/(test).valgrind         -- valgrind the given test"
 	@echo "make (dir)/(test).valgrind-forever -- valgrind the given test forever"
-	@echo "make (dir)/(test).valgrind-gen-suppressions -- generate suppressions"
+	@echo "make (dir)/(test).valgrind.gen-suppressions -- generate suppressions"
 	@echo "                                               and save to suppressions.log"
