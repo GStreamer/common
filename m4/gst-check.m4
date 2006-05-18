@@ -12,6 +12,7 @@ dnl GST_CHECK_GST_GDP([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_CONTROLLER([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_CHECK([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_PLUGINS_BASE([MAJMIN], [MINVER], [REQUIRED])
+dnl   also sets/ACSUBSTs GSTPB_PLUGINS_DIR
 
 AC_DEFUN([GST_CHECK_MODULES],
 [
@@ -85,4 +86,13 @@ AC_DEFUN([GST_CHECK_GST_PLUGINS_BASE],
 [
   GST_CHECK_MODULES(GST_PLUGINS_BASE, gstreamer-plugins-base-[$1], [$2],
     [GStreamer Base Plug-ins Library], [$3])
+
+  dnl check for where base plug-ins got installed
+  dnl this is used for unit tests
+  GSTPB_PLUGINS_DIR=`pkg-config --variable=pluginsdir gstreamer-plugins-base-[$1]`
+  if test -z $GSTPB_PLUGINS_DIR; then
+    AC_MSG_ERROR(
+      [no pluginsdir set in GStreamer Base Plug-ins pkg-config file])
+  fi
+  AC_SUBST(GSTPB_PLUGINS_DIR)
 ])
