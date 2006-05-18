@@ -50,6 +50,12 @@ AC_DEFUN([GST_ARCH],
     xx86_64)
       HAVE_CPU_X86_64=yes
       AC_DEFINE(HAVE_CPU_X86_64, 1, [Define if the host CPU is a x86_64]) ;;
+    xcris)
+      HAVE_CPU_CRIS=yes
+      AC_DEFINE(HAVE_CPU_CRIS, 1, [Define if the host CPU is a CRIS]) ;;
+    xcrisv32)
+      HAVE_CPU_CRISV32=yes
+      AC_DEFINE(HAVE_CPU_CRISV32, 1, [Define if the host CPU is a CRISv32]) ;;
   esac
   
   dnl Determine endianness
@@ -66,6 +72,8 @@ AC_DEFUN([GST_ARCH],
   AM_CONDITIONAL(HAVE_CPU_IA64,       test "x$HAVE_CPU_IA64" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_M68K,       test "x$HAVE_CPU_M68K" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_X86_64,     test "x$HAVE_CPU_X86_64" = "xyes")
+  AM_CONDITIONAL(HAVE_CPU_CRIS,       test "x$HAVE_CPU_CRIS" = "xyes")
+  AM_CONDITIONAL(HAVE_CPU_CRISV32,    test "x$HAVE_CPU_CRISV32" = "xyes")
 
 ])
 
@@ -78,7 +86,7 @@ AC_DEFUN([GST_UNALIGNED_ACCESS], [
         _AS_ECHO_N([(blacklisted) ])
         as_cv_unaligned_access=no
 	;;
-      i?86*|powerpc*|m68k*)
+      i?86*|powerpc*|m68k*|cris*)
         _AS_ECHO_N([(whitelisted) ])
         as_cv_unaligned_access=yes
 	;;
