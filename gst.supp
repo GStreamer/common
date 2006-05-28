@@ -609,3 +609,14 @@
    fun:oil_optimize_all
    fun:oil_init
 }
+
+# memeleak in g_option_context_parse on FC5-64
+{
+   g_option_context_parse memleak
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_strdup
+   fun:init_post
+   fun:g_option_context_parse
+}
