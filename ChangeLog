@@ -1,6 +1,11 @@
 2006-05-28  Edward Hervey  <edward@fluendo.com>
 
 	* gst.supp:
+	Reverting previous commit.
+	
+2006-05-28  Edward Hervey  <edward@fluendo.com>
+
+	* gst.supp:
 	Added suppresion for memleak in g_option_context_parse on fc5-64
 
 2006-05-19  Thomas Vander Stichele  <thomas at apestaart dot org>
