@@ -86,7 +86,6 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES): scan-build.stamp
 
 #### templates ####
 
-### FIXME: make this error out again when docs are fixed for 0.9
 tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
 	@echo '*** Rebuilding template files ***'
 	if test x"$(srcdir)" != x. ; then \
@@ -95,7 +94,7 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	fi
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
 	@if test -s $(DOC_MODULE)-unused.txt; then \
-	    true; fi # exit 1; fi
+	    exit 1; fi
 	rm -f tmpl-build.log
 	touch tmpl-build.stamp
 

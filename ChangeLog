@@ -1,7 +1,12 @@
+2006-05-30  Thomas Vander Stichele  <thomas (at) apestaart (dot) org>
+
+	* gtk-doc.mak:
+	  error out if gtkdoc-mktmpl finds unused declarations
+
 2006-05-28  Edward Hervey  <edward@fluendo.com>
 
 	* gst.supp:
-	Reverting previous commit.
+	Reverting previous commit.  That's good to know, Edward, but why ?
 	
 2006-05-28  Edward Hervey  <edward@fluendo.com>
 
