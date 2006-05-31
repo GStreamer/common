@@ -1,3 +1,8 @@
+2006-05-31  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gtk-doc.mak:
+	  allow a magic variable to suppress errors from docbuilding
+
 2006-05-30  Thomas Vander Stichele  <thomas (at) apestaart (dot) org>
 
 	* gtk-doc.mak:
