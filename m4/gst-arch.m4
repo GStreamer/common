@@ -20,9 +20,12 @@ AC_DEFUN([GST_ARCH],
         *)
           AC_DEFINE(HAVE_RDTSC, 1, [Define if RDTSC is available]) ;;
       esac ;;
-    xpowerpc*)
+    xpowerpc)
       HAVE_CPU_PPC=yes
       AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the host CPU is a PowerPC]) ;;
+    xpowerpc64)
+      HAVE_CPU_PPC64=yes
+      AC_DEFINE(HAVE_CPU_PPC64, 1, [Define if the host CPU is a 64 bit PowerPC]) ;;
     xalpha*)
       HAVE_CPU_ALPHA=yes
       AC_DEFINE(HAVE_CPU_ALPHA, 1, [Define if the host CPU is an Alpha]) ;;
@@ -63,6 +66,7 @@ AC_DEFUN([GST_ARCH],
   
   AM_CONDITIONAL(HAVE_CPU_I386,       test "x$HAVE_CPU_I386" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_PPC,        test "x$HAVE_CPU_PPC" = "xyes")
+  AM_CONDITIONAL(HAVE_CPU_PPC64,      test "x$HAVE_CPU_PPC64" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_ALPHA,      test "x$HAVE_CPU_ALPHA" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_ARM,        test "x$HAVE_CPU_ARM" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_SPARC,      test "x$HAVE_CPU_SPARC" = "xyes")
