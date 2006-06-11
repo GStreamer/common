@@ -99,6 +99,8 @@ if test x$USE_[$1] = xyes; then
   dnl If it isn't found, unset USE_[$1]
   if test x$HAVE_[$1] = xno; then
     USE_[$1]=no
+  else
+    ifelse([$3], , :, [AC_MSG_NOTICE(*** These plugins will be built: [$3])])
   fi
 fi
 dnl *** Warn if it's disabled or not found
