@@ -22,7 +22,6 @@ EXTRA_DIST = \
 	gst-function.m4 \
 	gst-gettext.m4 \
 	gst-glib2.m4 \
-	gst-gstreamer.m4 \
 	gst-libxml2.m4 \
 	gst-plugindir.m4 \
 	gst-valgrind.m4 \
