@@ -27,7 +27,7 @@ dnl FEATURE-NAME        is the name of the feature, and should be in
 dnl                     purely upper case characters.
 dnl FEATURE-DESCRIPTION is used to describe the feature in help text for
 dnl                     the command line argument.
-dnl DEPENDENT-PLUGINS   lists any plugins which depend on this feature.
+dnl DEPENDENT-PLUGINS   lists any plug-ins which depend on this feature.
 dnl TEST-FOR-FEATURE    is a test which sets HAVE_<FEATURE-NAME> to "yes"
 dnl                     or "no" depending on whether the feature is
 dnl                     available.
@@ -46,9 +46,12 @@ dnl                 that were checked through GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
 
 AC_DEFUN([GST_CHECK_FEATURE],
-AC_MSG_NOTICE(***)
-AC_MSG_NOTICE(*** checking plugin: [$3] ***)
-AC_MSG_NOTICE(***)
+echo
+AC_MSG_NOTICE(*** checking feature: [$2] ***)
+if test "x[$3]" != "x"
+then
+  AC_MSG_NOTICE(*** for plug-ins: [$3] ***)
+fi
 [dnl
 builtin(define, [gst_endisable], ifelse($5, [disabled], [enable], [disable]))dnl
 dnl if it is set to NO, then don't even consider it for building

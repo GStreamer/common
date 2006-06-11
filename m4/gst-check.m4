@@ -1,6 +1,8 @@
-dnl pkg-config-based checks for GStreamer modules
+dnl pkg-config-based checks for GStreamer modules and dependency modules
 
 dnl generic:
+dnl GST_PKG_CHECK_MODULES([PREFIX], [WHICH], [REQUIRED])
+dnl sets HAVE_[$PREFIX], [$PREFIX]_*
 dnl GST_CHECK_MODULES([PREFIX], [MODULE], [MINVER], [NAME], [REQUIRED])
 dnl sets HAVE_[$PREFIX], [$PREFIX]_*
 
@@ -14,6 +16,30 @@ dnl GST_CHECK_GST_CHECK([MAJMIN], [MINVER], [REQUIRED])
 dnl GST_CHECK_GST_PLUGINS_BASE([MAJMIN], [MINVER], [REQUIRED])
 dnl   also sets/ACSUBSTs GSTPB_PLUGINS_DIR
 
+AC_DEFUN([GST_PKG_CHECK_MODULES],
+[
+  which="[$2]"
+  dnl not required by default, since we use this mostly for plugin deps
+  required=ifelse([$3], , "no", [$3])
+
+  PKG_CHECK_MODULES([$1], $which,
+    [
+      HAVE_[$1]="yes"
+    ],
+    [
+      HAVE_[$1]="no"
+      AC_MSG_RESULT(no)
+      if test "x$required" = "xyes"; then
+        AC_MSG_ERROR($[$1]_PKG_ERRORS)
+      else
+        AC_MSG_NOTICE($[$1]_PKG_ERRORS)
+      fi
+    ])
+
+  dnl AC_SUBST of CFLAGS and LIBS was not done before automake 1.7
+  dnl It gets done automatically in automake >= 1.7, which we now require
+]))
+
 AC_DEFUN([GST_CHECK_MODULES],
 [
   module=[$2]
@@ -24,18 +50,20 @@ AC_DEFUN([GST_CHECK_MODULES],
   PKG_CHECK_MODULES([$1], $module >= $minver,
     [
       HAVE_[$1]="yes"
-    ], HAVE_[$1]="no")
+    ],
+    [
+      HAVE_[$1]="no"
+      AC_MSG_RESULT(no)
+      AC_MSG_NOTICE($[$1]_PKG_ERRORS)
+      if test "x$required" = "xyes"; then
+        AC_MSG_ERROR([no $module >= $minver ($name) found])
+      else
+        AC_MSG_NOTICE([no $module >= $minver ($name) found])
+      fi
+    ])
 
-  if test "x$HAVE_[$1]" = "xno"; then
-    if test "x$required" = "xyes"; then
-      AC_MSG_ERROR([no $module >= $minver ($name) found])
-    else
-      AC_MSG_NOTICE([no $module >= $minver ($name) found])
-    fi
-  fi
-  dnl AC_SUBST seems to be done automatically in automake >= 1.7
-  dnl AC_SUBST($1_CFLAGS)
-  dnl AC_SUBST($1_LIBS)
+  dnl AC_SUBST of CFLAGS and LIBS was not done before automake 1.7
+  dnl It gets done automatically in automake >= 1.7, which we now require
 ]))
 
 AC_DEFUN([GST_CHECK_GST],

@@ -1,3 +1,16 @@
+2006-06-11  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-check.m4:
+	  add GST_PKG_CHECK_MODULES, which in the normal case of checking
+	  for a dependency lib for a plug-in only needs two arguments
+	  to do the right thing.
+	* m4/gst-feature.m4:
+	  clean up output a little of feature checking; also deal with
+	  non-plug-in feature checks
+	* m4/Makefile.am:
+	* m4/gst-gstreamer.m4:
+	  remove this file; it's a useless check
+
 2006-06-06  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-arch.m4:
