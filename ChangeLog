@@ -1,3 +1,11 @@
+2006-06-22  Tim-Philipp Müller  <tim at centricular dot net>
+
+	Patch by: Peter Kjellerstedt <pkj at axis com>
+
+	* m4/gst-feature.m4:
+	  Show list of plugins without external dependencies that
+	  will not be built as well (#344136).
+
 2006-06-15  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/gst-plugin-docs.m4:
