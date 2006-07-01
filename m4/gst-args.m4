@@ -83,6 +83,11 @@ AC_DEFUN([GST_ARG_GCOV],
     enable_gcov=$enableval,
     enable_gcov=no)
   if test x$enable_gcov = xyes ; then
+    if test "x$GCC" != "xyes"
+    then
+      AC_MSG_ERROR([gcov only works if gcc is used])
+    fi
+
     AS_COMPILER_FLAG(["-fprofile-arcs"],
       [GCOV_CFLAGS="$GCOV_CFLAGS -fprofile-arcs"],
       true)
@@ -97,7 +102,10 @@ AC_DEFUN([GST_ARG_GCOV],
     GCOV_LIBS=-lgcov
     AC_SUBST(GCOV_CFLAGS)
     AC_SUBST(GCOV_LIBS)
+    GCOV=`echo $CC | sed s/gcc/gcov/g`
+    AC_SUBST(GCOV)
 
+    GST_GCOV_ENABLED=yes
     AC_DEFINE_UNQUOTED(GST_GCOV_ENABLED, 1,
       [Defined if gcov is enabled to force a rebuild due to config.h changing])
   fi
