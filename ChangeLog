@@ -1,3 +1,11 @@
+2006-07-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* Makefile.am:
+	* coverage/coverage-report-entry.pl:
+	* coverage/coverage-report.pl:
+	* coverage/coverage-report.xsl:
+	  copy coverage reporting files from dbus
+
 2006-07-01  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-args.m4:
