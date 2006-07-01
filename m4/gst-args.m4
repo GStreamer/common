@@ -91,6 +91,12 @@ AC_DEFUN([GST_ARG_GCOV],
       true)
     dnl remove any -O flags - FIXME: is this needed ?
     GCOV_CFLAGS=`echo "$GCOV_CFLAGS" | sed -e 's/-O[0-9]*//g'`
+    dnl libtool 1.5.22 and lower strip -fprofile-arcs from the flags
+    dnl passed to the linker, which is a bug; -fprofile-arcs implicitly
+    dnl links in -lgcov, so we do it explicitly here for the same effect
+    GCOV_LIBS=-lgcov
+    AC_SUBST(GCOV_CFLAGS)
+    AC_SUBST(GCOV_LIBS)
 
     AC_DEFINE_UNQUOTED(GST_GCOV_ENABLED, 1,
       [Defined if gcov is enabled to force a rebuild due to config.h changing])
@@ -119,7 +125,10 @@ AC_DEFUN([GST_ARG_WITH_PKG_CONFIG_PATH],
   AC_ARG_WITH(pkg-config-path, 
      AC_HELP_STRING([--with-pkg-config-path],
                     [colon-separated list of pkg-config(1) dirs]),
-     [export PKG_CONFIG_PATH=${withval}])
+     [
+       export PKG_CONFIG_PATH=${withval}
+       AC_MSG_NOTICE(Set PKG_CONFIG_PATH to $PKG_CONFIG_PATH)
+     ])
 ])
 
 
