@@ -13,4 +13,4 @@ lcov-report:
 	lcov -r lcov/lcov.info `cat lcov/remove` > lcov/lcov.cleaned.info
 	rm lcov/remove
 	mv lcov/lcov.cleaned.info lcov/lcov.info
-	genhtml -o lcov lcov/lcov.info
+	genhtml -t "$(PACKAGE_STRING)" -o lcov lcov/lcov.info
