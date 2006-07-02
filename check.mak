@@ -121,6 +121,15 @@ valgrind: $(TESTS)
 		false;							\
 	fi
 
+# inspect every plugin feature
+GST_INSPECT = $(GST_TOOLS_DIR)/gst-inspect-$(GST_MAJORMINOR)
+inspect:
+	@echo "Inspecting features ..."
+	for e in `$(TESTS_ENVIRONMENT) $(GST_INSPECT) | head -n -2 	\
+	  | cut -d: -f2`;						\
+	  do echo Inspecting $$e;					\
+	     $(GST_INSPECT) $$e > /dev/null 2>&1; done
+
 help:
 	@echo "make check                         -- run all checks"
 	@echo "make torture                       -- run all checks $(LOOPS) times"
@@ -135,3 +144,5 @@ help:
 	@echo "make (dir)/(test).valgrind-forever -- valgrind the given test forever"
 	@echo "make (dir)/(test).valgrind.gen-suppressions -- generate suppressions"
 	@echo "                                               and save to suppressions.log"
+	@echo "make inspect                       -- inspect all plugin features"
+

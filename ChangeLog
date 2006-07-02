@@ -1,5 +1,14 @@
 2006-07-02  Thomas Vander Stichele  <thomas at apestaart dot org>
 
+	* Makefile.am:
+	* check.mak:
+	  add an inspect target that inspects every element feature,
+	  so we can have that added for coverage
+	* coverage/lcov.mak:
+	  add support for lcov
+
+2006-07-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
 	* m4/gst-args.m4:
 	  when building with gcov, reset CFLAGS and friends to O0
 
