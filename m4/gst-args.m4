@@ -108,6 +108,19 @@ AC_DEFUN([GST_ARG_GCOV],
     GST_GCOV_ENABLED=yes
     AC_DEFINE_UNQUOTED(GST_GCOV_ENABLED, 1,
       [Defined if gcov is enabled to force a rebuild due to config.h changing])
+    dnl if gcov is used, we do not want default -O2 CFLAGS
+    if test "x$GST_GCOV_ENABLED" = "xyes"
+    then
+      CFLAGS="-O0"
+      AC_SUBST(CFLAGS)
+      CXXFLAGS="-O0"
+      AC_SUBST(CXXFLAGS)
+      FFLAGS="-O0"
+      AC_SUBST(FFLAGS)
+      CCASFLAGS="-O0"
+      AC_SUBST(CCASFLAGS)
+      AC_MSG_NOTICE([gcov enabled, setting CFLAGS and friends to $CFLAGS])
+    fi
   fi
   AM_CONDITIONAL(GST_GCOV_ENABLED, test x$enable_gcov = xyes)
 ])

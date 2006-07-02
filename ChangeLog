@@ -1,6 +1,11 @@
 2006-07-02  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-args.m4:
+	  when building with gcov, reset CFLAGS and friends to O0
+
+2006-07-02  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-args.m4:
 	  Find the gcov that matches the gcc version
 	  Only allow gcov if we use gcc
 
