@@ -1,3 +1,10 @@
+2006-07-03  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* coverage/lcov.mak:
+	  fix up rules to work with gst-python as well
+	  run "make lcov" to test and generate the reports
+	  run "make lcov-reset" to redo it after that
+
 2006-07-02  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* Makefile.am:
