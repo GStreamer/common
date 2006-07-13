@@ -1,3 +1,9 @@
+2006-07-13  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst-plugin-docs.m4:
+	  remove the configure argument for enabling plugin doc build;
+	  having gtk-doc enabled and pyxml present is enough of a trigger
+
 2006-07-03  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* coverage/lcov.mak:
