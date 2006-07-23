@@ -1,3 +1,10 @@
+2006-07-23  Stefan Kost  <ensonic@users.sf.net>
+
+	Patch by: Frederic Peters <fpeters@entrouvert.com>
+
+	* m4/gst-parser.m4:
+          Fix bison detection (#348354)
+
 2006-07-21  Stefan Kost  <ensonic@users.sf.net>
 
 	* m4/gst-parser.m4:
