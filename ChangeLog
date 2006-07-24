@@ -1,3 +1,15 @@
+2006-07-24  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* check.mak:
+	Valgrind fails to find tests written in tests/check/ directly (rather
+	than a subdir) - because valgrind gets run with a filename that
+	doesn't contain a relative path, it goes searching /usr/bin instead.
+	Run with ./.... to make things work either way.
+
+	* gtk-doc-plugins.mak:
+	Add $(top_builddir)/src as a place to look for plugins
+	when building too, since that's where gst-template keeps things
+
 2006-07-23  Stefan Kost  <ensonic@users.sf.net>
 
 	Patch by: Frederic Peters <fpeters@entrouvert.com>

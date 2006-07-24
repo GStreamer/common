@@ -49,7 +49,7 @@ LOOPS = 10
 	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
 	--leak-resolution=high --num-callers=20			\
-	$* 2>&1 | tee valgrind.log
+	./$* 2>&1 | tee valgrind.log
 	@if grep "==" valgrind.log > /dev/null 2>&1; then	\
 	    rm valgrind.log;					\
 	    exit 1;						\
@@ -66,7 +66,7 @@ LOOPS = 10
 	--tool=memcheck --leak-check=full --trace-children=yes	\
 	--leak-resolution=high --num-callers=20			\
 	--gen-suppressions=all					\
-	$* 2>&1 | tee suppressions.log
+	./$* 2>&1 | tee suppressions.log
 	
 # valgrind any given test until failure by running make test.valgrind-forever
 %.valgrind-forever: %
