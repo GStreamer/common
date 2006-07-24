@@ -1,3 +1,11 @@
+2006-07-24  Tim-Philipp Müller  <tim at centricular dot net>
+
+	Patch by: Frederic Peters <fpeters at entrouvert com>
+
+	* m4/gst-parser.m4:
+	  Need to double square brackets in .m4 files. Should fix bison
+	  version detection with version numbers like 1.23a (#348354).
+
 2006-07-24  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* check.mak:
