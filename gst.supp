@@ -609,3 +609,39 @@
    fun:oil_optimize_all
    fun:oil_init
 }
+
+{
+   <annoying read error inside dlopen stuff on Ubuntu Dapper x86_64>
+   Memcheck:Addr8
+   obj:/lib/ld-2.3.6.so
+}
+
+{
+   <Ubuntu Dapper x86_64>
+   Memcheck:Param
+   futex(uaddr2)
+   fun:pthread_once
+   obj:/lib/libc-2.3.6.so
+   obj:/lib/libc-2.3.6.so
+   fun:setlocale
+   fun:init_pre
+   fun:g_option_context_parse
+   fun:gst_init_check
+   fun:gst_init
+   fun:gst_check_init
+   fun:main
+}
+
+{
+   <Ubuntu Dapper x86_64 dlopen stuff again>
+   Memcheck:Cond
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+   fun:_dl_open
+   obj:/lib/libdl-2.3.6.so
+   obj:/lib/ld-2.3.6.so
+   obj:/lib/libdl-2.3.6.so
+   fun:dlopen
+   fun:g_module_open
+   fun:gst_plugin_load_file
+}
