@@ -43,10 +43,6 @@
    fun:dlopen@@GLIBC_2.1
    fun:g_module_open
    fun:gst_plugin_load_file
-   fun:gst_plugin_load
-   fun:test_load_coreelements
-   fun:srunner_run_all
-   fun:main
 }
 
 # glibc does not deallocate thread-local storage
