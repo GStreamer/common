@@ -1,3 +1,8 @@
+2006-09-14  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* gst.supp:
+	  Some suppressions for the more recent ld.so in ubuntu edgy.
+
 2006-08-23  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* gst.supp:
