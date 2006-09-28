@@ -1,3 +1,10 @@
+2006-09-28  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* m4/gst-glib2.m4:
+	Use gmodule-no-export-2.0.pc instead of gmodule-2.0.pc - we neither
+	want nor need --export-dynamic (which ends up making us export a bunch
+	of unneeded symbols)
+
 2006-09-14  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* gst.supp:
