@@ -654,3 +654,64 @@
    obj:/lib/ld-2.4.so
    obj:/lib/ld-2.4.so
 }
+
+# More edgy suppressions (Mike)
+{  
+   <dlopen Condition jump suppressions for Ubuntu Edgy/x86>
+   Memcheck:Cond
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   fun:dlopen_doit
+   obj:/lib/ld-2.4.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+}
+
+{  
+   <dlopen Condition jump suppressions for Ubuntu Edgy/x86>
+   Memcheck:Cond
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   fun:dlopen_doit
+   obj:/lib/ld-2.4.so
+   fun:_dlerror_run
+   fun:dlopen@@GLIBC_2.1
+}
+
+{  
+   <dlopen Condition jump suppressions for Ubuntu Edgy/x86>
+   Memcheck:Cond
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   fun:do_sym
+   fun:_dl_sym
+}
+
+# This one's overly general, but there's zero other information in the stack
+# trace - just these five lines!
+{  
+   <dlopen Condition jump suppressions for Ubuntu Edgy/x86>
+   Memcheck:Cond
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+   obj:/lib/ld-2.4.so
+}
+
+{
+   <tls leaks on Edgy/x86>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.4.so
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+}
+
