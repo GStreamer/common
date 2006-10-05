@@ -30,6 +30,11 @@ AC_DEFUN([GST_SET_ERROR_CFLAGS],
   if test "x$1" != "xno"
   then
     AS_COMPILER_FLAG(-Werror, ERROR_CFLAGS="$ERROR_CFLAGS -Werror")
+    dnl if -Werror isn't suported, try -errwarn=%all
+    if test "x$ERROR_CFLAGS" == "x"
+    then
+      AS_COMPILER_FLAG(-errwarn=%all, ERROR_CFLAGS="$ERROR_CFLAGS -errwarn=%all")
+    fi
   fi
   
   AC_SUBST(ERROR_CFLAGS)
