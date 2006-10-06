@@ -20,6 +20,7 @@ AC_DEFUN([GST_SET_ERROR_CFLAGS],
 [
   AC_REQUIRE([AC_PROG_CC])
   AC_REQUIRE([AS_COMPILER_FLAG])
+
   
   dnl if we support -Wall, set it unconditionally
   AS_COMPILER_FLAG(-Wall,
@@ -30,10 +31,21 @@ AC_DEFUN([GST_SET_ERROR_CFLAGS],
   if test "x$1" != "xno"
   then
     AS_COMPILER_FLAG(-Werror, ERROR_CFLAGS="$ERROR_CFLAGS -Werror")
-    dnl if -Werror isn't suported, try -errwarn=%all
+
+    dnl if -Werror isn't suported
     if test "x$ERROR_CFLAGS" == "x"
     then
-      AS_COMPILER_FLAG(-errwarn=%all, ERROR_CFLAGS="$ERROR_CFLAGS -errwarn=%all")
+      dnl try -errwarn=%all,no%E_EMPTY_DECLARATION (Sun Forte case)
+      dnl For Forte we need disable "empty declaration" warning produced by un-needed semicolon 
+      AS_COMPILER_FLAG([-errwarn=%all,no%E_EMPTY_DECLARATION],
+                       [ERROR_CFLAGS="-errwarn=%all,no%E_EMPTY_DECLARATION"])
+
+      dnl if this also isn't suported, try only for -errwarn=%all
+      if test "x$ERROR_CFLAGS" == "x"
+      then
+        AS_COMPILER_FLAG(-errwarn=%all,
+                         ERROR_CFLAGS="-errwarn=%all")
+      fi
     fi
   fi
   
