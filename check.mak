@@ -42,7 +42,7 @@ LOOPS = 10
 # valgrind any given test by running make test.valgrind
 %.valgrind: %
 	$(TESTS_ENVIRONMENT)					\
-	CK_DEFAULT_TIMEOUT=60					\
+	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q					\

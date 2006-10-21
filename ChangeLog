@@ -1,3 +1,10 @@
+2006-10-21  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* check.mak:
+	  Increase default timeout under valgrind, 60 is just too short and
+	  some tests take a bit longer these days and not everyone has a
+	  beefy machine.
+
 2006-09-29  Michael Smith  <msmith@fluendo.com>
 
 	* gst.supp:
