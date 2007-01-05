@@ -1,3 +1,10 @@
+2007-01-05  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* m4/gst-parser.m4:
+	  Use 'sed' rather than 'tr' to strip trailing letters from version
+	  numbers, since 'tr' might not be available and we know sed is
+	  (#378931).
+
 2006-10-21  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* check.mak:

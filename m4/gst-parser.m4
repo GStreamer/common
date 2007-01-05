@@ -9,7 +9,7 @@ AC_DEFUN([GST_BISON_CHECK],
 
   dnl check bison version
   bison_min_version=1.35
-  bison_version=`$BISON_PATH --version | head -n 1 | sed 's/^.*) //' | tr -d '[[:alpha:]]' | cut -d' ' -f1`
+  bison_version=`$BISON_PATH --version | head -n 1 | sed 's/^.*) //' | sed 's/[a-zA-Z]*$//' | cut -d' ' -f1`
   AC_MSG_CHECKING([bison version $bison_version >= $bison_min_version])
 
   if perl -w <<EOF
@@ -34,7 +34,7 @@ AC_DEFUN([GST_FLEX_CHECK],
   
   dnl check flex version
   flex_min_version=2.5.6
-  flex_version=`$FLEX_PATH --version | head -n 1 | sed 's/^.* //' | tr -d '[[:alpha:]]' | cut -d' ' -f1`
+  flex_version=`$FLEX_PATH --version | head -n 1 | sed 's/^.* //' | sed 's/[a-zA-Z]*$//' | cut -d' ' -f1`
   AC_MSG_CHECKING([flex version $flex_version >= $flex_min_version])
   if perl -w <<EOF
     (\$min_version_major, \$min_version_minor, \$min_version_micro ) = "$flex_min_version" =~ /(\d+)\.(\d+)\.(\d+)/;
