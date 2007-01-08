@@ -1,3 +1,12 @@
+2007-01-08  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* m4/gst-parser.m4:
+	  Need to use double square brackets again so m4 doesn't remove them
+	  (fixes #378931).
+
+	* m4/gst-args.m4:
+	  Use double square brackets here as well, for the same reason.
+
 2007-01-05  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/gst-parser.m4:

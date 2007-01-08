@@ -95,7 +95,7 @@ AC_DEFUN([GST_ARG_GCOV],
       [GCOV_CFLAGS="$GCOV_CFLAGS -ftest-coverage"],
       true)
     dnl remove any -O flags - FIXME: is this needed ?
-    GCOV_CFLAGS=`echo "$GCOV_CFLAGS" | sed -e 's/-O[0-9]*//g'`
+    GCOV_CFLAGS=`echo "$GCOV_CFLAGS" | sed -e 's/-O[[0-9]]*//g'`
     dnl libtool 1.5.22 and lower strip -fprofile-arcs from the flags
     dnl passed to the linker, which is a bug; -fprofile-arcs implicitly
     dnl links in -lgcov, so we do it explicitly here for the same effect
