@@ -69,7 +69,7 @@ AC_DEFUN([GST_CHECK_MODULES],
 AC_DEFUN([GST_CHECK_GST],
 [
   GST_CHECK_MODULES(GST, gstreamer-[$1], [$2], [GStreamer], [$3])
-  GST_TOOLS_DIR=`pkg-config --variable=toolsdir gstreamer-[$1]`
+  GST_TOOLS_DIR=`$PKG_CONFIG --variable=toolsdir gstreamer-[$1]`
   if test -z $GST_TOOLS_DIR; then
     AC_MSG_ERROR(
       [no tools dir set in GStreamer pkg-config file; core upgrade needed.])
@@ -78,7 +78,7 @@ AC_DEFUN([GST_CHECK_GST],
 
   dnl check for where core plug-ins got installed
   dnl this is used for unit tests
-  GST_PLUGINS_DIR=`pkg-config --variable=pluginsdir gstreamer-[$1]`
+  GST_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-[$1]`
   if test -z $GST_PLUGINS_DIR; then
     AC_MSG_ERROR(
       [no pluginsdir set in GStreamer pkg-config file; core upgrade needed.])
@@ -117,7 +117,7 @@ AC_DEFUN([GST_CHECK_GST_PLUGINS_BASE],
 
   dnl check for where base plug-ins got installed
   dnl this is used for unit tests
-  GSTPB_PLUGINS_DIR=`pkg-config --variable=pluginsdir gstreamer-plugins-base-[$1]`
+  GSTPB_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-base-[$1]`
   if test -z $GSTPB_PLUGINS_DIR; then
     AC_MSG_ERROR(
       [no pluginsdir set in GStreamer Base Plug-ins pkg-config file])
