@@ -249,7 +249,7 @@ dnl read 'builds, but might not work'
 AC_DEFUN([GST_ARG_ENABLE_EXPERIMENTAL],
 [
   GST_CHECK_FEATURE(EXPERIMENTAL,
-    [enable building of experimental plug-ins],,
+    [building of experimental plug-ins],,
     HAVE_EXPERIMENTAL=yes, enabled,
     [
       AC_MSG_WARN(building experimental plug-ins)

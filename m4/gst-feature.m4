@@ -6,7 +6,7 @@ dnl GST_CHECK_FEATURE(FEATURE-NAME, FEATURE-DESCRIPTION,
 dnl                   DEPENDENT-PLUGINS, TEST-FOR-FEATURE,
 dnl                   DISABLE-BY-DEFAULT, ACTION-IF-USE, ACTION-IF-NOTUSE)
 dnl
-dnl This macro adds a command line argument to enable the user to enable
+dnl This macro adds a command line argument to allow the user to enable
 dnl or disable a feature, and if the feature is enabled, performs a supplied
 dnl test to check if the feature is available.
 dnl
