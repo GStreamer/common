@@ -79,6 +79,7 @@ AC_DEFUN([AG_GST_ARCH],
   AM_CONDITIONAL(HAVE_CPU_CRIS,       test "x$HAVE_CPU_CRIS" = "xyes")
   AM_CONDITIONAL(HAVE_CPU_CRISV32,    test "x$HAVE_CPU_CRISV32" = "xyes")
 
+  AC_DEFINE_UNQUOTED(HOST_CPU, "$host_cpu", [the host CPU])
 ])
 
 dnl check if unaligned memory access works correctly
@@ -119,5 +120,4 @@ int main(int argc, char **argv)
     AC_DEFINE_UNQUOTED(HAVE_UNALIGNED_ACCESS, 1,
       [defined if unaligned memory access works correctly])
   fi
-  AC_DEFINE_UNQUOTED(HOST_CPU, "$host_cpu", [the host CPU])
 ])
