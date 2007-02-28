@@ -1,10 +1,35 @@
+2007-02-28  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* m4/gst.m4:
+	  Add
+	* m4/gst-arch.m4:
+	* m4/gst-args.m4:
+	* m4/gst-check.m4:
+	* m4/gst-debuginfo.m4:
+	* m4/gst-default.m4:
+	* m4/gst-doc.m4:
+	* m4/gst-error.m4:
+	* m4/gst-feature.m4:
+	* m4/gst-function.m4:
+	* m4/gst-gettext.m4:
+	* m4/gst-glib2.m4:
+	* m4/gst-libxml2.m4:
+	* m4/gst-parser.m4:
+	* m4/gst-plugin-docs.m4:
+	* m4/gst-plugindir.m4:
+	* m4/gst-valgrind.m4:
+	* m4/gst-x11.m4:
+	  Convert all macros to use AG_GST style so we can properly warn
+	  when they're missing if configure.ac calls AG_GST_INIT
+	  Will require update in all GStreamer modules.
+
 2007-02-11  Stefan Kost  <ensonic@users.sf.net>
 
 	* m4/gst-args.m4:
-	  Remove 'enable' from configure swicth description as this leads to 
+	  Remove 'enable' from configure switch description as this leads to 
 	  confusing lines like "disable enable builing ...".
 	* m4/gst-feature.m4:
-	  Fix comment to sounds less horrible.
+	  Fix comment to sound less horrible.
 
 2007-02-07  Tim-Philipp Müller  <tim at centricular dot net>
 
@@ -92,7 +117,7 @@
 	Patch by: Frederic Peters <fpeters@entrouvert.com>
 
 	* m4/gst-parser.m4:
-          Fix bison detection (#348354)
+	  Fix bison detection (#348354)
 
 2006-07-21  Stefan Kost  <ensonic@users.sf.net>
 

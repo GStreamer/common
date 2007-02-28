@@ -2,7 +2,7 @@ dnl Perform a check for a feature for GStreamer
 dnl Richard Boulton <richard-alsa@tartarus.org>
 dnl Thomas Vander Stichele <thomas@apestaart.org> added useful stuff
 dnl Last modification: 25/06/2001
-dnl GST_CHECK_FEATURE(FEATURE-NAME, FEATURE-DESCRIPTION,
+dnl AG_GST_CHECK_FEATURE(FEATURE-NAME, FEATURE-DESCRIPTION,
 dnl                   DEPENDENT-PLUGINS, TEST-FOR-FEATURE,
 dnl                   DISABLE-BY-DEFAULT, ACTION-IF-USE, ACTION-IF-NOTUSE)
 dnl
@@ -42,10 +42,10 @@ dnl
 dnl thomas :
 dnl we also added a history.  
 dnl GST_PLUGINS_YES will contain all plugins to be built
-dnl                 that were checked through GST_CHECK_FEATURE
+dnl                 that were checked through AG_GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
 
-AC_DEFUN([GST_CHECK_FEATURE],
+AC_DEFUN([AG_GST_CHECK_FEATURE],
 echo
 AC_MSG_NOTICE(*** checking feature: [$2] ***)
 if test "x[$3]" != "x"
@@ -125,12 +125,12 @@ dnl Use a -config program which accepts --cflags and --libs parameters
 dnl to set *_CFLAGS and *_LIBS and check existence of a feature.
 dnl Richard Boulton <richard-alsa@tartarus.org>
 dnl Last modification: 26/06/2001
-dnl GST_CHECK_CONFIGPROG(FEATURE-NAME, CONFIG-PROG-FILENAME, MODULES)
+dnl AG_GST_CHECK_CONFIGPROG(FEATURE-NAME, CONFIG-PROG-FILENAME, MODULES)
 dnl
 dnl This check was written for GStreamer: it should be renamed and checked
 dnl for portability if you decide to use it elsewhere.
 dnl
-AC_DEFUN([GST_CHECK_CONFIGPROG],
+AC_DEFUN([AG_GST_CHECK_CONFIGPROG],
 [
   AC_PATH_PROG([$1]_CONFIG, [$2], no)
   if test x$[$1]_CONFIG = xno; then
@@ -154,13 +154,13 @@ dnl Use AC_CHECK_LIB and AC_CHECK_HEADER to do both tests at once
 dnl sets HAVE_module if we have it
 dnl Richard Boulton <richard-alsa@tartarus.org>
 dnl Last modification: 26/06/2001
-dnl GST_CHECK_LIBHEADER(FEATURE-NAME, LIB NAME, LIB FUNCTION, EXTRA LD FLAGS, 
+dnl AG_GST_CHECK_LIBHEADER(FEATURE-NAME, LIB NAME, LIB FUNCTION, EXTRA LD FLAGS, 
 dnl                     HEADER NAME, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
 dnl
 dnl This check was written for GStreamer: it should be renamed and checked
 dnl for portability if you decide to use it elsewhere.
 dnl
-AC_DEFUN([GST_CHECK_LIBHEADER],
+AC_DEFUN([AG_GST_CHECK_LIBHEADER],
 [
   AC_CHECK_LIB([$2], [$3], HAVE_[$1]=yes, HAVE_[$1]=no,[$4])
   if test "x$HAVE_[$1]" = "xyes"; then
@@ -183,9 +183,9 @@ dnl 2003-06-27 Benjamin Otte - changed to make this work with gstconfig.h
 dnl
 dnl Add a subsystem --disable flag and all the necessary symbols and substitions
 dnl
-dnl GST_CHECK_SUBSYSTEM_DISABLE(SYSNAME, [subsystem name])
+dnl AG_GST_CHECK_SUBSYSTEM_DISABLE(SYSNAME, [subsystem name])
 dnl
-AC_DEFUN([GST_CHECK_SUBSYSTEM_DISABLE],
+AC_DEFUN([AG_GST_CHECK_SUBSYSTEM_DISABLE],
 [
   dnl this define will replace each literal subsys_def occurrence with
   dnl the lowercase hyphen-separated subsystem
@@ -215,7 +215,7 @@ AC_DEFUN([GST_CHECK_SUBSYSTEM_DISABLE],
 
 dnl relies on GST_PLUGINS_ALL, GST_PLUGINS_SELECTED, GST_PLUGINS_YES,
 dnl GST_PLUGINS_NO, and BUILD_EXTERNAL
-AC_DEFUN([GST_OUTPUT_PLUGINS], [
+AC_DEFUN([AG_GST_OUTPUT_PLUGINS], [
 
 echo "configure: *** Plug-ins without external dependencies that will be built:"
 ( for i in $GST_PLUGINS_SELECTED; do echo -e '\t'$i; done ) | sort

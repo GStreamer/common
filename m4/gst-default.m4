@@ -1,8 +1,8 @@
 dnl default elements used for tests and such
 
-dnl GST_DEFAULT_ELEMENTS
+dnl AG_GST_DEFAULT_ELEMENTS
 
-AC_DEFUN([GST_DEFAULT_ELEMENTS],
+AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
 [
   dnl decide on default elements
   dnl FIXME: provide configure-time options for this

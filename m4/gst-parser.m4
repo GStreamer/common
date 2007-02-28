@@ -1,4 +1,4 @@
-AC_DEFUN([GST_BISON_CHECK],
+AC_DEFUN([AG_GST_BISON_CHECK],
 [
   dnl FIXME: check if AC_PROG_YACC is suitable here
   dnl FIXME: make precious
@@ -23,7 +23,7 @@ EOF
   fi
 ])
 
-AC_DEFUN([GST_FLEX_CHECK],
+AC_DEFUN([AG_GST_FLEX_CHECK],
 [
   dnl we require flex for building the parser
   dnl FIXME: check if AC_PROG_LEX is suitable here

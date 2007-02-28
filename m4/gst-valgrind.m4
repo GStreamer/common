@@ -1,4 +1,4 @@
-AC_DEFUN([GST_VALGRIND_CHECK],
+AC_DEFUN([AG_GST_VALGRIND_CHECK],
 [
   dnl valgrind inclusion
   AC_ARG_ENABLE(valgrind,

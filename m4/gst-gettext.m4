@@ -1,9 +1,9 @@
 dnl gettext setup
 
-dnl GST_GETTEXT([gettext-package])
+dnl AG_GST_GETTEXT([gettext-package])
 dnl defines GETTEXT_PACKAGE and LOCALEDIR
 
-AC_DEFUN([GST_GETTEXT],
+AC_DEFUN([AG_GST_GETTEXT],
 [
   GETTEXT_PACKAGE=[$1]
   AC_SUBST(GETTEXT_PACKAGE)

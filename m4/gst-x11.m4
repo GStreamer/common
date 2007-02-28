@@ -1,6 +1,6 @@
 dnl macros for X-related detections
 dnl AC_SUBST's HAVE_X, X_CFLAGS, X_LIBS
-AC_DEFUN([GST_CHECK_X],
+AC_DEFUN([AG_GST_CHECK_X],
 [
   AC_PATH_XTRA
   ac_cflags_save="$CFLAGS"
@@ -40,7 +40,7 @@ dnl FIXME: add check if this platform can support linking to a
 dnl        non-PIC libXv, if not then don not use Xv.
 dnl FIXME: perhaps warn user if they have a shared libXv since
 dnl        this is an error until XFree86 starts shipping one
-AC_DEFUN([GST_CHECK_XV],
+AC_DEFUN([AG_GST_CHECK_XV],
 [
   if test x$HAVE_X = xyes; then
     AC_CHECK_LIB(Xv_pic, XvQueryExtension,

@@ -1,6 +1,6 @@
-dnl GST_PYXML_CHECK([MINIMUM-PYTHON-VERSION])
+dnl AG_GST_PYXML_CHECK([MINIMUM-PYTHON-VERSION])
 
-AC_DEFUN([GST_PYXML_CHECK],
+AC_DEFUN([AG_GST_PYXML_CHECK],
 [
   AC_BEFORE([AS_PATH_PYTHON],[$0])dnl find python first
 
@@ -17,17 +17,17 @@ AC_DEFUN([GST_PYXML_CHECK],
   fi
 ])
 
-dnl GST_PLUGIN_DOCS([MINIMUM-GTK-DOC-VERSION],[MINIMUM-PYTHON-VERSION])
+dnl AG_GST_PLUGIN_DOCS([MINIMUM-GTK-DOC-VERSION],[MINIMUM-PYTHON-VERSION])
 dnl 
 dnl checks for prerequisites for the common/mangle-tmpl.py script
-dnl used when building the plugin documenatation
+dnl used when building the plugin documentation
 
-AC_DEFUN([GST_PLUGIN_DOCS],
+AC_DEFUN([AG_GST_PLUGIN_DOCS],
 [
   AC_BEFORE([GTK_DOC_CHECK],[$0])dnl check for gtk-doc first
 
   if test x$enable_gtk_doc = xyes -a x$have_gtk_doc = xyes; then
-    GST_PYXML_CHECK([$1])
+    AG_GST_PYXML_CHECK([$1])
   fi
 
   build_plugin_docs=no

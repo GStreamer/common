@@ -4,8 +4,8 @@ dnl Thomas Vander Stichele <thomas@apestaart.org>
 
 dnl Last modification: 2005-10-16
 
-dnl GST_SET_ERROR_CFLAGS([ADD-WERROR])
-dnl GST_SET_LEVEL_DEFAULT([IS-CVS-VERSION])
+dnl AG_GST_SET_ERROR_CFLAGS([ADD-WERROR])
+dnl AG_GST_SET_LEVEL_DEFAULT([IS-CVS-VERSION])
 
 
 dnl Sets ERROR_CFLAGS to something the compiler will accept.
@@ -16,7 +16,7 @@ dnl -Werror is added if ADD-WERROR is not "no"
 
 dnl These flags can be overridden at make time:
 dnl make ERROR_CFLAGS=
-AC_DEFUN([GST_SET_ERROR_CFLAGS],
+AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
 [
   AC_REQUIRE([AC_PROG_CC])
   AC_REQUIRE([AS_COMPILER_FLAG])
@@ -55,7 +55,7 @@ AC_DEFUN([GST_SET_ERROR_CFLAGS],
 ])
 
 dnl Sets the default error level for debugging messages
-AC_DEFUN([GST_SET_LEVEL_DEFAULT],
+AC_DEFUN([AG_GST_SET_LEVEL_DEFAULT],
 [
   dnl define correct errorlevel for debugging messages. We want to have
   dnl GST_ERROR messages printed when running cvs builds

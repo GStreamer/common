@@ -1,22 +1,22 @@
 dnl pkg-config-based checks for GStreamer modules and dependency modules
 
 dnl generic:
-dnl GST_PKG_CHECK_MODULES([PREFIX], [WHICH], [REQUIRED])
+dnl AG_GST_PKG_CHECK_MODULES([PREFIX], [WHICH], [REQUIRED])
 dnl sets HAVE_[$PREFIX], [$PREFIX]_*
-dnl GST_CHECK_MODULES([PREFIX], [MODULE], [MINVER], [NAME], [REQUIRED])
+dnl AG_GST_CHECK_MODULES([PREFIX], [MODULE], [MINVER], [NAME], [REQUIRED])
 dnl sets HAVE_[$PREFIX], [$PREFIX]_*
 
 dnl specific:
-dnl GST_CHECK_GST([MAJMIN], [MINVER], [REQUIRED])
+dnl AG_GST_CHECK_GST([MAJMIN], [MINVER], [REQUIRED])
 dnl   also sets/ACSUBSTs GST_TOOLS_DIR and GST_PLUGINS_DIR
-dnl GST_CHECK_GST_BASE([MAJMIN], [MINVER], [REQUIRED])
-dnl GST_CHECK_GST_GDP([MAJMIN], [MINVER], [REQUIRED])
-dnl GST_CHECK_GST_CONTROLLER([MAJMIN], [MINVER], [REQUIRED])
-dnl GST_CHECK_GST_CHECK([MAJMIN], [MINVER], [REQUIRED])
-dnl GST_CHECK_GST_PLUGINS_BASE([MAJMIN], [MINVER], [REQUIRED])
+dnl AG_GST_CHECK_GST_BASE([MAJMIN], [MINVER], [REQUIRED])
+dnl AG_GST_CHECK_GST_GDP([MAJMIN], [MINVER], [REQUIRED])
+dnl AG_GST_CHECK_GST_CONTROLLER([MAJMIN], [MINVER], [REQUIRED])
+dnl AG_GST_CHECK_GST_CHECK([MAJMIN], [MINVER], [REQUIRED])
+dnl AG_GST_CHECK_GST_PLUGINS_BASE([MAJMIN], [MINVER], [REQUIRED])
 dnl   also sets/ACSUBSTs GSTPB_PLUGINS_DIR
 
-AC_DEFUN([GST_PKG_CHECK_MODULES],
+AC_DEFUN([AG_GST_PKG_CHECK_MODULES],
 [
   which="[$2]"
   dnl not required by default, since we use this mostly for plugin deps
@@ -40,7 +40,7 @@ AC_DEFUN([GST_PKG_CHECK_MODULES],
   dnl It gets done automatically in automake >= 1.7, which we now require
 ]))
 
-AC_DEFUN([GST_CHECK_MODULES],
+AC_DEFUN([AG_GST_CHECK_MODULES],
 [
   module=[$2]
   minver=[$3]
@@ -66,9 +66,9 @@ AC_DEFUN([GST_CHECK_MODULES],
   dnl It gets done automatically in automake >= 1.7, which we now require
 ]))
 
-AC_DEFUN([GST_CHECK_GST],
+AC_DEFUN([AG_GST_CHECK_GST],
 [
-  GST_CHECK_MODULES(GST, gstreamer-[$1], [$2], [GStreamer], [$3])
+  AG_GST_CHECK_MODULES(GST, gstreamer-[$1], [$2], [GStreamer], [$3])
   GST_TOOLS_DIR=`$PKG_CONFIG --variable=toolsdir gstreamer-[$1]`
   if test -z $GST_TOOLS_DIR; then
     AC_MSG_ERROR(
@@ -86,33 +86,33 @@ AC_DEFUN([GST_CHECK_GST],
   AC_SUBST(GST_PLUGINS_DIR)
 ])
 
-AC_DEFUN([GST_CHECK_GST_BASE],
+AC_DEFUN([AG_GST_CHECK_GST_BASE],
 [
-  GST_CHECK_MODULES(GST_BASE, gstreamer-base-[$1], [$2],
+  AG_GST_CHECK_MODULES(GST_BASE, gstreamer-base-[$1], [$2],
     [GStreamer Base Libraries], [$3])
 ])
   
-AC_DEFUN([GST_CHECK_GST_GDP],
+AC_DEFUN([AG_GST_CHECK_GST_GDP],
 [
-  GST_CHECK_MODULES(GST_GDP, gstreamer-dataprotocol-[$1], [$2],
+  AG_GST_CHECK_MODULES(GST_GDP, gstreamer-dataprotocol-[$1], [$2],
     [GStreamer Data Protocol Library], [$3])
 ])
   
-AC_DEFUN([GST_CHECK_GST_CONTROLLER],
+AC_DEFUN([AG_GST_CHECK_GST_CONTROLLER],
 [
-  GST_CHECK_MODULES(GST_CONTROLLER, gstreamer-controller-[$1], [$2],
+  AG_GST_CHECK_MODULES(GST_CONTROLLER, gstreamer-controller-[$1], [$2],
     [GStreamer Controller Library], [$3])
 ])  
 
-AC_DEFUN([GST_CHECK_GST_CHECK],
+AC_DEFUN([AG_GST_CHECK_GST_CHECK],
 [
-  GST_CHECK_MODULES(GST_CHECK, gstreamer-check-[$1], [$2],
+  AG_GST_CHECK_MODULES(GST_CHECK, gstreamer-check-[$1], [$2],
     [GStreamer Check unittest Library], [$3])
 ])
 
-AC_DEFUN([GST_CHECK_GST_PLUGINS_BASE],
+AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 [
-  GST_CHECK_MODULES(GST_PLUGINS_BASE, gstreamer-plugins-base-[$1], [$2],
+  AG_GST_CHECK_MODULES(GST_PLUGINS_BASE, gstreamer-plugins-base-[$1], [$2],
     [GStreamer Base Plug-ins Library], [$3])
 
   dnl check for where base plug-ins got installed

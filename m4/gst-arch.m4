@@ -1,9 +1,9 @@
-dnl GST_ARCH
+dnl AG_GST_ARCH
 dnl sets up defines and automake conditionals for host architecture
 dnl checks endianness
 dnl defines HOST_CPU
 
-AC_DEFUN([GST_ARCH],
+AC_DEFUN([AG_GST_ARCH],
 [
   AC_REQUIRE([AC_CANONICAL_HOST]) dnl we use host_ variables
 
@@ -82,7 +82,7 @@ AC_DEFUN([GST_ARCH],
 ])
 
 dnl check if unaligned memory access works correctly
-AC_DEFUN([GST_UNALIGNED_ACCESS], [
+AC_DEFUN([AG_GST_UNALIGNED_ACCESS], [
   AC_MSG_CHECKING([if unaligned memory access works correctly])
   if test x"$as_cv_unaligned_access" = x ; then
     case $host in

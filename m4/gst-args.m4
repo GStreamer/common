@@ -1,23 +1,23 @@
 dnl configure-time options shared among gstreamer modules
 
-dnl GST_ARG_DEBUG
-dnl GST_ARG_PROFILING
-dnl GST_ARG_VALGRIND
-dnl GST_ARG_GCOV
+dnl AG_GST_ARG_DEBUG
+dnl AG_GST_ARG_PROFILING
+dnl AG_GST_ARG_VALGRIND
+dnl AG_GST_ARG_GCOV
 
-dnl GST_ARG_EXAMPLES
+dnl AG_GST_ARG_EXAMPLES
 
-dnl GST_ARG_WITH_PKG_CONFIG_PATH
+dnl AG_GST_ARG_WITH_PKG_CONFIG_PATH
 dnl GST_ARG_PACKAGE_NAME
 dnl GST_ARG_PACKAGE_ORIGIN
 
-dnl GST_ARG_WITH_PLUGINS
+dnl AG_GST_ARG_WITH_PLUGINS
 
-dnl GST_ARG_ENABLE_EXTERNAL
-dnl GST_ARG_ENABLE_EXPERIMENTAL
-dnl GST_ARG_ENABLE_BROKEN
+dnl AG_GST_ARG_ENABLE_EXTERNAL
+dnl AG_GST_ARG_ENABLE_EXPERIMENTAL
+dnl AG_GST_ARG_ENABLE_BROKEN
 
-AC_DEFUN([GST_ARG_DEBUG],
+AC_DEFUN([AG_GST_ARG_DEBUG],
 [
   dnl debugging stuff
   AC_ARG_ENABLE(debug,
@@ -32,7 +32,7 @@ AC_DEFUN([GST_ARG_DEBUG],
     [USE_DEBUG=yes]) dnl Default value
 ])
 
-AC_DEFUN([GST_ARG_PROFILING],
+AC_DEFUN([AG_GST_ARG_PROFILING],
 [
   AC_ARG_ENABLE(profiling,
     AC_HELP_STRING([--enable-profiling],
@@ -47,7 +47,7 @@ AC_DEFUN([GST_ARG_PROFILING],
     [USE_PROFILING=no]) dnl Default value
 ])
 
-AC_DEFUN([GST_ARG_VALGRIND],
+AC_DEFUN([AG_GST_ARG_VALGRIND],
 [
   dnl valgrind inclusion
   AC_ARG_ENABLE(valgrind,
@@ -75,7 +75,7 @@ AC_DEFUN([GST_ARG_VALGRIND],
   fi
 ])
 
-AC_DEFUN([GST_ARG_GCOV],
+AC_DEFUN([AG_GST_ARG_GCOV],
 [
   AC_ARG_ENABLE(gcov,
     AC_HELP_STRING([--enable-gcov],
@@ -125,7 +125,7 @@ AC_DEFUN([GST_ARG_GCOV],
   AM_CONDITIONAL(GST_GCOV_ENABLED, test x$enable_gcov = xyes)
 ])
 
-AC_DEFUN([GST_ARG_EXAMPLES],
+AC_DEFUN([AG_GST_ARG_EXAMPLES],
 [
   AC_ARG_ENABLE(examples,
     AC_HELP_STRING([--disable-examples], [disable building examples]),
@@ -140,7 +140,7 @@ AC_DEFUN([GST_ARG_EXAMPLES],
   AM_CONDITIONAL(BUILD_EXAMPLES,      test "x$BUILD_EXAMPLES" = "xyes")
 ])
 
-AC_DEFUN([GST_ARG_WITH_PKG_CONFIG_PATH],
+AC_DEFUN([AG_GST_ARG_WITH_PKG_CONFIG_PATH],
 [
   dnl possibly modify pkg-config path
   AC_ARG_WITH(pkg-config-path, 
@@ -153,7 +153,7 @@ AC_DEFUN([GST_ARG_WITH_PKG_CONFIG_PATH],
 ])
 
 
-AC_DEFUN([GST_ARG_WITH_PACKAGE_NAME],
+AC_DEFUN([AG_GST_ARG_WITH_PACKAGE_NAME],
 [
   dnl package name in plugins
   AC_ARG_WITH(package-name,
@@ -189,7 +189,7 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_NAME],
   AC_SUBST(GST_PACKAGE_NAME)
 ])
 
-AC_DEFUN([GST_ARG_WITH_PACKAGE_ORIGIN],
+AC_DEFUN([AG_GST_ARG_WITH_PACKAGE_ORIGIN],
 [
   dnl package origin URL
   AC_ARG_WITH(package-origin,
@@ -212,7 +212,7 @@ AC_DEFUN([GST_ARG_WITH_PACKAGE_ORIGIN],
 
 dnl sets GST_PLUGINS_SELECTED to the list given as an argument, or to
 dnl GST_PLUGINS_ALL
-AC_DEFUN([GST_ARG_WITH_PLUGINS],
+AC_DEFUN([AG_GST_ARG_WITH_PLUGINS],
 [
   AC_ARG_WITH(plugins,
     AC_HELP_STRING([--with-plugins],
@@ -229,9 +229,9 @@ AC_DEFUN([GST_ARG_WITH_PLUGINS],
     [GST_PLUGINS_SELECTED=$GST_PLUGINS_ALL])
 ])
 
-AC_DEFUN([GST_ARG_ENABLE_EXTERNAL],
+AC_DEFUN([AG_GST_ARG_ENABLE_EXTERNAL],
 [
-  GST_CHECK_FEATURE(EXTERNAL, [enable building of plug-ins with external deps],,
+  AG_GST_CHECK_FEATURE(EXTERNAL, [enable building of plug-ins with external deps],,
     HAVE_EXTERNAL=yes, enabled,
     [
       AC_MSG_NOTICE(building external plug-ins)
@@ -246,9 +246,9 @@ AC_DEFUN([GST_ARG_ENABLE_EXTERNAL],
 
 dnl experimental plug-ins; stuff that hasn't had the dust settle yet
 dnl read 'builds, but might not work'
-AC_DEFUN([GST_ARG_ENABLE_EXPERIMENTAL],
+AC_DEFUN([AG_GST_ARG_ENABLE_EXPERIMENTAL],
 [
-  GST_CHECK_FEATURE(EXPERIMENTAL,
+  AG_GST_CHECK_FEATURE(EXPERIMENTAL,
     [building of experimental plug-ins],,
     HAVE_EXPERIMENTAL=yes, enabled,
     [
@@ -263,9 +263,9 @@ AC_DEFUN([GST_ARG_ENABLE_EXPERIMENTAL],
 ])
 
 dnl broken plug-ins; stuff that doesn't seem to build at the moment
-AC_DEFUN([GST_ARG_ENABLE_BROKEN],
+AC_DEFUN([AG_GST_ARG_ENABLE_BROKEN],
 [
-  GST_CHECK_FEATURE(BROKEN, [enable building of broken plug-ins],,
+  AG_GST_CHECK_FEATURE(BROKEN, [enable building of broken plug-ins],,
     HAVE_BROKEN=yes, disabled,
     [
       AC_MSG_WARN([building broken plug-ins -- no bug reports on these, only patches ...])

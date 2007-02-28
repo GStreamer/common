@@ -1,4 +1,4 @@
-AC_DEFUN([GST_DOCBOOK_CHECK],
+AC_DEFUN([AG_GST_DOCBOOK_CHECK],
 [
   dnl choose a location to install docbook docs in
   if test "x$PACKAGE_TARNAME" = "x"

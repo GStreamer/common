@@ -1,9 +1,9 @@
-dnl GST_SET_PLUGINDIR
+dnl AG_GST_SET_PLUGINDIR
 
 dnl AC_DEFINE PLUGINDIR to the full location where plug-ins will be installed
 dnl AC_SUBST plugindir, to be used in Makefile.am's
 
-AC_DEFUN([GST_SET_PLUGINDIR],
+AC_DEFUN([AG_GST_SET_PLUGINDIR],
 [
   dnl define location of plugin directory
   AS_AC_EXPAND(PLUGINDIR, ${libdir}/gstreamer-$GST_MAJORMINOR)
