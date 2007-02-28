@@ -153,6 +153,7 @@ AC_DEFUN([AG_GST_ARG_WITH_PKG_CONFIG_PATH],
 ])
 
 
+dnl This macro requires that GST_CVS is set to yes or no (release)
 AC_DEFUN([AG_GST_ARG_WITH_PACKAGE_NAME],
 [
   dnl package name in plugins
