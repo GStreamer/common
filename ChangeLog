@@ -1,6 +1,12 @@
 2007-03-06  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* gst.supp:
+	Make the suppression a little more generic, to catch the FC5 
+	backtrace too.
+
+2007-03-06  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* gst.supp:
 	Add a suppression for libcdio 0.76. It leaks an internal struct
 	when the CD-ROM device is not accessible.
 

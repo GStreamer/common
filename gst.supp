@@ -723,7 +723,6 @@
    fun:cdio_open_am_linux
    obj:/usr/lib/libcdio.so.6.0.1
    fun:cdio_open_am
-   fun:gst_cdio_cdda_src_open
 }
 
 
