@@ -725,5 +725,18 @@
    fun:cdio_open_am
 }
 
-
-
+{
+   <Incompletely cleared buffer passed to writev on FC5>
+   Memcheck:Param
+   writev(vector[...])
+   fun:writev
+   obj:/usr/lib/libORBit-2.so.0.0.0
+   fun:link_connection_writev
+   fun:giop_send_buffer_write
+   obj:/usr/lib/libORBit-2.so.0.0.0
+   fun:ORBit_small_invoke_stub
+   fun:ORBit_small_invoke_stub_n
+   fun:ORBit_c_stub_invoke
+   fun:ConfigServer_ping
+   fun:gconf_activate_server
+}

@@ -1,3 +1,8 @@
+2007-03-07  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* gst.supp:
+	add a suppression for this GConf flup on the FC5 buildbot.
+
 2007-03-06  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* gst.supp:
