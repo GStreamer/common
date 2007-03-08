@@ -1,3 +1,12 @@
+2007-03-08  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* check.mak:
+	Make sure GSlice is disabled when building suppressions too.
+
+	* gst.supp:
+	Add around *850* lines of suppressions for one-time initialisations
+	inside libasound and gconf/bonobo/ORBit. I feel so dirty.
+
 2007-03-07  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* gst.supp:

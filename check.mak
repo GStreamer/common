@@ -60,6 +60,7 @@ LOOPS = 10
 %.valgrind.gen-suppressions: %
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=60					\
+	G_SLICE=always-malloc					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q 					\
 	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
