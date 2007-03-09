@@ -59,7 +59,7 @@ LOOPS = 10
 # valgrind any given test and generate suppressions for it
 %.valgrind.gen-suppressions: %
 	$(TESTS_ENVIRONMENT)					\
-	CK_DEFAULT_TIMEOUT=60					\
+	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
 	libtool --mode=execute					\
 	$(VALGRIND_PATH) -q 					\

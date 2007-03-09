@@ -1,3 +1,12 @@
+2007-03-09  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* check.mak:
+	Use the same timeout when generating valgrind suppressions as 
+	running the valgrind test.
+
+	* gst.supp:
+	Add some more suppressions and stuff.
+
 2007-03-08  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* check.mak:

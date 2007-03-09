@@ -1330,25 +1330,6 @@
    Memcheck:Leak
    fun:calloc
    fun:g_malloc0
-   fun:ORBit_alloc_tcval
-   fun:ORBit_adaptor_setup
-   obj:/usr/lib/libORBit-2.so.*
-   fun:ORBit_POA_setup_root
-   fun:ORBit_init_internals
-   fun:CORBA_ORB_init
-   fun:gconf_orb_get
-   obj:/usr/lib/libgconf-2.so.*
-   fun:gconf_get_current_lock_holder
-   fun:gconf_activate_server
-   obj:/usr/lib/libgconf-2.so.*
-   obj:/usr/lib/libgconf-2.so.*
-   fun:gconf_engine_get_default
-}
-{
-   <gconf internal initialisation>
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
    fun:ORBit_alloc*
    obj:/usr/lib/libORBit-2.so.*
    fun:ORBit_demarshal_IOR
@@ -1444,8 +1425,18 @@
    fun:ORBit_POA_setup_root
    fun:ORBit_init_internals
    fun:CORBA_ORB_init
-   fun:bonobo_activation_orb_init
-   fun:bonobo_activation_init
+}
+{
+   <bonobo init - more recent variant of above>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:ORBit_alloc_tcval
+   fun:ORBit_adaptor_setup
+   obj:/usr/lib/libORBit-2.so*
+   fun:ORBit_POA_setup_root
+   fun:ORBit_init_internals
+   fun:CORBA_ORB_init
 }
 {
    <bonobo init>
@@ -1581,3 +1572,66 @@
    fun:g_get_any_init_do
    fun:g_get_home_dir
 }
+{
+   <GLib caching the user name>
+   Memcheck:Leak
+   fun:malloc
+   obj:/lib/libc-*.so
+   fun:__nss_database_lookup
+   obj:*
+   obj:*
+   fun:getpwnam_r
+   fun:g_get_any_init_do
+   fun:g_get_user_name
+}
+
+## Some Fontconfig errors.
+{
+   <First time load of a font - feisty x86_64>
+   Memcheck:Leak
+   fun:malloc
+   fun:FcPatternObjectInsertElt
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternAppend
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcConfigParseAndLoad
+   fun:FcParseInclude
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+}
+{
+   <First time load of a font - feisty x86_64>
+   Memcheck:Leak
+   fun:malloc
+   fun:FcStrCopy
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcConfigParseAndLoad
+   fun:FcParseInclude
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.1.0.0
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcInitLoadConfig
+   fun:FcInitLoadConfigAndFonts
+}
+
