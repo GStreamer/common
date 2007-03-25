@@ -1,3 +1,8 @@
+2007-03-25  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* m4/gst-parser.m4:
+	Fix the flex version check. It ignored the micro version before.
+
 2007-03-09  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* check.mak:

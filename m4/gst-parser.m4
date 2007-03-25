@@ -41,9 +41,9 @@ AC_DEFUN([AG_GST_FLEX_CHECK],
     (\$flex_version_major, \$flex_version_minor, \$flex_version_micro ) = "$flex_version" =~ /(\d+)\.(\d+)\.(\d+)/;
     exit (((\$flex_version_major > \$min_version_major) ||
      ((\$flex_version_major == \$min_version_major) &&
-      (\$flex_version_minor >= \$min_version_minor)) ||
+      (\$flex_version_minor > \$min_version_minor)) ||
      ((\$flex_version_major == \$min_version_major) &&
-      (\$flex_version_minor >= \$min_version_minor) &&
+      (\$flex_version_minor == \$min_version_minor) &&
       (\$flex_version_micro >= \$min_version_micro)))
      ? 0 : 1);
 EOF
