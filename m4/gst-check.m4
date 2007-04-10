@@ -69,20 +69,28 @@ AC_DEFUN([AG_GST_CHECK_MODULES],
 AC_DEFUN([AG_GST_CHECK_GST],
 [
   AG_GST_CHECK_MODULES(GST, gstreamer-[$1], [$2], [GStreamer], [$3])
-  GST_TOOLS_DIR=`$PKG_CONFIG --variable=toolsdir gstreamer-[$1]`
+  dnl allow setting before calling this macro to override
   if test -z $GST_TOOLS_DIR; then
-    AC_MSG_ERROR(
-      [no tools dir set in GStreamer pkg-config file; core upgrade needed.])
+    GST_TOOLS_DIR=`$PKG_CONFIG --variable=toolsdir gstreamer-[$1]`
+    if test -z $GST_TOOLS_DIR; then
+      AC_MSG_ERROR(
+        [no tools dir set in GStreamer pkg-config file, core upgrade needed.])
+    fi
   fi
+  AC_MSG_NOTICE([using GStreamer tools in $GST_TOOLS_DIR])
   AC_SUBST(GST_TOOLS_DIR)
 
   dnl check for where core plug-ins got installed
   dnl this is used for unit tests
-  GST_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-[$1]`
+  dnl allow setting before calling this macro to override
   if test -z $GST_PLUGINS_DIR; then
-    AC_MSG_ERROR(
-      [no pluginsdir set in GStreamer pkg-config file; core upgrade needed.])
+    GST_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-[$1]`
+    if test -z $GST_PLUGINS_DIR; then
+      AC_MSG_ERROR(
+        [no pluginsdir set in GStreamer pkg-config file, core upgrade needed.])
+    fi
   fi
+  AC_MSG_NOTICE([using GStreamer plug-ins in $GST_PLUGINS_DIR])
   AC_SUBST(GST_PLUGINS_DIR)
 ])
 
@@ -117,10 +125,14 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 
   dnl check for where base plug-ins got installed
   dnl this is used for unit tests
-  GSTPB_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-base-[$1]`
+  dnl allow setting before calling this macro to override
   if test -z $GSTPB_PLUGINS_DIR; then
-    AC_MSG_ERROR(
-      [no pluginsdir set in GStreamer Base Plug-ins pkg-config file])
+    GSTPB_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-base-[$1]`
+    if test -z $GSTPB_PLUGINS_DIR; then
+      AC_MSG_ERROR(
+        [no pluginsdir set in GStreamer Base Plug-ins pkg-config file])
+    fi
   fi
+  AC_MSG_NOTICE([using GStreamer Base Plug-ins in $GSTPB_PLUGINS_DIR])
   AC_SUBST(GSTPB_PLUGINS_DIR)
 ])
