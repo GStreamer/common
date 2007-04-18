@@ -5,7 +5,11 @@ dnl defines GETTEXT_PACKAGE and LOCALEDIR
 
 AC_DEFUN([AG_GST_GETTEXT],
 [
-  GETTEXT_PACKAGE=[$1]
+  if test "$USE_NLS" = "yes"; then
+    GETTEXT_PACKAGE=[$1]
+  else
+    GETTEXT_PACKAGE=[NULL]
+  fi
   AC_SUBST(GETTEXT_PACKAGE)
   AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE",
                      [gettext package name])
