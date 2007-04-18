@@ -1,3 +1,18 @@
+2007-04-18  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* ChangeLog:
+	* m4/gst-parser.m4:
+
+2007-04-18  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* m4/gst-parser.m4:
+	Check for flex >= 2.5.31 and set GENERATE_PARSER if we have at least
+	that version. Otherwise use pre-generated parser sources as we can't
+	raise the required flex version. HAVE_MT_SAVE_FLEX is obsolete now
+	as we use a new enough flex version anyway. First part of #349180
+
 2007-04-10  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* m4/gst-check.m4:

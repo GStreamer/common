@@ -26,14 +26,16 @@ EOF
 AC_DEFUN([AG_GST_FLEX_CHECK],
 [
   dnl we require flex for building the parser
-  dnl FIXME: check if AC_PROG_LEX is suitable here
   AC_PATH_PROG(FLEX_PATH, flex, no)
   if test x$FLEX_PATH = xno; then
     AC_MSG_ERROR(Could not find flex)
   fi
   
   dnl check flex version
-  flex_min_version=2.5.6
+  dnl FIXME 0.11: we need version >= 2.5.31 for the reentrancy support
+  dnl in the parser. If an older version is installed pre-generated
+  dnl sources are used. This should become a hard dependency for 0.11!
+  flex_min_version=2.5.31
   flex_version=`$FLEX_PATH --version | head -n 1 | sed 's/^.* //' | sed 's/[[a-zA-Z]]*$//' | cut -d' ' -f1`
   AC_MSG_CHECKING([flex version $flex_version >= $flex_min_version])
   if perl -w <<EOF
@@ -49,9 +51,9 @@ AC_DEFUN([AG_GST_FLEX_CHECK],
 EOF
   then
     AC_MSG_RESULT(yes)
-    AC_DEFINE(HAVE_MT_SAVE_FLEX, 1,
-      [Defined if we have recent enough flex, which is MT save])
+    AM_CONDITIONAL(GENERATE_PARSER, true)
   else
-    AC_MSG_RESULT(no)
+    AC_MSG_RESULT(no, using pre-generated parser sources)
+    AM_CONDITIONAL(GENERATE_PARSER, false)
   fi
 ])
