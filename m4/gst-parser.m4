@@ -53,7 +53,7 @@ EOF
     AC_MSG_RESULT(yes)
     AM_CONDITIONAL(GENERATE_PARSER, true)
   else
-    AC_MSG_RESULT(no, using pre-generated parser sources)
+    AC_MSG_RESULT([no, using pre-generated parser sources])
     AM_CONDITIONAL(GENERATE_PARSER, false)
   fi
 ])
