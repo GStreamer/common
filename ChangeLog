@@ -1,12 +1,5 @@
 2007-04-19  Sebastian Dröge  <slomo@circular-chaos.org>
 
-	reviewed by: <delete if not using a buddy>
-
-	* ChangeLog:
-	* m4/gst-parser.m4:
-
-2007-04-19  Sebastian Dröge  <slomo@circular-chaos.org>
-
 	Patch by: Vincent Torri <vtorri at univ-evry dot fr>
 
 	* m4/gst-parser.m4:
