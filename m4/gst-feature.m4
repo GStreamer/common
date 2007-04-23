@@ -22,7 +22,7 @@ dnl The macro will call AM_CONDITIONAL(USE_<<FEATURE-NAME>, ...) to allow
 dnl the feature to control what is built in Makefile.ams.  If you want
 dnl additional actions resulting from the test, you can add them with the
 dnl ACTION-IF-USE and ACTION-IF-NOTUSE parameters.
-dnl 
+dnl
 dnl FEATURE-NAME        is the name of the feature, and should be in
 dnl                     purely upper case characters.
 dnl FEATURE-DESCRIPTION is used to describe the feature in help text for
@@ -40,7 +40,7 @@ dnl                     be used.
 dnl
 dnl
 dnl thomas :
-dnl we also added a history.  
+dnl we also added a history.
 dnl GST_PLUGINS_YES will contain all plugins to be built
 dnl                 that were checked through AG_GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
@@ -154,7 +154,7 @@ dnl Use AC_CHECK_LIB and AC_CHECK_HEADER to do both tests at once
 dnl sets HAVE_module if we have it
 dnl Richard Boulton <richard-alsa@tartarus.org>
 dnl Last modification: 26/06/2001
-dnl AG_GST_CHECK_LIBHEADER(FEATURE-NAME, LIB NAME, LIB FUNCTION, EXTRA LD FLAGS, 
+dnl AG_GST_CHECK_LIBHEADER(FEATURE-NAME, LIB NAME, LIB FUNCTION, EXTRA LD FLAGS,
 dnl                     HEADER NAME, ACTION-IF-FOUND, ACTION-IF-NOT-FOUND)
 dnl
 dnl This check was written for GStreamer: it should be renamed and checked
@@ -192,7 +192,7 @@ AC_DEFUN([AG_GST_CHECK_SUBSYSTEM_DISABLE],
   dnl e.g. if $1 is GST_DEBUG then subsys_def will be a macro with gst-debug
   define([subsys_def],translit([$1], _A-Z, -a-z))
 
-  AC_ARG_ENABLE(subsys_def, 
+  AC_ARG_ENABLE(subsys_def,
     AC_HELP_STRING(--disable-subsys_def, [disable $2]),
     [
       case "${enableval}" in
@@ -205,13 +205,51 @@ AC_DEFUN([AG_GST_CHECK_SUBSYSTEM_DISABLE],
 
   if test x$GST_DISABLE_[$1] = xyes; then
     AC_MSG_NOTICE([disabled subsystem [$2]])
-    GST_DISABLE_[$1]_DEFINE="#define GST_DISABLE_$1 1" 
+    GST_DISABLE_[$1]_DEFINE="#define GST_DISABLE_$1 1"
   else
     GST_DISABLE_[$1]_DEFINE="/* #undef GST_DISABLE_$1 */"
   fi
   AC_SUBST(GST_DISABLE_[$1]_DEFINE)
   undefine([subsys_def])
 ])
+
+
+dnl Parse gstconfig.h for feature and defines add the symbols and substitions
+dnl
+dnl AG_GST_PARSE_SUBSYSTEM_DISABLE(GST_CONFIGPATH, FEATURE)
+dnl
+AC_DEFUN([AG_GST_PARSE_SUBSYSTEM_DISABLE],
+[
+  grep >/dev/null "#undef GST_DISABLE_$2" $1
+  if test $? = 0; then
+    GST_DISABLE_[$2]=0
+  else
+    GST_DISABLE_[$2]=1
+  fi
+  AC_SUBST(GST_DISABLE_[$2])
+])
+
+dnl Parse gstconfig.h and defines add the symbols and substitions
+dnl
+dnl GST_CONFIGPATH=`$PKG_CONFIG --variable=includedir gstreamer-0.10`"/gst/gstconfig.h"
+dnl AG_GST_PARSE_SUBSYSTEM_DISABLES(GST_CONFIGPATH)
+dnl
+AC_DEFUN([AG_GST_PARSE_SUBSYSTEM_DISABLES],
+[
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,GST_DEBUG)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,LOADSAVE)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,PARSE)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,TRACE)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,ALLOC_TRACE)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,REGISTRY)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,ENUMTYPES)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,INDEX)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,PLUGIN)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,URI)
+  AG_GST_PARSE_SUBSYSTEM_DISABLE($1,XML)
+])
+
+
 
 dnl relies on GST_PLUGINS_ALL, GST_PLUGINS_SELECTED, GST_PLUGINS_YES,
 dnl GST_PLUGINS_NO, and BUILD_EXTERNAL

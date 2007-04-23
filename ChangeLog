@@ -1,3 +1,9 @@
+2007-04-23  Stefan Kost  <ensonic@users.sf.net>
+
+	* m4/gst-feature.m4:
+	  Add macro AG_GST_PARSE_SUBSYSTEM_DISABLES that checks the defines in
+	  the configuration header and AC_DEFINES the setings.
+
 2007-04-19  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	Patch by: Vincent Torri <vtorri at univ-evry dot fr>
