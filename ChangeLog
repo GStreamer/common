@@ -1,3 +1,9 @@
+2007-04-29  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* gtk-doc-plugins.mak (-module):
+	  Error out when the html build step gives warnings, so they get
+	  fixed properly.
+
 2007-04-23  Stefan Kost  <ensonic@users.sf.net>
 
 	* m4/gst-feature.m4:
