@@ -29,8 +29,8 @@ EXTRA_DIST = 				\
 	$(content_files)		\
 	$(extra_files)			\
 	$(HTML_IMAGES)			\
-	$(DOC_MAIN_SGML_FILE)		\
-        $(DOC_MODULE).types             \
+	$(DOC_MAIN_SGML_FILE)	\
+	$(DOC_MODULE).types		\
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
@@ -235,6 +235,7 @@ CLEANFILES = \
 	$(SCANOBJ_FILES_O) \
 	$(DOC_MODULE)-scan.c \
 	$(DOC_MODULE)-unused.txt \
+	$(DOC_MODULE).types \
 	$(DOC_STAMPS) \
 	inspect-registry.xml
 

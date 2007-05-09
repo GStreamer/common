@@ -1,3 +1,8 @@
+2007-05-09  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* gtk-doc-plugins.mak:
+	  Fix make distcheck again; change some spaces to tabs in makefile.
+
 2007-04-29  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* gtk-doc-plugins.mak (-module):
