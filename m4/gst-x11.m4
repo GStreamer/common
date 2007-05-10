@@ -24,6 +24,9 @@ AC_DEFUN([AG_GST_CHECK_X],
     AC_SUBST(X_LIBS)
   fi
   AC_SUBST(HAVE_X)
+  
+  CFLAGS="$ac_cflags_save"
+  CPPFLAGS="$ac_cppflags_save"
 ])
 
 dnl *** XVideo ***
