@@ -1,3 +1,9 @@
+2007-05-11  Michael Smith <msmith@fluendo.com>
+
+	* gst.supp:
+	  Suppression variant for our good friend the TLS leak, this time for
+	  Ubuntu Feisty/x86.
+
 2007-05-09  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* gtk-doc-plugins.mak:

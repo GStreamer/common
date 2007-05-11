@@ -715,6 +715,16 @@
    fun:pthread_create@@GLIBC_2.1
 }
 
+# TLS leaks for feisty/x86
+{
+   <tls leaks on Feisty/x86>
+   Memcheck:Leak
+   fun:calloc
+   fun:allocate_dtv
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+}
+
 {
    <libcdio 0.76 leak>
    Memcheck:Leak
