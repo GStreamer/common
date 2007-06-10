@@ -1,3 +1,9 @@
+2007-06-10  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* m4/gst-parser.m4:
+	Only generate the parser if bison >= 1.875 _and_ flex >= 2.5.31 is
+	installed and use pre-generated sources otherwise. Fixes bug #444820.
+
 2007-05-11  Michael Smith <msmith@fluendo.com>
 
 	* gst.supp:

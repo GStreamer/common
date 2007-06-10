@@ -8,7 +8,10 @@ AC_DEFUN([AG_GST_BISON_CHECK],
   fi
 
   dnl check bison version
-  bison_min_version=1.35
+  dnl FIXME 0.11: we need version >= 1.875 for the reentrancy support
+  dnl in the parser. If an older version is installed pre-generated
+  dnl sources are used. This should become a hard dependency for 0.11!
+  bison_min_version=1.875
   bison_version=`$BISON_PATH --version | head -n 1 | sed 's/^.*) //' | sed 's/[[a-zA-Z]]*$//' | cut -d' ' -f1`
   AC_MSG_CHECKING([bison version $bison_version >= $bison_min_version])
 
@@ -17,9 +20,10 @@ AC_DEFUN([AG_GST_BISON_CHECK],
 EOF 
   then 
     AC_MSG_RESULT([yes])
+    AM_CONDITIONAL(GENERATE_PARSER, test -z $GENERATE_PARSER_TRUE)
   else 
-    AC_MSG_RESULT([no])
-    AC_MSG_ERROR([Your bison version is too old, $bison_min_version or later is required.])
+    AC_MSG_RESULT([no, using pre-generated parser sources])
+    AM_CONDITIONAL(GENERATE_PARSER, false)
   fi
 ])
 
@@ -51,7 +55,7 @@ AC_DEFUN([AG_GST_FLEX_CHECK],
 EOF
   then
     AC_MSG_RESULT(yes)
-    AM_CONDITIONAL(GENERATE_PARSER, true)
+    AM_CONDITIONAL(GENERATE_PARSER, test -z $GENERATE_PARSER_TRUE)
   else
     AC_MSG_RESULT([no, using pre-generated parser sources])
     AM_CONDITIONAL(GENERATE_PARSER, false)
