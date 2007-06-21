@@ -1,3 +1,10 @@
+2007-06-21  Tim-Philipp Müller  <tim at centricular dot net>
+
+	Patch by: Andreas Schwab
+
+	* m4/gst-feature.m4:
+	  Fix quoting (#449493).
+
 2007-06-10  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* m4/gst-parser.m4:

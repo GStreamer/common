@@ -46,13 +46,13 @@ dnl                 that were checked through AG_GST_CHECK_FEATURE
 dnl GST_PLUGINS_NO will contain those that won't be built
 
 AC_DEFUN([AG_GST_CHECK_FEATURE],
-echo
+[echo
 AC_MSG_NOTICE(*** checking feature: [$2] ***)
 if test "x[$3]" != "x"
 then
   AC_MSG_NOTICE(*** for plug-ins: [$3] ***)
 fi
-[dnl
+dnl
 builtin(define, [gst_endisable], ifelse($5, [disabled], [enable], [disable]))dnl
 dnl if it is set to NO, then don't even consider it for building
 NOUSE=
