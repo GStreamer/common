@@ -1,3 +1,9 @@
+2007-06-25  Stefan Kost  <ensonic@users.sf.net>
+
+	* gst-xmlinspect.py:
+	* plugins.xsl:
+	  Also extract element caps for plugin-docs. Fixes parts of #117692.
+
 2007-06-21  Tim-Philipp Müller  <tim at centricular dot net>
 
 	Patch by: Andreas Schwab

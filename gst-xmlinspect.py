@@ -15,12 +15,23 @@ import gst
 INDENT_SIZE = 2
 
 # all templates
+
+PAD_TEMPLATE = """<caps>
+  <name>%(name)s</name>
+  <direction>%(direction)s</direction>
+  <presence>%(presence)s</presence>
+  <details>%(details)s</details>
+</caps>"""
+
 ELEMENT_TEMPLATE = """<element>
   <name>%(name)s</name>
   <longname>%(longname)s</longname>
   <class>%(class)s</class>
   <description>%(description)s</description>
   <author>%(author)s</author>
+  <pads>
+%(pads)s
+  </pads>
 </element>"""
 
 PLUGIN_TEMPLATE = """<plugin>
@@ -50,17 +61,40 @@ def xmlencode(line):
 def get_offset(indent):
     return " " * INDENT_SIZE * indent
 
+def output_pad_template(pt, indent=0):
+    print  "PAD TEMPLATE", pt.name_template
+    paddir = ("unknown","source","sink")
+    padpres = ("always","sometimes","request")
+    
+    d = {
+      'name':        xmlencode(pt.name_template),
+      'direction':   xmlencode(paddir[pt.direction]),
+      'presence':    xmlencode(padpres[pt.presence]),
+      'details':     xmlencode(pt.static_caps.string),
+    }
+    block = PAD_TEMPLATE % d
+
+    offset = get_offset(indent)
+    return offset + ("\n" + offset).join(block.split("\n"))
+    
 def output_element_factory(elf, indent=0):
     print  "ELEMENT", elf.get_name()
+
+    padsoutput = []
+    padtemplates = elf.get_static_pad_templates()
+    for padtemplate in padtemplates:
+        padsoutput.append(output_pad_template(padtemplate, indent))
+
     d = {
         'name':        xmlencode(elf.get_name()),
         'longname':    xmlencode(elf.get_longname()),
         'class':       xmlencode(elf.get_klass()),
         'description': xmlencode(elf.get_description()),
         'author':      xmlencode(elf.get_author()),
+        'pads': "\n".join(padsoutput),
     }
     block = ELEMENT_TEMPLATE % d
-    
+
     offset = get_offset(indent)
     return offset + ("\n" + offset).join(block.split("\n"))
 
