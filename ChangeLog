@@ -1,3 +1,9 @@
+2007-07-01  Thomas Vander Stichele  <thomas at apestaart dot org>
+
+	* po.mak:
+	  Translation project has moved.  Also, no idea how this used to
+	  work given that we weren't downloading a .po file.
+
 2007-06-25  Stefan Kost  <ensonic@users.sf.net>
 
 	* gst-xmlinspect.py:
