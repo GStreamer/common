@@ -1,3 +1,10 @@
+2007-07-13  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* m4/gst-feature.m4:
+	If we want to use 'echo -e', call /bin/echo instead of the shell's
+	since -e is a bash extension, and our /bin/sh might not be being
+	provided by bash.
+
 2007-07-01  Thomas Vander Stichele  <thomas at apestaart dot org>
 
 	* po.mak:
