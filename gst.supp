@@ -1594,6 +1594,19 @@
    fun:g_get_any_init_do
    fun:g_get_user_name
 }
+{
+   <GLib caching the tmp dir>
+   Memcheck:Leak
+   fun:malloc
+   obj:/lib/libc-*.so
+   fun:__nss_database_lookup
+   obj:*
+   obj:*
+   fun:getpwnam_r
+   obj:/usr/lib*/libglib-2.0.so.*
+   fun:g_get_tmp_dir
+}
+
 
 ## Some Fontconfig errors.
 {

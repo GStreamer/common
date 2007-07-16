@@ -1,3 +1,9 @@
+2007-07-16  Jan Schmidt  <thaytan@mad.scientist.com>
+
+	* gst.supp:
+	Add a suppression for GLib caching the tmp dir seen on an
+	Ubuntu Feisty system.
+
 2007-07-13  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* m4/gst-feature.m4:
