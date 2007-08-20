@@ -1,3 +1,10 @@
+2007-08-20  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* download-translations:
+	* po.mak:
+	  Fix up 'download-po' a bit, so that we find new translations
+	  for languages that aren't in our po/LINGUAS file yet too.
+
 2007-07-16  Jan Schmidt  <thaytan@mad.scientist.com>
 
 	* gst.supp:
