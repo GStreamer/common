@@ -1,3 +1,8 @@
+2007-09-06  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* gtk-doc-plugins.mak:
+	  Add rule to error out if .hierarchy file contains tabs.
+
 2007-08-20  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* download-translations:

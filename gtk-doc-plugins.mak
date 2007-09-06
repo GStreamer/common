@@ -138,8 +138,14 @@ inspect-build.stamp:
 	    touch inspect-build.stamp; \
         fi
 
+check-hierarchy: $(DOC_MODULE).hierarchy
+	if grep '	' $(DOC_MODULE).hierarchy; then \
+	    echo "$(DOC_MODULE).hierarchy contains tabs, please fix"; \
+	    /bin/false; \
+	fi
+
 ### scan headers; done on every build ###
-scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp
+scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp check-hierarchy
 	if test "x$(top_srcdir)" != "x$(top_builddir)" &&		\
 	   test -d "$(top_builddir)/gst";				\
         then								\
