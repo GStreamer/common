@@ -138,14 +138,8 @@ inspect-build.stamp:
 	    touch inspect-build.stamp; \
         fi
 
-check-hierarchy: $(DOC_MODULE).hierarchy
-	if grep '	' $(DOC_MODULE).hierarchy; then \
-	    echo "$(DOC_MODULE).hierarchy contains tabs, please fix"; \
-	    /bin/false; \
-	fi
-
 ### scan headers; done on every build ###
-scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp check-hierarchy
+scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp
 	if test "x$(top_srcdir)" != "x$(top_builddir)" &&		\
 	   test -d "$(top_builddir)/gst";				\
         then								\
@@ -322,6 +316,18 @@ uninstall-local:
 	if test -d $(DESTDIR)$(TARGET_DIR); then rmdir -p --ignore-fail-on-non-empty $(DESTDIR)$(TARGET_DIR) 2>/dev/null; fi; true
 
 #
+# Checks
+#
+check-hierarchy: $(DOC_MODULE).hierarchy
+	@if grep '	' $(DOC_MODULE).hierarchy; then \
+	    echo "$(DOC_MODULE).hierarchy contains tabs, please fix"; \
+	    /bin/false; \
+	fi
+
+check: check-hierarchy
+
+
+#
 # Require gtk-doc when making dist
 #
 if ENABLE_GTK_DOC
@@ -349,3 +355,4 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	done
 
 .PHONY : dist-hook-local
+
