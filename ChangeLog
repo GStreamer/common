@@ -1,3 +1,11 @@
+2007-09-21  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* m4/gst-args.m4:
+	  Let the AG_GST_ARG_ENABLE_EXPERIMENTAL macro default to disable
+	  building of experimental plugins. Nobody uses it yet and the
+	  --enable--experimental stuff from gst-plugins-good defaults to
+	  disable too.
+
 2007-09-06  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* gtk-doc-plugins.mak:

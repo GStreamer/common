@@ -251,7 +251,7 @@ AC_DEFUN([AG_GST_ARG_ENABLE_EXPERIMENTAL],
 [
   AG_GST_CHECK_FEATURE(EXPERIMENTAL,
     [building of experimental plug-ins],,
-    HAVE_EXPERIMENTAL=yes, enabled,
+    HAVE_EXPERIMENTAL=yes, disabled,
     [
       AC_MSG_WARN(building experimental plug-ins)
       BUILD_EXPERIMENTAL="yes"
