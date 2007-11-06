@@ -30,7 +30,6 @@ EXTRA_DIST = 				\
 	$(extra_files)			\
 	$(HTML_IMAGES)			\
 	$(DOC_MAIN_SGML_FILE)	\
-	$(DOC_MODULE).types		\
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
@@ -57,6 +56,7 @@ SCANOBJ_FILES =				\
         $(DOC_MODULE).hierarchy         \
         $(DOC_MODULE).interfaces        \
         $(DOC_MODULE).prerequisites     \
+	$(DOC_MODULE).types		\
         $(DOC_MODULE).args
 
 SCANOBJ_FILES_O =			\
