@@ -1,5 +1,10 @@
 2007-12-12  Tim-Philipp Müller  <tim at centricular dot net>
 
+	* Makefile.am:
+	  check-exports should be disted.
+
+2007-12-12  Tim-Philipp Müller  <tim at centricular dot net>
+
 	* check-exports:
 	  Add quick'n'dirty script to check the exported symbols of a library
 	  against the symbols in the corresponding .def file (#493983). Based
