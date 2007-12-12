@@ -1,3 +1,10 @@
+2007-12-12  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* check-exports:
+	  Add quick'n'dirty script to check the exported symbols of a library
+	  against the symbols in the corresponding .def file (#493983). Based
+	  on script by Ole André Vadla Ravnås.
+
 2007-11-06  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* gtk-doc-plugins.mak:
