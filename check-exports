@@ -36,7 +36,8 @@ nm $lib_path | awk \
 		    $3 !~ /^_gst_[a-z]*_init/ &&
 		    $3 !~ /^_gst_parse_launch/ &&
 		    $3 !~ /^__gst_element_details_/ &&
-		    $3 !~ /^__gst_element_factory_add_/)
+		    $3 !~ /^__gst_element_factory_add_/ &&
+		    $3 !~ /^gst_interfaces_marshal/)
 		{
 			if ($2 == "B")
 				print "\t" $3 " DATA"

@@ -1,3 +1,9 @@
+2007-12-13  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* check-exports:
+	  Suppress more unintentional exports (too much hassle to rename them,
+	  since the win32 project files would need changing too).
+
 2007-12-12  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* Makefile.am:
