@@ -1,6 +1,11 @@
 2007-12-13  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* check-exports:
+	  Fix build on the ppc64 build bot.
+
+2007-12-13  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* check-exports:
 	  Suppress more unintentional exports (too much hassle to rename them,
 	  since the win32 project files would need changing too).
 
