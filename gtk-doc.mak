@@ -40,7 +40,12 @@ SCANOBJ_FILES =				\
 	.libs/$(DOC_MODULE)-scan.o	\
 	$(DOC_MODULE).signals
 
-CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS)
+REPORT_FILES = \
+	$(DOC_MODULE)-undocumented.txt \
+	$(DOC_MODULE)-undeclared.txt \
+	$(DOC_MODULE)-unused.txt
+
+CLEANFILES = $(SCANOBJ_FILES) $(REPORT_FILES) $(DOC_STAMPS)
 
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
@@ -151,8 +156,7 @@ maintainer-clean-local: clean
 distclean-local: clean
 	rm -f $(DOC_MODULE)-decl-list.txt
 	rm -f $(DOC_MODULE)-decl.txt
-	rm -f $(DOC_MODULE)-undocumented.txt
-	rm -f $(DOC_MODULE)-unused.txt
+	rm -f $(REPORT_FILES)
 	rm -rf tmpl/*.sgml.bak
 	rm -f $(DOC_MODULE).hierarchy
 	rm -f *.stamp || true

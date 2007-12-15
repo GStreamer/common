@@ -70,6 +70,22 @@ SCAN_FILES =				\
 	$(DOC_MODULE)-decl.txt		\
 	$(DOC_MODULE)-decl-list.txt
 
+
+REPORT_FILES = \
+	$(DOC_MODULE)-undocumented.txt \
+	$(DOC_MODULE)-undeclared.txt \
+	$(DOC_MODULE)-unused.txt
+
+# FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
+# no idea why FC4 can do without
+CLEANFILES = \
+	$(SCANOBJ_FILES_O) \
+	$(DOC_MODULE)-scan.c \
+	$(REPORT_FILES) \
+	$(DOC_STAMPS) \
+	inspect-registry.xml
+
+
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
@@ -229,15 +245,6 @@ else
 all-local:
 endif
 
-# FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
-# no idea why FC4 can do without
-CLEANFILES = \
-	$(SCANOBJ_FILES_O) \
-	$(DOC_MODULE)-scan.c \
-	$(DOC_MODULE)-unused.txt \
-	$(DOC_STAMPS) \
-	inspect-registry.xml
-
 # FIXME: these rules need a little cleaning up
 clean-local:
 	rm -f *~ *.bak
@@ -279,6 +286,10 @@ install-data-local:
 	  echo '-- Installing $(srcdir)/html/$(DOC_MODULE).devhelp' ; \
 	  $(INSTALL_DATA) $(srcdir)/html/$(DOC_MODULE).devhelp \
 	    $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp; \
+	  if test -e $(srcdir)/html/$(DOC_MODULE).devhelp2; then \
+        	  $(INSTALL_DATA) $(srcdir)/html/$(DOC_MODULE).devhelp2 \
+	           $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp2; \
+	  fi; \
 	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
 	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DESTDIR)$(TARGET_DIR); \
 		if test -e $(srcdir)/html/style.css; then \
@@ -306,6 +317,9 @@ uninstall-local:
 	  fi; \
 	  echo '-- Uninstalling $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE).devhelp' ; \
 	  rm -f $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp; \
+	  if test -e $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp2; then \
+	    rm -f $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp2; \
+	  fi; \
 	  echo '-- Uninstalling $(DESTDIR)$(TARGET_DIR)/index.sgml' ; \
 	  rm -f $(DESTDIR)$(TARGET_DIR)/index.sgml; \
 		if test -e $(DESTDIR)$(TARGET_DIR)/style.css; then \
@@ -347,7 +361,7 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	-cp $(srcdir)/sgml/*.xml $(distdir)/xml
 	-cp $(srcdir)/html/index.sgml $(distdir)/html
 	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
-	-cp $(srcdir)/html/$(DOC_MODULE).devhelp $(distdir)/html
+	-cp $(srcdir)/html/$(DOC_MODULE).devhelp* $(distdir)/html
 
 	images=$(HTML_IMAGES) ;    	      \
 	for i in "" $$images ; do		      \
