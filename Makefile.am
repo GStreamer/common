@@ -3,7 +3,7 @@ SUBDIRS = m4
 EXTRA_DIST = \
 	ChangeLog \
 	gettext.patch \
-	glib-gen.mak gtk-doc.mak upload.mak release.mak \
+	glib-gen.mak gtk-doc.mak upload.mak release.mak win32.mak \
 	gst-autogen.sh \
 	check-exports \
 	c-to-xml.py gst-xmlinspect.py mangle-tmpl.py scangobj-merge.py \

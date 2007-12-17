@@ -1,5 +1,10 @@
 2007-12-17  Tim-Philipp Müller  <tim at centricular dot net>
 
+	* Makefile.am:
+	  Don't forget to dist the new win32.mak.
+
+2007-12-17  Tim-Philipp Müller  <tim at centricular dot net>
+
 	* win32.mak: (win32), (win32defs):
 	  Move common win32 Makefile foo into this new file.
 
