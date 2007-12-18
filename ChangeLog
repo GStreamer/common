@@ -1,3 +1,14 @@
+2007-12-18  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* glib-gen.mak:
+	  Use #include "header" instead of #include <header> for the generated
+	  enum C files as the file will always be in the same directory and
+	  some compilers seem to be a bit strict about that unless . is added
+	  to the include path.
+
+	  Include all headers that were used to generate the source files in
+	  the C file as they're used there.
+
 2007-12-17  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* win32.mak: (win32), (win32defs), (win32crlf):

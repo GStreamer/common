@@ -5,6 +5,8 @@
 #glib_enum_define=GST_COLOR_BALANCE
 #glib_enum_prefix=gst_color_balance
 
+enum_headers=$(foreach h,$(glib_enum_headers),\#include <$(h)>\n)
+
 # these are all the rules generating the relevant files
 %-marshal.h: %-marshal.list
 	glib-genmarshal --header --prefix=$(glib_enum_prefix)_marshal $^ > $*-marshal.h.tmp
@@ -26,7 +28,7 @@
 %-enumtypes.c: $(glib_enum_headers)
 	@if test "x$(glib_enum_headers)" == "x"; then echo "ERROR: glib_enum_headers is empty, please fix Makefile"; exit 1; fi
 	glib-mkenums \
-	--fhead "#include <$*.h>" \
+	--fhead "#include \"$*-enumtypes.h\"\n$(enum_headers)" \
 	--fprod "\n/* enumerations from \"@filename@\" */" \
 	--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {"     \
 	--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
