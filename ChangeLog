@@ -1,6 +1,15 @@
 2007-12-18  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* glib-gen.mak:
+	  Also use #include "header" instead of #include <header> for the
+	  headers that were used to generate the source files for the same
+	  reason as below.
+
+	  Remove whitespace before #include.
+
+2007-12-18  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* glib-gen.mak:
 	  Use #include "header" instead of #include <header> for the generated
 	  enum C files as the file will always be in the same directory and
 	  some compilers seem to be a bit strict about that unless . is added

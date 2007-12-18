@@ -5,7 +5,7 @@
 #glib_enum_define=GST_COLOR_BALANCE
 #glib_enum_prefix=gst_color_balance
 
-enum_headers=$(foreach h,$(glib_enum_headers),\#include <$(h)>\n)
+enum_headers=$(foreach h,$(glib_enum_headers),\n\#include \"$(h)\")
 
 # these are all the rules generating the relevant files
 %-marshal.h: %-marshal.list
