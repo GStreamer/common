@@ -1,3 +1,6 @@
+## .PHONY so it always rebuilds it
+.PHONY: lcov-reset lcov lcov-run lcov-report lcov-upload
+
 # run lcov from scratch, always
 lcov-reset:
 	make lcov-run
@@ -7,23 +10,33 @@ lcov-reset:
 lcov:
 	make lcov-reset
 
+if GST_GCOV_ENABLED
 # reset run coverage tests
 lcov-run:
 	@-rm -rf lcov
-	find . -name "*.gcda" -exec rm {} \;
-	if test -d tests/check; then make -C tests/check inspect; fi
-	make check
+	lcov --directory . --zerocounters
+	-if test -d tests/check; then $(MAKE) -C tests/check inspect; fi
+	-$(MAKE) check
 
 # generate report based on current coverage data
 lcov-report:
 	mkdir lcov
-	lcov --directory . --capture --output-file lcov/lcov.info
+	lcov --compat-libtool --directory . --capture --output-file lcov/lcov.info
 	lcov -l lcov/lcov.info | grep -v "`cd $(top_srcdir) && pwd`" | cut -d: -f1 > lcov/remove
 	lcov -l lcov/lcov.info | grep "tests/check/" | cut -d: -f1 >> lcov/remove
 	lcov -r lcov/lcov.info `cat lcov/remove` > lcov/lcov.cleaned.info
 	rm lcov/remove
 	mv lcov/lcov.cleaned.info lcov/lcov.info
-	genhtml -t "$(PACKAGE_STRING)" -o lcov lcov/lcov.info
+	genhtml -t "$(PACKAGE_STRING)" -o lcov --num-spaces 2 lcov/lcov.info
 
 lcov-upload: lcov
 	rsync -rvz -e ssh --delete lcov/* gstreamer.freedesktop.org:/srv/gstreamer.freedesktop.org/www/data/coverage/lcov/$(PACKAGE)
+
+else
+lcov-run:
+	echo "Need to reconfigure with --enable-gcov"
+
+lcov-report:
+	echo "Need to reconfigure with --enable-gcov"
+endif
+

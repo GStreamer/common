@@ -1,3 +1,9 @@
+2008-01-09  Stefan Kost  <ensonic@users.sf.net>
+
+	* coverage/lcov.mak:
+	  Update coverage make-rules: use them conditionaly, use libtool mode
+	  and use lcov to cleanup.
+
 2007-12-18  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* glib-gen.mak:
