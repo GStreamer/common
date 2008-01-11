@@ -1,3 +1,12 @@
+2008-01-11  Tim-Philipp Müller  <tim at centricular dot net>
+
+	Patch by: Peter Kjellerstedt <pkj axis com>
+
+	* m4/gst-glib2.m4:
+	* m4/gst-libxml2.m4:
+	  Improve/fix output from configure if either glib-2.0 or
+	  libxml2 are not installed (#498222).
+
 2008-01-09  Stefan Kost  <ensonic@users.sf.net>
 
 	* coverage/lcov.mak:

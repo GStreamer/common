@@ -11,7 +11,10 @@ AC_DEFUN([AG_GST_LIBXML2_CHECK],
 
   dnl check for libxml2
   PKG_CHECK_MODULES(XML, libxml-2.0 >= $LIBXML2_REQ, 
-                    HAVE_LIBXML2=yes, HAVE_LIBXML2=no)
+                    HAVE_LIBXML2=yes, [
+                      AC_MSG_RESULT(no)
+                      HAVE_LIBXML2=no
+                    ])
   if test "x$HAVE_LIBXML2" = "xyes"; then
     AC_DEFINE(HAVE_LIBXML2, 1, [Define if libxml2 is available])
   else
