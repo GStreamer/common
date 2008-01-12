@@ -1,6 +1,12 @@
 2008-01-12  Jan Schmidt  <Jan.Schmidt@sun.com>
 
 	* check-exports:
+	Restore the cleanup rm of our tmp file which I didn't mean to leave 
+	commented out.
+
+2008-01-12  Jan Schmidt  <Jan.Schmidt@sun.com>
+
+	* check-exports:
 	  Fixes to make check-export work on both Solaris and Linux
 
 	* m4/gst-error.m4:

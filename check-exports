@@ -59,7 +59,7 @@ nm $NMARGS $lib_path | awk \
 
 diffoutput=`diff -u $def_path $lib_result`
 
-# rm $lib_result
+rm $lib_result
 
 if test "x$diffoutput" = "x"; then
   exit 0;
