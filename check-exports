@@ -10,13 +10,20 @@ if [ $# -ne 2 ]; then
 	exit 1
 fi
 
-export LC_ALL=C
+def_path="$1"
+def_name="$(basename $def_path)"
+lib_path="$2"
 
-def_path=$1
-def_name=$(basename $def_path)
-lib_path=$2
+lib_result="`mktemp /tmp/defname.XXXXXX`"
 
-lib_result=$(mktemp /tmp/defname.XXXXXX)
+LC_ALL=C
+export LC_ALL
+
+# On Solaris, add -p to get the correct output format
+NMARGS=
+if nm -V 2>&1 |grep Solaris > /dev/null; then
+  NMARGS=-p
+fi
 
 # FIXME 0.11: in 0.11, we should change the export filter to only export
 # _gst_foo, but not __gst_foo (we can't change this now, since we added
@@ -30,16 +37,19 @@ lib_result=$(mktemp /tmp/defname.XXXXXX)
 # __gst_element_factory_add_static_pad_template).  We suppress them here to
 # make sure they're at least not exported in the windows msvc build (they
 # were never in the .def file, so they never got exported).
-nm $lib_path | awk \
+# _end is special cased because for some reason it is reported as an exported
+# BSS symbol, unlike on linux where it's a local absolute symbol.
+nm $NMARGS $lib_path | awk \
 	'{
-		if ($3 !~ /^_gst_parse_yy/ &&
-		    $3 !~ /^_gst_[a-z]*_init/ &&
-		    $3 !~ /^_gst_parse_launch/ &&
-		    $3 !~ /^__gst_element_details_/ &&
-		    $3 !~ /^__gst_element_factory_add_/ &&
-		    $3 !~ /^gst_interfaces_marshal/)
+		if ($3 !~ /^_gst_parse_yy/ && \
+		    $3 !~ /^_gst_[a-z]*_init/ && \
+		    $3 !~ /^_gst_parse_launch/ && \
+		    $3 !~ /^__gst_element_details_/ && \
+		    $3 !~ /^__gst_element_factory_add_/ && \
+		    $3 !~ /^gst_interfaces_marshal/ && \
+		    $3 ~ /^[_]*(gst_|Gst|GST_).*/)
 		{
-			if ($2 == "B" || $2 == "S")
+			if ($2 ~ /^[BSDG]$/)
 				print "\t" $3 " DATA"
 			else if ($2 == "T")
 				print "\t" $3
@@ -49,7 +59,7 @@ nm $lib_path | awk \
 
 diffoutput=`diff -u $def_path $lib_result`
 
-rm $lib_result
+# rm $lib_result
 
 if test "x$diffoutput" = "x"; then
   exit 0;

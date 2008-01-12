@@ -1,3 +1,15 @@
+2008-01-12  Jan Schmidt  <Jan.Schmidt@sun.com>
+
+	* check-exports:
+	  Fixes to make check-export work on both Solaris and Linux
+
+	* m4/gst-error.m4:
+	  Disable extra warning category (argument mismatch) as an error
+	  on Forte, as it prevents the libcheck fail_if macros from compiling.
+
+	* win32.mak:
+	  Substitute the GStreamer version so things will keep working in 0.11
+
 2008-01-11  Tim-Philipp Müller  <tim at centricular dot net>
 
 	Patch by: Peter Kjellerstedt <pkj axis com>

@@ -38,7 +38,7 @@ check-exports:
 	fail=0 ; \
 	for l in $(win32defs); do \
 	  libbase=`basename "$$l" ".def"`; \
-	  libso=`find "$(top_builddir)" -name "$$libbase-0.10.so"`; \
+	  libso=`find "$(top_builddir)" -name "$$libbase-@GST_MAJORMINOR@.so"`; \
 	  libdef="$(top_srcdir)/win32/common/$$libbase.def"; \
 	  if test "x$$libso" != "x"; then \
 	    echo Checking symbols in $$libso; \

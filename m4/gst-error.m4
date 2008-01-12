@@ -35,11 +35,11 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
     dnl if -Werror isn't suported
     if test "x$ERROR_CFLAGS" == "x"
     then
-      dnl try -errwarn=%all,no%E_EMPTY_DECLARATION,no%E_STATEMENT_NOT_REACHED (Sun Forte case)
+      dnl try -errwarn=%all,no%E_EMPTY_DECLARATION,no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH (Sun Forte case)
       dnl For Forte we need disable "empty declaration" warning produced by un-needed semicolon 
       dnl "statement not reached" disabled because there is g_assert_not_reached () in some places
-      AS_COMPILER_FLAG([-errwarn=%all,no%E_EMPTY_DECLARATION,no%E_STATEMENT_NOT_REACHED],
-                       [ERROR_CFLAGS="-errwarn=%all,no%E_EMPTY_DECLARATION,no%E_STATEMENT_NOT_REACHED"])
+      AS_COMPILER_FLAG([-errwarn=%all,no%E_EMPTY_DECLARATION,no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH],
+                       [ERROR_CFLAGS="-errwarn=%all,no%E_EMPTY_DECLARATION,no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH"])
 
       dnl if this also isn't suported, try only for -errwarn=%all
       if test "x$ERROR_CFLAGS" == "x"
