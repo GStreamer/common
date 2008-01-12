@@ -16,13 +16,15 @@ DOMAINS=\
 #DOMAINS="es fr hu sv pl xx"
 
 # check for 'diff' program
-if ! diff --version 2>/dev/null >/dev/null; then
+diff --version 2>/dev/null >/dev/null
+if [ ! $? ]; then
   echo "==== You must have the 'diff' program installed for this script ===="
   exit 1
 fi
 
 # check for 'wget' program
-if ! wget --version 2>/dev/null >/dev/null; then
+wget --version 2>/dev/null >/dev/null
+if [ ! $? ]; then
   echo "==== You must have the 'wget' program installed for this script ===="
   exit 1
 fi
@@ -61,10 +63,7 @@ do
   PACKAGE_PO_URL_BASE="http://translationproject.org/latest/$PACKAGE"
   PO_URL="$PACKAGE_PO_URL_BASE/$d.po"
   PO_FILENAME="$PACKAGE.$d.po"
-  if ! wget -q -nc -O $PO_FILENAME $PO_URL 2>/dev/null >/dev/null; then
-    rm -f $PO_FILENAME
-    echo "$d.po: failure (does probably not exist)"
-  else
+  if wget -q -nc -O $PO_FILENAME $PO_URL; then
     if [ -f "po/$d.po" ]; then
       # ./po/foo.po exists, so let's check if ours matches the latest from the
       # translation project website 
@@ -77,13 +76,16 @@ do
         DOMAINS_UPDATED="$DOMAINS_UPDATED $d"
       fi
     else
-      # ./po/foo.po does exists, but foo.po exists on the translation project
+      # ./po/foo.po doesn't exist, but foo.po exists on the translation project
       # website, so it's probably a new translation
       echo "$d.po: new language"
-      mv $PO_FILENAME "po/$d.po"
+      # mv $PO_FILENAME "po/$d.po"
       DOMAINS_UPDATED="$DOMAINS_UPDATED $d"
       DOMAINS_TO_ADD="$DOMAINS_TO_ADD $d"
     fi
+  else
+    rm -f $PO_FILENAME
+    echo "$d.po: failure (does probably not exist)"
   fi
 done
 

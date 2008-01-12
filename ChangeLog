@@ -1,5 +1,10 @@
 2008-01-12  Jan Schmidt  <Jan.Schmidt@sun.com>
 
+	* download-translations:
+	Remove bash-isms
+
+2008-01-12  Jan Schmidt  <Jan.Schmidt@sun.com>
+
 	* check-exports:
 	Restore the cleanup rm of our tmp file which I didn't mean to leave 
 	commented out.
