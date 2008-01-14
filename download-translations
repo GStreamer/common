@@ -79,7 +79,7 @@ do
       # ./po/foo.po doesn't exist, but foo.po exists on the translation project
       # website, so it's probably a new translation
       echo "$d.po: new language"
-      # mv $PO_FILENAME "po/$d.po"
+      mv $PO_FILENAME "po/$d.po"
       DOMAINS_UPDATED="$DOMAINS_UPDATED $d"
       DOMAINS_TO_ADD="$DOMAINS_TO_ADD $d"
     fi

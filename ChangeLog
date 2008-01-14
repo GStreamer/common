@@ -1,3 +1,9 @@
+2008-01-14  Jan Schmidt  <jan.schmidt@sun.com>
+
+	* download-translations:
+	Apparently I have problems with leaving things commented out when
+	I edit shell scripts.
+
 2008-01-12  Jan Schmidt  <Jan.Schmidt@sun.com>
 
 	* download-translations:
