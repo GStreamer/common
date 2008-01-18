@@ -427,6 +427,18 @@
    fun:__libc_dlopen_mode
 }
 
+# suppression for a glibc bug:
+# http://valgrind.org/docs/manual/faq.html#faq.exit_errors>
+{
+   <Workaround for a glibc bug> 
+   Memcheck:Free
+   fun:free
+   obj:*libc-*.so
+   fun:__libc_freeres
+   fun:*
+   fun:_Exit
+}
+
 # valgrind doesn't allow me to specify a suppression for Addr1, Addr2, Addr4
 # as Addr*, so 3 copies for that; and then 2 of each for that pesky memcpy
 {

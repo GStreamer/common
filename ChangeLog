@@ -1,6 +1,12 @@
 2008-01-18  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* gst.supp:
+	Add a suppression for a glibc bug:
+	http://valgrind.org/docs/manual/faq.html#faq.exit_errors>
+
+2008-01-18  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* gst.supp:
 	Add some more glibc 2.7 suppressions and make the GLib suppressions
 	for the home/tmp/etc directory caching a bit more generic.
 
