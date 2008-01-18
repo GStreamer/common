@@ -1,3 +1,8 @@
+2008-01-18  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* gst.supp:
+	Add some glibc 2.7 supressions as found on Debian/unstable.
+
 2008-01-14  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* download-translations:

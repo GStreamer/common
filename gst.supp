@@ -317,6 +317,85 @@
    fun:setup_messaging
 }
 
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   fun:_dl_sym
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlsym
+   fun:g_module_symbol
+   fun:g_module_open
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
 # valgrind doesn't allow me to specify a suppression for Addr1, Addr2, Addr4
 # as Addr*, so 3 copies for that; and then 2 of each for that pesky memcpy
 {
