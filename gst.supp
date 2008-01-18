@@ -396,6 +396,37 @@
    fun:g_module_open
 }
 
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+}
+
 # valgrind doesn't allow me to specify a suppression for Addr1, Addr2, Addr4
 # as Addr*, so 3 copies for that; and then 2 of each for that pesky memcpy
 {
@@ -1653,31 +1684,31 @@
    <GLib caching the home dir>
    Memcheck:Leak
    fun:malloc
-   obj:/lib/libc-*.so
+   obj:*libc-*.so
    fun:__nss_database_lookup
    obj:*
    obj:*
    fun:getpwnam_r
-   fun:g_get_any_init_do
+   obj:/usr/lib*/libglib-2.0.so.*
    fun:g_get_home_dir
 }
 {
    <GLib caching the user name>
    Memcheck:Leak
    fun:malloc
-   obj:/lib/libc-*.so
+   obj:*libc-*.so
    fun:__nss_database_lookup
    obj:*
    obj:*
    fun:getpwnam_r
-   fun:g_get_any_init_do
+   obj:/usr/lib*/libglib-2.0.so.*
    fun:g_get_user_name
 }
 {
    <GLib caching the tmp dir>
    Memcheck:Leak
    fun:malloc
-   obj:/lib/libc-*.so
+   obj:*libc-*.so
    fun:__nss_database_lookup
    obj:*
    obj:*
@@ -1685,7 +1716,6 @@
    obj:/usr/lib*/libglib-2.0.so.*
    fun:g_get_tmp_dir
 }
-
 
 ## Some Fontconfig errors.
 {
