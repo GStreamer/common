@@ -7,8 +7,8 @@ help:
 
 # update the stuff maintained by doc maintainers
 update:
-	make inspect-update
-	make scanobj-update
+	$(MAKE) inspect-update
+	$(MAKE) scanobj-update
 
 # We set GPATH here; this gives us semantics for GNU make
 # which are more like other make's VPATH, when it comes to
@@ -92,7 +92,7 @@ all-local: html-build.stamp
 #### scan gobjects; done by documentation maintainer ####
 scanobj-update:
 	-rm scanobj-build.stamp
-	make scanobj-build.stamp
+	$(MAKE) scanobj-build.stamp
 
 # in the case of non-srcdir builds, the built gst directory gets added
 # to gtk-doc scanning; but only then, to avoid duplicates
@@ -138,7 +138,7 @@ inspect:
 inspect-update: inspect
 	-rm $(INSPECT_REGISTRY)
 	-rm inspect-build.stamp
-	make inspect-build.stamp
+	$(MAKE) inspect-build.stamp
 
 # FIXME: inspect.stamp should be written to by gst-xmlinspect.py
 # IFF the output changed; see gtkdoc-mktmpl

@@ -15,7 +15,7 @@ AC_DEFUN([AS_DOCBOOK],
   DOCBOOK_VERSION=4.1.2
 
   if test ! -f /etc/xml/catalog; then
-    for i in /usr/share/sgml/docbook/stylesheet/xsl/nwalsh /usr/share/sgml/docbook/xsl-stylesheets/;
+    for i in /usr/share/sgml/docbook/stylesheet/xsl/nwalsh /usr/share/sgml/docbook/xsl-stylesheets/ /usr/local/share/xsl/docbook ;
     do
       if test -d "$i"; then
         DOCBOOK_ROOT=$i
@@ -36,7 +36,7 @@ AC_DEFUN([AS_DOCBOOK],
     if test -n "$XML_CATALOG"; then
       DB_FILE="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"
     else
-      DB_FILE="$DOCBOOK_ROOT/docbook.xsl"
+      DB_FILE="$DOCBOOK_ROOT/xhtml/docbook.xsl"
     fi
     $XSLTPROC $XSLTPROC_FLAGS $DB_FILE >/dev/null 2>&1 << END
 <?xml version="1.0" encoding='ISO-8859-1'?>

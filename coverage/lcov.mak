@@ -3,12 +3,12 @@
 
 # run lcov from scratch, always
 lcov-reset:
-	make lcov-run
-	make lcov-report
+	$(MAKE) lcov-run
+	$(MAKE) lcov-report
 
 # run lcov from scratch if the dir is not there
 lcov:
-	make lcov-reset
+	$(MAKE) lcov-reset
 
 if GST_GCOV_ENABLED
 # reset run coverage tests

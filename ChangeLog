@@ -1,3 +1,16 @@
+2008-01-20  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* check.mak:
+	* coverage/lcov.mak:
+	* gtk-doc-plugins.mak:
+	* release.mak:
+	Use $(MAKE) instead of make to fix the build if GNU make is called
+	something else on the system.
+	
+	* m4/as-docbook.m4:
+	Fix path for docbook.xsl if we have no /etc/xml/catalog and add a
+	docbook-xsl search path for FreeBSD.
+
 2008-01-18  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* gst.supp:

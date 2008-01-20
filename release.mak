@@ -5,8 +5,8 @@
 AUTOMAKE_OPTIONS = dist-bzip2
 
 release: dist
-	make $(PACKAGE)-$(VERSION).tar.gz.md5
-	make $(PACKAGE)-$(VERSION).tar.bz2.md5
+	$(MAKE) $(PACKAGE)-$(VERSION).tar.gz.md5
+	$(MAKE) $(PACKAGE)-$(VERSION).tar.bz2.md5
 
 # generate md5 sum files
 %.md5: %
