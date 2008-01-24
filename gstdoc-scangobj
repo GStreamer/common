@@ -151,10 +151,11 @@ get_object_types (void)
       plugin = (GstPlugin *) (plugins->data);
       plugins = g_list_next (plugins);
       source = gst_plugin_get_source (plugin);
-      g_print ("source: %s\\n", source);
-      if (!source || strcmp (gst_plugin_get_source (plugin), "$SOURCE") != 0) {
+      /*g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);*/
+      if (!source || strcmp (source, "$SOURCE") != 0) {
         continue;
       }
+      g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);
 
       features =
           gst_registry_get_feature_list_by_plugin (gst_registry_get_default (),
@@ -170,7 +171,7 @@ get_object_types (void)
 
         if (GST_IS_ELEMENT_FACTORY (feature)) {
           factory = GST_ELEMENT_FACTORY (feature);
-          factories = g_list_append (factories, factory);
+          factories = g_list_prepend (factories, factory);
         }
         features = g_list_next (features);
       }
@@ -188,9 +189,8 @@ get_object_types (void)
     while (l) {
       GType type;
       factory = GST_ELEMENT_FACTORY (l->data);
-      g_message ("adding type for factory %s", gst_element_factory_get_longname (factory));
       type = gst_element_factory_get_element_type (factory);
-      g_message ("adding type %p", (void *) type);
+      g_message ("adding type %p for factory %s", (void *) type, gst_element_factory_get_longname (factory));
       object_types[i] = type;
       i++;
       l = g_list_next (l);
@@ -206,6 +206,9 @@ print OUTPUT <<EOT;
     for (i=0; object_types[i]; i++) {
       if (G_TYPE_IS_CLASSED (object_types[i]))
         g_type_class_ref (object_types[i]);
+        else {
+          g_warning ("not reffing type: %s", g_type_name (object_types[i]));
+        }
     }
 
     return object_types;
@@ -536,6 +539,11 @@ get_type_name (GType type, gboolean * is_pointer)
   if (g_type_is_a (type, G_TYPE_POINTER))
     *is_pointer = TRUE;
 
+  /* But enums are not */
+  if (g_type_is_a (type, G_TYPE_ENUM) ||
+      g_type_is_a (type, G_TYPE_FLAGS))
+    *is_pointer = FALSE;
+
   return type_name;
 }
 
@@ -835,12 +843,23 @@ output_object_hierarchy (void)
   
   for (i=0; object_types[i]; i++) {
     if (!g_type_parent (object_types[i]) &&
+      (object_types[i] != G_TYPE_NONE) &&
       (object_types[i] != G_TYPE_OBJECT) &&
       (object_types[i] != G_TYPE_INTERFACE)
     ) {
+      g_warning ("printing hierarchy for root type: %s",
+          g_type_name (object_types[i]));
       output_hierarchy (fp, object_types[i], 0);
     }
   }
+  /* for debugging
+  for (i=0; object_types[i]; i++) {
+    if(object_types[i] != G_TYPE_NONE) {
+      g_print ("type has not been added to hierarchy: %s\\n",
+        g_type_name (object_types[i]));
+    }
+  }
+  for debugging */
 
   fclose (fp);
 }
@@ -858,6 +877,17 @@ output_hierarchy (FILE  *fp,
   if (!type)
     return;
 
+  /* for debugging
+  for (i=0; object_types[i]; i++) {
+    if(object_types[i] == type) {
+      g_print ("added type to hierarchy (level %d): %s\\n",
+        level, g_type_name (type));
+      object_types[i] = G_TYPE_NONE;
+      break;
+    }
+  }
+  for debugging */
+
   for (i = 0; i < level; i++)
     fprintf (fp, "  ");
   fprintf (fp, g_type_name (type));
@@ -865,14 +895,16 @@ output_hierarchy (FILE  *fp,
 
   children = g_type_children (type, &n_children);
 
-  for (i=0; i < n_children; i++)
+  for (i=0; i < n_children; i++) {
     output_hierarchy (fp, children[i], level + 1);
+  }
 
   g_free (children);
 }
 
 static void output_object_interfaces (void)
 {
+  guint i;
   FILE *fp;
 
   fp = fopen (interfaces_filename, "w");
@@ -882,6 +914,16 @@ static void output_object_interfaces (void)
       return;
     }
   output_interfaces (fp, G_TYPE_OBJECT);
+
+  for (i = 0; object_types[i]; i++)
+    {
+      if (!g_type_parent (object_types[i]) &&
+          (object_types[i] != G_TYPE_OBJECT) &&
+          G_TYPE_IS_INSTANTIATABLE (object_types[i]))
+        {
+          output_interfaces (fp, object_types[i]);
+        }
+    }
   fclose (fp);
 }
 
@@ -1425,10 +1467,12 @@ output_object_args (FILE *fp, GType object_type)
   guint n_properties;
   gboolean child_prop;
   gboolean style_prop;
+  gboolean is_pointer;
+  const gchar *type_name;
   gchar *type_desc;
   gchar *default_value;
 
-  if (G_TYPE_IS_CLASSED (object_type))
+  if (G_TYPE_IS_OBJECT (object_type))
     {
       class = g_type_class_peek (object_type);
       if (!class)
@@ -1493,8 +1537,9 @@ output_object_args (FILE *fp, GType object_type)
 
 	type_desc = describe_type (spec);
 	default_value = describe_default (spec);
-        fprintf (fp, "<ARG>\\n<NAME>%s::%s</NAME>\\n<TYPE>%s</TYPE>\\n<RANGE>%s</RANGE>\\n<FLAGS>%s</FLAGS>\\n<NICK>%s</NICK>\\n<BLURB>%s%s</BLURB>\\n<DEFAULT>%s</DEFAULT>\\n</ARG>\\n\\n",
-	         object_class_name, g_param_spec_get_name (spec), g_type_name (spec->value_type), type_desc, flags, nick ? nick : "(null)", blurb ? blurb : "(null)", dot, default_value);
+	type_name = get_type_name (spec->value_type, &is_pointer);
+        fprintf (fp, "<ARG>\\n<NAME>%s::%s</NAME>\\n<TYPE>%s%s</TYPE>\\n<RANGE>%s</RANGE>\\n<FLAGS>%s</FLAGS>\\n<NICK>%s</NICK>\\n<BLURB>%s%s</BLURB>\\n<DEFAULT>%s</DEFAULT>\\n</ARG>\\n\\n",
+	         object_class_name, g_param_spec_get_name (spec), type_name, is_pointer ? "*" : "", type_desc, flags, nick ? nick : "(null)", blurb ? blurb : "(null)", dot, default_value);
 	g_free (type_desc);
 	g_free (default_value);
       }
@@ -1554,9 +1599,9 @@ system("sh -c ./$MODULE-scan") == 0 or die "Scan failed: $!\n";
 unlink "./$MODULE-scan.c", "./$MODULE-scan.o", "./$MODULE-scan.lo", "./$MODULE-scan";
 
 #&UpdateFileIfChanged ($old_signals_filename, $new_signals_filename, 0);
-#&UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
-#&UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
-#&UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
+&UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
+&UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
+&UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
 #&UpdateFileIfChanged ($old_args_filename, $new_args_filename, 0);
 
 

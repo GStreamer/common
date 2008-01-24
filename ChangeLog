@@ -1,6 +1,9 @@
 2008-01-24  Stefan Kost  <ensonic@users.sf.net>
 
-	* gtk-doc-plugins.mak:
+	* ChangeLog:
+	  ChangeLog surgery.
+
+	* gstdoc-scangobj:
 	  Sync the object scanner with gtk-doc fixes. Update args and hierarchy
 	  files.
 
