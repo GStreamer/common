@@ -1,3 +1,9 @@
+2008-01-24  Stefan Kost  <ensonic@users.sf.net>
+
+	* gtk-doc-plugins.mak:
+	  Sync the object scanner with gtk-doc fixes. Update args and hierarchy
+	  files.
+
 2008-01-20  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* check.mak:
