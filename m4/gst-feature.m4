@@ -255,31 +255,31 @@ dnl relies on GST_PLUGINS_ALL, GST_PLUGINS_SELECTED, GST_PLUGINS_YES,
 dnl GST_PLUGINS_NO, and BUILD_EXTERNAL
 AC_DEFUN([AG_GST_OUTPUT_PLUGINS], [
 
-echo "configure: *** Plug-ins without external dependencies that will be built:"
-( for i in $GST_PLUGINS_SELECTED; do /bin/echo -e '\t'$i; done ) | sort
-echo
+printf "configure: *** Plug-ins without external dependencies that will be built:\n"
+( for i in $GST_PLUGINS_SELECTED; do printf '\t'$i'\n'; done ) | sort
+printf "\n"
 
-echo "configure: *** Plug-ins without external dependencies that will NOT be built:"
+printf "configure: *** Plug-ins without external dependencies that will NOT be built:\n"
 ( for i in $GST_PLUGINS_ALL; do
     case $GST_PLUGINS_SELECTED in
       *$i*)
 	;;
       *)
-	/bin/echo -e '\t'$i
+	printf '\t'$i'\n'
 	;;
     esac
   done ) | sort
-echo
+printf "\n"
 
 if test "x$BUILD_EXTERNAL" = "xno"; then
-  echo "configure: *** No plug-ins with external dependencies will be built"
+  printf "configure: *** No plug-ins with external dependencies will be built\n"
 else
-  /bin/echo -n "configure: *** Plug-ins with dependencies that will be built:"
-  /bin/echo -e "$GST_PLUGINS_YES" | sort
-  /bin/echo
-  /bin/echo -n "configure: *** Plug-ins with dependencies that will NOT be built:"
-  /bin/echo -e "$GST_PLUGINS_NO" | sort
-  /bin/echo
+  printf "configure: *** Plug-ins with dependencies that will be built:"
+  printf "$GST_PLUGINS_YES\n" | sort
+  printf "\n"
+  printf "configure: *** Plug-ins with dependencies that will NOT be built:"
+  printf "$GST_PLUGINS_NO\n" | sort
+  printf "\n"
 fi
 ])
 

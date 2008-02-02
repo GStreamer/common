@@ -1,3 +1,10 @@
+2008-02-02  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* m4/gst-feature.m4:
+	Use printf instead of echo as "echo -e" isn't POSIX and doesn't work
+	with strict POSIX shells like tcsh or dash and also not every platform
+	has a /bin/echo that supports it.
+
 2008-01-24  Stefan Kost  <ensonic@users.sf.net>
 
 	* ChangeLog:
