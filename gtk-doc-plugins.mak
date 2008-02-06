@@ -141,7 +141,7 @@ inspect-update: inspect
 	$(MAKE) inspect-build.stamp
 
 # FIXME: inspect.stamp should be written to by gst-xmlinspect.py
-# IFF the output changed; see gtkdoc-mktmpl
+# IF the output changed; see gtkdoc-mktmpl
 inspect-build.stamp:
 	@echo '*** Rebuilding plugin inspection files ***'
 	if test x"$(srcdir)" != x. ; then \
@@ -233,6 +233,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@if grep "warning:" html-build.log > /dev/null; then \
 		echo "ERROR"; grep "warning:" html-build.log; exit 1; fi
 	@rm html-build.log
+	sed -i "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml
 	rm -f html/$(DOC_MAIN_SGML_FILE)
 	rm -rf html/xml
 	rm -f html/version.entities
