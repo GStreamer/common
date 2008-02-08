@@ -130,7 +130,9 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	cp -pr xml html
 	cp ../version.entities html
 	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
-	sed -i "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml
+	mv html/index.sgml html/index.sgml.bak
+	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
+	rm -f html/index.sgml.bak
 	rm -f html/$(DOC_MAIN_SGML_FILE)
 	rm -rf html/xml
 	rm -f html/version.entities

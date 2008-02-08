@@ -233,7 +233,9 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@if grep "warning:" html-build.log > /dev/null; then \
 		echo "ERROR"; grep "warning:" html-build.log; exit 1; fi
 	@rm html-build.log
-	sed -i "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml
+	mv html/index.sgml html/index.sgml.bak
+	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
+	rm -f html/index.sgml.bak
 	rm -f html/$(DOC_MAIN_SGML_FILE)
 	rm -rf html/xml
 	rm -f html/version.entities

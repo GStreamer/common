@@ -1,3 +1,10 @@
+2008-02-08  Stefan Kost  <ensonic@users.sf.net>
+
+	* gtk-doc-plugins.mak:
+	* gtk-doc.mak:
+	  Use '$(SED)' instead of 'sed'. Don't use -i for in-place as its gnu
+	  only, move to a temp file instead.
+
 2008-02-06  Stefan Kost  <ensonic@users.sf.net>
 
 	* gtk-doc-plugins.mak:
