@@ -1,5 +1,10 @@
 2008-02-08  Stefan Kost  <ensonic@users.sf.net>
 
+	* m4/gtk-doc.m4:
+	  Conditionally check for SED.
+
+2008-02-08  Stefan Kost  <ensonic@users.sf.net>
+
 	* gtk-doc-plugins.mak:
 	* gtk-doc.mak:
 	  Use '$(SED)' instead of 'sed'. Don't use -i for in-place as its gnu
