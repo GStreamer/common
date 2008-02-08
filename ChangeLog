@@ -1,7 +1,12 @@
 2008-02-08  Stefan Kost  <ensonic@users.sf.net>
 
+	* ChangeLog:
+	  Changelog surgery for last commit.
+
+2008-02-08  Stefan Kost  <ensonic@users.sf.net>
+
 	* m4/gtk-doc.m4:
-	  Conditionally check for SED.
+	  Conditionally check for SED. Also sync a bit with upstream macro.
 
 2008-02-08  Stefan Kost  <ensonic@users.sf.net>
 
