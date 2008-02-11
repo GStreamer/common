@@ -427,6 +427,42 @@
    fun:__libc_dlopen_mode
 }
 
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   fun:iconv_open
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   obj:/lib/i686/cmov/libc-2.7.so
+   fun:iconv_open
+}
+
 # suppression for a glibc bug:
 # http://valgrind.org/docs/manual/faq.html#faq.exit_errors>
 {

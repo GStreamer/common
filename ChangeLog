@@ -1,3 +1,9 @@
+2008-02-11  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* gst.supp:
+	Add a few more glibc 2.7 suppressions to make the avisubtitle unit
+	test valgrind clean. Fixes bug #515703.
+
 2008-02-08  Stefan Kost  <ensonic@users.sf.net>
 
 	* ChangeLog:
