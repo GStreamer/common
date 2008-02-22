@@ -1,3 +1,14 @@
+2008-02-22  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* gtk-doc-plugins.mak:
+	  Add 'check-inspected-versions' target; this helps identify
+	  files that should have been removed or where the version
+	  number should (ideally) be updated before a release
+	  (which doesn't happen automatically if the releaser doesn't
+	  build that plugin locally). Not adding at a distcheck hook
+	  yet though, because it's not really that important and would
+	  probably also be a problem on buildbots.
+
 2008-02-22  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* gst.supp:
