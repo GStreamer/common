@@ -1,5 +1,13 @@
 2008-02-22  Tim-Philipp Müller  <tim at centricular dot net>
 
+	* m4/as-compiler-flag.m4:
+	  Add AS_CXX_COMPILER_FLAG
+
+	* m4/gst-error.m4:
+	  Add AG_GST_SET_ERROR_CXXFLAGS (Forte bits need testing)
+
+2008-02-22  Tim-Philipp Müller  <tim at centricular dot net>
+
 	* gtk-doc-plugins.mak:
 	  Add 'check-inspected-versions' target; this helps identify
 	  files that should have been removed or where the version
