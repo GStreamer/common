@@ -463,6 +463,144 @@
    fun:iconv_open
 }
 
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Addr4
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on debian>
+   Memcheck:Cond
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/i686/cmov/libdl-2.7.so
+   fun:dlopen
+}
+
 # suppression for a glibc bug:
 # http://valgrind.org/docs/manual/faq.html#faq.exit_errors>
 {
