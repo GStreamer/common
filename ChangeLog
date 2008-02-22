@@ -1,3 +1,9 @@
+2008-02-22  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* gst.supp:
+	Add another suppression for GLib caching some values after
+	the first call.
+
 2008-02-12  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	Patch by:

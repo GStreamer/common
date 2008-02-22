@@ -1765,6 +1765,20 @@
    fun:g_get_tmp_dir
 }
 
+{
+   <GLib caching the host name>
+   Memcheck:Leak
+   fun:malloc
+   obj:*libc-*.so
+   fun:__nss_database_lookup
+   obj:*
+   obj:*
+   fun:getpwnam_r
+   obj:/usr/lib*/libglib-2.0.so.0.*
+   fun:g_get_host_name
+}
+
+
 ## Some Fontconfig errors.
 {
    <First time load of a font - feisty x86_64>
