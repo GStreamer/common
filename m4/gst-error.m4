@@ -87,7 +87,9 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
   dnl if asked for, add -Werror if supported
   if test "x$1" != "xno"
   then
-    AS_CXX_COMPILER_FLAG([-Werror], [
+    AS_CXX_COMPILER_FLAG(-Werror, werror_supported=yes, werror_supported=no)
+
+    if test "x$werror_supported" = "xyes"; then
         ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror"
 
         dnl add exceptions
@@ -95,30 +97,31 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
         do
           AS_CXX_COMPILER_FLAG([$f], ERROR_CXXFLAGS="$ERROR_CXXFLAGS $f")
         done
-    ], [
+    else
       dnl if -Werror isn't suported, try -errwarn=%all
-      AS_CXX_COMPILER_FLAG([-errwarn=%all], [
-          ERROR_CXXFLAGS="-errwarn=%all"
-          dnl try -errwarn=%all,no%E_EMPTY_DECLARATION,
-          dnl no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH,
-          dnl no%E_MACRO_REDEFINED (Sun Forte case)
-          dnl For Forte we need disable "empty declaration" warning produced by un-needed semicolon 
-          dnl "statement not reached" disabled because there is g_assert_not_reached () in some places
-          dnl "macro redefined" because of gst/gettext.h
-          dnl FIXME: is it really supposed to be 'ARGUEMENT' and not 'ARGUMENT'?
-          dnl FIXME: do any of these work with the c++ compiler? if not, why
-          dnl do we check at all?
-          for f in 'no%E_EMPTY_DECLARATION' \
-                   'no%E_STATEMENT_NOT_REACHED' \
-                   'no%E_ARGUEMENT_MISMATCH' \
-                   'no%E_MACRO_REDEFINED'
-          do
-            AS_CXX_COMPILER_FLAG([-errwarn=%all,$f], [
-              ERROR_CXXFLAGS="$ERROR_CXXFLAGS,$f"
-            ])
-          done
-      ])
-    ])
+      AS_CXX_COMPILER_FLAG([-errwarn=%all], errwarnall=yes, errwarnall=no)
+      if test "x$errwarnall" = "xyes"; then
+        ERROR_CXXFLAGS="-errwarn=%all"
+        dnl try -errwarn=%all,no%E_EMPTY_DECLARATION,
+        dnl no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH,
+        dnl no%E_MACRO_REDEFINED (Sun Forte case)
+        dnl For Forte we need disable "empty declaration" warning produced by un-needed semicolon 
+        dnl "statement not reached" disabled because there is g_assert_not_reached () in some places
+        dnl "macro redefined" because of gst/gettext.h
+        dnl FIXME: is it really supposed to be 'ARGUEMENT' and not 'ARGUMENT'?
+        dnl FIXME: do any of these work with the c++ compiler? if not, why
+        dnl do we check at all?
+        for f in 'no%E_EMPTY_DECLARATION' \
+                 'no%E_STATEMENT_NOT_REACHED' \
+                 'no%E_ARGUEMENT_MISMATCH' \
+                 'no%E_MACRO_REDEFINED'
+        do
+          AS_CXX_COMPILER_FLAG([-errwarn=%all,$f], [
+            ERROR_CXXFLAGS="$ERROR_CXXFLAGS,$f"
+          ])
+        done
+      fi
+    fi
   fi
 
   AC_SUBST(ERROR_CXXFLAGS)

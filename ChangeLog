@@ -1,3 +1,10 @@
+2008-02-23  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* m4/gst-error.m4:
+	  Reflow checks for additional warning flags so they're not
+	  nested, which fixes the result reporting in the configure
+	  output.
+
 2008-02-22  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/as-compiler-flag.m4:
