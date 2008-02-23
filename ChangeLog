@@ -1,3 +1,10 @@
+2008-02-23  Jan Schmidt  <Jan.Schmidt@sun.com>
+
+	* m4/gst-error.m4:
+	Store the detected compiler flags into ERROR_CFLAGS rather than
+	ERROR_CXXFLAGS, and use the macro that checks the C compiler, not
+	the C++ one.
+
 2008-02-23  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/gst-error.m4:

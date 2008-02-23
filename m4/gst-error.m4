@@ -1,4 +1,4 @@
-dnl handle various error-related things
+Dnl handle various error-related things
 
 dnl Thomas Vander Stichele <thomas@apestaart.org>
 dnl Tim-Philipp Müller <tim centricular net>
@@ -51,8 +51,8 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
                    'no%E_ARGUEMENT_MISMATCH' \
                    'no%E_MACRO_REDEFINED'
           do
-            AS_CXX_COMPILER_FLAG([-errwarn=%all,$f], [
-              ERROR_CXXFLAGS="$ERROR_CXXFLAGS,$f"
+            AS_COMPILER_FLAG([-errwarn=%all,$f], [
+              ERROR_CFLAGS="$ERROR_CFLAGS,$f"
             ])
           done
       ])
