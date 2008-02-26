@@ -5,6 +5,7 @@ EXTRA_DIST = \
 	as-compiler-flag.m4 \
 	as-compiler.m4 \
 	as-docbook.m4 \
+	as-gcc-inline-assembly.m4 \
 	as-libtool.m4 \
 	as-libtool-tags.m4 \
 	as-python.m4 \
