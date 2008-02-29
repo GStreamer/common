@@ -1,3 +1,9 @@
+2008-02-29  Peter Kjellerstedt  <pkj@axis.com>
+
+	* m4/gst-feature.m4:
+	Make the comment before defines generated via AG_GST_CHECK_FEATURE
+	look nicer.
+
 2008-02-26  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* m4/Makefile.am:
