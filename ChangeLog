@@ -1,3 +1,10 @@
+2008-03-03  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* m4/pkg.m4:
+	Allow override of pkg-config results, as proposed by configure --help.
+	This is in fact just a backport from upstream pkg.m4.
+	Fixes #518892
+
 2008-03-03  Peter Kjellerstedt  <pkj@axis.com>
 
 	* ChangeLog:
