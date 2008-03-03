@@ -1,3 +1,12 @@
+2008-03-03  Peter Kjellerstedt  <pkj@axis.com>
+
+	* ChangeLog:
+	Changelog surgery of my previous commit to add bugzilla reference.
+	* m4/gst-args.m4:
+	Add AG_GST_CHECK_PLUGIN and AG_GST_DISABLE_PLUGIN to make it easier
+	to include and exclude plug-ins without external references, i.e.,
+	plug-ins listed in GST_PLUGINS_SELECTED. (#498222)
+
 2008-03-03  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* gst.supp:
@@ -7,7 +16,7 @@
 
 	* m4/gst-feature.m4:
 	Make the comment before defines generated via AG_GST_CHECK_FEATURE
-	look nicer.
+	look nicer. (#498222)
 
 2008-02-26  Jan Schmidt  <jan.schmidt@sun.com>
 

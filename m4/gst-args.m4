@@ -12,6 +12,8 @@ dnl AG_GST_ARG_WITH_PACKAGE_NAME
 dnl AG_GST_ARG_WITH_PACKAGE_ORIGIN
 
 dnl AG_GST_ARG_WITH_PLUGINS
+dnl AG_GST_CHECK_PLUGIN
+dnl AG_GST_DISABLE_PLUGIN
 
 dnl AG_GST_ARG_ENABLE_EXTERNAL
 dnl AG_GST_ARG_ENABLE_EXPERIMENTAL
@@ -211,28 +213,53 @@ AC_DEFUN([AG_GST_ARG_WITH_PACKAGE_ORIGIN],
   AC_SUBST(GST_PACKAGE_ORIGIN)
 ])
 
-dnl sets GST_PLUGINS_SELECTED to the list given as an argument, or to
-dnl GST_PLUGINS_ALL
+dnl sets WITH_PLUGINS to the list of plug-ins given as an argument
+dnl also clears GST_PLUGINS_ALL and GST_PLUGINS_SELECTED
 AC_DEFUN([AG_GST_ARG_WITH_PLUGINS],
 [
   AC_ARG_WITH(plugins,
     AC_HELP_STRING([--with-plugins],
       [comma-separated list of dependencyless plug-ins to compile]),
-    [
-      for i in `echo $withval | tr , ' '`; do
-        if echo $GST_PLUGINS_ALL | grep $i > /dev/null
-        then
-            GST_PLUGINS_SELECTED="$GST_PLUGINS_SELECTED $i"
-        else
-            echo "plug-in $i not recognized, ignoring..."
-        fi
-    done],
-    [GST_PLUGINS_SELECTED=$GST_PLUGINS_ALL])
+    [WITH_PLUGINS=$withval],
+    [WITH_PLUGINS=])
+
+  GST_PLUGINS_ALL=""
+  GST_PLUGINS_SELECTED=""
+
+  AC_SUBST(GST_PLUGINS_ALL)
+  AC_SUBST(GST_PLUGINS_SELECTED)
+])
+
+dnl AG_GST_CHECK_PLUGIN(PLUGIN-NAME)
+dnl
+dnl This macro adds the plug-in <PLUGIN-NAME> to GST_PLUGINS_ALL. Then it
+dnl checks if the plug-in is present in WITH_PLUGINS, and if so adds it to
+dnl GST_PLUGINS_SELECTED.
+dnl
+dnl The macro will call AM_CONDITIONAL(USE_PLUGIN_<PLUGIN-NAME>, ...) to allow
+dnl control of what is built in Makefile.ams.
+AC_DEFUN([AG_GST_CHECK_PLUGIN],
+[
+  GST_PLUGINS_ALL="$GST_PLUGINS_ALL [$1]"
+  if [[ -z "$WITH_PLUGINS" ]] || echo " [$WITH_PLUGINS] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
+    GST_PLUGINS_SELECTED="$GST_PLUGINS_SELECTED [$1]"
+  fi
+  AM_CONDITIONAL([USE_PLUGIN_]translit([$1], a-z, A-Z), echo " $GST_PLUGINS_SELECTED " | grep -i " [$1] " > /dev/null)
+])
+
+dnl AG_GST_DISABLE_PLUGIN(PLUGIN-NAME)
+dnl
+dnl This macro disables the plug-in <PLUGIN-NAME> by removing it from
+dnl GST_PLUGINS_SELECTED.
+AC_DEFUN([AG_GST_DISABLE_PLUGIN],
+[
+  GST_PLUGINS_SELECTED=`echo " $GST_PLUGINS_SELECTED " | $SED -e 's/ [$1] / /'`
+  AM_CONDITIONAL([USE_PLUGIN_]translit([$1], a-z, A-Z), false)
 ])
 
 AC_DEFUN([AG_GST_ARG_ENABLE_EXTERNAL],
 [
-  AG_GST_CHECK_FEATURE(EXTERNAL, [enable building of plug-ins with external deps],,
+  AG_GST_CHECK_FEATURE(EXTERNAL, [building of plug-ins with external deps],,
     HAVE_EXTERNAL=yes, enabled,
     [
       AC_MSG_NOTICE(building external plug-ins)
@@ -249,8 +276,7 @@ dnl experimental plug-ins; stuff that hasn't had the dust settle yet
 dnl read 'builds, but might not work'
 AC_DEFUN([AG_GST_ARG_ENABLE_EXPERIMENTAL],
 [
-  AG_GST_CHECK_FEATURE(EXPERIMENTAL,
-    [building of experimental plug-ins],,
+  AG_GST_CHECK_FEATURE(EXPERIMENTAL, [building of experimental plug-ins],,
     HAVE_EXPERIMENTAL=yes, disabled,
     [
       AC_MSG_WARN(building experimental plug-ins)
@@ -266,7 +292,7 @@ AC_DEFUN([AG_GST_ARG_ENABLE_EXPERIMENTAL],
 dnl broken plug-ins; stuff that doesn't seem to build at the moment
 AC_DEFUN([AG_GST_ARG_ENABLE_BROKEN],
 [
-  AG_GST_CHECK_FEATURE(BROKEN, [enable building of broken plug-ins],,
+  AG_GST_CHECK_FEATURE(BROKEN, [building of broken plug-ins],,
     HAVE_BROKEN=yes, disabled,
     [
       AC_MSG_WARN([building broken plug-ins -- no bug reports on these, only patches ...])
