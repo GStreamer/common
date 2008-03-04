@@ -1,5 +1,10 @@
 2008-03-03  David Schleef  <ds@schleef.org>
 
+	* m4/ax_create_stdint_h.m4: Oops, checked in the wrong copy of
+	  this file.  (Update from upstream)
+
+2008-03-03  David Schleef  <ds@schleef.org>
+
 	* m4/ax_create_stdint_h.m4:  Update from upstream.  Fixes a bug
 	  compiling with MSVC.
 
