@@ -1,3 +1,10 @@
+2008-03-07  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* m4/gtk-doc.m4: (GTK_DOC_CHECK): 
+	The previous commit to this file by Stefan Kost mentionned checking for
+	SED, but NOT checking for gtkdoc-check (wth is that doing there ??).
+	Therefore, removing the check for gtkdoc-check
+
 2008-03-03  David Schleef  <ds@schleef.org>
 
 	* m4/ax_create_stdint_h.m4: Oops, checked in the wrong copy of
