@@ -1,5 +1,14 @@
 2008-03-21  Sebastian Dröge  <slomo@circular-chaos.org>
 
+	* m4/gst-dowhile.m4:
+	Add macro that checks if the compiler supports do {} while (0)
+	macros and define HAVE_DOWHILE_MACROS if it does. This is
+	needed by glib/gmacros.h to use something else than
+	if (1) else for G_STMT_START/END when compling C++, which
+	causes compiler warnings because of ambigious else with g++ 4.3.
+
+2008-03-21  Sebastian Dröge  <slomo@circular-chaos.org>
+
 	* m4/gst-plugin-docs.m4:
 	* mangle-tmpl.py:
 	Don't depend on PyXML and use only XML modules that are shipped
