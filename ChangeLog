@@ -1,3 +1,10 @@
+2008-03-21  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* m4/gst-plugin-docs.m4:
+	* mangle-tmpl.py:
+	Don't depend on PyXML and use only XML modules that are shipped
+	with python. Fixes bug #519635.
+
 2008-03-07  Edward Hervey  <edward.hervey@collabora.co.uk>
 
 	* m4/gtk-doc.m4: (GTK_DOC_CHECK): 
