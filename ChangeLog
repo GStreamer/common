@@ -1,3 +1,8 @@
+2008-04-03  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* m4/gst-args.m4:
+	  Add --disable-foo switch for dependency-less plugins (#525586).
+
 2008-04-01  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* m4/gst-parser.m4:

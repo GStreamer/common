@@ -233,17 +233,42 @@ AC_DEFUN([AG_GST_ARG_WITH_PLUGINS],
 dnl AG_GST_CHECK_PLUGIN(PLUGIN-NAME)
 dnl
 dnl This macro adds the plug-in <PLUGIN-NAME> to GST_PLUGINS_ALL. Then it
-dnl checks if the plug-in is present in WITH_PLUGINS, and if so adds it to
-dnl GST_PLUGINS_SELECTED.
+dnl checks if WITH_PLUGINS is empty or the plugin is present in WITH_PLUGINS,
+dnl and if so adds it to GST_PLUGINS_SELECTED. Then it checks if the plugin
+dnl is present in WITHOUT_PLUGINS (ie. was disabled specifically) and if so
+dnl removes it from GST_PLUGINS_SELECTED.
 dnl
 dnl The macro will call AM_CONDITIONAL(USE_PLUGIN_<PLUGIN-NAME>, ...) to allow
 dnl control of what is built in Makefile.ams.
 AC_DEFUN([AG_GST_CHECK_PLUGIN],
 [
   GST_PLUGINS_ALL="$GST_PLUGINS_ALL [$1]"
+
+  define([pname_def],translit([$1], -a-z, _a-z))
+
+  AC_ARG_ENABLE([$1],
+    AC_HELP_STRING([--disable-[$1]], [disable dependency-less $1 plugin]),
+    [
+      case "${enableval}" in
+        yes) [gst_use_]pname_def=yes ;;
+        no) [gst_use_]pname_def=no ;;
+        *) AC_MSG_ERROR([bad value ${enableval} for --enable-$1]) ;;
+       esac
+    ],
+    [[gst_use_]pname_def=yes]) dnl Default value
+
+  if test x$[gst_use_]pname_def = xno; then
+    AC_MSG_NOTICE(disabling dependency-less plugin $1)
+    WITHOUT_PLUGINS="$WITHOUT_PLUGINS [$1]"
+  fi
+  undefine([pname_def])
+
   if [[ -z "$WITH_PLUGINS" ]] || echo " [$WITH_PLUGINS] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
     GST_PLUGINS_SELECTED="$GST_PLUGINS_SELECTED [$1]"
   fi
+  if echo " [$WITHOUT_PLUGINS] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
+    GST_PLUGINS_SELECTED=`echo " $GST_PLUGINS_SELECTED " | $SED -e 's/ [$1] / /'`
+  fi  
   AM_CONDITIONAL([USE_PLUGIN_]translit([$1], a-z, A-Z), echo " $GST_PLUGINS_SELECTED " | grep -i " [$1] " > /dev/null)
 ])
 
