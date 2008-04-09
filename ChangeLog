@@ -1,3 +1,9 @@
+2008-04-09  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* m4/gst-default.m4:
+	  Add --with-default-{audiosink|audiosrc|videosink|videosrc|visualizer}
+	  configure switches (#519417).
+
 2008-04-03  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/gst-args.m4:
