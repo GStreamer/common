@@ -1,3 +1,10 @@
+2008-04-13  Tim-Philipp Müller  <tim at centricular dot net>
+
+	* m4/gst-args.m4:
+	* m4/gst-valgrind.m4:
+	  Bump valgrind requirement to 3.0 (which was released in August 2005).
+	  Fixes #489269. Also, check for version >=REQ and not >REQ.
+
 2008-04-09  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/gst-default.m4:
