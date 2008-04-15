@@ -1,3 +1,9 @@
+2008-04-15  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* Makefile.am:
+	* m4/Makefile.am:
+	Dist all files in common. Fixes bug #527984.
+
 2008-04-14  Tim-Philipp Müller  <tim at centricular dot net>
 
 	* m4/gst-function.m4:
