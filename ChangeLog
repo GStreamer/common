@@ -1,5 +1,9 @@
 2008-04-22  Edward Hervey  <bilboed@gmail.com>
 
+	* gst.supp: Make tls leak suppression a bit more generic.
+
+2008-04-22  Edward Hervey  <bilboed@gmail.com>
+
 	* gst.supp: Fix ommission in latest commit.
 	Make tls leak suppression more generic in order to cover more
 	distributions (and hopefully also future distributions).

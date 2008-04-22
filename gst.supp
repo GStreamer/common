@@ -1995,7 +1995,7 @@
    fun:calloc
    obj:*
    fun:_dl_allocate_tls
-   fun:pthread_create@@GLIBC_2.1
+   fun:pthread_create@@*
    fun:g_thread_*
 }
 
