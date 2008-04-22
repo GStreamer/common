@@ -1987,17 +1987,21 @@
 }
 
 # Issues with ubuntu Hardy, same crack as for previous ubuntus
+# I've made this version generic, so that it covers future modifications
+# of library names
 {
    <tls leak on Hardy/x86>
    Memcheck:Leak
    fun:calloc
-   obj:/lib/ld-2.7.so
+   obj:*
    fun:_dl_allocate_tls
    fun:pthread_create@@GLIBC_2.1
+   fun:g_thread_*
 }
 
 {
    <invalid read of size 4 within <g_module_open>
+   Memcheck:Addr4
    obj:/lib/ld-2.7.so
    obj:/lib/ld-2.7.so
    obj:/lib/ld-2.7.so
