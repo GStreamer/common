@@ -1,3 +1,10 @@
+2008-04-23  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gst.supp:
+	Re-arrange latest suppressions.
+	Add all known suppressions for ubuntu hardy. Same as for older
+	ubuntus, but with different codepaths.
+
 2008-04-22  Edward Hervey  <bilboed@gmail.com>
 
 	* gst.supp: Make tls leak suppression a bit more generic.
