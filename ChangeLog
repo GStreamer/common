@@ -1,3 +1,11 @@
+2008-05-09  Sebastian Dröge  <slomo@circular-chaos.org>
+	
+	Patch by: Brian Cameron <brian dot cameron at sun dot com>
+
+	* m4/gst-default.m4:
+	Don't set the default audio sink to the default visualizer.
+	Fixes bug #532295.
+
 2008-05-07  Tim-Philipp Müller  <tim.muller at collabora co uk>
 
 	* check.mak: (help):

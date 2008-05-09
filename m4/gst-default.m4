@@ -113,7 +113,7 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
       esac
     ], 
     [
-      DEFAULT_AUDIOSINK="$DEFAULT_VISUALIZER"
+      DEFAULT_VISUALIZER="$DEFAULT_VISUALIZER"
     ] dnl Default value as determined above
   )
   AC_MSG_NOTICE(Using $DEFAULT_VISUALIZER as default visualizer) 
