@@ -1,3 +1,8 @@
+2008-05-12  Stefan Kost  <ensonic@users.sf.net>
+
+	* plugins.xsl:
+	  Improve the layput of the caps, but splitting them on ";".
+
 2008-05-09  Sebastian Dröge  <slomo@circular-chaos.org>
 	
 	Patch by: Brian Cameron <brian dot cameron at sun dot com>
