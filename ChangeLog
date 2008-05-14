@@ -1,3 +1,8 @@
+2008-05-14  Tim-Philipp Müller  <tim.muller at collabora co uk>
+
+	* gst.supp:
+	  Add suppression for glibc bug on gutsy/x86-64
+
 2008-05-12  Stefan Kost  <ensonic@users.sf.net>
 
 	* plugins.xsl:

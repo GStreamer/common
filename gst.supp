@@ -632,6 +632,15 @@
    fun:_Exit
 }
 
+# same as above, just so it works for tpm on gutsy/x86-64
+{
+   <workaround glibc bug on gutsy x86-64>
+   Memcheck:Free
+   fun:free
+   fun:free_mem
+   fun:__libc_freeres
+}
+
 # valgrind doesn't allow me to specify a suppression for Addr1, Addr2, Addr4
 # as Addr*, so 3 copies for that; and then 2 of each for that pesky memcpy
 {
