@@ -1,3 +1,10 @@
+2008-05-14  Peter Kjellerstedt  <pkj@axis.com>
+
+	* m4/gst-feature.m4:
+	Report plug-ins without external dependencies that will not be built
+	even when the name of the plug-in is a substring of another plug-in,
+	e.g., goom vs. goom2k1.
+
 2008-05-14  Tim-Philipp Müller  <tim.muller at collabora co uk>
 
 	* gst.supp:

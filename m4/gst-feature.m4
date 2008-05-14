@@ -262,8 +262,8 @@ printf "\n"
 
 printf "configure: *** Plug-ins without external dependencies that will NOT be built:\n"
 ( for i in $GST_PLUGINS_ALL; do
-    case $GST_PLUGINS_SELECTED in
-      *$i*)
+    case " $GST_PLUGINS_SELECTED " in
+      *\ $i\ *)
 	;;
       *)
 	printf '\t'$i'\n'
