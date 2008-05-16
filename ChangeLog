@@ -1,3 +1,14 @@
+2008-05-16  Jan Schmidt  <jan.schmidt@sun.com>
+
+	* gstdoc-scangobj:
+	Add a mechanism for adding 'implicitly created' GTypes into the
+	scan, allowing for documenting plugin-private base classes that
+	provide signals or properties for public elements.
+
+	* gtk-doc-plugins.mak:
+	Use $(builddir) instead of $(top_builddir) in a few places - there's
+	no need to hard code 'docs/plugins' as the only useable path.
+
 2008-05-14  Peter Kjellerstedt  <pkj@axis.com>
 
 	* m4/gst-feature.m4:

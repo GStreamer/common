@@ -132,10 +132,10 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 ### inspect GStreamer plug-ins; done by documentation maintainer ###
 
 # only look at the plugins in this module when building inspect .xml stuff
-INSPECT_REGISTRY=$(top_builddir)/docs/plugins/inspect-registry.xml
+INSPECT_REGISTRY=$(builddir)/inspect-registry.xml
 INSPECT_ENVIRONMENT=\
         GST_PLUGIN_SYSTEM_PATH= \
-        GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src \
+        GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
         GST_REGISTRY=$(INSPECT_REGISTRY)
 
 # update the element and plugin XML descriptions; store in inspect/
@@ -351,7 +351,7 @@ check-hierarchy: $(DOC_MODULE).hierarchy
 check: check-hierarchy
 
 # wildcard is apparently not portable to other makes, hence the use of find
-inspect_files = $(shell find $(top_srcdir)/docs/plugins/inspect -name '*.xml')
+inspect_files = $(shell find $(srcdir)/inspect -name '*.xml')
 
 check-inspected-versions:
 	@echo Checking plugin versions of inspected plugin data ...; \
