@@ -143,8 +143,7 @@ inspect:
 	mkdir inspect
 
 inspect-update: inspect
-	-rm $(INSPECT_REGISTRY)
-	-rm inspect-build.stamp
+	-rm -f $(INSPECT_REGISTRY) inspect-build.stamp
 	$(MAKE) inspect-build.stamp
 
 # FIXME: inspect.stamp should be written to by gst-xmlinspect.py

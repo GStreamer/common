@@ -1,3 +1,8 @@
+2008-05-17  Jan Schmidt  <jan.schmidt@sun.com>
+
+	* gtk-doc-plugins.mak:
+	Be more quiet when the files don't yet exist.
+
 2008-05-16  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* gstdoc-scangobj:
