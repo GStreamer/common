@@ -250,24 +250,21 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@echo '-- Fixing Crossreferences' 
 	gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	touch html-build.stamp
+
+clean-local-gtkdoc:
+	rm -rf xml tmpl html
+# clean files copied for nonsrcdir templates build
+	if test x"$(srcdir)" != x. ; then \
+	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES); \
+	fi
 else
 all-local:
+clean-local-gtkdoc:
 endif
 
-# FIXME: these rules need a little cleaning up
-clean-local:
+clean-local: clean-local-gtkdoc
 	rm -f *~ *.bak
 	rm -rf .libs
-# clean files generated for tmpl build
-	-rm -rf tmpl
-# clean files copied/generated for nonsrcdir tmpl build
-	if test x"$(srcdir)" != x. ; then \
-	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES);			\
-	fi
-# clean files generated for xml build
-	-rm -rf xml
-# clean files generate for html build
-	-rm -rf html
 
 distclean-local: clean
 	rm -rf tmpl/*.sgml.bak

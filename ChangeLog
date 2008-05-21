@@ -1,3 +1,9 @@
+2008-05-21  Felipe Contreras  <felipe.contreras@gmail.com>
+
+	* gtk-doc-plugins.mak:
+	* gtk-doc.mak:
+	Fix make clean when gtk-doc is disabled and other cleanups.
+
 2008-05-17  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* gtk-doc-plugins.mak:
