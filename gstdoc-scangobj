@@ -142,6 +142,7 @@ get_object_types (void)
     GList *factories = NULL;
     GList *l;
     GstElementFactory *factory = NULL;
+    GType type;
 
     gint i = 0;
 
@@ -192,11 +193,15 @@ get_object_types (void)
 
     /* fill it */
     while (l) {
-      GType type;
       factory = GST_ELEMENT_FACTORY (l->data);
       type = gst_element_factory_get_element_type (factory);
-      g_message ("adding type %p for factory %s", (void *) type, gst_element_factory_get_longname (factory));
-      object_types[i++] = type;
+      if (type != 0) {
+        g_message ("adding type %p for factory %s", (void *) type, gst_element_factory_get_longname (factory));
+        object_types[i++] = type;
+      } else {
+        g_message ("type info for factory %s not found",
+            gst_element_factory_get_longname (factory));
+      }
       l = g_list_next (l);
     }
 
@@ -204,12 +209,28 @@ EOT
 
 # get_type functions:
 for (@types) {
-    print OUTPUT "    object_types[i++] = $_ ();\n";
+print OUTPUT <<EOT;
+    type = $_ ();
+    if (type == 0) {
+      g_message ("$_ () didn't return a valid type");
+    }
+    else {
+      object_types[i++] = type;
+    }
+EOT
 }
 
 # Implicit types retrieved from GLib:
 for (@impl_types) {
-    print OUTPUT "    object_types[i++] = g_type_from_name (\"$_\");\n";
+print OUTPUT <<EOT;
+    type = g_type_from_name ("$_");
+    if (type == 0) {
+      g_message ("Implicit type $_ not found");
+    }
+    else {
+      object_types[i++] = type;
+    }
+EOT
 }
 
 print OUTPUT <<EOT;
