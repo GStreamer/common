@@ -55,7 +55,7 @@
           <xsl:element name="varlistentry">
             <xsl:element name="term">class</xsl:element>
             <xsl:element name="listitem">
-              <xsl:element name="simpara"><xsl:value-of select="details" /></xsl:element>
+              <xsl:element name="simpara"><xsl:value-of select="class" /></xsl:element>
             </xsl:element>
           </xsl:element>
                       
