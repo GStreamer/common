@@ -263,12 +263,17 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	-cp $(srcdir)/tmpl/*.sgml $(distdir)/tmpl
 	-cp $(srcdir)/sgml/*.xml $(distdir)/xml
 	-cp $(srcdir)/html/index.sgml $(distdir)/html
-	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(srcdir)/html/*.png $(distdir)/html
+	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
 	-cp $(srcdir)/html/$(DOC_MODULE).devhelp* $(distdir)/html
 
 	images=$(HTML_IMAGES) ;    	      \
 	for i in "" $$images ; do		      \
 	  if test "$$i" != ""; then cp $(srcdir)/$$i $(distdir)/html ; fi; \
 	done
+	images="$(srcdir)/html/*.png" ;		      \
+	for i in "" $$images ; do		      \
+	  fname=`basename $$i` ; 		      \
+	  if test ! -f "$(distdir)/html/$$fname"; then cp $$i $(distdir)/html ; fi; \
+	done 
 
 .PHONY : dist-hook-local
