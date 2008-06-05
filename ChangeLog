@@ -1,3 +1,9 @@
+2008-06-05  Tim-Philipp Müller  <tim.muller at collabora co uk>
+
+	* m4/gst-error.m4:
+	  Add -fno-strict-aliasing when compiling with -Werror, to work around
+	  warnings caused by G_LOCK with recent GLib versions (2.16.x) (#316221).
+
 2008-06-05  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* gtk-doc.mak:
