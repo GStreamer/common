@@ -64,8 +64,9 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    fi ;							\
 	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
 	    GST_PLUGIN_PATH=						\
-	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" 			\
-	    CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)"		\
+	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
+	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
+	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
 	    gtkdoc-scangobj --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) ;				\
 	else								\

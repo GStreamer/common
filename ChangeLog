@@ -1,3 +1,11 @@
+2008-06-20  Sebastian Dröge  <slomo@circular-chaos.org>
+
+	* gtk-doc-plugins.mak:
+	* gtk-doc.mak:
+	Include CFLAGS and LDFLAGS in GTKDOC_CFLAGS and GTKDOC_LDFLAGS,
+	otherwise the values passed to configure are ignored.
+	Fixes bug #536978.
+
 2008-06-05  Tim-Philipp Müller  <tim.muller at collabora co uk>
 
 	* m4/gst-error.m4:
