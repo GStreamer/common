@@ -1,5 +1,11 @@
 2008-06-20  Sebastian Dröge  <slomo@circular-chaos.org>
 
+	* gstdoc-scangobj:
+	Always use format strings for printf-like functions, even if they just
+	print a string. Fixes bug #536981.
+
+2008-06-20  Sebastian Dröge  <slomo@circular-chaos.org>
+
 	* gtk-doc-plugins.mak:
 	* gtk-doc.mak:
 	Include CFLAGS and LDFLAGS in GTKDOC_CFLAGS and GTKDOC_LDFLAGS,
