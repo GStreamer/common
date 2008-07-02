@@ -269,8 +269,9 @@ clean-local: clean-local-gtkdoc
 
 distclean-local: clean
 	rm -rf tmpl/*.sgml.bak
-	rm -f *.stamp || true
 	rm -rf *.o
+
+MAINTAINERCLEANFILES = $(MAINTAINER_DOC_STAMPS)
 
 # thomas: make docs parallel installable; devhelp requires majorminor too
 install-data-local:

@@ -1,3 +1,8 @@
+2008-07-02  Mark Nauwelaerts  <mark.nauwelaerts@collabora.co.uk>
+
+	* gtk-doc-plugins.mak:
+	Only clean doc maintainer stamps in maintainer-clean.  Fixes #539977.
+
 2008-06-20  Sebastian Dröge  <slomo@circular-chaos.org>
 
 	* gstdoc-scangobj:
