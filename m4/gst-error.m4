@@ -28,7 +28,15 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
   AS_COMPILER_FLAG(-Wall,
                    ERROR_CFLAGS="-Wall",
                    ERROR_CFLAGS="")
-  
+ 
+  dnl Warn if declarations after statements are used (C99 extension)
+  AS_COMPILER_FLAG(-Wdeclaration-after-statement,
+        ERROR_CFLAGS="$ERROR_CFLAGS -Wdeclaration-after-statement")
+
+  dnl Warn if variable length arrays are used (C99 extension)
+  AS_COMPILER_FLAG(-Wvla,
+        ERROR_CFLAGS="$ERROR_CFLAGS -Wvla")
+
   dnl if asked for, add -Werror if supported
   if test "x$1" != "xno"
   then

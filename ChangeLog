@@ -1,3 +1,10 @@
+2008-07-08  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
+
+	* m4/gst-error.m4:
+	Add compiler flags to warn if declarations after statements or
+	variable length arrays are used. These are C99/GCC extensions and
+	are not supported by some compilers we want to support.
+
 2008-07-02  Mark Nauwelaerts  <mark.nauwelaerts@collabora.co.uk>
 
 	* gtk-doc-plugins.mak:
