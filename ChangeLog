@@ -1,3 +1,8 @@
+2008-07-12  Stefan Kost  <ensonic@users.sf.net>
+
+	* plugins.xsl:
+	  Split refsect2 also here to make "Element Pads" subtitle visible.
+
 2008-07-08  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
 
 	* m4/gst-error.m4:
