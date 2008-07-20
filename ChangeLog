@@ -1,3 +1,10 @@
+2008-07-20  Tim-Philipp Müller  <tim.muller at collabora co uk>
+
+	* m4/gst-parser.m4::
+	  Fix bison version number detection for older --version
+	  output format (as bison 1.28 on OSX 10.4 outputs).
+	  Fixes #543853.
+
 2008-07-12  Stefan Kost  <ensonic@users.sf.net>
 
 	* plugins.xsl:
