@@ -104,7 +104,7 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
         ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror"
 
         dnl add exceptions
-        for f in '-Wno-non-virtual-dtor -fno-strict-aliasing'
+        for f in '-Wno-non-virtual-dtor' '-fno-strict-aliasing'
         do
           AS_CXX_COMPILER_FLAG([$f], ERROR_CXXFLAGS="$ERROR_CXXFLAGS $f")
         done

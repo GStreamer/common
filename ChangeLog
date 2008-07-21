@@ -1,3 +1,9 @@
+2008-07-21  Tim-Philipp Müller  <tim.muller at collabora co uk>
+
+	* m4/gst-error.m4::
+	  When checking for GST_ERROR_CXXFLAGS, check each compiler flag
+	  individually, not all together.
+
 2008-07-20  Tim-Philipp Müller  <tim.muller at collabora co uk>
 
 	* m4/gst-parser.m4::
