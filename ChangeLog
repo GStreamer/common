@@ -1,3 +1,8 @@
+2008-07-31  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
+
+	* m4/gst-feature.m4:
+	Remove GST_DISABLE_(ENUMTYPES|INDEX|URI).
+
 2008-07-21  Tim-Philipp Müller  <tim.muller at collabora co uk>
 
 	* m4/gst-error.m4::
