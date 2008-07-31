@@ -2126,6 +2126,118 @@
    fun:gst_plugin_load_*
 }
 
+# series of invalid read of size 8 in g_module_open for ubuntu
+# hardy x86/64bit
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlopen
+   fun:g_module_open
+}
+
+{
+   <invalid read of size 8 within <g_module_open>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libdl-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libdl-2.7.so
+   fun:dlsym
+   fun:g_module_symbol
+   fun:g_module_open
+}
+
 {
    <GLib caching>
    Memcheck:Addr4
