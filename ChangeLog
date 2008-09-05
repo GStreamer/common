@@ -1,3 +1,10 @@
+2008-09-04  Stefan Kost  <ensonic@users.sf.net>
+
+	* gtk-doc-plugins.mak:
+	* gtk-doc.mak:
+	  Get closer to upstream makefiles. Don't install index.sgml twice. Call
+	  gtkdoc-rebase (if exists).
+
 2008-08-21  Stefan Kost  <ensonic@users.sf.net>
 
 	* gtk-doc-plugins.mak:
