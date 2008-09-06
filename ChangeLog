@@ -1,3 +1,15 @@
+2008-09-05  David Schleef  <ds@schleef.org>
+
+	* gtk-doc-plugins.mak: Fix the check for gtkdoc-rebase: don't
+	  pass the 'which' error back to make.  This fix is more specific
+	  than what is in upstream.
+
+2008-09-05  David Schleef  <ds@schleef.org>
+
+	* gtk-doc.mak: Fix the check for gtkdoc-rebase: don't pass the
+	  'which' error back to make.  This fix is more specific than
+	  what is in upstream.
+
 2008-09-04  Stefan Kost  <ensonic@users.sf.net>
 
 	* gtk-doc-plugins.mak:
