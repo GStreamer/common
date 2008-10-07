@@ -1,3 +1,8 @@
+2008-10-07  Jan Schmidt - Sun Microsystems <jan.schmidt@sun.com>
+
+	* m4/gst-error.m4:
+	  Also disable the bogus "loop not entered at top" warnings appearing on Sparc Forte builds.
+
 2008-10-06  Stefan Kost  <ensonic@users.sf.net>
 
 	* gtk-doc.mak:
