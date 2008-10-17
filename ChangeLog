@@ -1,3 +1,9 @@
+2008-10-17  Jan Schmidt  <jan.schmidt@sun.com>
+
+	* gtk-doc.mak:
+	  Don't clobber the real registry cache file when
+	  building docs.
+
 2008-10-07  Jan Schmidt - Sun Microsystems <jan.schmidt@sun.com>
 
 	* m4/gst-error.m4:
