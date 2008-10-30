@@ -1,3 +1,9 @@
+2008-10-30  Stefan Kost  <ensonic@users.sf.net>
+
+	* gtk-doc.mak:
+	  Also cp the entities here to all xinlcude based docs (workaround for
+	  not being able to set up a search path).
+
 2008-10-17  Jan Schmidt  <jan.schmidt@sun.com>
 
 	* gtk-doc.mak:
