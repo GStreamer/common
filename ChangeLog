@@ -1,3 +1,8 @@
+2008-11-20  Michael Smith <msmith@songbirdnest.com>
+
+	* m4/as-objc.m4:
+	  Fix objective C test macro when none of the compilers are found at all.
+
 2008-10-30  Stefan Kost  <ensonic@users.sf.net>
 
 	* gtk-doc.mak:
