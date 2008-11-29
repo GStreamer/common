@@ -1,3 +1,9 @@
+2008-11-29  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
+
+	* m4/gtk-doc.m4:
+	* m4/pkg.m4:
+	Update gtk-doc and pkg-config m4 macros from their latest releases.
+
 2008-11-20  Michael Smith <msmith@songbirdnest.com>
 
 	* m4/as-objc.m4:
