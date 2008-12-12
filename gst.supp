@@ -2576,6 +2576,17 @@
    fun:plugin_init
 }
 
+{
+   <Leak in GstAudioFilter subclasses>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:gst_caps_new_empty
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
+
 ## Leaks in pango (bilboed: gentoo unstable amd64)
 
 {
@@ -2609,6 +2620,14 @@
    fun:pango_font_map_create_context
 }
 
+{
+   <PangoLanguage can never be freed>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:pango_language_from_string
+}
+
 ## Leak of property_list in gstffmpegcfg.c
 ## This list is created in gst_ffmpegcsp_init(), called from 
 ## gst_ffmpegenc_register.
@@ -2623,3 +2642,4 @@
    fun:gst_ffmpegenc_register
    fun:plugin_init
 }
+

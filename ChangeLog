@@ -1,6 +1,14 @@
 2008-12-12  Edward Hervey  <edward.hervey@collabora.co.uk>
 
 	* gst.supp:
+	Added another suppression for dynamic pad templates, in this case
+	GstAudioFilter.
+	Added suppression for PangoLanguage which can never be freed
+	according to the Pango API.
+
+2008-12-12  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gst.supp:
 	A whole bunch of suppressions detected on latest gentoo ~amd64.
 	Make some existing suppressions more generic (for subtle dependecy
 	code changes).
