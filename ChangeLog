@@ -1,6 +1,11 @@
 2008-12-12  Edward Hervey  <edward.hervey@collabora.co.uk>
 
 	* gst.supp:
+	Fix leak in GIO called by gnomevfs. Nothing we can do about this.
+
+2008-12-12  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gst.supp:
 	Added another suppression for dynamic pad templates, in this case
 	GstAudioFilter.
 	Added suppression for PangoLanguage which can never be freed

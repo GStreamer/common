@@ -2657,7 +2657,7 @@
    fun:*
    fun:*
    fun:*
-   fun:g_io_modules_new
+   fun:g_io_module_new
    fun:g_io_modules_load_all_in_directory
    fun:*
    fun:get_default_vfs
