@@ -1,3 +1,17 @@
+2008-12-12  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gst.supp:
+	A whole bunch of suppressions detected on latest gentoo ~amd64.
+	Make some existing suppressions more generic (for subtle dependecy
+	code changes).
+	Added suppressions for glibc-2.9.
+	Added suppressions for new variants of ALSA leaks.
+	Added suppressions for a series of leaks in plugins registrations due
+	to some pad templates' caps calculated at runtime.
+	Added suppressions for variants of some leaks in pango/fontconfig.
+	Added suppressions for leak in gstffmpegcsp.c (nothing we can do
+	about it, but will only exist once).
+
 2008-12-04  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
 
 	* m4/gst-plugin-docs.m4:
