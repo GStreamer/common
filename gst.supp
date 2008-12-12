@@ -2643,3 +2643,22 @@
    fun:plugin_init
 }
 
+## Leak of GIO module through gnomevfs
+
+{
+   <gio leak>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:*
+   fun:*
+   fun:g_type_create_instance
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_io_modules_new
+   fun:g_io_modules_load_all_in_directory
+   fun:*
+   fun:get_default_vfs
+}
