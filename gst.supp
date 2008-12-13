@@ -2587,6 +2587,39 @@
    fun:gst_audio_filter_class_add_pad_templates
 }
 
+{
+   <Leak in GstAudioFilter subclasses, variant>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:g_ptr_array_maybe_expand
+   fun:g_ptr_array_add
+   fun:gst_caps_append
+   fun:gst_audio_filter_class_add_pad_templates
+}
+
+{
+   <Leak in GstAudioFilter subclasses, variant2>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_ptr_array_sized_new
+   fun:gst_caps_new_empty
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
+
+{
+   <Leak in riff-media>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:gst_caps_new_empty
+   fun:gst_riff_create_*_template_caps
+}
+
 ## Leaks in pango (bilboed: gentoo unstable amd64)
 
 {
@@ -2662,3 +2695,12 @@
    fun:*
    fun:get_default_vfs
 }
+
+## Conditional jump in getaddrinfo (bilboed, gentoo ~amd64, Dec 13 2008)
+{
+   <Leak of addrinfo in esd>
+   Memcheck:Cond
+   fun:gaih_inet
+   fun:getaddrinfo
+}
+

@@ -1,3 +1,10 @@
+2008-12-13  Edward Hervey  <edward.hervey@collabora.co.uk>
+
+	* gst.supp:
+	Added variants of leaks of dynamic pad templates created in
+	GstAudioFilter.
+	Add conditional jump triggered by getaddrinfo (maybe glibc-2.9).
+
 2008-12-12  Edward Hervey  <edward.hervey@collabora.co.uk>
 
 	* gst.supp:
