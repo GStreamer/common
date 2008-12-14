@@ -1,3 +1,8 @@
+2008-12-14  Edward Hervey  <bilboed@gmail.com>
+
+	* gst.supp:
+	And yet another variant of the GstAudioFilter leak.
+
 2008-12-13  Edward Hervey  <edward.hervey@collabora.co.uk>
 
 	* gst.supp:

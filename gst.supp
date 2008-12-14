@@ -2599,6 +2599,18 @@
 }
 
 {
+   <Leak in GstAudioFilter subclasses, variant>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_ptr_array_maybe_expand
+   fun:g_ptr_array_add
+   fun:gst_caps_append
+   fun:gst_audio_filter_class_add_pad_templates
+}
+
+{
    <Leak in GstAudioFilter subclasses, variant2>
    Memcheck:Leak
    fun:malloc
