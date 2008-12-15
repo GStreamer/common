@@ -1,3 +1,11 @@
+2008-12-15  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
+
+	Patch by: Roland Illig <roland dot illig at gmx dot de>
+
+	* m4/gst-parser.m4:
+	Fix AG_GST_BISON_CHECK to handle version numbers with more than
+	two components (i.e. 2.4.1). Fixes bug #564507.
+
 2008-12-14  Edward Hervey  <bilboed@gmail.com>
 
 	* gst.supp:
