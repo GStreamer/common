@@ -1,3 +1,8 @@
+2008-12-17  Edward Hervey  <bilboed@gmail.com>
+
+	* gst.supp:
+	And yet another variation of the GstAudioFilter leak.
+
 2008-12-15  Sebastian Dröge  <sebastian.droege@collabora.co.uk>
 
 	Patch by: Roland Illig <roland dot illig at gmx dot de>
