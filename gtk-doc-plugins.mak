@@ -201,7 +201,7 @@ tmpl.stamp: tmpl-build.stamp
 #### build xml; done on every build ####
 
 ### FIXME: make this error out again when docs are fixed for 0.9
-sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl
+sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
 	@for a in $(srcdir)/inspect/*.xml; do \
@@ -212,6 +212,7 @@ sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/pl
 	gtkdoc-mkdb \
 		--module=$(DOC_MODULE) \
 		--source-dir=$(DOC_SOURCE_DIR) \
+                 --expand-content-files="$(expand_content_files)" \
 		--main-sgml-file=$(srcdir)/$(DOC_MAIN_SGML_FILE) \
 		--output-format=xml \
 		--ignore-files="$(IGNORE_HFILES) $(IGNORE_CFILES)" \
@@ -249,7 +250,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
 	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
 	@echo '-- Fixing Crossreferences' 
-	gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+	gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	touch html-build.stamp
 
 clean-local-gtkdoc:
