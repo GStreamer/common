@@ -4,14 +4,8 @@
 #
  
 # FIXME : Add a check for existence of indent, and return 0 if not present
- 
-echo "--Checking style--"
-for file in `git-diff-index --name-only HEAD | grep "\.c$"` ; do
-    test -f ${file} || continue
-    tempfoo=`basename $0`
-    newfile=`mktemp /tmp/${tempfoo}.XXXXXX` || exit 1
-    indent \
-	--braces-on-if-line \
+
+INDENT_PARAMETERS="--braces-on-if-line \
 	--case-brace-indentation0 \
 	--case-indentation2 \
 	--braces-after-struct-decl-line \
@@ -22,8 +16,19 @@ for file in `git-diff-index --name-only HEAD | grep "\.c$"` ; do
 	--continuation-indentation4 \
 	--honour-newlines \
 	--tab-size8 \
-	--indent-level2 \
+	--indent-level2"
+ 
+echo "--Checking style--"
+for file in `git-diff-index --name-only HEAD | grep "\.c$"` ; do
+    test -f ${file} || continue
+    tempfoo=`basename $0`
+    newfile=`mktemp /tmp/${tempfoo}.XXXXXX` || exit 1
+    indent ${INDENT_PARAMETERS} \
 	$file -o $newfile 2>> /dev/null
+    # FIXME: Call indent twice as it tends to do line-breaks
+    # different for every second call.
+    indent ${INDENT_PARAMETERS} \
+        $newfile 2>> /dev/null
     diff -u -p "${file}" "${newfile}"
     r=$?
     rm "${newfile}"
