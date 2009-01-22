@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# Check that the code follows a consistant code style
+#
+ 
+# FIXME : Add a check for existence of indent, and return 0 if not present
+ 
+echo "--Checking style--"
+for file in `git-diff-index --name-only HEAD | grep "\.c$"` ; do
+tempfoo=`basename $0`
+    newfile=`mktemp /tmp/${tempfoo}.XXXXXX` || exit 1
+    indent \
+	--braces-on-if-line \
+	--case-brace-indentation0 \
+	--case-indentation2 \
+	--braces-after-struct-decl-line \
+	--line-length80 \
+	--no-tabs \
+	--cuddle-else \
+	--dont-line-up-parentheses \
+	--continuation-indentation4 \
+	--honour-newlines \
+	--tab-size8 \
+	--indent-level2 \
+	$file -o $newfile 2>> /dev/null
+    diff -u -p "${file}" "${newfile}"
+    r=$?
+    rm "${newfile}"
+    if [ $r != 0 ] ; then
+echo "Code style error in $file, please fix before commiting."
+        exit 1
+    fi
+done
+echo "--Checking style pass--"
