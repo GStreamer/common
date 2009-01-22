@@ -7,7 +7,8 @@
  
 echo "--Checking style--"
 for file in `git-diff-index --name-only HEAD | grep "\.c$"` ; do
-tempfoo=`basename $0`
+    test -f ${file} || continue
+    tempfoo=`basename $0`
     newfile=`mktemp /tmp/${tempfoo}.XXXXXX` || exit 1
     indent \
 	--braces-on-if-line \
