@@ -19,7 +19,7 @@ INDENT_PARAMETERS="--braces-on-if-line \
 	--indent-level2"
  
 echo "--Checking style--"
-for file in `git-diff-index --name-only HEAD | grep "\.c$"` ; do
+for file in `git-diff-index --cached --name-only HEAD | grep "\.c$"` ; do
     test -f ${file} || continue
     tempfoo=`basename $0`
     newfile=`mktemp /tmp/${tempfoo}.XXXXXX` || exit 1
