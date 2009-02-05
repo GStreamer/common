@@ -46,7 +46,8 @@ check-exports:
 	      fail=1; \
 	    fi; \
 	  fi; \
-	done
+	done ; \
+	exit $$fail
 
 
 dist-hook: check-exports win32-check-crlf
