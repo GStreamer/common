@@ -47,6 +47,12 @@ check-exports:
 	    fi; \
 	  fi; \
 	done ; \
+	if test $$fail != 0; then \
+	  echo '-----------------------------------------------------------'; \
+	  echo 'Run this to update the .def files:'; \
+	  echo 'make check-exports 2>&1 | patch -p1'; \
+	  echo '-----------------------------------------------------------'; \
+	fi; \
 	exit $$fail
 
 
