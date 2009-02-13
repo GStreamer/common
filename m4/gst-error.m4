@@ -37,6 +37,10 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
   AS_COMPILER_FLAG(-Wvla,
         ERROR_CFLAGS="$ERROR_CFLAGS -Wvla")
 
+  dnl Warn for invalid pointer arithmetic
+  AS_COMPILER_FLAG(-Wpointer-arith,
+        ERROR_CFLAGS="$ERROR_CFLAGS -Wpointer-arith")
+
   dnl if asked for, add -Werror if supported
   if test "x$1" != "xno"
   then
