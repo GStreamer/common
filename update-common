@@ -1,0 +1,60 @@
+#!/bin/sh
+#
+# This script will update all the modules listed below so that
+# common points to master in the common module.
+#
+
+# Set this variable to point to any directory containing existing
+# git # checkouts, and git will pull objects from there, decreasing
+# network usage.  You can also run this script from that directory.
+reference=~/gst
+
+set -e
+set -x
+
+modules="gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
+	gst-plugins-ugly gst-ffmpeg gst-openmax gst-python \
+	gnonlin gst-plugins-gl"
+
+topdir=`pwd`
+dir=`mktemp -d $topdir/common-update-XXXXXX`
+
+for module in $modules
+do
+  cd $dir
+  if test -e $reference/$module/.git ; then
+    git clone --reference $reference/$module/.git --shared ssh://git.freedesktop.org/git/gstreamer/$module
+  elif test -e $topdir/$module/.git ; then
+    git clone --reference $topdir/$module/.git --shared ssh://git.freedesktop.org/git/gstreamer/$module
+  else
+    git clone ssh://git.freedesktop.org/git/gstreamer/$module
+  fi
+  cd $dir/$module
+  git submodule init
+  git submodule update
+  cd $dir/$module/common
+  ref_from=`git-log --pretty=format:%h -n 1 HEAD`
+  git checkout master
+  git pull origin
+  ref_to=`git-log --pretty=format:%h -n 1 HEAD`
+  echo updating common from $ref_from to $ref_to
+  if [ "$ref_from" != "$ref_to" ] ; then
+    cd $dir/$module
+    git add common
+    git commit -m "Automatic update of common submodule
+
+From $ref_from to $ref_to"
+  fi
+  cd $dir
+done
+
+exit 0
+
+for module in $modules
+do
+  cd $topdir/$module
+  git push origin
+done
+
+#rm -rf $dir
+
