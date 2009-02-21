@@ -33,10 +33,10 @@ do
   git submodule init
   git submodule update
   cd $dir/$module/common
-  ref_from=`git-log --pretty=format:%h -n 1 HEAD`
+  ref_from=`git log --pretty=format:%h -n 1 HEAD`
   git checkout master
   git pull origin
-  ref_to=`git-log --pretty=format:%h -n 1 HEAD`
+  ref_to=`git log --pretty=format:%h -n 1 HEAD`
   echo updating common from $ref_from to $ref_to
   if [ "$ref_from" != "$ref_to" ] ; then
     cd $dir/$module
