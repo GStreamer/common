@@ -114,10 +114,15 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
         ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror"
 
         dnl add exceptions
-        for f in '-Wno-non-virtual-dtor' '-fno-strict-aliasing'
-        do
-          AS_CXX_COMPILER_FLAG([$f], ERROR_CXXFLAGS="$ERROR_CXXFLAGS $f")
-        done
+        AS_CXX_COMPILER_FLAG([-Wno-non-virtual-dtor], ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Wno-non-virtual-dtor")
+	
+	dnl Add -fno-strict-aliasing for GLib versions before 2.19.8
+	dnl as before G_LOCK and friends caused strict aliasing compiler
+	dnl warnings.
+	PKG_CHECK_EXISTS([glib-2.0 < 2.19.8], [
+	  AS_CXX_COMPILER_FLAG([-fno-strict-aliasing],
+	    ERROR_CXXFLAGS="$ERROR_CXXFLAGS -fno-strict-aliasing")
+	  ])
     else
       dnl if -Werror isn't suported, try -errwarn=%all
       AS_CXX_COMPILER_FLAG([-errwarn=%all], errwarnall=yes, errwarnall=no)
