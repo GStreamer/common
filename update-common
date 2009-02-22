@@ -3,10 +3,18 @@
 # This script will update all the modules listed below so that
 # common points to master in the common module.
 #
+# If you have many of the GStreamer modules checked out in a particular
+# directory, it's best to run this script from that directory.  For
+# example, I check everything out in ~/gst, so this file is
+# ~/gst/common/update-common.  To do an update, I do
+# 'cd ~/gst ; ./common/update-common'.  This will automatically use
+# the refs in your existing checkout when cloning the temporary
+# checkout.  Alternatively, you can use the reference variable below.
+#
 
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
-# network usage.  You can also run this script from that directory.
+# network usage.
 reference=~/gst
 
 set -e
@@ -48,13 +56,10 @@ From $ref_from to $ref_to"
   cd $dir
 done
 
-exit 0
-
 for module in $modules
 do
   cd $topdir/$module
   git push origin
 done
-
-#rm -rf $dir
+rm -rf $dir
 
