@@ -58,7 +58,7 @@ done
 
 for module in $modules
 do
-  cd $topdir/$module
+  cd $dir/$module
   git push origin
 done
 rm -rf $dir
