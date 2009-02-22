@@ -1,5 +1,7 @@
 SUBDIRS = m4
 
+CONFIG_CLEAN_FILES = shave shave-libtool
+
 EXTRA_DIST = \
 	ChangeLog \
 	gettext.patch \
