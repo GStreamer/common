@@ -8,21 +8,18 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
   dnl FIXME: describe where exactly this gets used
   dnl FIXME: decide if it's a problem that this could point to sinks from
   dnl        depending plugin modules
+  dnl FIXME: when can we just use autoaudiosrc and autovideosrc?
   DEFAULT_AUDIOSINK="autoaudiosink"
   DEFAULT_VIDEOSINK="autovideosink"
   DEFAULT_AUDIOSRC="alsasrc"
-  DEFAULT_VIDEOSRC="v4lsrc"
+  DEFAULT_VIDEOSRC="v4l2src"
   DEFAULT_VISUALIZER="goom"
   case "$host" in
     *-sun-* | *pc-solaris* )
-      DEFAULT_AUDIOSINK="sunaudiosink"
-      DEFAULT_VIDEOSINK="ximagesink"
       DEFAULT_AUDIOSRC="sunaudiosrc"
       ;;
     *-darwin* )
-      DEFAULT_AUDIOSINK="osxaudiosink"
       DEFAULT_AUDIOSRC="osxaudiosrc"
-      DEFAULT_VIDEOSINK="osxvideosink"
       ;;
   esac
 
