@@ -2699,6 +2699,48 @@
    fun:pango_language_from_string
 }
 
+# some more pango leaks (Debian/unstable x86)
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:FcPatternObjectInsertElt
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternAppend
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.1.5.2
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcConfigParseAndLoad
+   fun:FcEndElement
+   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.1.5.2
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcInitLoadConfig
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:realloc
+   fun:FcPatternObjectInsertElt
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternObjectAdd
+   fun:FcFontRenderPrepare
+   fun:pango_fc_font_map_load_fontset
+   fun:pango_font_map_load_fontset
+   fun:itemize_state_process_run
+   fun:pango_itemize_with_base_dir
+   fun:pango_layout_check_lines
+   fun:pango_layout_get_extents_internal
+   fun:pango_layout_get_pixel_extents
+}
+
 ## Leak of property_list in gstffmpegcfg.c
 ## This list is created in gst_ffmpegcsp_init(), called from 
 ## gst_ffmpegenc_register.
