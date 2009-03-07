@@ -2541,6 +2541,20 @@
 }
 
 {
+   <Leak in videotestsrc>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:gst_caps_new_empty
+   fun:gst_caps_copy
+   fun:gst_video_test_src_getcaps
+   fun:gst_video_test_src_base_init
+   fun:g_type_class_ref
+   fun:gst_element_register
+}
+
+{
    <Leak in ffmpegcolorspace>
    Memcheck:Leak
    fun:malloc
