@@ -2008,19 +2008,19 @@
    fun:FcPatternObjectAddWithBinding
    fun:FcPatternAppend
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcConfigParseAndLoad
    fun:FcParseInclude
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
 }
@@ -2030,19 +2030,19 @@
    fun:malloc
    fun:FcStrCopy
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcConfigParseAndLoad
    fun:FcParseInclude
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
-   obj:/usr/lib/libexpat.so.1.0.0
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcInitLoadConfig
@@ -2708,18 +2708,18 @@
    fun:FcPatternObjectAddWithBinding
    fun:FcPatternAppend
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.5.2
-   obj:/usr/lib/libexpat.so.1.5.2
-   obj:/usr/lib/libexpat.so.1.5.2
-   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcConfigParseAndLoad
    fun:FcEndElement
-   obj:/usr/lib/libexpat.so.1.5.2
-   obj:/usr/lib/libexpat.so.1.5.2
-   obj:/usr/lib/libexpat.so.1.5.2
-   obj:/usr/lib/libexpat.so.1.5.2
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
+   obj:/usr/lib/libexpat.so.*
    fun:XML_ParseBuffer
    fun:FcConfigParseAndLoad
    fun:FcInitLoadConfig
