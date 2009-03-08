@@ -2647,6 +2647,47 @@
    fun:gst_caps_copy
    fun:gst_audio_filter_class_add_pad_templates
 }
+{
+   <Leak in GstAudioFilter subclasses, variant3>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_array_maybe_expand
+   fun:g_array_sized_new
+   fun:*
+   fun:*
+   fun:*
+   fun:gst_value_init_and_copy
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
+{
+   <Leak in GstAudioFilter subclasses, variant4>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:g_array_maybe_expand
+   fun:g_array_sized_new
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
+{
+   <Leak in GstAudioFilter subclasses, variant5>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_array_sized_new
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_audio_filter_class_add_pad_templates
+}
 
 {
    <Leak in riff-media>
