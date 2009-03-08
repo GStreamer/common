@@ -2727,6 +2727,21 @@
 {
    <insert a suppression name here>
    Memcheck:Leak
+   fun:malloc
+   fun:FcPatternObjectAddWithBinding
+   fun:FcPatternObjectAdd
+   fun:FcFontRenderPrepare
+   fun:pango_fc_font_map_load_fontset
+   fun:pango_font_map_load_fontset
+   fun:itemize_state_process_run
+   fun:pango_itemize_with_base_dir
+   fun:pango_layout_check_lines
+   fun:pango_layout_get_extents_internal
+   fun:pango_layout_get_pixel_extents
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
    fun:realloc
    fun:FcPatternObjectInsertElt
    fun:FcPatternObjectAddWithBinding
