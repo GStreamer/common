@@ -2698,6 +2698,33 @@
    fun:gst_caps_new_empty
    fun:gst_riff_create_*_template_caps
 }
+{
+   <Leak in riff-media>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:*
+   fun:*
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_caps_append
+   fun:gst_riff_create_*_template_caps
+}
+{
+   <Leak in riff-media>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_array_sized_new
+   fun:*
+   fun:gst_structure_copy
+   fun:gst_caps_copy
+   fun:gst_caps_append
+   fun:gst_riff_create_*_template_caps
+}
 
 ## Leaks in pango (bilboed: gentoo unstable amd64)
 
