@@ -163,7 +163,7 @@ clean-local: clean-local-gtkdoc
 # company: don't delete .sgml and -sections.txt as they're in CVS
 # FIXME : thomas added all sgml files and some other things to make
 # make distcheck work
-distclean-local: clean
+distclean-local:
 	rm -f $(REPORT_FILES) \
                 $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 	rm -rf tmpl/*.sgml.bak

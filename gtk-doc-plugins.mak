@@ -268,7 +268,7 @@ clean-local: clean-local-gtkdoc
 	rm -f *~ *.bak
 	rm -rf .libs
 
-distclean-local: clean
+distclean-local:
 	rm -rf tmpl/*.sgml.bak
 	rm -rf *.o
 
