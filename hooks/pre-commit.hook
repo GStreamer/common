@@ -2,8 +2,34 @@
 #
 # Check that the code follows a consistant code style
 #
- 
-# FIXME : Add a check for existence of indent, and return 0 if not present
+
+# Check for existence of indent, and error out if not present.
+# On some *bsd systems the binary seems to be called gnunindent,
+# so check for that first.
+
+version=`gnuindent --version 2>/dev/null`
+if test x$version = x; then
+  version=`indent --version 2>/dev/null`
+  if test x$version = x; then
+    echo "GStreamer git pre-commit hook:"
+    echo "Did not find GNU indent, please install it before continuing."
+    exit 1
+  fi
+  INDENT=indent
+else
+  INDENT=gnuindent
+fi
+
+case `$INDENT --version` in
+  GNU*)
+      ;;
+  default)
+      echo "GStreamer git pre-commit hook:"
+      echo "Did not find GNU indent, please install it before continuing."
+      echo "(Found $INDENT, but it doesn't seem to be GNU indent)"
+      exit 1
+      ;;
+esac
 
 INDENT_PARAMETERS="--braces-on-if-line \
 	--case-brace-indentation0 \
@@ -24,11 +50,11 @@ for file in `git-diff-index --cached --name-only HEAD --diff-filter=ACMR| grep "
     # revision in the index (and not the checked out version).
     nf=`git checkout-index --temp ${file} | cut -f 1`
     newfile=`mktemp /tmp/${nf}.XXXXXX` || exit 1
-    indent ${INDENT_PARAMETERS} \
+    $INDENT ${INDENT_PARAMETERS} \
 	$nf -o $newfile 2>> /dev/null
     # FIXME: Call indent twice as it tends to do line-breaks
     # different for every second call.
-    indent ${INDENT_PARAMETERS} \
+    $INDENT ${INDENT_PARAMETERS} \
         $newfile 2>> /dev/null
     diff -u -p "${nf}" "${newfile}"
     r=$?
