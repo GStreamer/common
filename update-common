@@ -21,7 +21,7 @@ set -e
 set -x
 
 modules="gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
-	gst-plugins-ugly gst-ffmpeg gst-openmax gst-python \
+	gst-plugins-ugly gst-ffmpeg gst-python \
 	gnonlin gst-plugins-gl"
 
 topdir=`pwd`
