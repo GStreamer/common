@@ -61,5 +61,5 @@ do
   cd $dir/$module
   git push origin
 done
-rm -rf $dir
 
+rm -rf $dir
