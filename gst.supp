@@ -2892,3 +2892,14 @@
    fun:plugin_init
 }
 
+## We don't know if ffmpeg frees this or not and better pass a copy for safety
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_strdup
+   fun:gst_ffmpeg_cfg_fill_context
+   fun:gst_ffmpegenc_setcaps
+   fun:gst_pad_set_caps
+}
