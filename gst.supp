@@ -907,6 +907,24 @@
    fun:g_type_init_with_debug_flags
 }
 
+{
+   <g_type_init calloc 4>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:*
+   fun:g_type_init_with_debug_flags
+}
+
+{
+   <g_type_init calloc 5>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:type_node_any_new*
+   fun:g_type_register_fundamental
+}
+
 #pthread memleaks
 
 {
