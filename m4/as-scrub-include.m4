@@ -7,7 +7,7 @@ dnl Thomas Vander Stichele <thomas at apestaart dot org>
 
 dnl $Id: as-scrub-include.m4,v 1.7 2004/06/12 08:30:20 thomasvs Exp $
 
-dnl This macro uses output of cpp -v and expects it to contain text that 
+dnl This macro uses output of cpp -v and expects it to contain text that
 dnl looks a little bit like this:
 dnl #include <...> search starts here:
 dnl  /usr/local/include

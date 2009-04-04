@@ -81,7 +81,7 @@ def get_rel_tags():
     for lin in p.stdout.readlines():
        match = reltagre.search (lin)
        if match:
-           (sha, maj, min, nano) = match.groups()  
+           (sha, maj, min, nano) = match.groups()
            release_refs[sha] = (maj, min, nano)
 
 def find_start_tag():

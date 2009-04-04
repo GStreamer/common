@@ -32,12 +32,12 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
         no)  AC_MSG_ERROR(bad value ${withval} for --with-default-audiosink) ;;
         *)   DEFAULT_AUDIOSINK="${withval}" ;;
       esac
-    ], 
+    ],
     [
       DEFAULT_AUDIOSINK="$DEFAULT_AUDIOSINK"
     ] dnl Default value as determined above
   )
-  AC_MSG_NOTICE(Using $DEFAULT_AUDIOSINK as default audio sink) 
+  AC_MSG_NOTICE(Using $DEFAULT_AUDIOSINK as default audio sink)
   AC_SUBST(DEFAULT_AUDIOSINK)
   AC_DEFINE_UNQUOTED(DEFAULT_AUDIOSINK, "$DEFAULT_AUDIOSINK",
     [Default audio sink])
@@ -51,12 +51,12 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
         no)  AC_MSG_ERROR(bad value ${withval} for --with-default-audiosrc) ;;
         *)   DEFAULT_AUDIOSRC="${withval}" ;;
       esac
-    ], 
+    ],
     [
       DEFAULT_AUDIOSRC="$DEFAULT_AUDIOSRC"
     ] dnl Default value as determined above
   )
-  AC_MSG_NOTICE(Using $DEFAULT_AUDIOSRC as default audio source) 
+  AC_MSG_NOTICE(Using $DEFAULT_AUDIOSRC as default audio source)
   AC_SUBST(DEFAULT_AUDIOSRC)
   AC_DEFINE_UNQUOTED(DEFAULT_AUDIOSRC, "$DEFAULT_AUDIOSRC",
     [Default audio source])
@@ -70,12 +70,12 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
         no)  AC_MSG_ERROR(bad value ${withval} for --with-default-videosink) ;;
         *)   DEFAULT_VIDEOSINK="${withval}" ;;
       esac
-    ], 
+    ],
     [
       DEFAULT_VIDEOSINK="$DEFAULT_VIDEOSINK"
     ] dnl Default value as determined above
   )
-  AC_MSG_NOTICE(Using $DEFAULT_VIDEOSINK as default video sink) 
+  AC_MSG_NOTICE(Using $DEFAULT_VIDEOSINK as default video sink)
   AC_SUBST(DEFAULT_VIDEOSINK)
   AC_DEFINE_UNQUOTED(DEFAULT_VIDEOSINK, "$DEFAULT_VIDEOSINK",
     [Default video sink])
@@ -89,12 +89,12 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
         no)  AC_MSG_ERROR(bad value ${withval} for --with-default-videosrc) ;;
         *)   DEFAULT_VIDEOSRC="${withval}" ;;
       esac
-    ], 
+    ],
     [
       DEFAULT_VIDEOSRC="$DEFAULT_VIDEOSRC"
     ] dnl Default value as determined above
   )
-  AC_MSG_NOTICE(Using $DEFAULT_VIDEOSRC as default video source) 
+  AC_MSG_NOTICE(Using $DEFAULT_VIDEOSRC as default video source)
   AC_SUBST(DEFAULT_VIDEOSRC)
   AC_DEFINE_UNQUOTED(DEFAULT_VIDEOSRC, "$DEFAULT_VIDEOSRC",
     [Default video source])
@@ -108,12 +108,12 @@ AC_DEFUN([AG_GST_DEFAULT_ELEMENTS],
         no)  AC_MSG_ERROR(bad value ${withval} for --with-default-visualizer) ;;
         *)   DEFAULT_VISUALIZER="${withval}" ;;
       esac
-    ], 
+    ],
     [
       DEFAULT_VISUALIZER="$DEFAULT_VISUALIZER"
     ] dnl Default value as determined above
   )
-  AC_MSG_NOTICE(Using $DEFAULT_VISUALIZER as default visualizer) 
+  AC_MSG_NOTICE(Using $DEFAULT_VISUALIZER as default visualizer)
   AC_SUBST(DEFAULT_VISUALIZER)
   AC_DEFINE_UNQUOTED(DEFAULT_VISUALIZER, "$DEFAULT_VISUALIZER",
     [Default visualizer])

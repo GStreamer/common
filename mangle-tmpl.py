@@ -122,7 +122,7 @@ def get_elements(file):
                 elements[name] = {'description': description}
 
     return elements
-        
+
 def main():
     if not len(sys.argv) == 3:
         sys.stderr.write('Please specify the inspect/ dir and the tmpl/ dir')

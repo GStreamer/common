@@ -45,7 +45,7 @@ dnl - sets the variable PACKAGE_VERSION_NANO
 dnl - sets the variable PACKAGE_VERSION_RELEASE, which can be used
 dnl   for rpm release fields
 dnl - executes ACTION-IF-NO-NANO or ACTION-IF-NANO
-    
+
 dnl example:
 dnl AS_NANO(RELEASE="yes", RELEASE="no")
 
