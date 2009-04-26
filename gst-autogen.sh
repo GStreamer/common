@@ -170,6 +170,7 @@ autoheader_check ()
   fi
 
 }
+
 autoconf_2_52d_check ()
 {
   # autoconf 2.52d has a weird issue involving a yes:no error
@@ -278,7 +279,6 @@ toplevel_check ()
   }
 }
 
-
 tool_run ()
 {
   tool=$1
@@ -292,7 +292,6 @@ tool_run ()
     exit 1
   }
 }
-
 
 install_git_hooks ()
 {
@@ -314,5 +313,3 @@ install_git_hooks ()
     done
   fi
 }
-
-
