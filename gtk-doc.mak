@@ -160,7 +160,7 @@ clean-local: clean-local-gtkdoc
 	rm -f *~ *.bak
 	rm -rf .libs
 
-# company: don't delete .sgml and -sections.txt as they're in CVS
+# company: don't delete .sgml and -sections.txt as they're in git
 # FIXME : thomas added all sgml files and some other things to make
 # make distcheck work
 distclean-local:
