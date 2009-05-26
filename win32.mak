@@ -24,7 +24,8 @@ win32-check-crlf:
 	@echo Checking win32 files for CR LF line endings ...; \
 	fail=0 ; \
 	for each in $(win32crlf) ; do \
-	  if ! (file $$each | grep CRLF >/dev/null) ; then \
+	  result=`perl -e 'print grep(/\r\n/,<>)' "$$each" | wc -l`; \
+	  if test "$$result" = 0 ; then \
 	    echo $$each must be fixed to have CRLF line endings ; \
 	    fail=1; \
 	  fi ; \
