@@ -20,6 +20,78 @@ debug ()
   fi
 }
 
+version_get ()
+# based on the command's version output, set variables
+# _MAJOR, _MINOR, _MICRO, _VERSION, using the given prefix as variable prefix
+#
+# arg 1: command binary name
+# arg 2: (uppercased) variable name prefix
+{
+  COMMAND=$1
+  VARPREFIX=$2
+
+  # strip everything that's not a digit, then use cut to get the first field
+  pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*)[^0-9]*//'|cut -d' ' -f1`
+  debug "pkg_version $pkg_version"
+  # remove any non-digit characters from the version numbers to permit numeric
+  # comparison
+  pkg_major=`echo $pkg_version | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
+  pkg_minor=`echo $pkg_version | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
+  pkg_micro=`echo $pkg_version | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
+  test -z "$pkg_major" && pkg_major=0
+  test -z "$pkg_minor" && pkg_minor=0
+  test -z "$pkg_micro" && pkg_micro=0
+  debug "found major $pkg_major minor $pkg_minor micro $pkg_micro"
+  eval `echo ${VARPREFIX}`_MAJOR=$pkg_major
+  eval `echo ${VARPREFIX}`_MINOR=$pkg_minor
+  eval `echo ${VARPREFIX}`_MICRO=$pkg_micro
+  eval `echo ${VARPREFIX}`_VERSION=$pkg_version
+}
+
+version_compare ()
+# arg1: VARPREFIX
+# arg2: MAJOR
+# arg3: MINOR
+# arg4: MICRO
+{
+  VARPREFIX=$1
+  MAJOR=$2
+  MINOR=$3
+  MICRO=$4
+
+  pkg_major=$(eval echo $`echo ${VARPREFIX}`_MAJOR);
+  pkg_minor=$(eval echo $`echo ${VARPREFIX}`_MINOR);
+  pkg_micro=$(eval echo $`echo ${VARPREFIX}`_MICRO);
+
+  #start checking the version
+  debug "version check"
+
+    # reset check
+    WRONG=
+
+    if [ ! "$pkg_major" -gt "$MAJOR" ]; then
+      debug "major: $pkg_major <= $MAJOR"
+      if [ "$pkg_major" -lt "$MAJOR" ]; then
+        debug "major: $pkg_major < $MAJOR"
+        WRONG=1
+      elif [ ! "$pkg_minor" -gt "$MINOR" ]; then
+        debug "minor: $pkg_minor <= $MINOR"
+        if [ "$pkg_minor" -lt "$MINOR" ]; then
+          debug "minor: $pkg_minor < $MINOR"
+          WRONG=1
+        elif [ "$pkg_micro" -lt "$MICRO" ]; then
+          debug "micro: $pkg_micro < $MICRO"
+	  WRONG=1
+        fi
+      fi
+    fi
+    if test ! -z "$WRONG"; then
+      return 1
+    fi
+    return 0
+}
+
+
 version_check ()
 # check the version of a package
 # first argument : package name (executable)
@@ -60,49 +132,18 @@ version_check ()
       return 0
     }
 
-    debug "checking version with $COMMAND"
-    ($COMMAND --version) < /dev/null > /dev/null 2>&1 ||
-    {
-      echo "not found."
+    which $COMMAND > /dev/null 2>&1
+    if test $? -eq 1;
+    then 
+      debug "$COMMAND not found"
       continue
-    }
-    # strip everything that's not a digit, then use cut to get the first field
-    pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*)[^0-9]*//'|cut -d' ' -f1`
-    debug "pkg_version $pkg_version"
-    # remove any non-digit characters from the version numbers to permit numeric
-    # comparison
-    pkg_major=`echo $pkg_version | cut -d. -f1 | sed s/[a-zA-Z\-].*//g`
-    pkg_minor=`echo $pkg_version | cut -d. -f2 | sed s/[a-zA-Z\-].*//g`
-    pkg_micro=`echo $pkg_version | cut -d. -f3 | sed s/[a-zA-Z\-].*//g`
-    test -z "$pkg_major" && pkg_major=0
-    test -z "$pkg_minor" && pkg_minor=0
-    test -z "$pkg_micro" && pkg_micro=0
-    debug "found major $pkg_major minor $pkg_minor micro $pkg_micro"
-
-    #start checking the version
-    debug "version check"
-
-    # reset check
-    WRONG=
-
-    if [ ! "$pkg_major" -gt "$MAJOR" ]; then
-      debug "major: $pkg_major <= $MAJOR"
-      if [ "$pkg_major" -lt "$MAJOR" ]; then
-        debug "major: $pkg_major < $MAJOR"
-        WRONG=1
-      elif [ ! "$pkg_minor" -gt "$MINOR" ]; then
-        debug "minor: $pkg_minor <= $MINOR"
-        if [ "$pkg_minor" -lt "$MINOR" ]; then
-          debug "minor: $pkg_minor < $MINOR"
-          WRONG=1
-        elif [ "$pkg_micro" -lt "$MICRO" ]; then
-          debug "micro: $pkg_micro < $MICRO"
-	  WRONG=1
-        fi
-      fi
     fi
 
-    if test ! -z "$WRONG"; then
+    VARPREFIX=`echo $COMMAND | sed 's/-//g' | tr [:lower:] [:upper:]`
+    version_get $COMMAND $VARPREFIX
+
+    version_compare $VARPREFIX $MAJOR $MINOR $MICRO
+    if test $? -ne 0; then
       echo "found $pkg_version, not ok !"
       continue
     else
@@ -116,7 +157,7 @@ version_check ()
     fi
   done
 
-  echo "not found !"
+  echo "$PACKAGE not found !"
   echo "You must have $PACKAGE installed to compile $package."
   echo "Download the appropriate package for your distribution,"
   echo "or get the source tarball at $URL"
@@ -186,6 +227,20 @@ autoconf_2_52d_check ()
   }
   return 0
 }
+libtool_2_2_gettext_check ()
+{
+  # libtool 2.2 needs autopoint 0.17 or higher
+  if test $LIBTOOLIZE_MAJOR -ge 2 && test $LIBTOOLIZE_MINOR -ge 2
+  then
+    if test $AUTOPOINT_MAJOR -eq 0 && test $AUTOPOINT_MINOR -le 17
+    then
+      echo "libtool 2.2 requires autopoint 0.17 or higher"
+      return 1
+    fi
+  fi
+  return 0
+}
+
 
 die_check ()
 {
@@ -222,7 +277,7 @@ autogen_options ()
           echo "+ autotools version check disabled"
           shift
           ;;
-      --debug)
+      -d|--debug)
           DEBUG=defined
 	  AUTOGEN_EXT_OPT="$AUTOGEN_EXT_OPT --debug"
           echo "+ debug output enabled"
