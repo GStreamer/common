@@ -49,6 +49,8 @@ version_get ()
 }
 
 version_compare ()
+# Checks whether the version of VARPREFIX is equal to or
+# newer than the requested version
 # arg1: VARPREFIX
 # arg2: MAJOR
 # arg3: MINOR
@@ -64,7 +66,7 @@ version_compare ()
   pkg_micro=$(eval echo $`echo ${VARPREFIX}`_MICRO);
 
   #start checking the version
-  debug "version check"
+  debug "version_compare: $VARPREFIX against $MAJOR.$MINOR.$MICRO"
 
     # reset check
     WRONG=
@@ -86,8 +88,10 @@ version_compare ()
       fi
     fi
     if test ! -z "$WRONG"; then
+      debug "version_compare: $VARPREFIX older than $MAJOR.$MINOR.$MICRO"
       return 1
     fi
+    debug "version_compare: $VARPREFIX equal to/newer than $MAJOR.$MINOR.$MICRO"
     return 0
 }
 
@@ -230,9 +234,11 @@ autoconf_2_52d_check ()
 libtool_2_2_gettext_check ()
 {
   # libtool 2.2 needs autopoint 0.17 or higher
-  if test $LIBTOOLIZE_MAJOR -ge 2 && test $LIBTOOLIZE_MINOR -ge 2
+  version_compare LIBTOOLIZE 2 2 0
+  if test $? -eq 0
   then
-    if test $AUTOPOINT_MAJOR -eq 0 && test $AUTOPOINT_MINOR -le 17
+    version_compare AUTOPOINT 0 17 0
+    if test $? -ne 0
     then
       echo "libtool 2.2 requires autopoint 0.17 or higher"
       return 1
