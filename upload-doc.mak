@@ -9,17 +9,16 @@
 # - FORMATS: the formats in which DOC is output
 #            (html ps pdf)
 
-# if you want to use it, make sure your ..sh/config file contains the
+# if you want to use it, make sure your $HOME/.ssh/config file contains the
 # correct User entry for the Host entry for the DOC_SERVER
 
 # these variables define the location of the online docs
-DOC_SERVER=gstreamer.freedesktop.org
-DOC_BASE=/srv/gstreamer.freedesktop.org/www/data/doc
-DOC_URL=$(DOC_SERVER):$(DOC_BASE)
-
+DOC_SERVER = gstreamer.freedesktop.org
+DOC_BASE = /srv/gstreamer.freedesktop.org/www/data/doc
+DOC_URL = $(DOC_SERVER):$(DOC_BASE)
 
 upload: $(FORMATS)
-	@if test "x$(GST_VERSION_NANO)" = x0; then \
+	@if test "x$(PACKAGE_VERSION_NANO)" = x0; then \
             export DOCVERSION=$(VERSION); \
         else export DOCVERSION=head; \
         fi; \

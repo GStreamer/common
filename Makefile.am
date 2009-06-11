@@ -5,7 +5,7 @@ CONFIG_CLEAN_FILES = shave shave-libtool
 EXTRA_DIST = \
 	ChangeLog \
 	gettext.patch \
-	glib-gen.mak gtk-doc.mak upload.mak upload-doc.mak \
+	glib-gen.mak gtk-doc.mak upload-doc.mak \
 	release.mak win32.mak po.mak \
 	gst-autogen.sh \
 	check-exports \
