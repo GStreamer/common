@@ -42,10 +42,10 @@ version_get ()
   test -z "$pkg_minor" && pkg_minor=0
   test -z "$pkg_micro" && pkg_micro=0
   debug "found major $pkg_major minor $pkg_minor micro $pkg_micro"
-  eval `echo ${VARPREFIX}`_MAJOR=$pkg_major
-  eval `echo ${VARPREFIX}`_MINOR=$pkg_minor
-  eval `echo ${VARPREFIX}`_MICRO=$pkg_micro
-  eval `echo ${VARPREFIX}`_VERSION=$pkg_version
+  eval ${VARPREFIX}_MAJOR=$pkg_major
+  eval ${VARPREFIX}_MINOR=$pkg_minor
+  eval ${VARPREFIX}_MICRO=$pkg_micro
+  eval ${VARPREFIX}_VERSION=$pkg_version
 }
 
 version_compare ()
@@ -61,9 +61,9 @@ version_compare ()
   MINOR=$3
   MICRO=$4
 
-  pkg_major=$(eval echo $`echo ${VARPREFIX}`_MAJOR);
-  pkg_minor=$(eval echo $`echo ${VARPREFIX}`_MINOR);
-  pkg_micro=$(eval echo $`echo ${VARPREFIX}`_MICRO);
+  eval pkg_major=\$${VARPREFIX}_MAJOR;
+  eval pkg_minor=\$${VARPREFIX}_MINOR;
+  eval pkg_micro=\$${VARPREFIX}_MICRO;
 
   #start checking the version
   debug "version_compare: $VARPREFIX against $MAJOR.$MINOR.$MICRO"
