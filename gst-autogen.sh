@@ -28,7 +28,7 @@ version_get ()
 # arg 2: (uppercased) variable name prefix
 {
   COMMAND=$1
-  VARPREFIX=$2
+  VARPREFIX=`echo $2 | tr .,- _`
 
   # strip everything that's not a digit, then use cut to get the first field
   pkg_version=`$COMMAND --version|head -n 1|sed 's/^.*)[^0-9]*//'|cut -d' ' -f1`
@@ -56,7 +56,7 @@ version_compare ()
 # arg3: MINOR
 # arg4: MICRO
 {
-  VARPREFIX=$1
+  VARPREFIX=`echo $1 | tr .,- _`
   MAJOR=$2
   MINOR=$3
   MICRO=$4
@@ -126,7 +126,7 @@ version_check ()
 
     # don't check if asked not to
     test -z "$NOCHECK" && {
-      echo -n "  checking for $COMMAND >= $VERSION ... "
+      printf "  checking for $COMMAND >= $VERSION ... "
     } || {
       # we set a var with the same name as the package, but stripped of
       # unwanted chars
