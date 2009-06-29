@@ -56,6 +56,16 @@ check-exports:
 	fi; \
 	exit $$fail
 
+# complain about nonportable 64-bit printf format strings (%lld, %llu etc.)
+check-nonportable-int64-print-format:
+	fail=0 ; \
+	loc=`find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'`; \
+	if test "x$$loc" != "x"; then \
+	  echo "Please fix the following print format strings:" ; \
+	  find "$(top_srcdir)" -name '*.c' | xargs grep -n -e '%[0-9]*ll[udx]'; \
+	  fail=1; \
+	fi; \
+	exit $$fail
 
 dist-hook: check-exports win32-check-crlf
 
