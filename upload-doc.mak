@@ -30,7 +30,21 @@ upload: $(FORMATS)
 	    echo "make upload can only be used if srcdir == builddir"; \
 	    exit 1; \
 	  fi; \
-	  gtkdoc-rebase --online --html-dir=$(builddir)/html ; \
+	  # gtkdoc-rebase sometimes gets confused, so reset everything to \
+	  # local links before rebasing to online links                   \
+	  gtkdoc-rebase --html-dir=$(builddir)/html 2>/dev/null 2>/dev/null ; \
+	  rebase=`gtkdoc-rebase --verbose --online --html-dir=$(builddir)/html` ; \
+	  echo "$$rebase" | grep -e "On-*line"; \
+	  for req in glib gobject gstreamer gstreamer-libs gst-plugins-base-libs; do \
+	    if ! ( echo "$$rebase" | grep -i -e "On-*line.*/$$req/" ); then \
+	      echo "===============================================================================" ; \
+	      echo " Could not determine online location for $$req docs. Cross-referencing will be " ; \
+	      echo " broken, so not uploading. Make sure the library's gtk-doc documentation is    " ; \
+	      echo " installed somewhere in /usr/share/gtk-doc.                                    " ; \
+	      echo "===============================================================================" ; \
+	      exit 1; \
+	    fi; \
+	  done; \
 	  export SRC="$$SRC html"; \
 	fi; \
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \
