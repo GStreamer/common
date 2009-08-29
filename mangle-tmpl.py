@@ -116,7 +116,10 @@ def get_elements(file):
                 if e2.nodeType == e2.ELEMENT_NODE and e2.localName == 'name':
                     name = e2.childNodes[0].nodeValue.encode("UTF-8")
                 elif e2.nodeType == e2.ELEMENT_NODE and e2.localName == 'description':
-                    description = e2.childNodes[0].nodeValue.encode("UTF-8")
+                    if e2.childNodes:
+                      description = e2.childNodes[0].nodeValue.encode("UTF-8")
+                    else:
+                      description = 'No description'
 
             if name != None and description != None:
                 elements[name] = {'description': description}
