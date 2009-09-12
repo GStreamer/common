@@ -925,6 +925,57 @@
    fun:g_type_register_fundamental
 }
 
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:realloc
+   fun:g_realloc
+   fun:type_node_any_new_W
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:type_data_make_W
+   fun:g_type_register_fundamental
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:g_type_class_ref
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:malloc
+   fun:realloc
+   fun:g_realloc
+   fun:type_add_flags_W
+}
+
+{
+   <glib 2.21 static type data>
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:type_add_flags_W
+}
+
 #pthread memleaks
 
 {
