@@ -137,7 +137,8 @@ INSPECT_REGISTRY=$(top_builddir)/docs/plugins/inspect-registry.xml
 INSPECT_ENVIRONMENT=\
         GST_PLUGIN_SYSTEM_PATH= \
         GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
-        GST_REGISTRY=$(INSPECT_REGISTRY)
+        GST_REGISTRY=$(INSPECT_REGISTRY) \
+	$(INSPECT_EXTRA_ENVIRONMENT)
 
 # update the element and plugin XML descriptions; store in inspect/
 inspect:
