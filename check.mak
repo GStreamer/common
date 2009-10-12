@@ -43,7 +43,7 @@ LOOPS = 10
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
-	libtool --mode=execute					\
+	$(LIBTOOL) --mode=execute					\
 	$(VALGRIND_PATH) -q					\
 	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
@@ -60,7 +60,7 @@ LOOPS = 10
 	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
-	libtool --mode=execute					\
+	$(LIBTOOL) --mode=execute					\
 	$(VALGRIND_PATH) -q 					\
 	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
@@ -77,7 +77,7 @@ LOOPS = 10
 %.gdb: %
 	$(TESTS_ENVIRONMENT)					\
 	CK_FORK=no						\
-	libtool --mode=execute					\
+	$(LIBTOOL) --mode=execute					\
 	gdb $*
 
 # torture tests
