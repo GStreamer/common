@@ -176,13 +176,16 @@ AC_DEFUN([AG_GST_ARG_WITH_PACKAGE_NAME],
         P=$PACKAGE_NAME
       fi
 
-      dnl default value
-      if test "x$GST_GIT" = "xyes" -o "x$GST_CVS" = "xyes"
+      if "x$PACKAGE_VERSION_NANO" = "x0"
       then
-        dnl nano >= 1
-        GST_PACKAGE_NAME="$P git/prerelease"
-      else
         GST_PACKAGE_NAME="$P source release"
+      else
+        if "x$PACKAGE_VERSION_NANO" = "x1"
+        then
+          GST_PACKAGE_NAME="$P git"
+        else
+          GST_PACKAGE_NAME="$P prerelease"
+        fi
       fi
     ]
   )
