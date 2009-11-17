@@ -65,6 +65,7 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
 	    GST_PLUGIN_PATH=						\
 	    GST_REGISTRY=doc-registry.xml				\
+	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
