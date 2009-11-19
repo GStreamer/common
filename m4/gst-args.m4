@@ -176,11 +176,11 @@ AC_DEFUN([AG_GST_ARG_WITH_PACKAGE_NAME],
         P=$PACKAGE_NAME
       fi
 
-      if "x$PACKAGE_VERSION_NANO" = "x0"
+      if test "x$PACKAGE_VERSION_NANO" = "x0"
       then
         GST_PACKAGE_NAME="$P source release"
       else
-        if "x$PACKAGE_VERSION_NANO" = "x1"
+        if test "x$PACKAGE_VERSION_NANO" = "x1"
         then
           GST_PACKAGE_NAME="$P git"
         else
