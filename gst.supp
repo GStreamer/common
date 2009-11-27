@@ -4396,3 +4396,14 @@
    fun:init_post
 }
 
+# macosx (leopard) library loader leak
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZNSs4_Rep9_S_createEmmRKSaIcE
+   fun:_ZNSs12_S_constructIPKcEEPcT_S3_RKSaIcESt20forward_iterator_tag
+   fun:_ZNSsC2EPKcRKSaIcE
+   fun:_Z41__static_initialization_and_destruction_0ii
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+}
