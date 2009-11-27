@@ -2564,6 +2564,124 @@
    fun:snd_ctl_open_noupdate
 }
 
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:malloc
+   fun:*
+   fun:snd1_dlobj_cache_add
+   fun:snd_ctl_open_noupdate
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+{
+   <Alsa leak>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:snd_config_load1
+}
+
+
 # The following are leaks of caps that need to be created dynamically
 # in the type registration of the plugin (used for pad templates).
 
