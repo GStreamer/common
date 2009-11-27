@@ -74,7 +74,7 @@
 {
    <insert a suppression name here>
    Memcheck:Cond
-   fun:_dl_relocate_object
+   fun:*
    fun:dl_open_worker
    fun:_dl_catch_error
    fun:_dl_open
@@ -82,7 +82,6 @@
    fun:_dl_catch_error
    fun:_dlerror_run
    fun:dlopen@@GLIBC_2.2.5
-   fun:g_module_open
 }
 
 # glibc does not deallocate thread-local storage
