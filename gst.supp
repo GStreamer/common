@@ -4033,3 +4033,14 @@
    Memcheck:Value8
    fun:__pthread_initialize_minimal
 }
+
+# glibc 2.11 conditional
+{
+   <glibc-2.11 conditional>
+   Memcheck:Cond
+   fun:_dl_relocate_object
+   fun:dl_main
+   fun:_dl_sysdep_start
+   fun:_dl_start
+   obj:/lib64/ld-2.11.so
+}
