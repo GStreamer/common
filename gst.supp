@@ -4340,3 +4340,29 @@
    fun:_priv_gst_registry_chunks_load_plugin
 }
 
+# system-wide tags
+# these tags are registered once
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:gst_tag_register
+   fun:_gst_tag_initialize
+}
+
+# system-wide type classes that we keep referenced
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_class_ref
+   fun:init_post
+}
