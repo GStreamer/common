@@ -3026,6 +3026,16 @@
    fun:plugin_init
 }
 
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:gst_ffmpeg_cfg_init
+   fun:gst_ffmpegenc_register
+}
+
 ## Leak of GIO module through gnomevfs
 
 {
