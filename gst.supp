@@ -4366,3 +4366,33 @@
    fun:g_type_class_ref
    fun:init_post
 }
+
+
+# Leaking core elements plugin
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_class_ref
+   fun:g_object_newv
+   fun:gst_plugin_register_static
+   fun:init_post
+}
+
+# leaking cached queries which are only initialized once
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:_gst_query_initialize
+   fun:init_post
+}
+
