@@ -4258,3 +4258,14 @@
    fun:_dlerror_run
    fun:dlopen@@GLIBC_2.2.5
 }
+
+# glib 2.22 leaks
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:type_data_make_W
+   fun:g_type_register_static
+   fun:g_param_type_register_static
+}
