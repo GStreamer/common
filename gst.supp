@@ -1193,26 +1193,15 @@
 {
    <alsa error>
    Memcheck:Cond
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
+   fun:snd*_pcm_hw_param_set_near
 }
 
 {
    <alsa error>
    Memcheck:Cond
    fun:_snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
-}
-
-{
-   <alsa error>
-   Memcheck:Cond
-   fun:_snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_min
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
+   fun:snd*_pcm_hw_param_set_min
+   fun:snd*_pcm_hw_param_set_near
 }
 
 {
