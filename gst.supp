@@ -503,6 +503,44 @@
 }
 
 {
+   <suppression for glibc 2.7 on Ubunty Hardy 64-bit>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   fun:iconv_open
+}
+
+{
+   <suppression for glibc 2.7 on Ubunty Hardy 64-bit>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/libc-2.7.so
+   fun:iconv_open
+}
+
+{
    <suppression for glibc 2.7 on debian>
    Memcheck:Addr4
    obj:/lib/ld-2.7.so
@@ -524,6 +562,21 @@
    obj:/lib/ld-2.7.so
    obj:/lib/i686/cmov/libdl-2.7.so
    fun:dlopen
+}
+
+{
+   <suppression for glibc 2.7 on Ubunty Hardy 64-bit>
+   Memcheck:Addr8
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/ld-2.7.so
+   obj:/lib/libc-2.7.so
+   obj:/lib/ld-2.7.so
+   fun:__libc_dlopen_mode
 }
 
 {
