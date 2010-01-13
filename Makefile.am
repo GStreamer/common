@@ -6,7 +6,7 @@ EXTRA_DIST = \
 	ChangeLog \
 	gettext.patch \
 	glib-gen.mak gtk-doc.mak upload-doc.mak \
-	release.mak win32.mak po.mak \
+	cruft.mak release.mak win32.mak po.mak \
 	gst-autogen.sh \
 	check-exports \
 	c-to-xml.py gst-xmlinspect.py mangle-tmpl.py scangobj-merge.py \
