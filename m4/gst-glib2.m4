@@ -20,6 +20,11 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
     AC_MSG_ERROR([This package requires GLib >= $GLIB_REQ to compile.])
   fi
 
+  dnl Add define to tell GLib that threading is always enabled within GStreamer
+  dnl code (optimisation, bypasses checks if the threading system is enabled
+  dnl when using threading primitives)
+  GLIB_CFLAGS="$GLIB_CFLAGS -DG_THREADS_MANDATORY"
+
   dnl for the poor souls who for example have glib in /usr/local
   AS_SCRUB_INCLUDE(GLIB_CFLAGS)
 ])
