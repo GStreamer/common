@@ -1322,423 +1322,30 @@
    obj:/*lib/libasound.so.2.0.0
 }
 {
-   <this catches a bunch of very similar errors related to parsing the configs>
+   <alsa leak snd_config_hook_load>
    Memcheck:Leak
-   fun:malloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
+   fun:*alloc
+   obj:/*lib*/libasound.so.2.0.0
+   ...
    fun:snd_config_hook_load
 }
 {
-   <alsa error>
+   <alsa leak snd_config_update_r>
    Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-}
-{
-   <alsa error - same as above with 6 libasound>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-}
-{
-   <alsa error - same as above with 7 libasound>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-}
-{
-   <alsa error - same as above with 10 libasound>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-}
-{
-   <alsa error - same as above with 11 libasound>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-}
-{
-   <alsa error>
-   Memcheck:Leak
-   fun:malloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   fun:snd_config_hook_load_for_all_cards
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-}
-{
-   <alsa error - same as above, but using calloc>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   fun:snd_config_hook_load_for_all_cards
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-}
-{
-   <alsa error - same as above, but with only 9 libasounds>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-}
-{
-   <alsa error>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
+   fun:*alloc
+   obj:/*lib*/libasound.so.2.0.0
+   ...
    fun:snd_config_update_r
    fun:snd_config_update
 }
 {
-   <alsa error - same as above, with 7 libasound repeats>
+   <alsa leak snd_config_update_r>
    Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
+   fun:*alloc
+   fun:strdup
+   ...
    fun:snd_config_update_r
    fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 6 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 6 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 7 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 8 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 9 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 10 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error - same as above, with 11 libasound repeats>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_update_r
-   fun:snd_config_update
-}
-{
-   <alsa error>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-   obj:/*lib/libasound.so.2.0.0
-}
-{
-   <alsa error>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-   obj:/*lib/libasound.so.2.0.0
-}
-{
-   <alsa error>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   fun:snd_config_hook_load_for_all_cards
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-   obj:/*lib/libasound.so.2.0.0
-}
-{
-   <alsa error - same as above, but with 8 libasound in the stack>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   fun:snd_config_hook_load_for_all_cards
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-   obj:/*lib/libasound.so.2.0.0
-}
-{
-   <alsa error - same as above, but with 7 libasound in the stack>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   fun:snd_config_hook_load_for_all_cards
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-   obj:/*lib/libasound.so.2.0.0
-}
-{
-   <alsa error - same as above, but with 6 libasound in the stack>
-   Memcheck:Leak
-   fun:calloc
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_hook_load
-   fun:snd_config_hook_load_for_all_cards
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_config_searcha_hooks
-   fun:snd_config_search_alias_hooks
-   fun:snd_config_search_definition
-   obj:/*lib/libasound.so.2.0.0
 }
 {
    <nss lookup within ALSA>
@@ -3294,15 +2901,23 @@
 {
    <glibc-2.10 overreads/conditionals>
    Memcheck:Value8
-   obj:/lib64/libc-2.10.1.so
-   obj:/lib64/libc-2.10.1.so
+   obj:/lib*/libc-2.10.*.so
+   obj:/lib*/libc-2.10.*.so
    fun:_vgnU_freeres
 }
 {
    <glibc-2.10 overreads/conditionals>
    Memcheck:Cond
-   obj:/lib64/libc-2.10.1.so
-   obj:/lib64/libc-2.10.1.so
+   obj:/lib*/libc-2.10.*.so
+   obj:/lib*/libc-2.10.*.so
+   fun:_vgnU_freeres
+}
+{
+   <glibc-2.10 mysterious invalid free on exit>
+   Memcheck:Free
+   fun:free
+   obj:/lib*/libc-2.10.*.so
+   obj:/lib*/libc-2.10.*.so
    fun:_vgnU_freeres
 }
 
@@ -4409,51 +4024,11 @@
 # system-wide type classes that we keep referenced
 
 {
-   <insert_a_suppression_name_here>
+   <g_type_class_ref leaks>
    Memcheck:Leak
    fun:*alloc
-   fun:*
-   fun:*
-   fun:*
-   fun:*
+   ...
    fun:g_type_class_ref
-   fun:init_post
-}
-
-{
-   <g_type_class_ref_3_funcs_in_between>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:*
-   fun:g_type_class_ref
-}
-
-{
-   <interface registrations>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:type_iface*
-   fun:g_type_class_ref
-}
-
-# Leaking core elements plugin
-
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:g_type_class_ref
-   fun:g_object_newv
-   fun:gst_plugin_register_static
-   fun:init_post
 }
 
 # leaking cached queries which are only initialized once
@@ -4489,4 +4064,20 @@
    fun:*
    fun:freelist_alloc
    fun:_g_atomic_array_copy
+}
+
+{
+   <getdelim one-time inits called from libselinux>
+   Memcheck:Leak
+   fun:*alloc
+   fun:getdelim
+   obj:*libselinux*
+}
+
+{
+   <weird one when re-reading registry>
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   obj:*/sed
 }
