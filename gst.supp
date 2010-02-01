@@ -4420,6 +4420,25 @@
    fun:init_post
 }
 
+{
+   <g_type_class_ref_3_funcs_in_between>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_class_ref
+}
+
+{
+   <interface registrations>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:type_iface*
+   fun:g_type_class_ref
+}
 
 # Leaking core elements plugin
 
@@ -4459,4 +4478,15 @@
    fun:_ZNSsC2EPKcRKSaIcE
    fun:_Z41__static_initialization_and_destruction_0ii
    fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+}
+
+# GObject type registration
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   fun:*
+   fun:*
+   fun:freelist_alloc
+   fun:_g_atomic_array_copy
 }
