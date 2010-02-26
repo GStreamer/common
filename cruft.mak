@@ -5,7 +5,7 @@
 # set CRUFT_FILES and/or CRUFT_DIRS in your Makefile.am when you include this
 
 check-cruft:
-	cruft_files=""; cruft_dirs=""; \
+	@cruft_files=""; cruft_dirs=""; \
 	for f in $(CRUFT_FILES); do \
 	  if test -e $$f; then \
 	    cruft_files="$$cruft_files $$f"; \
