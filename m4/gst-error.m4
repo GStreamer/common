@@ -87,15 +87,18 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
     fi
   fi
 
-  UNSUPPORTED=""
-  for each in $2
-  do
-    AS_COMPILER_FLAG($each,
-        WARNING_CFLAGS="$WARNING_CFLAGS $each",
-        UNSUPPORTED="$UNSUPPORTED $each")
-  done
-  if test "X$UNSUPPORTED" != X ; then
-    AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
+  if test "x$2" != "x"
+  then
+    UNSUPPORTED=""
+    for each in "$2"
+    do
+      AS_COMPILER_FLAG($each,
+          WARNING_CFLAGS="$WARNING_CFLAGS $each",
+          UNSUPPORTED="$UNSUPPORTED $each")
+    done
+    if test "X$UNSUPPORTED" != X ; then
+      AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
+    fi
   fi
 
   AC_SUBST(WARNING_CFLAGS)
@@ -132,9 +135,10 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
   dnl if asked for, add -Werror if supported
   if test "x$1" != "xno"
   then
-    AS_CXX_COMPILER_FLAG(-Werror, "ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror"
+    AS_CXX_COMPILER_FLAG(-Werror, ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror")
 
-    if test "xERROR_CXXFLAGS" != "x"; then
+    if test "x$ERROR_CXXFLAGS" != "x"
+    then
         dnl add exceptions
         AS_CXX_COMPILER_FLAG([-Wno-non-virtual-dtor], ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Wno-non-virtual-dtor")
 
@@ -147,7 +151,7 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
 	  ])
     else
       dnl if -Werror isn't suported, try -errwarn=%all
-      AS_CXX_COMPILER_FLAG([-errwarn=%all], "ERROR_CXXFLAGS="$ERROR_CXXFLAGS -errwarn=%all")
+      AS_CXX_COMPILER_FLAG([-errwarn=%all], ERROR_CXXFLAGS="$ERROR_CXXFLAGS -errwarn=%all")
       if test "x$ERROR_CXXFLAGS" != "x"; then
         dnl try -errwarn=%all,no%E_EMPTY_DECLARATION,
         dnl no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH,
@@ -164,23 +168,24 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
                  'no%E_MACRO_REDEFINED' \
                  'no%E_LOOP_NOT_ENTERED_AT_TOP'
         do
-          AS_CXX_COMPILER_FLAG([-errwarn=%all,$f], [
-            ERROR_CXXFLAGS="$ERROR_CXXFLAGS,$f"
-          ])
+          AS_CXX_COMPILER_FLAG([-errwarn=%all,$f], ERROR_CXXFLAGS="$ERROR_CXXFLAGS,$f")
         done
       fi
     fi
   fi
 
-  UNSUPPORTED=""
-  for each in $2
-  do
-    AS_CXX_COMPILER_FLAG($each,
-        WARNING_CXXFLAGS="$WARNING_CXXFLAGS $each",
-        UNSUPPORTED="$UNSUPPORTED $each")
-  done
-  if test "X$UNSUPPORTED" != X ; then
-    AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
+  if test "x$2" != "x"
+  then
+    UNSUPPORTED=""
+    for each in "$2"
+    do
+      AS_CXX_COMPILER_FLAG($each,
+          WARNING_CXXFLAGS="$WARNING_CXXFLAGS $each",
+          UNSUPPORTED="$UNSUPPORTED $each")
+    done
+    if test "X$UNSUPPORTED" != X ; then
+      AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
+    fi
   fi
 
   AC_SUBST(WARNING_CXXFLAGS)
