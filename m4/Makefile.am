@@ -37,5 +37,4 @@ EXTRA_DIST = \
 	gtk-doc.m4 \
 	introspection.m4 \
 	pkg.m4 \
-	check.m4 \
-        shave.m4
+	check.m4
