@@ -10,14 +10,18 @@ dnl AG_GST_SET_ERROR_CXXFLAGS([ADD-WERROR], [MORE_FLAGS])
 dnl AG_GST_SET_LEVEL_DEFAULT([IS-GIT-VERSION])
 
 
-dnl Sets ERROR_CFLAGS to something the compiler will accept.
-dnl AC_SUBST them so they are available in Makefile
-
-dnl -Wall is added if it is supported
-dnl -Werror is added if ADD-WERROR is not "no"
+dnl Sets WARNING_CFLAGS and ERROR_CFLAGS to something the compiler 
+dnl will accept and AC_SUBST them so they are available in Makefile
+dnl
+dnl WARNING_CFLAGS will contain flags to make the compiler emit more
+dnl   warnings.
+dnl ERROR_CFLAGS will contain flags to make those warnings fatal,
+dnl   unless ADD-WERROR is set to "no"
+dnl 
 dnl If MORE_FLAGS is set, tries to add each of the given flags
-dnl as a compiler flag.
-
+dnl to WARNING_CFLAGS if the compiler supports them. Each flag is 
+dnl tested separately.
+dnl
 dnl These flags can be overridden at make time:
 dnl make ERROR_CFLAGS=
 AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
@@ -25,23 +29,24 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
   AC_REQUIRE([AC_PROG_CC])
   AC_REQUIRE([AS_COMPILER_FLAG])
 
+  WARNING_CFLAGS=""
+  ERROR_CFLAGS=""
 
   dnl if we support -Wall, set it unconditionally
   AS_COMPILER_FLAG(-Wall,
-                   ERROR_CFLAGS="-Wall",
-                   ERROR_CFLAGS="")
+                   WARNING_CFLAGS="$WARNING_CFLAGS -Wall")
 
   dnl Warn if declarations after statements are used (C99 extension)
   AS_COMPILER_FLAG(-Wdeclaration-after-statement,
-        ERROR_CFLAGS="$ERROR_CFLAGS -Wdeclaration-after-statement")
+        WARNING_CFLAGS="$WARNING_CFLAGS -Wdeclaration-after-statement")
 
   dnl Warn if variable length arrays are used (C99 extension)
   AS_COMPILER_FLAG(-Wvla,
-        ERROR_CFLAGS="$ERROR_CFLAGS -Wvla")
+        WARNING_CFLAGS="$WARNING_CFLAGS -Wvla")
 
   dnl Warn for invalid pointer arithmetic
   AS_COMPILER_FLAG(-Wpointer-arith,
-        ERROR_CFLAGS="$ERROR_CFLAGS -Wpointer-arith")
+        WARNING_CFLAGS="$WARNING_CFLAGS -Wpointer-arith")
 
   dnl if asked for, add -Werror if supported
   if test "x$1" != "xno"
@@ -86,25 +91,31 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
   for each in $2
   do
     AS_COMPILER_FLAG($each,
-        ERROR_CFLAGS="$ERROR_CFLAGS $each",
+        WARNING_CFLAGS="$WARNING_CFLAGS $each",
         UNSUPPORTED="$UNSUPPORTED $each")
   done
   if test "X$UNSUPPORTED" != X ; then
     AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
   fi
 
+  AC_SUBST(WARNING_CFLAGS)
   AC_SUBST(ERROR_CFLAGS)
+  AC_MSG_NOTICE([set WARNING_CFLAGS to $WARNING_CFLAGS])
   AC_MSG_NOTICE([set ERROR_CFLAGS to $ERROR_CFLAGS])
 ])
 
-dnl Sets ERROR_CXXFLAGS to something the compiler will accept.
-dnl AC_SUBST them so they are available in Makefile
-
-dnl -Wall is added if it is supported
-dnl -Werror is added if ADD-WERROR is not "no"
+dnl Sets WARNING_CXXFLAGS and ERROR_CXXFLAGS to something the compiler 
+dnl will accept and AC_SUBST them so they are available in Makefile
+dnl
+dnl WARNING_CXXFLAGS will contain flags to make the compiler emit more
+dnl   warnings.
+dnl ERROR_CXXFLAGS will contain flags to make those warnings fatal,
+dnl   unless ADD-WERROR is set to "no"
+dnl 
 dnl If MORE_FLAGS is set, tries to add each of the given flags
-dnl as a compiler flag.
-
+dnl to WARNING_CFLAGS if the compiler supports them. Each flag is 
+dnl tested separately.
+dnl
 dnl These flags can be overridden at make time:
 dnl make ERROR_CXXFLAGS=
 AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
@@ -112,22 +123,18 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
   AC_REQUIRE([AC_PROG_CXX])
   AC_REQUIRE([AS_CXX_COMPILER_FLAG])
 
+  ERROR_CXXFLAGS=""
+  WARNING_CXXFLAGS=""
 
   dnl if we support -Wall, set it unconditionally
-  AS_CXX_COMPILER_FLAG(-Wall, [
-      ERROR_CXXFLAGS="-Wall"
-  ], [
-      ERROR_CXXFLAGS=""
-  ])
+  AS_CXX_COMPILER_FLAG(-Wall, WARNING_CXXFLAGS="$WARNING_CXXFLAGS -Wall")
 
   dnl if asked for, add -Werror if supported
   if test "x$1" != "xno"
   then
-    AS_CXX_COMPILER_FLAG(-Werror, werror_supported=yes, werror_supported=no)
+    AS_CXX_COMPILER_FLAG(-Werror, "ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror"
 
-    if test "x$werror_supported" = "xyes"; then
-        ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Werror"
-
+    if test "xERROR_CXXFLAGS" != "x"; then
         dnl add exceptions
         AS_CXX_COMPILER_FLAG([-Wno-non-virtual-dtor], ERROR_CXXFLAGS="$ERROR_CXXFLAGS -Wno-non-virtual-dtor")
 
@@ -140,9 +147,8 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
 	  ])
     else
       dnl if -Werror isn't suported, try -errwarn=%all
-      AS_CXX_COMPILER_FLAG([-errwarn=%all], errwarnall=yes, errwarnall=no)
-      if test "x$errwarnall" = "xyes"; then
-        ERROR_CXXFLAGS="-errwarn=%all"
+      AS_CXX_COMPILER_FLAG([-errwarn=%all], "ERROR_CXXFLAGS="$ERROR_CXXFLAGS -errwarn=%all")
+      if test "x$ERROR_CXXFLAGS" != "x"; then
         dnl try -errwarn=%all,no%E_EMPTY_DECLARATION,
         dnl no%E_STATEMENT_NOT_REACHED,no%E_ARGUEMENT_MISMATCH,
         dnl no%E_MACRO_REDEFINED (Sun Forte case)
@@ -170,14 +176,16 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
   for each in $2
   do
     AS_CXX_COMPILER_FLAG($each,
-        ERROR_CXXFLAGS="$ERROR_CXXFLAGS $each",
+        WARNING_CXXFLAGS="$WARNING_CXXFLAGS $each",
         UNSUPPORTED="$UNSUPPORTED $each")
   done
   if test "X$UNSUPPORTED" != X ; then
     AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
   fi
 
+  AC_SUBST(WARNING_CXXFLAGS)
   AC_SUBST(ERROR_CXXFLAGS)
+  AC_MSG_NOTICE([set WARNING_CXXFLAGS to $WARNING_CXXFLAGS])
   AC_MSG_NOTICE([set ERROR_CXXFLAGS to $ERROR_CXXFLAGS])
 ])
 
