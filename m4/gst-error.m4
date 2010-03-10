@@ -5,8 +5,8 @@ dnl Tim-Philipp Müller <tim centricular net>
 
 dnl Last modification: 2008-02-18
 
-dnl AG_GST_SET_ERROR_CFLAGS([ADD-WERROR])
-dnl AG_GST_SET_ERROR_CXXFLAGS([ADD-WERROR])
+dnl AG_GST_SET_ERROR_CFLAGS([ADD-WERROR], [MORE_FLAGS])
+dnl AG_GST_SET_ERROR_CXXFLAGS([ADD-WERROR], [MORE_FLAGS])
 dnl AG_GST_SET_LEVEL_DEFAULT([IS-GIT-VERSION])
 
 
@@ -15,6 +15,8 @@ dnl AC_SUBST them so they are available in Makefile
 
 dnl -Wall is added if it is supported
 dnl -Werror is added if ADD-WERROR is not "no"
+dnl If MORE_FLAGS is set, tries to add each of the given flags
+dnl as a compiler flag.
 
 dnl These flags can be overridden at make time:
 dnl make ERROR_CFLAGS=
@@ -80,6 +82,17 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
     fi
   fi
 
+  UNSUPPORTED=""
+  for each in $2
+  do
+    AS_COMPILER_FLAG($each,
+        ERROR_CFLAGS="$ERROR_CFLAGS $each",
+        UNSUPPORTED="$UNSUPPORTED $each")
+  done
+  if test "X$UNSUPPORTED" != X ; then
+    AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
+  fi
+
   AC_SUBST(ERROR_CFLAGS)
   AC_MSG_NOTICE([set ERROR_CFLAGS to $ERROR_CFLAGS])
 ])
@@ -89,6 +102,8 @@ dnl AC_SUBST them so they are available in Makefile
 
 dnl -Wall is added if it is supported
 dnl -Werror is added if ADD-WERROR is not "no"
+dnl If MORE_FLAGS is set, tries to add each of the given flags
+dnl as a compiler flag.
 
 dnl These flags can be overridden at make time:
 dnl make ERROR_CXXFLAGS=
@@ -149,6 +164,17 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
         done
       fi
     fi
+  fi
+
+  UNSUPPORTED=""
+  for each in $2
+  do
+    AS_CXX_COMPILER_FLAG($each,
+        ERROR_CXXFLAGS="$ERROR_CXXFLAGS $each",
+        UNSUPPORTED="$UNSUPPORTED $each")
+  done
+  if test "X$UNSUPPORTED" != X ; then
+    AC_MSG_NOTICE([unsupported compiler flags: $UNSUPPORTED])
   fi
 
   AC_SUBST(ERROR_CXXFLAGS)
