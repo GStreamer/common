@@ -90,7 +90,8 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
   if test "x$2" != "x"
   then
     UNSUPPORTED=""
-    for each in "$2"
+    list="$2"
+    for each in $list
     do
       AS_COMPILER_FLAG($each,
           WARNING_CFLAGS="$WARNING_CFLAGS $each",
@@ -177,7 +178,8 @@ AC_DEFUN([AG_GST_SET_ERROR_CXXFLAGS],
   if test "x$2" != "x"
   then
     UNSUPPORTED=""
-    for each in "$2"
+    list="$2"
+    for each in $list
     do
       AS_CXX_COMPILER_FLAG($each,
           WARNING_CXXFLAGS="$WARNING_CXXFLAGS $each",
