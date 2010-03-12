@@ -4060,9 +4060,7 @@
    <insert_a_suppression_name_here>
    Memcheck:Leak
    fun:*alloc
-   fun:*
-   fun:*
-   fun:freelist_alloc
+   ...
    fun:_g_atomic_array_copy
 }
 
