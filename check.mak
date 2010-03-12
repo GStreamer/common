@@ -107,13 +107,13 @@ forever: $(TESTS)
 valgrind: $(TESTS)
 	@echo "Valgrinding tests ..."
 	@failed=0;							\
-	@for t in $(filter-out $(VALGRIND_TESTS_DISABLE),$(TESTS)); do	\
+	for t in $(filter-out $(VALGRIND_TESTS_DISABLE),$(TESTS)); do	\
 		$(MAKE) $$t.valgrind;					\
 		if test "$$?" -ne 0; then                               \
-                        echo "Valgrind error for test $$t";		\
+			echo "Valgrind error for test $$t";		\
 			failed=`expr $$failed + 1`;			\
 			whicht="$$whicht $$t";				\
-                fi;							\
+		fi;							\
 	done;								\
 	if test "$$failed" -ne 0; then					\
 		echo "$$failed tests had leaks or errors under valgrind:";	\
