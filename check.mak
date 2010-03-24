@@ -159,7 +159,7 @@ help:
 	@echo "make (dir)/(test).gdb              -- start up gdb for the given test"
 	@echo
 	@echo "make valgrind                      -- valgrind all tests"
-	@echo "make valgrind.gen-suppressionsx    -- generate suppressions for all tests"
+	@echo "make valgrind.gen-suppressions     -- generate suppressions for all tests"
 	@echo "                                      and save to suppressions.log"
 	@echo "make (dir)/(test).valgrind         -- valgrind the given test"
 	@echo "make (dir)/(test).valgrind-forever -- valgrind the given test forever"
