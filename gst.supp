@@ -3967,50 +3967,7 @@
    <insert_a_suppression_name_here>
    Memcheck:Leak
    fun:*alloc
-   fun:*
-   fun:_priv_gst_registry_chunks_load_plugin
-}
-
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:_priv_gst_registry_chunks_load_plugin
-}
-
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:*
-   fun:_priv_gst_registry_chunks_load_plugin
-}
-
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:_priv_gst_registry_chunks_load_plugin
-}
-
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   fun:*alloc
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:*
+   ...
    fun:_priv_gst_registry_chunks_load_plugin
 }
 
@@ -4042,9 +3999,7 @@
    <insert_a_suppression_name_here>
    Memcheck:Leak
    fun:*alloc
-   fun:*
-   fun:*
-   fun:*
+   ...
    fun:_gst_query_initialize
    fun:init_post
 }
