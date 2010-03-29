@@ -5,6 +5,7 @@ EXTRA_DIST = \
 	gettext.patch \
 	glib-gen.mak gtk-doc.mak upload-doc.mak \
 	cruft.mak release.mak win32.mak po.mak \
+	parallel-subdirs.mak \
 	gst-autogen.sh \
 	check-exports \
 	c-to-xml.py gst-xmlinspect.py mangle-tmpl.py scangobj-merge.py \
