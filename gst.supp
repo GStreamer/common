@@ -3948,16 +3948,6 @@
    fun:*alloc
    ...
    fun:g_type_register_static
-   fun:g_param_type_register_static
-}
-
-{
-   <insert_a_suppression_name_here>
-   Memcheck:Leak
-   fun:*alloc
-   ...
-   fun:g_param_type_register_static
-   fun:g_param_spec_types_init
 }
 
 # new registry system
@@ -4045,9 +4035,8 @@
 {
    <insert_a_suppression_name_here>
    Memcheck:Leak
-   fun:malloc
-   fun:g_malloc
-   fun:g_memdup
-   fun:type_iface_vtable_base_init_Wm
+   fun:*alloc
+   ...
+   fun:g_type_add_interface_static
 }
 
