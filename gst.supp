@@ -1250,19 +1250,10 @@
 {
    <alsa error>
    Memcheck:Cond
-   fun:_snd_pcm_hw_param_set_min
-   fun:snd*_pcm_hw_param_set_min
+   ...
    fun:snd*_pcm_hw_param_set_near
 }
 
-{
-   <alsa error>
-   Memcheck:Cond
-   obj:/*lib/libasound.so.2.0.0
-   obj:/*lib/libasound.so.2.0.0
-   fun:snd_pcm_hw_param_set_near
-   fun:set_hwparams
-}
 {
    <alsa error>
    Memcheck:Cond
@@ -1316,9 +1307,19 @@
    <alsa error>
    Memcheck:Leak
    fun:malloc
-   fun:snd_dlobj_cache_add
-   obj:/*lib/libasound.so.2.0.0
+   ...
+   fun:snd*_dlobj_cache_add
+   obj:/*lib*/libasound.so.2.0.0
 }
+
+{
+   <alsa leak in loading configuration>
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:snd_pcm_open_conf
+}
+
 {
    <alsa leak snd_config_hook_load>
    Memcheck:Leak
@@ -1327,6 +1328,7 @@
    ...
    fun:snd_config_hook_load
 }
+
 {
    <alsa leak snd_config_update_r>
    Memcheck:Leak
