@@ -30,8 +30,25 @@ check-cruft:
 	  echo; \
 	  for d in $$cruft_dirs; do echo "directory $$d"; done; \
 	  echo; \
+	  echo "'make clean-cruft' will remove these for you."; \
+	  echo; \
 	fi
 
+clean-cruft-dirs:
+	@for d in $(CRUFT_DIRS); do \
+	  if test -e $$d; then \
+	    rm -r "$$d" && echo "Removed directory $$d"; \
+	  fi \
+	done
+
+clean-cruft-files:
+	@for f in $(CRUFT_FILES); do \
+	  if test -e $$f; then \
+	    rm "$$f" && echo "Removed file $$f"; \
+	  fi \
+	done
+
+clean-cruft: clean-cruft-dirs clean-cruft-files
 
 # also might want to add this to your Makefile.am:
 #
