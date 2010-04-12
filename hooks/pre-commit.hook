@@ -42,7 +42,8 @@ INDENT_PARAMETERS="--braces-on-if-line \
 	--continuation-indentation4 \
 	--honour-newlines \
 	--tab-size8 \
-	--indent-level2"
+	--indent-level2 \
+	--leave-preprocessor-space"
 
 echo "--Checking style--"
 for file in `git-diff-index --cached --name-only HEAD --diff-filter=ACMR| grep "\.c$"` ; do
