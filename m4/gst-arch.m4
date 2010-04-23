@@ -10,16 +10,34 @@ AC_DEFUN([AG_GST_ARCH],
   dnl Determine CPU
   case "x${host_cpu}" in
     xi?86 | xk? | xi?86_64)
-      HAVE_CPU_I386=yes
-      AC_DEFINE(HAVE_CPU_I386, 1, [Define if the host CPU is an x86])
+      case $host_os in
+         solaris*)
+            AC_CHECK_DECL([__i386],	[I386_ABI="yes"], [I386_ABI="no"])
+            AC_CHECK_DECL([__amd64], [AMD64_ABI="yes"], [AMD64_ABI="no"])
 
-      dnl FIXME could use some better detection
-      dnl (ie CPUID)
-      case "x${host_cpu}" in
-        xi386 | xi486) ;;
-        *)
-          AC_DEFINE(HAVE_RDTSC, 1, [Define if RDTSC is available]) ;;
-      esac ;;
+            if test "x$I386_ABI" = "xyes" ; then
+               HAVE_CPU_I386=yes
+               AC_DEFINE(HAVE_CPU_I386, 1, [Define if the host CPU is an x86])
+            fi
+            if test "x$AMD64_ABI" = "xyes" ; then
+                HAVE_CPU_X86_64=yes
+                AC_DEFINE(HAVE_CPU_X86_64, 1, [Define if the host CPU is a x86_64])
+            fi
+            ;;
+         *)
+            HAVE_CPU_I386=yes
+            AC_DEFINE(HAVE_CPU_I386, 1, [Define if the host CPU is an x86])
+
+            dnl FIXME could use some better detection
+            dnl (ie CPUID)
+            case "x${host_cpu}" in
+              xi386 | xi486) ;;
+            *)
+              AC_DEFINE(HAVE_RDTSC, 1, [Define if RDTSC is available]) ;;
+            esac
+            ;;
+      esac
+      ;;
     xpowerpc)
       HAVE_CPU_PPC=yes
       AC_DEFINE(HAVE_CPU_PPC, 1, [Define if the host CPU is a PowerPC]) ;;
