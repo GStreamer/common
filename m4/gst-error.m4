@@ -54,7 +54,7 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
     AS_COMPILER_FLAG(-Werror, ERROR_CFLAGS="$ERROR_CFLAGS -Werror")
 
     dnl if -Werror isn't suported, try -errwarn=%all (Sun Forte case)
-    if test "x$ERROR_CFLAGS" == "x"
+    if test "x$ERROR_CFLAGS" = "x"
     then
       AS_COMPILER_FLAG([-errwarn=%all], [
           ERROR_CFLAGS="-errwarn=%all"
