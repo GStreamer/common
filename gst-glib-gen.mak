@@ -27,7 +27,7 @@ $(glib_gen_basename)-enumtypes.h: $(glib_enum_headers)
 	$^ > $@
 
 $(glib_gen_basename)-enumtypes.c: $(glib_enum_headers)
-	@if test "x$(glib_enum_headers)" == "x"; then echo "ERROR: glib_enum_headers is empty, please fix Makefile"; exit 1; fi
+	@if test "x$(glib_enum_headers)" = "x"; then echo "ERROR: glib_enum_headers is empty, please fix Makefile"; exit 1; fi
 	$(AM_V_GEN)glib-mkenums \
 	--fhead "#include \"$(glib_gen_basename)-enumtypes.h\"\n$(enum_headers)" \
 	--fprod "\n/* enumerations from \"@filename@\" */" \
