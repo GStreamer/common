@@ -16,28 +16,31 @@
 # 
 #
 
-ORC_SOURCES = $(ORC_BASE)orc.c $(ORC_BASE)orc.h
+ORC_SOURCES = tmp-orc.c $(ORC_BASE)orc.h
 
-#EXTRA_DIST = $(ORC_BASE).orc $(ORC_BASE)orc.c $(ORC_BASE)orc.h
+EXTRA_DIST = $(ORC_BASE).orc
+
+# This is needed if dist-hook-orc is not used
+#EXTRA_DIST = $(ORC_BASE).orc $(ORC_BASE)orc-dist.c $(ORC_BASE)orc-dist.h
 
 BUILT_SOURCES = $(ORC_SOURCES)
 
 
-orc-update: $(ORC_BASE)orc.c $(ORC_BASE)orc.h
-	cp $(ORC_BASE)orc.c $(srcdir)/$(ORC_BASE)orc-dist.c
-	$(top_srcdir)/common/gst-indent $(srcdir)/$(ORC_BASE)orc-dist.c
+orc-update: tmp-orc.c $(ORC_BASE)orc.h
+	$(top_srcdir)/common/gst-indent tmp-orc.c
+	cp tmp-orc.c $(srcdir)/$(ORC_BASE)orc-dist.c
 	cp $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h
 	
 
 if HAVE_ORC
-$(ORC_BASE)orc.c: $(srcdir)/$(ORC_BASE).orc
-	$(ORCC) --implementation --include glib.h -o $(ORC_BASE)orc.c $(srcdir)/$(ORC_BASE).orc
+tmp-orc.c: $(srcdir)/$(ORC_BASE).orc
+	$(ORCC) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_BASE).orc
 
 $(ORC_BASE)orc.h: $(srcdir)/$(ORC_BASE).orc
 	$(ORCC) --header --include glib.h -o $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE).orc
 else
-$(ORC_BASE)orc.c: $(srcdir)/$(ORC_BASE).orc
-	cp $(srcdir)/$(ORC_BASE)orc-dist.c $(ORC_BASE)orc.c
+tmp-orc.c: $(srcdir)/$(ORC_BASE).orc
+	cp $(srcdir)/$(ORC_BASE)orc-dist.c tmp-orc.c
 
 $(ORC_BASE)orc.h: $(srcdir)/$(ORC_BASE).orc
 	cp $(srcdir)/$(ORC_BASE)orc-dist.h $(ORC_BASE)orc.h
@@ -47,12 +50,17 @@ endif
 clean-local: clean-orc
 .PHONY: clean-orc
 clean-orc:
-	rm -f $(ORC_BASE)orc.c $(ORC_BASE)orc.h
+	rm -f tmp-orc.c $(ORC_BASE)orc.h
 
 dist-hook: dist-hook-orc
 .PHONY: dist-hook-orc
-dist-hook-orc: $(ORC_BASE)orc.c $(ORC_BASE)orc.h
-	cp $(ORC_BASE)orc.c $(srcdir)/$(ORC_BASE)orc-dist.c
-	$(top_srcdir)/common/gst-indent $(srcdir)/$(ORC_BASE)orc-dist.c
-	cp $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h
+dist-hook-orc: tmp-orc.c $(ORC_BASE)orc.h
+	$(top_srcdir)/common/gst-indent tmp-orc.c
+	rm -f tmp-orc.c~
+	cmp -s tmp-orc.c $(srcdir)/$(ORC_BASE)orc-dist.c || \
+	  cp tmp-orc.c $(srcdir)/$(ORC_BASE)orc-dist.c
+	cmp -s $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h || \
+	  cp $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h
+	cp -p $(srcdir)/$(ORC_BASE)orc-dist.c $(distdir)/
+	cp -p $(srcdir)/$(ORC_BASE)orc-dist.h $(distdir)/
 
