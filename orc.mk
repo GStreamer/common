@@ -1,66 +1,67 @@
 #
 # This is a makefile.am fragment to build Orc code.
 #
-# Define ORC_BASE and then include this file, such as:
+# Define ORC_SOURCE and then include this file, such as:
 #
-#  ORC_BASE=adder
+#  ORC_SOURCE=gstadderorc
 #  include $(top_srcdir)/common/orc.mk
 #
-# This fragment will create adderorc.c adderorc.h from adder.orc.
+# This fragment will create tmp-orc.c and gstadderorc.h from
+# gstadderorc.orc.
 #
 # When 'make dist' is run at the top level, or 'make orc-update'
 # in a directory including this fragment, the generated source 
-# files will be copied to $(ORC_BASE)orc-dist.[ch].  These files
+# files will be copied to $(ORC_SOURCE)-dist.[ch].  These files
 # should be checked in to git, since they are used if Orc is
 # disabled.
 # 
+# Note that this file defines BUILT_SOURCES, so any later usage
+# of BUILT_SOURCES in the Makefile.am that includes this file
+# must use '+='.
 #
 
-ORC_SOURCES = tmp-orc.c $(ORC_BASE)orc.h
 
-EXTRA_DIST = $(ORC_BASE).orc
+EXTRA_DIST = $(ORC_SOURCE).orc
 
-# This is needed if dist-hook-orc is not used
-#EXTRA_DIST = $(ORC_BASE).orc $(ORC_BASE)orc-dist.c $(ORC_BASE)orc-dist.h
-
-BUILT_SOURCES = $(ORC_SOURCES)
+ORC_NODIST_SOURCES = tmp-orc.c $(ORC_SOURCE).h
+BUILT_SOURCES = tmp-orc.c $(ORC_SOURCE).h
 
 
-orc-update: tmp-orc.c $(ORC_BASE)orc.h
+orc-update: tmp-orc.c $(ORC_SOURCE).h
 	$(top_srcdir)/common/gst-indent tmp-orc.c
-	cp tmp-orc.c $(srcdir)/$(ORC_BASE)orc-dist.c
-	cp $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h
+	cp tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c
+	cp $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h
 	
 
 if HAVE_ORC
-tmp-orc.c: $(srcdir)/$(ORC_BASE).orc
-	$(ORCC) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_BASE).orc
+tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
+	$(ORCC) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_SOURCE).orc
 
-$(ORC_BASE)orc.h: $(srcdir)/$(ORC_BASE).orc
-	$(ORCC) --header --include glib.h -o $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE).orc
+$(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
+	$(ORCC) --header --include glib.h -o $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE).orc
 else
-tmp-orc.c: $(srcdir)/$(ORC_BASE).orc
-	cp $(srcdir)/$(ORC_BASE)orc-dist.c tmp-orc.c
+tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
+	cp $(srcdir)/$(ORC_SOURCE)-dist.c tmp-orc.c
 
-$(ORC_BASE)orc.h: $(srcdir)/$(ORC_BASE).orc
-	cp $(srcdir)/$(ORC_BASE)orc-dist.h $(ORC_BASE)orc.h
+$(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
+	cp $(srcdir)/$(ORC_SOURCE)-dist.h $(ORC_SOURCE).h
 endif
 
 
 clean-local: clean-orc
 .PHONY: clean-orc
 clean-orc:
-	rm -f tmp-orc.c $(ORC_BASE)orc.h
+	rm -f tmp-orc.c $(ORC_SOURCE).h
 
 dist-hook: dist-hook-orc
 .PHONY: dist-hook-orc
-dist-hook-orc: tmp-orc.c $(ORC_BASE)orc.h
+dist-hook-orc: tmp-orc.c $(ORC_SOURCE).h
 	$(top_srcdir)/common/gst-indent tmp-orc.c
 	rm -f tmp-orc.c~
-	cmp -s tmp-orc.c $(srcdir)/$(ORC_BASE)orc-dist.c || \
-	  cp tmp-orc.c $(srcdir)/$(ORC_BASE)orc-dist.c
-	cmp -s $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h || \
-	  cp $(ORC_BASE)orc.h $(srcdir)/$(ORC_BASE)orc-dist.h
-	cp -p $(srcdir)/$(ORC_BASE)orc-dist.c $(distdir)/
-	cp -p $(srcdir)/$(ORC_BASE)orc-dist.h $(distdir)/
+	cmp -s tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c || \
+	  cp tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c
+	cmp -s $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h || \
+	  cp $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h
+	cp -p $(srcdir)/$(ORC_SOURCE)-dist.c $(distdir)/
+	cp -p $(srcdir)/$(ORC_SOURCE)-dist.h $(distdir)/
 
