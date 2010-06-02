@@ -18,4 +18,4 @@ EXTRA_DIST = \
 	coverage/coverage-report-entry.pl \
 	download-translations \
 	gst-indent \
-	orc.mk
+	orc.mak

@@ -4,7 +4,7 @@
 # Define ORC_SOURCE and then include this file, such as:
 #
 #  ORC_SOURCE=gstadderorc
-#  include $(top_srcdir)/common/orc.mk
+#  include $(top_srcdir)/common/orc.mak
 #
 # This fragment will create tmp-orc.c and gstadderorc.h from
 # gstadderorc.orc.
