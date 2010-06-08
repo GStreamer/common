@@ -31,22 +31,28 @@ orc-update: tmp-orc.c $(ORC_SOURCE).h
 	$(top_srcdir)/common/gst-indent tmp-orc.c
 	cp tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c
 	cp $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h
-	
+
+orcc_v_gen = $(orcc_v_gen_$(V))
+orcc_v_gen_ = $(orcc_v_gen_$(AM_DEFAULT_VERBOSITY))
+orcc_v_gen_0 = @echo "  ORCC   $@";
+
+cp_v_gen = $(cp_v_gen_$(V))
+cp_v_gen_ = $(cp_v_gen_$(AM_DEFAULT_VERBOSITY))
+cp_v_gen_0 = @echo "  CP     $@";
 
 if HAVE_ORC
 tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
-	$(ORCC) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_SOURCE).orc
+	$(orcc_v_gen)$(ORCC) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_SOURCE).orc
 
 $(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
-	$(ORCC) --header --include glib.h -o $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE).orc
+	$(orcc_v_gen)$(ORCC) --header --include glib.h -o $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE).orc
 else
 tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
-	cp $(srcdir)/$(ORC_SOURCE)-dist.c tmp-orc.c
+	$(cp_v_gen)cp $(srcdir)/$(ORC_SOURCE)-dist.c tmp-orc.c
 
 $(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
-	cp $(srcdir)/$(ORC_SOURCE)-dist.h $(ORC_SOURCE).h
+	$(cp_v_gen)cp $(srcdir)/$(ORC_SOURCE)-dist.h $(ORC_SOURCE).h
 endif
-
 
 clean-local: clean-orc
 .PHONY: clean-orc
