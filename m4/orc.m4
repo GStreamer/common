@@ -39,7 +39,7 @@ AC_DEFUN([ORC_CHECK],
 
 ]))
 
-AC_DEFUN([ORC_NOTICE],
+AC_DEFUN([ORC_OUTPUT],
 [
   if test "$HAVE_ORC" = yes ; then
     printf "configure: *** Orc acceleration enabled.\n"
