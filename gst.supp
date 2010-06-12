@@ -66,9 +66,6 @@
    fun:dl_main
    fun:_dl_sysdep_start
    fun:_dl_start
-   obj:/lib64/ld-2.*.so
-   obj:*
-   obj:*
 }
 
 {
