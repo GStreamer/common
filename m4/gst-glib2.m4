@@ -25,11 +25,11 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
   dnl Add define to tell GLib that threading is always enabled within GStreamer
   dnl code (optimisation, bypasses checks if the threading system is enabled
   dnl when using threading primitives)
-  GLIB_CFLAGS="$GLIB_CFLAGS -DG_THREADS_MANDATORY"
+  GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_THREADS_MANDATORY"
 
   dnl Define G_DISABLE_DEPRECATED for GIT versions
   if test "x$PACKAGE_VERSION_NANO" = "x1"; then
-    GLIB_CFLAGS="$GLIB_CFLAGS -DG_DISABLE_DEPRECATED"
+    GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_DEPRECATED"
   fi
 
   AC_ARG_ENABLE(gobject-cast-checks,
@@ -47,7 +47,7 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
   fi
 
   if test "x$enable_gobject_cast_checks" = "xno"; then
-    GLIB_CFLAGS="$GLIB_CFLAGS -DG_DISABLE_CAST_CHECKS"
+    GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_CAST_CHECKS"
   fi
 
   dnl for the poor souls who for example have glib in /usr/local
