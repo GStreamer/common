@@ -38,6 +38,7 @@ require "gtkdoc-common.pl";
 # name of documentation module
 my $MODULE;
 my $OUTPUT_DIR;
+my $INSPECT_DIR;
 my $PRINT_VERSION;
 my $PRINT_HELP;
 my $TYPE_INIT_FUNC="g_type_init ()";
@@ -49,10 +50,11 @@ my $TYPE_INIT_FUNC="g_type_init ()";
 	   nogtkinit => \$NO_GTK_INIT,
 	   'type-init-func' => \$TYPE_INIT_FUNC,
 	   'output-dir' => \$OUTPUT_DIR,
+	   'inspect-dir' => \$INSPECT_DIR,
 	   'version' => \$PRINT_VERSION,
 	   'help' => \$PRINT_HELP);
 
-GetOptions(\%optctl, "module=s", "source=s", "types:s", "output-dir:s", "nogtkinit", "type-init-func:s", "version", "help");
+GetOptions(\%optctl, "module=s", "source=s", "types:s", "output-dir:s", "inspect-dir:s", "nogtkinit", "type-init-func:s", "version", "help");
 
 if ($NO_GTK_INIT) {
   # Do nothing. This just avoids a warning.
@@ -74,6 +76,7 @@ if ($PRINT_HELP) {
     print "\n--types=FILE          The name of the file to store the types in";
     print "\n--type-init-func=FUNC The init function to call instead of g_type_init ()";
     print "\n--output-dir=DIRNAME  The directory where the results are stored";
+    print "\n--inspect-dir=DIRNAME  The directory where the plugin inspect data is stored";
     print "\n--version             Print the version of this program";
     print "\n--help                Print this help\n";
     exit 0;
@@ -135,6 +138,56 @@ $includes
 #endif
 GType *object_types = NULL;
 
+static const gchar*
+xmlprint (gint indent, const gchar *tag, const gchar *data)
+{
+  /* 20 spaces */
+  gchar indent_str[] = "                    ";
+  static gchar str[1000];
+  gchar conv[1000];
+  gchar *s2 = conv;
+
+  if (data) {
+    const gchar *s1 = data;
+    while (*s1) {
+      switch (*s1) {
+        case '<':
+          *s2++='&';
+          *s2++='l';
+          *s2++='t';
+          *s2++=';';
+          break;
+        case '>':
+          *s2++='&';
+          *s2++='g';
+          *s2++='t';
+          *s2++=';';
+          break;
+        case '&':
+          *s2++='&';
+          *s2++='a';
+          *s2++='m';
+          *s2++='p';
+          *s2++=';';
+          break;
+        default:
+          *s2++ = *s1;
+      }
+      s1++;
+    }
+  }
+  *s2 = '\\0';
+  
+  sprintf(str, "%s<%s>%s</%s>\\n", &indent_str[20-indent], tag, conv, tag);  
+  return str;
+}
+
+static gint
+gst_feature_sort_compare (gconstpointer a, gconstpointer b)
+{
+  return strcmp (((GstPluginFeature *)a)->name, ((GstPluginFeature *)b)->name); 
+}
+
 static GType *
 get_object_types (void)
 {
@@ -145,14 +198,16 @@ get_object_types (void)
     GType type;
 
     gint i = 0;
-
+    
     /* get a list of features from plugins in our source module */
     plugins = gst_registry_get_plugin_list (gst_registry_get_default());
 
     while (plugins) {
-      GList *features;
+      GList *features, *pads;
       GstPlugin *plugin;
       const gchar *source;
+      FILE *inspect = NULL;
+      gchar *inspect_name;
 
       plugin = (GstPlugin *) (plugins->data);
       plugins = g_list_next (plugins);
@@ -163,9 +218,31 @@ get_object_types (void)
       }
       g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);
 
+      inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
+          plugin->desc.name);
+      inspect = fopen (inspect_name, "w");
+      g_free (inspect_name);
+      
+      /* output plugin data */
+      fputs ("<plugin>\\n",inspect);
+      fputs (xmlprint(2, "name", plugin->desc.name),inspect);
+      fputs (xmlprint(2, "description", plugin->desc.description),inspect);
+      fputs (xmlprint(2, "filename", plugin->filename),inspect);
+      fputs (xmlprint(2, "basename", plugin->basename),inspect);
+      fputs (xmlprint(2, "version", plugin->desc.version),inspect);
+      fputs (xmlprint(2, "license", plugin->desc.license),inspect);
+      fputs (xmlprint(2, "source", plugin->desc.source),inspect);
+      fputs (xmlprint(2, "package", plugin->desc.package),inspect);
+      fputs (xmlprint(2, "origin", plugin->desc.origin),inspect);
+      fputs ("  <elements>\\n", inspect);
+
       features =
           gst_registry_get_feature_list_by_plugin (gst_registry_get_default (),
           plugin->desc.name);
+
+      /* sort factories by feature->name */
+      features = g_list_sort (features, gst_feature_sort_compare);
+          
       while (features) {
         GstPluginFeature *feature;
         feature = GST_PLUGIN_FEATURE (features->data);
@@ -176,11 +253,43 @@ get_object_types (void)
         }
 
         if (GST_IS_ELEMENT_FACTORY (feature)) {
+          GstStaticPadTemplate *pt;
+          const gchar *pad_dir[] = { "unknown","source","sink" };
+          const gchar *pad_pres[] = { "always","sometimes","request" };
+
           factory = GST_ELEMENT_FACTORY (feature);
           factories = g_list_prepend (factories, factory);
+          
+          /* output element data */
+          fputs ("    <element>\\n", inspect);
+          fputs (xmlprint(6, "name", feature->name),inspect);
+          fputs (xmlprint(6, "longname", factory->details.longname),inspect);
+          fputs (xmlprint(6, "class", factory->details.klass),inspect);
+          fputs (xmlprint(6, "description", factory->details.description),inspect);
+          fputs (xmlprint(6, "author", factory->details.author),inspect);
+          fputs ("      <pads>\\n", inspect);
+            
+          /* output pad-template data */
+          pads =(GList *) gst_element_factory_get_static_pad_templates (factory);
+          while (pads) {
+            pt = (GstStaticPadTemplate *)pads->data;
+
+            fputs ("        <caps>\\n", inspect);
+            fputs (xmlprint(10, "name", pt->name_template),inspect);
+            fputs (xmlprint(10, "direction", pad_dir[pt->direction]),inspect);
+            fputs (xmlprint(10, "presence", pad_pres[pt->presence]),inspect);
+            fputs (xmlprint(10, "details", pt->static_caps.string),inspect);
+            fputs ("        </caps>\\n", inspect);
+
+            pads = g_list_next (pads);
+          }
+          fputs ("      </pads>\\n    </element>\\n", inspect);
         }
         features = g_list_next (features);
       }
+      
+      fputs ("  </elements>\\n</plugin>\\n", inspect);
+      fclose (inspect);
     }
 
     g_message ("number of element factories: %d", g_list_length (factories));
@@ -1633,7 +1742,9 @@ system($command) == 0 or die "Linking of scanner failed: $!\n";
 print "gtk-doc: Running scanner $MODULE-scan\n";
 system("sh -c ./$MODULE-scan") == 0 or die "Scan failed: $!\n";
 
-unlink "./$MODULE-scan.c", "./$MODULE-scan.o", "./$MODULE-scan.lo", "./$MODULE-scan";
+if (!defined($ENV{"GTK_DOC_KEEP_INTERMEDIATE"})) {
+  unlink "./$MODULE-scan.c", "./$MODULE-scan.o", "./$MODULE-scan.lo", "./$MODULE-scan";
+}
 
 #&UpdateFileIfChanged ($old_signals_filename, $new_signals_filename, 0);
 &UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);

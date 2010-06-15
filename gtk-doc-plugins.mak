@@ -14,7 +14,6 @@ help:
 
 # update the stuff maintained by doc maintainers
 update:
-	$(MAKE) inspect-update
 	$(MAKE) scanobj-update
 
 # We set GPATH here; this gives us semantics for GNU make
@@ -96,40 +95,6 @@ CLEANFILES = \
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
-#### scan gobjects; done by documentation maintainer ####
-scanobj-update:
-	-rm scanobj-build.stamp
-	$(MAKE) scanobj-build.stamp
-
-# in the case of non-srcdir builds, the built gst directory gets added
-# to gtk-doc scanning; but only then, to avoid duplicates
-# FIXME: since we don't have the scan step as part of the build anymore,
-# we could remove that
-# TODO: finish elite script that updates the output files of this step
-# instead of rewriting them, so that multiple maintainers can generate
-# a collective set of args and signals
-scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
-	@echo '*** Scanning GObjects ***'
-	if test x"$(srcdir)" != x. ; then				\
-	    for f in $(SCANOBJ_FILES);					\
-	    do								\
-	        cp $(srcdir)/$$f . ;					\
-	    done;							\
-	else								\
-	    $(INSPECT_ENVIRONMENT) 					\
-	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
-	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
-	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
-	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
-	        --module=$(DOC_MODULE) --source=$(PACKAGE) &&		\
-		$(PYTHON)						\
-		$(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
-	fi
-	touch scanobj-build.stamp
-
-$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
-	@true
-
 ### inspect GStreamer plug-ins; done by documentation maintainer ###
 
 # only look at the plugins in this module when building inspect .xml stuff
@@ -144,26 +109,42 @@ INSPECT_ENVIRONMENT=\
 inspect:
 	mkdir inspect
 
-inspect-update: inspect
-	-rm -f $(INSPECT_REGISTRY) inspect-build.stamp
-	$(MAKE) inspect-build.stamp
+#### scan gobjects; done by documentation maintainer ####
+scanobj-update:
+	-rm scanobj-build.stamp
+	$(MAKE) scanobj-build.stamp
 
-# FIXME: inspect.stamp should be written to by gst-xmlinspect.py
-# IF the output changed; see gtkdoc-mktmpl
-inspect-build.stamp:
-	@echo '*** Rebuilding plugin inspection files ***'
-	if test x"$(srcdir)" != x. ; then \
-	    cp $(srcdir)/inspect.stamp . ; \
-	    cp $(srcdir)/inspect-build.stamp . ; \
-	else \
-	    $(INSPECT_ENVIRONMENT) $(PYTHON) \
-	        $(top_srcdir)/common/gst-xmlinspect.py $(PACKAGE) inspect && \
-	    echo -n "timestamp" > inspect.stamp && \
-	    touch inspect-build.stamp; \
-        fi
+# in the case of non-srcdir builds, the built gst directory gets added
+# to gtk-doc scanning; but only then, to avoid duplicates
+# FIXME: since we don't have the scan step as part of the build anymore,
+# we could remove that
+# TODO: finish elite script that updates the output files of this step
+# instead of rewriting them, so that multiple maintainers can generate
+# a collective set of args and signals
+scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
+	@echo '*** Scanning GObjects ***'
+	if test x"$(srcdir)" != x. ; then				\
+	    for f in $(SCANOBJ_FILES);					\
+	    do								\
+	        cp $(srcdir)/$$f . ;					\
+	    done;							\
+	else								\
+	    $(INSPECT_ENVIRONMENT) 					\
+	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
+	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
+	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
+	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
+	        --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir="inspect" &&		\
+		$(PYTHON)						\
+		$(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
+	fi
+	touch scanobj-build.stamp
+
+$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
+	@true
 
 ### scan headers; done on every build ###
-scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp inspect-build.stamp
+scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	if test "x$(top_srcdir)" != "x$(top_builddir)" &&		\
 	   test -d "$(top_builddir)/gst";				\
         then								\
