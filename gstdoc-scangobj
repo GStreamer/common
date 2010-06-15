@@ -143,8 +143,9 @@ xmlprint (gint indent, const gchar *tag, const gchar *data)
 {
   /* 20 spaces */
   gchar indent_str[] = "                    ";
-  static gchar str[1000];
-  gchar conv[1000];
+  /* these need to be quite big */
+  static gchar str[50000];
+  gchar conv[50000];
   gchar *s2 = conv;
 
   if (data) {
@@ -257,6 +258,8 @@ get_object_types (void)
           const gchar *pad_dir[] = { "unknown","source","sink" };
           const gchar *pad_pres[] = { "always","sometimes","request" };
 
+          /*g_print ("  feature: %s\\n", feature->name);*/
+          
           factory = GST_ELEMENT_FACTORY (feature);
           factories = g_list_prepend (factories, factory);
           
