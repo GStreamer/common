@@ -138,49 +138,40 @@ $includes
 #endif
 GType *object_types = NULL;
 
+GString *xmlstr = NULL;
+
 static const gchar*
 xmlprint (gint indent, const gchar *tag, const gchar *data)
 {
   /* 20 spaces */
   gchar indent_str[] = "                    ";
-  /* these need to be quite big */
-  static gchar str[50000];
-  gchar conv[50000];
-  gchar *s2 = conv;
+  
+  /* reset */
+  g_string_truncate (xmlstr, 0);
+  g_string_append_printf (xmlstr, "%s<%s>", &indent_str[20-indent], tag);
 
   if (data) {
-    const gchar *s1 = data;
-    while (*s1) {
-      switch (*s1) {
+    const gchar *s = data;
+    while (*s) {
+      switch (*s) {
         case '<':
-          *s2++='&';
-          *s2++='l';
-          *s2++='t';
-          *s2++=';';
+          g_string_append (xmlstr, "&lt;");
           break;
         case '>':
-          *s2++='&';
-          *s2++='g';
-          *s2++='t';
-          *s2++=';';
+          g_string_append (xmlstr, "&gt;");
           break;
         case '&':
-          *s2++='&';
-          *s2++='a';
-          *s2++='m';
-          *s2++='p';
-          *s2++=';';
+          g_string_append (xmlstr, "&amp;");
           break;
         default:
-          *s2++ = *s1;
+          g_string_append_c (xmlstr, *s);
       }
-      s1++;
+      s++;
     }
   }
-  *s2 = '\\0';
   
-  sprintf(str, "%s<%s>%s</%s>\\n", &indent_str[20-indent], tag, conv, tag);  
-  return str;
+  g_string_append_printf (xmlstr, "</%s>", tag);
+  return xmlstr->str;
 }
 
 static gint
@@ -197,12 +188,13 @@ get_object_types (void)
     GList *l;
     GstElementFactory *factory = NULL;
     GType type;
-
     gint i = 0;
     
     /* get a list of features from plugins in our source module */
     plugins = gst_registry_get_plugin_list (gst_registry_get_default());
 
+    xmlstr = g_string_new ("");
+    
     while (plugins) {
       GList *features, *pads;
       GstPlugin *plugin;
@@ -294,6 +286,8 @@ get_object_types (void)
       fputs ("  </elements>\\n</plugin>\\n", inspect);
       fclose (inspect);
     }
+    
+    g_string_free (xmlstr, TRUE);
 
     g_message ("number of element factories: %d", g_list_length (factories));
 
