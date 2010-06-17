@@ -169,6 +169,24 @@ gst_feature_sort_compare (gconstpointer a, gconstpointer b)
   return strcmp (((GstPluginFeature *)a)->name, ((GstPluginFeature *)b)->name); 
 }
 
+static gint
+static_pad_template_compare (gconstpointer a, gconstpointer b)
+{
+  GstStaticPadTemplate *spt_a = (GstStaticPadTemplate *) a;
+  GstStaticPadTemplate *spt_b = (GstStaticPadTemplate *) b;
+
+  /* we want SINK before SRC (enum is UNKNOWN, SRC, SINK) */
+  if (spt_a->direction != spt_b->direction)
+    return spt_b->direction - spt_a->direction;
+
+  /* we want ALWAYS first, SOMETIMES second, REQUEST last
+   * (enum is ALWAYS, SOMETIMES, REQUEST) */
+  if (spt_a->presence != spt_b->presence)
+    return spt_a->presence - spt_b->presence;
+
+  return strcmp (spt_a->name_template, spt_b->name_template);
+}
+
 static GType *
 get_object_types (void)
 {
@@ -185,7 +203,7 @@ get_object_types (void)
     xmlstr = g_string_new ("");
     
     while (plugins) {
-      GList *features, *pads;
+      GList *features;
       GstPlugin *plugin;
       const gchar *source;
       FILE *inspect = NULL;
@@ -244,9 +262,9 @@ get_object_types (void)
         }
 
         if (GST_IS_ELEMENT_FACTORY (feature)) {
-          GstStaticPadTemplate *pt;
           const gchar *pad_dir[] = { "unknown","source","sink" };
           const gchar *pad_pres[] = { "always","sometimes","request" };
+          GList *pads, *pad;
 
           /*g_print ("  feature: %s\\n", feature->name);*/
           
@@ -263,9 +281,10 @@ get_object_types (void)
           fputs ("      <pads>\\n", inspect);
             
           /* output pad-template data */
-          pads =(GList *) gst_element_factory_get_static_pad_templates (factory);
-          while (pads) {
-            pt = (GstStaticPadTemplate *)pads->data;
+          pads = g_list_copy ((GList *) gst_element_factory_get_static_pad_templates (factory));
+          pads = g_list_sort (pads, static_pad_template_compare);
+          for (pad = pads; pad != NULL; pad = pad->next) {
+            GstStaticPadTemplate *pt = pad->data;
 
             fputs ("        <caps>\\n", inspect);
             fputs (xmlprint(10, "name", pt->name_template),inspect);
@@ -273,9 +292,8 @@ get_object_types (void)
             fputs (xmlprint(10, "presence", pad_pres[pt->presence]),inspect);
             fputs (xmlprint(10, "details", pt->static_caps.string),inspect);
             fputs ("        </caps>\\n", inspect);
-
-            pads = g_list_next (pads);
           }
+          g_list_free (pads);
           fputs ("      </pads>\\n    </element>\\n", inspect);
         }
         features = g_list_next (features);
