@@ -136,41 +136,30 @@ $includes
 #ifdef GTK_IS_WIDGET_CLASS
 #include <gtk/gtkversion.h>
 #endif
-GType *object_types = NULL;
 
-GString *xmlstr = NULL;
+static GType *object_types = NULL;
+
+static GString *xmlstr = NULL;
 
 static const gchar*
 xmlprint (gint indent, const gchar *tag, const gchar *data)
 {
-  /* 20 spaces */
-  gchar indent_str[] = "                    ";
-  
+  const gchar indent_str[] = "                                               ";
+
   /* reset */
   g_string_truncate (xmlstr, 0);
-  g_string_append_printf (xmlstr, "%s<%s>", &indent_str[20-indent], tag);
+  g_string_append_len (xmlstr, indent_str, MIN (indent, strlen (indent_str)));
+  g_string_append_printf (xmlstr, "<%s>", tag);
 
   if (data) {
-    const gchar *s = data;
-    while (*s) {
-      switch (*s) {
-        case '<':
-          g_string_append (xmlstr, "&lt;");
-          break;
-        case '>':
-          g_string_append (xmlstr, "&gt;");
-          break;
-        case '&':
-          g_string_append (xmlstr, "&amp;");
-          break;
-        default:
-          g_string_append_c (xmlstr, *s);
-      }
-      s++;
-    }
+    gchar *s;
+
+    s = g_markup_escape_text (data, -1);
+    g_string_append (xmlstr, s);
+    g_free (s);
   }
   
-  g_string_append_printf (xmlstr, "</%s>", tag);
+  g_string_append_printf (xmlstr, "</%s>\\n", tag);
   return xmlstr->str;
 }
 
@@ -283,7 +272,7 @@ get_object_types (void)
         features = g_list_next (features);
       }
       
-      fputs ("  </elements>\\n</plugin>\\n", inspect);
+      fputs ("  </elements>\\n</plugin>", inspect);
       fclose (inspect);
     }
     
