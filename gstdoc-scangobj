@@ -198,6 +198,11 @@ get_object_types (void)
       if (!source || strcmp (source, "$SOURCE") != 0) {
         continue;
       }
+
+      /* skip static coreelements plugin with pipeline and bin element factory */
+      if (gst_plugin_get_filename (plugin) == NULL)
+        continue;
+
       g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);
 
       inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
