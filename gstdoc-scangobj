@@ -208,6 +208,10 @@ get_object_types (void)
       inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
           plugin->desc.name);
       inspect = fopen (inspect_name, "w");
+      if (inspect == NULL) {
+        g_error ("Could not open %s for writing: %s\\n", inspect_name,
+            g_strerror (errno));
+      }
       g_free (inspect_name);
       
       /* output plugin data */
