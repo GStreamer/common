@@ -1734,7 +1734,7 @@ close OUTPUT;
 
 $CC = $ENV{CC} ? $ENV{CC} : "gcc";
 $LD = $ENV{LD} ? $ENV{LD} : $CC;
-$CFLAGS = $ENV{CFLAGS} ? "$ENV{CFLAGS} -Wall -g" : "-Wall -g";
+$CFLAGS = $ENV{CFLAGS} ? "$ENV{CFLAGS}" : "";
 $LDFLAGS = $ENV{LDFLAGS} ? $ENV{LDFLAGS} : "";
 
 my $o_file;

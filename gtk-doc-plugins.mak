@@ -131,7 +131,7 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
 	else								\
 	    $(INSPECT_ENVIRONMENT) 					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
-	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
+	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS) $(WARNING_CFLAGS)"	\
 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir="inspect" &&		\
