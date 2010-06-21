@@ -1,4 +1,4 @@
-Dnl handle various error-related things
+dnl handle various error-related things
 
 dnl Thomas Vander Stichele <thomas@apestaart.org>
 dnl Tim-Philipp Müller <tim centricular net>
