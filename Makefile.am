@@ -17,5 +17,6 @@ EXTRA_DIST = \
 	coverage/coverage-report.xsl \
 	coverage/coverage-report-entry.pl \
 	download-translations \
+	extract-release-date-from-doap-file \
 	gst-indent \
 	orc.mak
