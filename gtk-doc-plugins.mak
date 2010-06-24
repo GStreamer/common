@@ -26,11 +26,12 @@ GPATH = $(srcdir)
 # thomas: make docs parallel installable
 TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@
 
+MAINTAINER_DOC_STAMPS =			\
+	scanobj-build.stamp
+
 EXTRA_DIST = 				\
-	scanobj-build.stamp		\
+	$(MAINTAINER_DOC_STAMPS)		\
 	$(srcdir)/inspect/*.xml		\
-	inspect.stamp			\
-	inspect-build.stamp		\
 	$(SCANOBJ_FILES)		\
 	$(content_files)		\
 	$(extra_files)			\
@@ -39,13 +40,8 @@ EXTRA_DIST = 				\
 	$(DOC_OVERRIDES)		\
 	$(DOC_MODULE)-sections.txt
 
-MAINTAINER_DOC_STAMPS =			\
-	scanobj-build.stamp		\
-	inspect-build.stamp		\
-	inspect.stamp
-
-# we don't add inspect-build.stamp and scanobj-build.stamp here since they are
-# built manually by docs maintainers and result is commited to git
+# we don't add scanobj-build.stamp here since they are built manually by docs
+# maintainers and result is commited to git
 DOC_STAMPS =				\
 	scan-build.stamp		\
 	tmpl-build.stamp		\
@@ -183,7 +179,7 @@ tmpl.stamp: tmpl-build.stamp
 #### build xml; done on every build ####
 
 ### FIXME: make this error out again when docs are fixed for 0.9
-sgml-build.stamp: tmpl.stamp inspect.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
+sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
 	@for a in $(srcdir)/inspect/*.xml; do \
@@ -235,7 +231,7 @@ clean-local-gtkdoc:
 	rm -rf xml tmpl html
 # clean files copied for nonsrcdir templates build
 	if test x"$(srcdir)" != x. ; then \
-	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES); \
+	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES) $(MAINTAINER_DOC_STAMPS); \
 	fi
 else
 all-local:
@@ -327,6 +323,9 @@ dist-check-gtkdoc:
 endif
 
 # FIXME: decide whether we want to dist generated html or not
+# also this only works, if the project has been build before
+# we could dist html only if its there, but that might lead to missing html in
+# tarballs
 dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/html
 	cp html/* $(distdir)/html
