@@ -102,7 +102,11 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	fi
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
 	@if test -s $(DOC_MODULE)-unused.txt; then \
-	    exit $(if $(DOCS_ARE_INCOMPLETE_PLEASE_FIXME),0,1); fi
+	  echo "============================================================"; \
+	  echo "Please add the following to $(DOC_MODULE)-sections.txt:     "; \
+	  cat $(DOC_MODULE)-unused.txt;                                        \
+	  echo "============================================================"; \
+	fi
 	rm -f tmpl-build.log
 	touch tmpl-build.stamp
 
