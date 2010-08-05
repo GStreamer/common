@@ -1023,6 +1023,12 @@ output_object_hierarchy (void)
   fclose (fp);
 }
 
+static int
+type_cmp (const void * p1, const void * p2)
+{
+  return strcmp (g_type_name (*((GType *) p1)), g_type_name (*((GType *) p2)));
+}
+
 /* This is called recursively to output the hierarchy of a widget. */
 static void
 output_hierarchy (FILE  *fp,
@@ -1053,6 +1059,8 @@ output_hierarchy (FILE  *fp,
   fprintf (fp, "\\n");
 
   children = g_type_children (type, &n_children);
+
+  qsort (&children[0], n_children, sizeof (GType), type_cmp);
 
   for (i=0; i < n_children; i++) {
     output_hierarchy (fp, children[i], level + 1);
