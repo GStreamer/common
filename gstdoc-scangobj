@@ -196,11 +196,14 @@ get_object_types (void)
     GstElementFactory *factory = NULL;
     GType type;
     gint i = 0;
+    gboolean reinspect;
     
     /* get a list of features from plugins in our source module */
     plugins = gst_registry_get_plugin_list (gst_registry_get_default());
 
     xmlstr = g_string_new ("");
+    
+    reinspect = !g_file_test ("scanobj-build.stamp", G_FILE_TEST_EXISTS);
     
     while (plugins) {
       GList *features;
@@ -223,27 +226,29 @@ get_object_types (void)
 
       g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);
 
-      inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
-          plugin->desc.name);
-      inspect = fopen (inspect_name, "w");
-      if (inspect == NULL) {
-        g_error ("Could not open %s for writing: %s\\n", inspect_name,
-            g_strerror (errno));
+      if (reinspect) {
+        inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
+            plugin->desc.name);
+        inspect = fopen (inspect_name, "w");
+        if (inspect == NULL) {
+          g_error ("Could not open %s for writing: %s\\n", inspect_name,
+              g_strerror (errno));
+        }
+        g_free (inspect_name);
+        
+        /* output plugin data */
+        fputs ("<plugin>\\n",inspect);
+        fputs (xmlprint(2, "name", plugin->desc.name),inspect);
+        fputs (xmlprint(2, "description", plugin->desc.description),inspect);
+        fputs (xmlprint(2, "filename", plugin->filename),inspect);
+        fputs (xmlprint(2, "basename", plugin->basename),inspect);
+        fputs (xmlprint(2, "version", plugin->desc.version),inspect);
+        fputs (xmlprint(2, "license", plugin->desc.license),inspect);
+        fputs (xmlprint(2, "source", plugin->desc.source),inspect);
+        fputs (xmlprint(2, "package", plugin->desc.package),inspect);
+        fputs (xmlprint(2, "origin", plugin->desc.origin),inspect);
+        fputs ("  <elements>\\n", inspect);
       }
-      g_free (inspect_name);
-      
-      /* output plugin data */
-      fputs ("<plugin>\\n",inspect);
-      fputs (xmlprint(2, "name", plugin->desc.name),inspect);
-      fputs (xmlprint(2, "description", plugin->desc.description),inspect);
-      fputs (xmlprint(2, "filename", plugin->filename),inspect);
-      fputs (xmlprint(2, "basename", plugin->basename),inspect);
-      fputs (xmlprint(2, "version", plugin->desc.version),inspect);
-      fputs (xmlprint(2, "license", plugin->desc.license),inspect);
-      fputs (xmlprint(2, "source", plugin->desc.source),inspect);
-      fputs (xmlprint(2, "package", plugin->desc.package),inspect);
-      fputs (xmlprint(2, "origin", plugin->desc.origin),inspect);
-      fputs ("  <elements>\\n", inspect);
 
       features =
           gst_registry_get_feature_list_by_plugin (gst_registry_get_default (),
@@ -271,36 +276,40 @@ get_object_types (void)
           factory = GST_ELEMENT_FACTORY (feature);
           factories = g_list_prepend (factories, factory);
           
-          /* output element data */
-          fputs ("    <element>\\n", inspect);
-          fputs (xmlprint(6, "name", feature->name),inspect);
-          fputs (xmlprint(6, "longname", factory->details.longname),inspect);
-          fputs (xmlprint(6, "class", factory->details.klass),inspect);
-          fputs (xmlprint(6, "description", factory->details.description),inspect);
-          fputs (xmlprint(6, "author", factory->details.author),inspect);
-          fputs ("      <pads>\\n", inspect);
+          if (reinspect) {
+            /* output element data */
+            fputs ("    <element>\\n", inspect);
+            fputs (xmlprint(6, "name", feature->name),inspect);
+            fputs (xmlprint(6, "longname", factory->details.longname),inspect);
+            fputs (xmlprint(6, "class", factory->details.klass),inspect);
+            fputs (xmlprint(6, "description", factory->details.description),inspect);
+            fputs (xmlprint(6, "author", factory->details.author),inspect);
+            fputs ("      <pads>\\n", inspect);
             
-          /* output pad-template data */
-          pads = g_list_copy ((GList *) gst_element_factory_get_static_pad_templates (factory));
-          pads = g_list_sort (pads, static_pad_template_compare);
-          for (pad = pads; pad != NULL; pad = pad->next) {
-            GstStaticPadTemplate *pt = pad->data;
-
-            fputs ("        <caps>\\n", inspect);
-            fputs (xmlprint(10, "name", pt->name_template),inspect);
-            fputs (xmlprint(10, "direction", pad_dir[pt->direction]),inspect);
-            fputs (xmlprint(10, "presence", pad_pres[pt->presence]),inspect);
-            fputs (xmlprint(10, "details", pt->static_caps.string),inspect);
-            fputs ("        </caps>\\n", inspect);
+            /* output pad-template data */
+            pads = g_list_copy ((GList *) gst_element_factory_get_static_pad_templates (factory));
+            pads = g_list_sort (pads, static_pad_template_compare);
+            for (pad = pads; pad != NULL; pad = pad->next) {
+              GstStaticPadTemplate *pt = pad->data;
+            
+              fputs ("        <caps>\\n", inspect);
+              fputs (xmlprint(10, "name", pt->name_template),inspect);
+              fputs (xmlprint(10, "direction", pad_dir[pt->direction]),inspect);
+              fputs (xmlprint(10, "presence", pad_pres[pt->presence]),inspect);
+              fputs (xmlprint(10, "details", pt->static_caps.string),inspect);
+              fputs ("        </caps>\\n", inspect);
+            }
+            g_list_free (pads);
+            fputs ("      </pads>\\n    </element>\\n", inspect);
           }
-          g_list_free (pads);
-          fputs ("      </pads>\\n    </element>\\n", inspect);
         }
         features = g_list_next (features);
       }
       
-      fputs ("  </elements>\\n</plugin>", inspect);
-      fclose (inspect);
+      if (reinspect) {
+        fputs ("  </elements>\\n</plugin>", inspect);
+        fclose (inspect);
+      }
     }
     
     g_string_free (xmlstr, TRUE);
