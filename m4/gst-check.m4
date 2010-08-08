@@ -121,18 +121,94 @@ AC_DEFUN([AG_GST_CHECK_GST_CHECK],
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_BASE, gstreamer-plugins-base-[$1], [$2],
-    [GStreamer Base Plug-ins Library], [$3])
+    [GStreamer Base Plugins], [$3])
 
-  dnl check for where base plug-ins got installed
+  dnl check for where base plugins got installed
   dnl this is used for unit tests
   dnl allow setting before calling this macro to override
   if test -z $GSTPB_PLUGINS_DIR; then
     GSTPB_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-base-[$1]`
     if test -z $GSTPB_PLUGINS_DIR; then
       AC_MSG_ERROR(
-        [no pluginsdir set in GStreamer Base Plug-ins pkg-config file])
+        [no pluginsdir set in GStreamer Base Plugins pkg-config file])
     fi
   fi
-  AC_MSG_NOTICE([using GStreamer Base Plug-ins in $GSTPB_PLUGINS_DIR])
+  AC_MSG_NOTICE([using GStreamer Base Plugins in $GSTPB_PLUGINS_DIR])
   AC_SUBST(GSTPB_PLUGINS_DIR)
+])
+
+AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_GOOD],
+[
+  AG_GST_CHECK_MODULES(GST_PLUGINS_GOOD, gstreamer-plugins-good-[$1], [$2],
+    [GStreamer Good Plugins], [$3])
+
+  dnl check for where good plugins got installed
+  dnl this is used for unit tests
+  dnl allow setting before calling this macro to override
+  if test -z $GST_PLUGINS_GOOD_DIR; then
+    GST_PLUGINS_GOOD_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-good-[$1]`
+    if test -z $GST_PLUGINS_GOOD_DIR; then
+      AC_MSG_ERROR([no pluginsdir set in GStreamer Good Plugins pkg-config file])
+    fi
+  fi
+  AC_MSG_NOTICE([using GStreamer Good Plugins in $GST_PLUGINS_GOOD_DIR])
+  GST_PLUGINS_GOOD_DIR="$GST_PLUGINS_GOOD_DIR/gst:$GST_PLUGINS_GOOD_DIR/sys:$GST_PLUGINS_GOOD_DIR/ext"
+  AC_SUBST(GST_PLUGINS_GOOD_DIR)
+])
+
+AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_UGLY],
+[
+  AG_GST_CHECK_MODULES(GST_PLUGINS_UGLY, gstreamer-plugins-ugly-[$1], [$2],
+    [GStreamer Ugly Plugins], [$3])
+
+  dnl check for where ugly plugins got installed
+  dnl this is used for unit tests
+  dnl allow setting before calling this macro to override
+  if test -z $GST_PLUGINS_UGLY_DIR; then
+    GST_PLUGINS_UGLY_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ugly-[$1]`
+    if test -z $GST_PLUGINS_UGLY_DIR; then
+      AC_MSG_ERROR([no pluginsdir set in GStreamer Ugly Plugins pkg-config file])
+    fi
+  fi
+  AC_MSG_NOTICE([using GStreamer Ugly Plugins in $GST_PLUGINS_UGLY_DIR])
+  GST_PLUGINS_UGLY_DIR="$GST_PLUGINS_UGLY_DIR/gst:$GST_PLUGINS_UGLY_DIR/sys:$GST_PLUGINS_UGLY_DIR/ext"
+  AC_SUBST(GST_PLUGINS_UGLY_DIR)
+])
+
+AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BAD],
+[
+  AG_GST_CHECK_MODULES(GST_PLUGINS_BAD, gstreamer-plugins-bad-[$1], [$2],
+    [GStreamer Bad Plugins], [$3])
+
+  dnl check for where bad plugins got installed
+  dnl this is used for unit tests
+  dnl allow setting before calling this macro to override
+  if test -z $GST_PLUGINS_BAD_DIR; then
+    GST_PLUGINS_BAD_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-bad-[$1]`
+    if test -z $GST_PLUGINS_BAD_DIR; then
+      AC_MSG_ERROR([no pluginsdir set in GStreamer Bad Plugins pkg-config file])
+    fi
+  fi
+  AC_MSG_NOTICE([using GStreamer Bad Plugins in $GST_PLUGINS_BAD_DIR])
+  GST_PLUGINS_BAD_DIR="$GST_PLUGINS_BAD_DIR/gst:$GST_PLUGINS_BAD_DIR/sys:$GST_PLUGINS_BAD_DIR/ext"
+  AC_SUBST(GST_PLUGINS_BAD_DIR)
+])
+
+AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_FFMPEG],
+[
+  AG_GST_CHECK_MODULES(GST_PLUGINS_FFMPEG, gstreamer-plugins-ffmpeg-[$1], [$2],
+    [GStreamer FFmpeg Plugins], [$3])
+
+  dnl check for where ffmpeg plugins got installed
+  dnl this is used for unit tests
+  dnl allow setting before calling this macro to override
+  if test -z $GST_PLUGINS_FFMPEG_DIR; then
+    GST_PLUGINS_FFMPEG_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ffmpeg-[$1]`
+    if test -z $GST_PLUGINS_FFMPEG_DIR; then
+      AC_MSG_ERROR([no pluginsdir set in GStreamer FFmpeg Plugins pkg-config file])
+    fi
+  fi
+  GST_PLUGINS_FFMPEG_DIR="$GST_PLUGINS_FFMPEG_DIR/ext/ffmpeg"
+  AC_MSG_NOTICE([using GStreamer FFmpeg Plugins in $GST_PLUGINS_FFMPEG_DIR])
+  AC_SUBST(GST_PLUGINS_FFMPEG_DIR)
 ])
