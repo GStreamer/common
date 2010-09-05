@@ -42,10 +42,10 @@ cp_v_gen_0 = @echo "  CP     $@";
 
 if HAVE_ORC
 tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
-	$(orcc_v_gen)$(ORCC) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_SOURCE).orc
+	$(orcc_v_gen)$(ORCC) $(ORCC_FLAGS) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_SOURCE).orc
 
 $(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
-	$(orcc_v_gen)$(ORCC) --header --include glib.h -o $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE).orc
+	$(orcc_v_gen)$(ORCC) $(ORCC_FLAGS) --header --include glib.h -o $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE).orc
 else
 tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
 	$(cp_v_gen)cp $(srcdir)/$(ORC_SOURCE)-dist.c tmp-orc.c

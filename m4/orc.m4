@@ -5,7 +5,7 @@ dnl ORC_CHECK([REQUIRED_VERSION])
 
 AC_DEFUN([ORC_CHECK],
 [
-  ORC_REQ=ifelse([$1], , "0.4.5", [$1])
+  ORC_REQ=ifelse([$1], , "0.4.6", [$1])
 
   AC_ARG_ENABLE(orc,
   AC_HELP_STRING([--enable-orc],[use Orc if installed]),
@@ -23,6 +23,8 @@ AC_DEFUN([ORC_CHECK],
       AC_DEFINE(HAVE_ORC, 1, [Use Orc])
       ORCC=`$PKG_CONFIG --variable=orcc orc-0.4`
       AC_SUBST(ORCC)
+      ORCC_FLAGS="--compat $ORC_REQ"
+      AC_SUBST(ORCC_FLAGS)
       HAVE_ORC=yes
     ], [
       if test "x$enable_orc" = "xyes" ; then
