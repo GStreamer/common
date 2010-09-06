@@ -21,7 +21,9 @@ AC_DEFUN([ORC_CHECK],
   if test "x$enable_orc" != "xno" ; then
     PKG_CHECK_MODULES(ORC, orc-0.4 >= $ORC_REQ, [
       AC_DEFINE(HAVE_ORC, 1, [Use Orc])
-      ORCC=`$PKG_CONFIG --variable=orcc orc-0.4`
+      if test "x$ORCC" = "x" ; then
+        ORCC=`$PKG_CONFIG --variable=orcc orc-0.4`
+      fi
       AC_SUBST(ORCC)
       ORCC_FLAGS="--compat $ORC_REQ"
       AC_SUBST(ORCC_FLAGS)
