@@ -910,23 +910,16 @@
 }
 
 {
-   <g_type_init malloc>
+   <g_type_init leaks>
    Memcheck:Leak
-   fun:malloc
-   fun:g_malloc
-   fun:g_strdup
-   fun:g_quark_from_string
-   obj:*
-   obj:*
-   fun:g_type_register_fundamental
-   obj:*
-   fun:g_type_init_with_debug_flags
-   fun:g_type_init
+   fun:*alloc
+   ...
+   fun:g_type_init*
    fun:init_pre
 }
 
 {
-   <g_type_init calloc>
+   <g_type_register_fundamental leaks>
    Memcheck:Leak
    fun:*alloc
    ...
@@ -934,45 +927,6 @@
 }
 
 {
-   <g_type_init calloc 2>
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   obj:*
-   obj:*
-   fun:g_type_init_with_debug_flags
-}
-
-{
-   <g_type_init calloc 3, GSlice version>
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:g_slice_alloc
-   obj:*
-   obj:*
-   fun:g_type_init_with_debug_flags
-}
-
-{
-   <g_type_init calloc 4>
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:*
-   fun:g_type_init_with_debug_flags
-}
-
-{
-   <g_type_init calloc 5>
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_node_any_new*
-   fun:g_type_register_fundamental
-}
-
-{
    <glib 2.21 static type data>
    Memcheck:Leak
    fun:malloc
@@ -987,15 +941,6 @@
    fun:realloc
    fun:g_realloc
    fun:type_node_any_new_W
-}
-
-{
-   <glib 2.21 static type data>
-   Memcheck:Leak
-   fun:calloc
-   fun:g_malloc0
-   fun:type_data_make_W
-   fun:g_type_register_fundamental
 }
 
 {
