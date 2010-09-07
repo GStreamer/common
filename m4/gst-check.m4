@@ -150,7 +150,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_GOOD([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl AG_GST_CHECK_GST_PLUGINS_GOOD([GST-MAJORMINOR], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_GOOD_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -good ships no .pc file and in
@@ -159,7 +159,7 @@ dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_GOOD],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_GOOD, gstreamer-plugins-good-[$1], [$2],
-    [GStreamer Good Plugins], [$3])
+    [GStreamer Good Plugins], [no])
 
   if test "x$HAVE_GST_PLUGINS_GOOD" = "xyes"; then
     dnl check for where good plugins got installed
@@ -178,7 +178,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_GOOD],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_UGLY([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl AG_GST_CHECK_GST_PLUGINS_UGLY([GST-MAJORMINOR], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_UGLY_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -bad ships no .pc file and in
@@ -187,7 +187,7 @@ dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_UGLY],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_UGLY, gstreamer-plugins-ugly-[$1], [$2],
-    [GStreamer Ugly Plugins], [$3])
+    [GStreamer Ugly Plugins], [no])
 
   if test "x$HAVE_GST_PLUGINS_UGLY" = "xyes"; then
     dnl check for where ugly plugins got installed
@@ -206,7 +206,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_UGLY],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_BAD([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl AG_GST_CHECK_GST_PLUGINS_BAD([GST-MAJORMINOR], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_BAD_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -ugly ships no .pc file and in
@@ -215,7 +215,7 @@ dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BAD],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_BAD, gstreamer-plugins-bad-[$1], [$2],
-    [GStreamer Bad Plugins], [$3])
+    [GStreamer Bad Plugins], [no])
 
   if test "x$HAVE_GST_PLUGINS_BAD" = "xyes"; then
     dnl check for where bad plugins got installed
@@ -234,7 +234,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BAD],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_FFMPEG([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl AG_GST_CHECK_GST_PLUGINS_FFMPEG([GST-MAJORMINOR], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_FFMPEG_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -ffmpeg ships no .pc file and in
@@ -243,7 +243,7 @@ dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_FFMPEG],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_FFMPEG, gstreamer-plugins-ffmpeg-[$1], [$2],
-    [GStreamer FFmpeg Plugins], [$3])
+    [GStreamer FFmpeg Plugins], [no])
 
   if test "x$HAVE_GST_PLUGINS_FFMPEG" = "xyes"; then
     dnl check for where ffmpeg plugins got installed
