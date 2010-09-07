@@ -28,7 +28,6 @@ AC_DEFUN([AG_GST_PKG_CHECK_MODULES],
     ],
     [
       HAVE_[$1]="no"
-      AC_MSG_RESULT(no)
       if test "x$required" = "xyes"; then
         AC_MSG_ERROR($[$1]_PKG_ERRORS)
       else
@@ -53,7 +52,6 @@ AC_DEFUN([AG_GST_CHECK_MODULES],
     ],
     [
       HAVE_[$1]="no"
-      AC_MSG_RESULT(no)
       AC_MSG_NOTICE($[$1]_PKG_ERRORS)
       if test "x$required" = "xyes"; then
         AC_MSG_ERROR([no $module >= $minver ($name) found])
