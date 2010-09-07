@@ -15,6 +15,7 @@ help:
 # update the stuff maintained by doc maintainers
 update:
 	$(MAKE) scanobj-update
+	$(MAKE) check-outdated-docs
 
 # We set GPATH here; this gives us semantics for GNU make
 # which are more like other make's VPATH, when it comes to
@@ -311,6 +312,29 @@ check-inspected-versions:
 	done ; \
 	exit $$fail
 
+check-outdated-docs:
+	$(AM_V_GEN)echo Checking for outdated plugin inspect data ...; \
+	fail=0 ; \
+	if [ -d $(top_srcdir)/.git/ ]; then \
+	  files=`find $(srcdir)/inspect/ -name '*xml'`; \
+	  for f in $$files; do \
+	    ver=`grep '<version>$(PACKAGE_VERSION)</version>' $$f`; \
+	    if test "x$$ver" = "x"; then \
+	      plugin=`echo $$f | sed -e 's/^.*plugin-//' -e 's/.xml//'`; \
+	      # echo "Checking $$plugin $$f"; \
+	      pushd "$(top_srcdir)" >/dev/null; \
+	      pinit=`git grep -A3 GST_PLUGIN_DEFINE -- ext/ gst/ sys/ | grep "\"$$plugin\""`; \
+	      popd >/dev/null; \
+	      # echo "[$$pinit]"; \
+	      if test "x$$pinit" = "x"; then \
+	        printf " **** outdated docs for plugin %-15s: %s\n" $$plugin $$f; \
+	        fail=1; \
+	      fi; \
+	    fi; \
+	  done; \
+	fi ; \
+	exit $$fail
+
 #
 # Require gtk-doc when making dist
 #
@@ -334,5 +358,5 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	cd $(distdir) && rm -f $(DISTCLEANFILES)
 	-gtkdoc-rebase --online --relative --html-dir=$(distdir)/html
 
-.PHONY : dist-hook-local docs
+.PHONY : dist-hook-local docs check-outdated-docs
 
