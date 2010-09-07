@@ -118,6 +118,13 @@ AC_DEFUN([AG_GST_CHECK_GST_CHECK],
 
 dnl ===========================================================================
 dnl AG_GST_CHECK_GST_PLUGINS_BASE([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl
+dnl Sets GST_PLUGINS_BASE_CFLAGS and GST_PLUGINS_BASE_LIBS.
+dnl
+dnl Also sets GSTPB_PLUGINS_DIR (and for consistency also GST_PLUGINS_BASE_DIR)
+dnl for use in Makefile.am. This is only really needed/useful in uninstalled
+dnl setups, since in an installed setup all plugins will be found in
+dnl GST_PLUGINS_DIR anyway.
 dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 [
@@ -136,6 +143,8 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
       fi
     fi
     AC_MSG_NOTICE([using GStreamer Base Plugins in $GSTPB_PLUGINS_DIR])
+    GST_PLUGINS_BASE_DIR="$GSTPB_PLUGINS_DIR/gst:$GSTPB_PLUGINS_DIR/sys:$GSTPB_PLUGINS_DIR/ext"
+    AC_SUBST(GST_PLUGINS_BASE_DIR)
     AC_SUBST(GSTPB_PLUGINS_DIR)
   fi
 ])
