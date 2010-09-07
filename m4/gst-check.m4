@@ -116,97 +116,138 @@ AC_DEFUN([AG_GST_CHECK_GST_CHECK],
     [GStreamer Check unittest Library], [$3])
 ])
 
+dnl ===========================================================================
+dnl AG_GST_CHECK_GST_PLUGINS_BASE([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_BASE, gstreamer-plugins-base-[$1], [$2],
     [GStreamer Base Plugins], [$3])
 
-  dnl check for where base plugins got installed
-  dnl this is used for unit tests
-  dnl allow setting before calling this macro to override
-  if test -z $GSTPB_PLUGINS_DIR; then
-    GSTPB_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-base-[$1]`
+  if test "x$HAVE_GST_PLUGINS_BASE" = "xyes"; then
+    dnl check for where base plugins got installed
+    dnl this is used for unit tests
+    dnl allow setting before calling this macro to override
     if test -z $GSTPB_PLUGINS_DIR; then
-      AC_MSG_ERROR(
-        [no pluginsdir set in GStreamer Base Plugins pkg-config file])
+      GSTPB_PLUGINS_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-base-[$1]`
+      if test -z $GSTPB_PLUGINS_DIR; then
+        AC_MSG_ERROR(
+          [no pluginsdir set in GStreamer Base Plugins pkg-config file])
+      fi
     fi
+    AC_MSG_NOTICE([using GStreamer Base Plugins in $GSTPB_PLUGINS_DIR])
+    AC_SUBST(GSTPB_PLUGINS_DIR)
   fi
-  AC_MSG_NOTICE([using GStreamer Base Plugins in $GSTPB_PLUGINS_DIR])
-  AC_SUBST(GSTPB_PLUGINS_DIR)
 ])
 
+dnl ===========================================================================
+dnl AG_GST_CHECK_GST_PLUGINS_GOOD([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl
+dnl Will set GST_PLUGINS_GOOD_DIR for use in Makefile.am. Note that this will
+dnl only be set in an uninstalled setup, since -good ships no .pc file and in
+dnl an installed setup all plugins will be found in GST_PLUGINS_DIR anyway.
+dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_GOOD],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_GOOD, gstreamer-plugins-good-[$1], [$2],
     [GStreamer Good Plugins], [$3])
 
-  dnl check for where good plugins got installed
-  dnl this is used for unit tests
-  dnl allow setting before calling this macro to override
-  if test -z $GST_PLUGINS_GOOD_DIR; then
-    GST_PLUGINS_GOOD_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-good-[$1]`
+  if test "x$HAVE_GST_PLUGINS_GOOD" = "xyes"; then
+    dnl check for where good plugins got installed
+    dnl this is used for unit tests
+    dnl allow setting before calling this macro to override
     if test -z $GST_PLUGINS_GOOD_DIR; then
-      AC_MSG_ERROR([no pluginsdir set in GStreamer Good Plugins pkg-config file])
+      GST_PLUGINS_GOOD_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-good-[$1]`
+      if test -z $GST_PLUGINS_GOOD_DIR; then
+        AC_MSG_ERROR([no pluginsdir set in GStreamer Good Plugins pkg-config file])
+      fi
     fi
+    AC_MSG_NOTICE([using GStreamer Good Plugins in $GST_PLUGINS_GOOD_DIR])
+    GST_PLUGINS_GOOD_DIR="$GST_PLUGINS_GOOD_DIR/gst:$GST_PLUGINS_GOOD_DIR/sys:$GST_PLUGINS_GOOD_DIR/ext"
+    AC_SUBST(GST_PLUGINS_GOOD_DIR)
   fi
-  AC_MSG_NOTICE([using GStreamer Good Plugins in $GST_PLUGINS_GOOD_DIR])
-  GST_PLUGINS_GOOD_DIR="$GST_PLUGINS_GOOD_DIR/gst:$GST_PLUGINS_GOOD_DIR/sys:$GST_PLUGINS_GOOD_DIR/ext"
-  AC_SUBST(GST_PLUGINS_GOOD_DIR)
 ])
 
+dnl ===========================================================================
+dnl AG_GST_CHECK_GST_PLUGINS_UGLY([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl
+dnl Will set GST_PLUGINS_UGLY_DIR for use in Makefile.am. Note that this will
+dnl only be set in an uninstalled setup, since -bad ships no .pc file and in
+dnl an installed setup all plugins will be found in GST_PLUGINS_DIR anyway.
+dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_UGLY],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_UGLY, gstreamer-plugins-ugly-[$1], [$2],
     [GStreamer Ugly Plugins], [$3])
 
-  dnl check for where ugly plugins got installed
-  dnl this is used for unit tests
-  dnl allow setting before calling this macro to override
-  if test -z $GST_PLUGINS_UGLY_DIR; then
-    GST_PLUGINS_UGLY_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ugly-[$1]`
+  if test "x$HAVE_GST_PLUGINS_UGLY" = "xyes"; then
+    dnl check for where ugly plugins got installed
+    dnl this is used for unit tests
+    dnl allow setting before calling this macro to override
     if test -z $GST_PLUGINS_UGLY_DIR; then
-      AC_MSG_ERROR([no pluginsdir set in GStreamer Ugly Plugins pkg-config file])
+      GST_PLUGINS_UGLY_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ugly-[$1]`
+      if test -z $GST_PLUGINS_UGLY_DIR; then
+        AC_MSG_ERROR([no pluginsdir set in GStreamer Ugly Plugins pkg-config file])
+      fi
     fi
+    AC_MSG_NOTICE([using GStreamer Ugly Plugins in $GST_PLUGINS_UGLY_DIR])
+    GST_PLUGINS_UGLY_DIR="$GST_PLUGINS_UGLY_DIR/gst:$GST_PLUGINS_UGLY_DIR/sys:$GST_PLUGINS_UGLY_DIR/ext"
+    AC_SUBST(GST_PLUGINS_UGLY_DIR)
   fi
-  AC_MSG_NOTICE([using GStreamer Ugly Plugins in $GST_PLUGINS_UGLY_DIR])
-  GST_PLUGINS_UGLY_DIR="$GST_PLUGINS_UGLY_DIR/gst:$GST_PLUGINS_UGLY_DIR/sys:$GST_PLUGINS_UGLY_DIR/ext"
-  AC_SUBST(GST_PLUGINS_UGLY_DIR)
 ])
 
+dnl ===========================================================================
+dnl AG_GST_CHECK_GST_PLUGINS_BAD([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl
+dnl Will set GST_PLUGINS_BAD_DIR for use in Makefile.am. Note that this will
+dnl only be set in an uninstalled setup, since -ugly ships no .pc file and in
+dnl an installed setup all plugins will be found in GST_PLUGINS_DIR anyway.
+dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BAD],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_BAD, gstreamer-plugins-bad-[$1], [$2],
     [GStreamer Bad Plugins], [$3])
 
-  dnl check for where bad plugins got installed
-  dnl this is used for unit tests
-  dnl allow setting before calling this macro to override
-  if test -z $GST_PLUGINS_BAD_DIR; then
-    GST_PLUGINS_BAD_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-bad-[$1]`
+  if test "x$HAVE_GST_PLUGINS_BAD" = "xyes"; then
+    dnl check for where bad plugins got installed
+    dnl this is used for unit tests
+    dnl allow setting before calling this macro to override
     if test -z $GST_PLUGINS_BAD_DIR; then
-      AC_MSG_ERROR([no pluginsdir set in GStreamer Bad Plugins pkg-config file])
+      GST_PLUGINS_BAD_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-bad-[$1]`
+      if test -z $GST_PLUGINS_BAD_DIR; then
+        AC_MSG_ERROR([no pluginsdir set in GStreamer Bad Plugins pkg-config file])
+      fi
     fi
+    AC_MSG_NOTICE([using GStreamer Bad Plugins in $GST_PLUGINS_BAD_DIR])
+    GST_PLUGINS_BAD_DIR="$GST_PLUGINS_BAD_DIR/gst:$GST_PLUGINS_BAD_DIR/sys:$GST_PLUGINS_BAD_DIR/ext"
+    AC_SUBST(GST_PLUGINS_BAD_DIR)
   fi
-  AC_MSG_NOTICE([using GStreamer Bad Plugins in $GST_PLUGINS_BAD_DIR])
-  GST_PLUGINS_BAD_DIR="$GST_PLUGINS_BAD_DIR/gst:$GST_PLUGINS_BAD_DIR/sys:$GST_PLUGINS_BAD_DIR/ext"
-  AC_SUBST(GST_PLUGINS_BAD_DIR)
 ])
 
+dnl ===========================================================================
+dnl AG_GST_CHECK_GST_PLUGINS_FFMPEG([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl
+dnl Will set GST_PLUGINS_FFMPEG_DIR for use in Makefile.am. Note that this will
+dnl only be set in an uninstalled setup, since -ffmpeg ships no .pc file and in
+dnl an installed setup all plugins will be found in GST_PLUGINS_DIR anyway.
+dnl ===========================================================================
 AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_FFMPEG],
 [
   AG_GST_CHECK_MODULES(GST_PLUGINS_FFMPEG, gstreamer-plugins-ffmpeg-[$1], [$2],
     [GStreamer FFmpeg Plugins], [$3])
 
-  dnl check for where ffmpeg plugins got installed
-  dnl this is used for unit tests
-  dnl allow setting before calling this macro to override
-  if test -z $GST_PLUGINS_FFMPEG_DIR; then
-    GST_PLUGINS_FFMPEG_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ffmpeg-[$1]`
+  if test "x$HAVE_GST_PLUGINS_FFMPEG" = "xyes"; then
+    dnl check for where ffmpeg plugins got installed
+    dnl this is used for unit tests
+    dnl allow setting before calling this macro to override
     if test -z $GST_PLUGINS_FFMPEG_DIR; then
-      AC_MSG_ERROR([no pluginsdir set in GStreamer FFmpeg Plugins pkg-config file])
+      GST_PLUGINS_FFMPEG_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ffmpeg-[$1]`
+      if test -z $GST_PLUGINS_FFMPEG_DIR; then
+        AC_MSG_ERROR([no pluginsdir set in GStreamer FFmpeg Plugins pkg-config file])
+      fi
     fi
+    GST_PLUGINS_FFMPEG_DIR="$GST_PLUGINS_FFMPEG_DIR/ext/ffmpeg"
+    AC_MSG_NOTICE([using GStreamer FFmpeg Plugins in $GST_PLUGINS_FFMPEG_DIR])
+    AC_SUBST(GST_PLUGINS_FFMPEG_DIR)
   fi
-  GST_PLUGINS_FFMPEG_DIR="$GST_PLUGINS_FFMPEG_DIR/ext/ffmpeg"
-  AC_MSG_NOTICE([using GStreamer FFmpeg Plugins in $GST_PLUGINS_FFMPEG_DIR])
-  AC_SUBST(GST_PLUGINS_FFMPEG_DIR)
 ])
