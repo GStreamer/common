@@ -1684,28 +1684,11 @@
    fun:FcConfigParseAndLoad
 }
 {
-   <First time load of a font - feisty x86_64>
+   <First time load of a font - generic>
    Memcheck:Leak
-   fun:malloc
-   fun:FcStrCopy
-   fun:FcEndElement
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   fun:XML_ParseBuffer
-   fun:FcConfigParseAndLoad
-   fun:FcConfigParseAndLoad
-   fun:FcParseInclude
-   fun:FcEndElement
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   fun:XML_ParseBuffer
-   fun:FcConfigParseAndLoad
+   fun:*alloc
+   ...
    fun:FcInitLoadConfig
-   fun:FcInitLoadConfigAndFonts
 }
 
 # Issues with ubuntu Hardy, same crack as for previous ubuntus
@@ -2506,19 +2489,11 @@
 ## Leaks in pango (bilboed: gentoo unstable amd64)
 
 {
-   <insert a suppression name here>
+   <Pango leak - generic>
    Memcheck:Leak
-   fun:realloc
-   fun:FcPatternObjectInsertElt
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:*
-   fun:pango_layout_get_extents*
+   fun:*alloc
+   ...
    fun:pango_layout_get_pixel_extents
-   fun:gst_text_overlay_render_text
 }
 {
    <insert a suppression name here>
@@ -2544,62 +2519,6 @@
    fun:pango_language_from_string
 }
 
-# some more pango leaks (Debian/unstable x86)
-{
-   <insert a suppression name here>
-   Memcheck:Leak
-   fun:malloc
-   fun:FcPatternObjectInsertElt
-   fun:FcPatternObjectAddWithBinding
-   fun:FcPatternAppend
-   fun:FcEndElement
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   fun:XML_ParseBuffer
-   fun:FcConfigParseAndLoad
-   fun:FcConfigParseAndLoad
-   fun:FcEndElement
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   obj:/usr/lib/libexpat.so.*
-   fun:XML_ParseBuffer
-   fun:FcConfigParseAndLoad
-   fun:FcInitLoadConfig
-}
-{
-   <insert a suppression name here>
-   Memcheck:Leak
-   fun:malloc
-   fun:FcPatternObjectAddWithBinding
-   fun:FcPatternObjectAdd
-   fun:FcFontRenderPrepare
-   fun:pango_fc_font_map_load_fontset
-   fun:pango_font_map_load_fontset
-   fun:itemize_state_process_run
-   fun:pango_itemize_with_base_dir
-   fun:pango_layout_check_lines
-   fun:pango_layout_get_extents_internal
-   fun:pango_layout_get_pixel_extents
-}
-{
-   <insert a suppression name here>
-   Memcheck:Leak
-   fun:realloc
-   fun:FcPatternObjectInsertElt
-   fun:FcPatternObjectAddWithBinding
-   fun:FcPatternObjectAdd
-   fun:FcFontRenderPrepare
-   fun:pango_fc_font_map_load_fontset
-   fun:pango_font_map_load_fontset
-   fun:itemize_state_process_run
-   fun:pango_itemize_with_base_dir
-   fun:pango_layout_check_lines
-   fun:pango_layout_get_extents_internal
-   fun:pango_layout_get_pixel_extents
-}
 
 ## Leak of property_list in gstffmpegcfg.c
 ## This list is created in gst_ffmpegcsp_init(), called from
