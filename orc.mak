@@ -40,7 +40,7 @@ cp_v_gen = $(cp_v_gen_$(V))
 cp_v_gen_ = $(cp_v_gen_$(AM_DEFAULT_VERBOSITY))
 cp_v_gen_0 = @echo "  CP     $@";
 
-if HAVE_ORC
+if HAVE_ORCC
 tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
 	$(orcc_v_gen)$(ORCC) $(ORCC_FLAGS) --implementation --include glib.h -o tmp-orc.c $(srcdir)/$(ORC_SOURCE).orc
 
