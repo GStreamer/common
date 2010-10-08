@@ -47,10 +47,10 @@ tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
 $(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
 	$(orcc_v_gen)$(ORCC) $(ORCC_FLAGS) --header --include glib.h -o $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE).orc
 else
-tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc
+tmp-orc.c: $(srcdir)/$(ORC_SOURCE).orc $(srcdir)/$(ORC_SOURCE)-dist.c
 	$(cp_v_gen)cp $(srcdir)/$(ORC_SOURCE)-dist.c tmp-orc.c
 
-$(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc
+$(ORC_SOURCE).h: $(srcdir)/$(ORC_SOURCE).orc $(srcdir)/$(ORC_SOURCE)-dist.c
 	$(cp_v_gen)cp $(srcdir)/$(ORC_SOURCE)-dist.h $(ORC_SOURCE).h
 endif
 
