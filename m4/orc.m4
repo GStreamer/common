@@ -28,19 +28,25 @@ AC_DEFUN([ORC_CHECK],
       ORCC_FLAGS="--compat $ORC_REQ"
       AC_SUBST(ORCC_FLAGS)
       HAVE_ORC=yes
+      HAVE_ORCC=yes
+      if test "x$cross_compiling" = "xyes" ; then
+        HAVE_ORCC=no
+      fi
     ], [
       if test "x$enable_orc" = "xyes" ; then
         AC_MSG_ERROR([--enable-orc specified, but Orc >= $ORC_REQ not found])
       fi
       AC_DEFINE(DISABLE_ORC, 1, [Disable Orc])
       HAVE_ORC=no
+      HAVE_ORCC=no
     ])
   else
     AC_DEFINE(DISABLE_ORC, 1, [Disable Orc])
     HAVE_ORC=no
+    HAVE_ORCC=no
   fi
   AM_CONDITIONAL(HAVE_ORC, [test "x$HAVE_ORC" = "xyes"])
-  AM_CONDITIONAL(HAVE_ORCC, [test "x$cross_compiling" != xyes -a "x$HAVE_ORC" = "xyes"])
+  AM_CONDITIONAL(HAVE_ORCC, [test "x$HAVE_ORCC" = "xyes"])
 
 ]))
 
