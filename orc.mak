@@ -61,13 +61,16 @@ clean-orc:
 
 dist-hook: dist-hook-orc
 .PHONY: dist-hook-orc
+
+# we try and copy updated orc -dist files below, but don't fail if it
+# doesn't work as the srcdir might not be writable
 dist-hook-orc: tmp-orc.c $(ORC_SOURCE).h
 	$(top_srcdir)/common/gst-indent tmp-orc.c
 	rm -f tmp-orc.c~
 	cmp -s tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c || \
-	  cp tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c
+	  cp tmp-orc.c $(srcdir)/$(ORC_SOURCE)-dist.c || true
 	cmp -s $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h || \
-	  cp $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h
-	cp -p $(srcdir)/$(ORC_SOURCE)-dist.c $(distdir)/
-	cp -p $(srcdir)/$(ORC_SOURCE)-dist.h $(distdir)/
+	  cp $(ORC_SOURCE).h $(srcdir)/$(ORC_SOURCE)-dist.h || true
+	cp -p tmp-orc.c $(distdir)/$(ORC_SOURCE)-dist.c
+	cp -p $(ORC_SOURCE).h $(distdir)/$(ORC_SOURCE)-dist.h
 
