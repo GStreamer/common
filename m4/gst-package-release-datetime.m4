@@ -37,7 +37,7 @@ AC_DEFUN([AG_GST_SET_PACKAGE_RELEASE_DATETIME],
       GST_PACKAGE_RELEASE_DATETIME=$1
     else
       dnl we assume the .doap file contains the date as YYYY-MM-DD
-      YYYY_MM_DD=`. "${srcdir}/common/extract-release-date-from-doap-file" $3 $2`;
+      YYYY_MM_DD=`sh "${srcdir}/common/extract-release-date-from-doap-file" $3 $2`;
       if test "x$YYYY_MM_DD" != "x"; then
         GST_PACKAGE_RELEASE_DATETIME=$YYYY_MM_DD
       else
