@@ -280,10 +280,10 @@ get_object_types (void)
             /* output element data */
             fputs ("    <element>\\n", inspect);
             fputs (xmlprint(6, "name", feature->name),inspect);
-            fputs (xmlprint(6, "longname", factory->details.longname),inspect);
-            fputs (xmlprint(6, "class", factory->details.klass),inspect);
-            fputs (xmlprint(6, "description", factory->details.description),inspect);
-            fputs (xmlprint(6, "author", factory->details.author),inspect);
+            fputs (xmlprint(6, "longname", gst_element_factory_get_longname (factory)),inspect);
+            fputs (xmlprint(6, "class", gst_element_factory_get_klass (factory)),inspect);
+            fputs (xmlprint(6, "description", gst_element_factory_get_description (factory)),inspect);
+            fputs (xmlprint(6, "author", gst_element_factory_get_author (factory)),inspect);
             fputs ("      <pads>\\n", inspect);
             
             /* output pad-template data */
