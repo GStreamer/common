@@ -24,13 +24,13 @@ EXTRA_DIST = 				\
 	$(DOC_MODULE)-sections.txt
 
 DOC_STAMPS =				\
+	setup-build.stamp		\
 	scan-build.stamp		\
-	tmpl-build.stamp		\
 	sgml-build.stamp		\
 	html-build.stamp		\
-	$(srcdir)/tmpl.stamp		\
-	$(srcdir)/sgml.stamp		\
-	$(srcdir)/html.stamp
+	setup.stamp		\
+	sgml.stamp		\
+	html.stamp
 
 SCANOBJ_FILES =				\
 	$(DOC_MODULE).args		\
@@ -50,18 +50,32 @@ CLEANFILES = $(SCANOBJ_FILES) $(REPORT_FILES) $(DOC_STAMPS) doc-registry.xml
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
 
+#### setup ####
+
+setup.stamp: $(content_files)
+	-@if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
+	   cp -a $(abs_srcdir)/$(DOC_MAIN_SGML_FILE) \
+	     $(abs_srcdir)/$(DOC_MODULE)-overrides.txt \
+	     $(abs_srcdir)/$(DOC_MODULE)-sections.txt \
+	     $(abs_srcdir)/$(DOC_MODULE).types \
+	     $(abs_builddir)/; \
+	   if test "x$(content_files)" != "x" ; then \
+	       for file in $(content_files) ; do \
+	           test -f $(abs_srcdir)/$$file || \
+	               cp -a $(abs_srcdir)/$$file $(abs_builddir)/; \
+	       done \
+	   fi \
+	fi
+	touch setup.stamp
+
 #### scan ####
 
 # in the case of non-srcdir builds, the built gst directory gets added
 # to gtk-doc scanning; but only then, to avoid duplicates
-scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
+scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
 	@echo '*** Scanning header files ***'
-	if grep -l '^..*$$' $(srcdir)/$(DOC_MODULE).types > /dev/null;	\
+	if grep -l '^..*$$' $(DOC_MODULE).types > /dev/null;	\
 	then								\
-	    if test x"$(srcdir)" != x. ; then				\
-	        cp $(srcdir)/$(DOC_MODULE).types . ;			\
-	        chmod u+w $(DOC_MODULE).types ;				\
-	    fi ;							\
 	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
 	    GST_PLUGIN_PATH=						\
 	    GST_REGISTRY=doc-registry.xml				\
@@ -72,7 +86,6 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 	    gtkdoc-scangobj --type-init-func="gst_init(NULL,NULL)"	\
 	        --module=$(DOC_MODULE) ;				\
 	else								\
-	    cd $(srcdir) ;						\
 	    for i in $(SCANOBJ_FILES) ; do				\
 	       test -f $$i || touch $$i ;				\
 	    done							\
@@ -89,36 +102,15 @@ scan-build.stamp: $(HFILE_GLOB) $(SCANOBJ_DEPS) $(basefiles)
 		--ignore-headers="$(IGNORE_HFILES)"
 	touch scan-build.stamp
 
-$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES): scan-build.stamp
-	@true
-
-#### templates ####
-
-tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
-	@echo '*** Rebuilding template files ***'
-	if test x"$(srcdir)" != x. ; then \
-	    cp $(srcdir)/$(DOC_MODULE)-sections.txt . ; \
-	    touch $(DOC_MODULE)-decl.txt ; \
-	fi
-	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
-	@if test -s $(DOC_MODULE)-unused.txt; then \
-	  echo "============================================================"; \
-	  echo "Please add the following to $(DOC_MODULE)-sections.txt:     "; \
-	  cat $(DOC_MODULE)-unused.txt;                                        \
-	  echo "============================================================"; \
-	fi
-	rm -f tmpl-build.log
-	touch tmpl-build.stamp
-
-tmpl.stamp: tmpl-build.stamp
+$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_MODULE)-overrides.txt: scan-build.stamp
 	@true
 
 #### xml ####
 
 ### FIXME: make this error out again when docs are complete
-sgml-build.stamp: tmpl.stamp $(CFILE_GLOB) $(expand_content_files)
+sgml-build.stamp: setup.stamp $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(expand_content_files)
 	@echo '*** Building XML ***'
-	gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)  --expand-content-files="$(expand_content_files)" --main-sgml-file=$(srcdir)/$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS) | tee sgml-build.log
+	gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)  --expand-content-files="$(expand_content_files)" --main-sgml-file=$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS) | tee sgml-build.log
 	@if grep "WARNING:" sgml-build.log > /dev/null; then true; fi # exit 1; fi
 	cp ../version.entities xml
 	rm sgml-build.log
@@ -131,21 +123,22 @@ sgml.stamp: sgml-build.stamp
 
 html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@echo '*** Building HTML ***'
-	if test -d html; then rm -rf html; fi
-	mkdir html
-	cp $(srcdir)/$(DOC_MAIN_SGML_FILE) html
-	@for f in $(content_files); do cp $(srcdir)/$$f html; done
+	@rm -rf html
+	@mkdir html
 	cp -pr xml html
-	cp ../version.entities html
-	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
+	cp ../version.entities ./
+	@mkhtml_options=""; \
+	gtkdoc-mkhtml 2>&1 --help | grep  >/dev/null "\-\-path"; \
+	if test "$(?)" = "0"; then \
+	  mkhtml_options=--path="$(abs_srcdir)"; \
+	fi; \
+	cd html && gtkdoc-mkhtml $$mkhtml_options $(MKHTML_OPTIONS) $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
 	mv html/index.sgml html/index.sgml.bak
 	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
 	rm -f html/index.sgml.bak
-	rm -f html/$(DOC_MAIN_SGML_FILE)
 	rm -rf html/xml
-	rm -f html/version.entities
-	test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
-	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
+	rm -f version.entities
+	test "x$(HTML_IMAGES)" = "x" ||  ( cd $(srcdir) && cp $(HTML_IMAGES) $(abs_builddir)/html )
 	@echo '-- Fixing Crossreferences'
 	gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	touch html-build.stamp
@@ -165,16 +158,13 @@ clean-local: clean-local-gtkdoc
 	rm -f *~ *.bak
 	rm -rf .libs
 
-# company: don't delete .sgml and -sections.txt as they're in git
-# FIXME : thomas added all sgml files and some other things to make
-# make distcheck work
 distclean-local:
 	rm -f $(REPORT_FILES) \
 	        $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 	rm -rf tmpl/*.sgml.bak
 	rm -f $(DOC_MODULE).hierarchy
 	rm -f *.stamp || true
-	if test x"$(srcdir)" != x. ; then \
+	if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
 	    rm -f $(DOC_MODULE)-docs.sgml ; \
 	    rm -f $(DOC_MODULE).types ; \
 	    rm -f $(DOC_MODULE).interfaces ; \
@@ -191,8 +181,8 @@ maintainer-clean-local: clean
 
 # thomas: make docs parallel installable; devhelp requires majorminor too
 install-data-local:
-	(installfiles=`echo $(srcdir)/html/*.sgml $(srcdir)/html/*.html $(srcdir)/html/*.png $(srcdir)/html/*.css`; \
-	if test "$$installfiles" = '$(srcdir)/html/*.sgml $(srcdir)/html/*.html $(srcdir)/html/*.png $(srcdir)/html/*.css'; \
+	(installfiles=`echo $(builddir)/html/*.sgml $(builddir)/html/*.html $(builddir)/html/*.png $(builddir)/html/*.css`; \
+	if test "$$installfiles" = '$(builddir)/html/*.sgml $(builddir)/html/*.html $(builddir)/html/*.png $(builddir)/html/*.css'; \
 	then echo '-- Nothing to install' ; \
 	else \
 	  $(mkinstalldirs) $(DESTDIR)$(TARGET_DIR); \
