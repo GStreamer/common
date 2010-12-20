@@ -3910,3 +3910,11 @@
    obj:*/dash
 }
 
+# libtool/gentoo fake leak
+# it actually runs bash and valgrind complains
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   obj:/bin/bash
+}
