@@ -100,6 +100,7 @@ INSPECT_ENVIRONMENT=\
 	GST_PLUGIN_SYSTEM_PATH= \
 	GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
 	GST_REGISTRY=$(INSPECT_REGISTRY) \
+	PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" \
 	$(INSPECT_EXTRA_ENVIRONMENT)
 
 # update the element and plugin XML descriptions; store in inspect/
