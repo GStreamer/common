@@ -54,7 +54,7 @@ all-local: html-build.stamp
 
 setup.stamp: $(content_files)
 	-@if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
-	   cp -p $(abs_srcdir)/$(DOC_MAIN_SGML_FILE) \
+	   cp -a $(abs_srcdir)/$(DOC_MAIN_SGML_FILE) \
 	     $(abs_srcdir)/$(DOC_MODULE)-overrides.txt \
 	     $(abs_srcdir)/$(DOC_MODULE)-sections.txt \
 	     $(abs_srcdir)/$(DOC_MODULE).types \
@@ -62,7 +62,7 @@ setup.stamp: $(content_files)
 	   if test "x$(content_files)" != "x" ; then \
 	       for file in $(content_files) ; do \
 	           test -f $(abs_srcdir)/$$file || \
-	               cp -p $(abs_srcdir)/$$file $(abs_builddir)/; \
+	               cp -a $(abs_srcdir)/$$file $(abs_builddir)/; \
 	       done \
 	   fi \
 	fi
@@ -229,3 +229,6 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	-gtkdoc-rebase --online --relative --html-dir=$(distdir)/html
 
 .PHONY : dist-hook-local docs
+
+# avoid spurious build errors when distchecking with -jN
+.NOTPARALLEL:

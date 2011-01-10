@@ -360,3 +360,5 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 
 .PHONY : dist-hook-local docs check-outdated-docs
 
+# avoid spurious build errors when distchecking with -jN
+.NOTPARALLEL:
