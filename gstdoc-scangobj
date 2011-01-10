@@ -30,7 +30,14 @@
 
 use Getopt::Long;
 
-unshift @INC, '/usr/share/gtk-doc/data';
+my $GTK_DOC_PREFIX=`pkg-config --variable prefix gtk-doc`;
+if ($GTK_DOC_PREFIX) {
+  chomp $GTK_DOC_PREFIX;
+  #print "Adding $GTK_DOC_PREFIX/share/gtk-doc/data to \@INC\n";
+  unshift @INC, "$GTK_DOC_PREFIX/share/gtk-doc/data";
+} else {
+  unshift @INC, '/usr/share/gtk-doc/data';
+}
 require "gtkdoc-common.pl";
 
 # Options
