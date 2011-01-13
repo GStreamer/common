@@ -28,6 +28,8 @@ def commit_exists(sha1, gitdir):
 COMMON_GIT_DIR = "/git/gstreamer/common.git"
 
 pushvalid = True
+error_badcommon = False
+error_badcommit = False
 
 print "=> Checking for integrity of common submodule changes"
 print
@@ -63,14 +65,31 @@ for line in sys.stdin.readlines():
         # 2. Figure out if that commit exists in the common submodule
         # (use GIT_DIR to execute commands in that directory)
 
+    # Get the commit message
+    sub = subprocess.Popen(["git", "log", "--format=%s",
+	    "%s..%s" % (old, new, )], stdout=subprocess.PIPE)
+    stdout, stderr = sub.communicate()
+    if stdout != "":
+	for line in stdout.strip().rsplit('\n',1):
+	    if line.startswith("!"):
+	        error_badcommit = True
+		pushvalid = False
+		break
+
 if pushvalid:
     print "   Incoming packet valid, proceeding to actual commit"
     sys.exit(0)
 else:
-    print "   Attempting to push commits containing modifications to common"
-    print "   that have not been commited to the actuall common module."
-    print
-    print "   First push your changes to common/ before pushing the changes"
-    print "   to the module using it."
+    if error_badcommit:
+        print "   Attempting to push commits with commit messages that start"
+        print "   with '!'.  Commit messages starting with '!' are reserved"
+	print "   for private branches to prevent the commits from accidentally"
+	print "   getting to the main repository."
+    if error_badcommon:
+        print "   Attempting to push commits containing modifications to common"
+        print "   that have not been commited to the actuall common module."
+        print
+        print "   First push your changes to common/ before pushing the changes"
+        print "   to the module using it."
     sys.exit(-1)
 
