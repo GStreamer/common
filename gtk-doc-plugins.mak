@@ -88,6 +88,7 @@ CLEANFILES = \
 	$(DOC_STAMPS) \
 	inspect-registry.xml
 
+INSPECT_DIR = inspect
 
 if ENABLE_GTK_DOC
 all-local: html-build.stamp
@@ -105,7 +106,7 @@ INSPECT_ENVIRONMENT=\
 
 # update the element and plugin XML descriptions; store in inspect/
 inspect:
-	mkdir inspect
+	@-mkdir -p $(INSPECT_DIR)
 
 #### scan gobjects; done by documentation maintainer ####
 scanobj-update:
@@ -132,7 +133,7 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS) $(WARNING_CFLAGS)"	\
 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
 	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
-	        --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir="inspect" &&		\
+	        --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir=$(INSPECT_DIR) &&		\
 		$(PYTHON)						\
 		$(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
 	fi
@@ -170,7 +171,7 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	fi
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
 	$(PYTHON) \
-		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/inspect tmpl
+		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
 	@cat $(DOC_MODULE)-unused.txt
 	rm -f tmpl-build.log
 	touch tmpl-build.stamp
@@ -184,7 +185,7 @@ tmpl.stamp: tmpl-build.stamp
 sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
 	@echo '*** Building XML ***'
 	@-mkdir -p xml
-	@for a in $(srcdir)/inspect/*.xml; do \
+	@for a in $(srcdir)/$(INSPECT_DIR)/*.xml; do \
 	    xsltproc --stringparam module $(MODULE) \
 		$(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
 	@for f in $(EXAMPLE_CFILES); do \
@@ -311,7 +312,7 @@ check-hierarchy: $(DOC_MODULE).hierarchy
 check: check-hierarchy
 
 # wildcard is apparently not portable to other makes, hence the use of find
-inspect_files = $(shell find $(srcdir)/inspect -name '*.xml')
+inspect_files = $(shell find $(srcdir)/$(INSPECT_DIR) -name '*.xml')
 
 check-inspected-versions:
 	@echo Checking plugin versions of inspected plugin data ...; \
