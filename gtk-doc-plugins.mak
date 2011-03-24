@@ -113,10 +113,6 @@ scanobj-update:
 	-rm scanobj-build.stamp
 	$(MAKE) scanobj-build.stamp
 
-# in the case of non-srcdir builds, the built gst directory gets added
-# to gtk-doc scanning; but only then, to avoid duplicates
-# FIXME: since we don't have the scan step as part of the build anymore,
-# we could remove that
 # TODO: finish elite script that updates the output files of this step
 # instead of rewriting them, so that multiple maintainers can generate
 # a collective set of args and signals
@@ -158,7 +154,7 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 
 #### update templates; done on every build ####
 
-### FIXME: make this error out again when docs are fixed for 0.9
+### FIXME: make this error out again when docs are fixed for 0.X
 # in a non-srcdir build, we need to copy files from the previous step
 # and the files from previous runs of this step
 tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
