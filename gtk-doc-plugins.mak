@@ -155,7 +155,7 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 # and the files from previous runs of this step
 tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
 	@echo '*** Rebuilding template files ***'
-	if test x"$(srcdir)" != x. ; then				\
+	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
 	        if test -e $(srcdir)/$$f; then cp $(srcdir)/$$f . ; fi; \
@@ -165,7 +165,7 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	$(PYTHON) \
 		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
 	@cat $(DOC_MODULE)-unused.txt
-	rm -f tmpl-build.log
+	@rm -f tmpl-build.log
 	touch tmpl-build.stamp
 
 tmpl.stamp: tmpl-build.stamp
