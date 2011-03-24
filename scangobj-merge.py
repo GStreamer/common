@@ -261,7 +261,7 @@ def main(argv):
     try:
         modulename = argv[1]
     except IndexError:
-        sys.stderr.write('Pleae provide a documentation module name\n')
+        sys.stderr.write('Please provide a documentation module name\n')
         sys.exit(1)
 
     print "Merging scangobj output for %s" % modulename
