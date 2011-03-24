@@ -140,15 +140,11 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 
 ### scan headers; done on every build ###
 scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
-	if test "x$(top_srcdir)" != "x$(top_builddir)" &&		\
-	   test -d "$(top_builddir)/gst";				\
-	then								\
-	    export BUILT_OPTIONS="--source-dir=$(top_builddir)/gst";	\
-	fi;								\
+	@echo '*** Scanning header files ***'
 	gtkdoc-scan							\
 	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 	    --module=$(DOC_MODULE)					\
-	    $$BUILT_OPTIONS						\
+	    --source-dir=$(DOC_SOURCE_DIR)				\
 	    --ignore-headers="$(IGNORE_HFILES)";			\
 	touch scan-build.stamp
 
