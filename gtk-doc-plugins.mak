@@ -69,7 +69,6 @@ SCANOBJ_FILES_O =			\
 SCAN_FILES =				\
 	$(DOC_MODULE)-sections.txt	\
 	$(DOC_MODULE)-overrides.txt	\
-	$(DOC_MODULE)-undocumented.txt	\
 	$(DOC_MODULE)-decl.txt		\
 	$(DOC_MODULE)-decl-list.txt
 
@@ -235,7 +234,8 @@ clean-local-gtkdoc:
 	rm -rf xml tmpl html
 # clean files copied for nonsrcdir templates build
 	if test x"$(srcdir)" != x. ; then \
-	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES) $(MAINTAINER_DOC_STAMPS); \
+	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES) $(REPORT_FILES) \
+	        $(MAINTAINER_DOC_STAMPS); \
 	fi
 else
 all-local:
