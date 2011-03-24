@@ -366,7 +366,7 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	cd $(distdir) && rm -f $(DISTCLEANFILES)
 	-gtkdoc-rebase --online --relative --html-dir=$(distdir)/html
 
-.PHONY : dist-hook-local docs check-outdated-docs
+.PHONY : dist-hook-local docs check-outdated-docs inspect
 
 # avoid spurious build errors when distchecking with -jN
 .NOTPARALLEL:
