@@ -118,21 +118,26 @@ scanobj-update:
 # a collective set of args and signals
 scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
 	@echo '*** Scanning GObjects ***'
-	if test x"$(srcdir)" != x. ; then				\
-	    for f in $(SCANOBJ_FILES);					\
+	@if test x"$(srcdir)" != x. ; then				\
+	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
 	        cp $(srcdir)/$$f . ;					\
 	    done;							\
-	else								\
-	    $(INSPECT_ENVIRONMENT) 					\
-	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
-	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS) $(WARNING_CFLAGS)"	\
-	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
-	    $(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
-	        --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir=$(INSPECT_DIR) &&		\
-		$(PYTHON)						\
-		$(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
-	fi
+	fi;								\
+	$(INSPECT_ENVIRONMENT) 					\
+	CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
+	CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS) $(WARNING_CFLAGS)"	\
+	LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
+	$(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
+	    --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir=$(INSPECT_DIR) &&		\
+	    $(PYTHON)						\
+	    $(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
+	if test x"$(srcdir)" != x. ; then				\
+	    for f in $(SCANOBJ_FILES);					\
+	    do								\
+	        cmp -s ./$$f $(srcdir)/$$f || cp ./$$f $(srcdir)/ ;		\
+	    done;							\
+	fi;								\
 	touch scanobj-build.stamp
 
 $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
@@ -158,7 +163,7 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
-	        if test -e $(srcdir)/$$f; then cp $(srcdir)/$$f . ; fi; \
+	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi; \
 	    done;							\
 	fi
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
