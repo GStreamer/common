@@ -302,6 +302,7 @@ uninstall-local:
 #
 # Checks
 #
+if ENABLE_GTK_DOC
 check-hierarchy: $(DOC_MODULE).hierarchy
 	@if grep '	' $(DOC_MODULE).hierarchy; then \
 	    echo "$(DOC_MODULE).hierarchy contains tabs, please fix"; \
@@ -309,6 +310,7 @@ check-hierarchy: $(DOC_MODULE).hierarchy
 	fi
 
 check: check-hierarchy
+endif
 
 # wildcard is apparently not portable to other makes, hence the use of find
 inspect_files = $(shell find $(srcdir)/$(INSPECT_DIR) -name '*.xml')
