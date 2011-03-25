@@ -1563,9 +1563,9 @@ if (!defined($ENV{"GTK_DOC_KEEP_INTERMEDIATE"})) {
 }
 
 #&UpdateFileIfChanged ($old_signals_filename, $new_signals_filename, 0);
+unlink $new_signals_filename;
 &UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
 &UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
 &UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
 #&UpdateFileIfChanged ($old_args_filename, $new_args_filename, 0);
-
-
+unlink $new_args_filename;
