@@ -962,16 +962,12 @@ describe_signed_constant (gsize size, gint64 value)
   gchar *desc = NULL;
 
   switch (size) {
-    case 2:
-      if (sizeof (int) == 2) {
-        if (value == G_MAXINT)
-          desc = g_strdup ("G_MAXINT");
-        else if (value == G_MININT)
-          desc = g_strdup ("G_MININT");
-        else if (value == (gint64)G_MAXUINT)
-          desc = g_strdup ("G_MAXUINT");
-      }
-      break;
+    case 8:
+      if (value == G_MAXINT64)
+        desc = g_strdup ("G_MAXINT64");
+      else if (value == G_MININT64)
+        desc = g_strdup ("G_MININT64");
+      /* fall through */
     case 4:
       if (sizeof (int) == 4) {
         if (value == G_MAXINT)
@@ -987,12 +983,16 @@ describe_signed_constant (gsize size, gint64 value)
         desc = g_strdup ("G_MINLONG");
       else if (value == (gint64)G_MAXULONG)
         desc = g_strdup ("G_MAXULONG");
-      break;
-    case 8:
-      if (value == G_MAXINT64)
-        desc = g_strdup ("G_MAXINT64");
-      else if (value == G_MININT64)
-        desc = g_strdup ("G_MININT64");
+      /* fall through */
+    case 2:
+      if (sizeof (int) == 2) {
+        if (value == G_MAXINT)
+          desc = g_strdup ("G_MAXINT");
+        else if (value == G_MININT)
+          desc = g_strdup ("G_MININT");
+        else if (value == (gint64)G_MAXUINT)
+          desc = g_strdup ("G_MAXUINT");
+      }
       break;
     default:
       break;
@@ -1009,14 +1009,12 @@ describe_unsigned_constant (gsize size, guint64 value)
   gchar *desc = NULL;
 
   switch (size) {
-    case 2:
-      if (sizeof (int) == 2) {
-        if (value == (guint64)G_MAXINT)
-          desc = g_strdup ("G_MAXINT");
-        else if (value == G_MAXUINT)
-          desc = g_strdup ("G_MAXUINT");
-      }
-      break;
+    case 8:
+      if (value == G_MAXINT64)
+        desc = g_strdup ("G_MAXINT64");
+      else if (value == G_MAXUINT64)
+        desc = g_strdup ("G_MAXUINT64");
+      /* fall through */
     case 4:
       if (sizeof (int) == 4) {
         if (value == (guint64)G_MAXINT)
@@ -1028,12 +1026,14 @@ describe_unsigned_constant (gsize size, guint64 value)
         desc = g_strdup ("G_MAXLONG");
       else if (value == G_MAXULONG)
         desc = g_strdup ("G_MAXULONG");
-      break;
-    case 8:
-      if (value == G_MAXINT64)
-        desc = g_strdup ("G_MAXINT64");
-      else if (value == G_MAXUINT64)
-        desc = g_strdup ("G_MAXUINT64");
+      /* fall through */
+    case 2:
+      if (sizeof (int) == 2) {
+        if (value == (guint64)G_MAXINT)
+          desc = g_strdup ("G_MAXINT");
+        else if (value == G_MAXUINT)
+          desc = g_strdup ("G_MAXUINT");
+      }
       break;
     default:
       break;
