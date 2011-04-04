@@ -169,7 +169,6 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
 	$(PYTHON) \
 		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
-	@cat $(DOC_MODULE)-unused.txt
 	@rm -f tmpl-build.log
 	touch tmpl-build.stamp
 
