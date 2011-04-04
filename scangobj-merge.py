@@ -269,10 +269,12 @@ def main(argv):
     signals.load_file(modulename + '.signals')
     signals.load_file(modulename + '.signals.new')
     signals.save_file(modulename + '.signals', backup=True)
+    os.unlink(modulename + '.signals.new')
 
     args = Args()
     args.load_file(modulename + '.args')
     args.load_file(modulename + '.args.new')
     args.save_file(modulename + '.args', backup=True)
+    os.unlink(modulename + '.args.new')
 
 main(sys.argv)
