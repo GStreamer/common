@@ -221,7 +221,6 @@ get_object_types (void)
       plugin = (GstPlugin *) (plugins->data);
       plugins = g_list_next (plugins);
       source = gst_plugin_get_source (plugin);
-      /*g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);*/
       if (!source || strcmp (source, "$SOURCE") != 0) {
         continue;
       }
@@ -230,7 +229,7 @@ get_object_types (void)
       if (gst_plugin_get_filename (plugin) == NULL)
         continue;
 
-      g_print ("plugin: %s source: %s\\n", plugin->desc.name, source);
+      /*g_message ("plugin: %s source: %s", plugin->desc.name, source);*/
 
       if (reinspect) {
         inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
@@ -277,7 +276,7 @@ get_object_types (void)
           const gchar *pad_pres[] = { "always","sometimes","request" };
           GList *pads, *pad;
 
-          /*g_print ("  feature: %s\\n", feature->name);*/
+          /*g_message ("  feature: %s", feature->name);*/
 
           factory = GST_ELEMENT_FACTORY (feature);
           factories = g_list_prepend (factories, factory);
@@ -333,7 +332,7 @@ get_object_types (void)
       factory = GST_ELEMENT_FACTORY (l->data);
       type = gst_element_factory_get_element_type (factory);
       if (type != 0) {
-        g_message ("adding type %p for factory %s", (void *) type, gst_element_factory_get_longname (factory));
+        /*g_message ("adding type for factory %s", gst_element_factory_get_longname (factory));*/
         object_types[i++] = type;
       } else {
         g_message ("type info for factory %s not found",
@@ -522,7 +521,7 @@ output_object_signal (FILE *fp,
   gchar signal_name[128];
   gchar flags[16];
 
-  /*  g_print ("Object: %s Signal: %u\\n", object_name, signal_id);*/
+  /*g_message ("Object: %s Signal: %u", object_name, signal_id);*/
 
   param_num = 1;
   widget_num = event_num = callback_num = 0;
