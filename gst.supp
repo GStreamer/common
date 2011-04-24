@@ -3918,3 +3918,12 @@
    fun:*alloc
    obj:/bin/bash
 }
+
+{
+   <ignore possbly-lost leaks in the plugin scanner which doesn't clean up properly>
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:_gst_plugin_loader_client_run
+   fun:main
+}
