@@ -166,10 +166,9 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
 	    done;							\
 	fi
-	@gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
+	@gtkdoc-mktmpl --module=$(DOC_MODULE)
 	@$(PYTHON) \
 		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
-	@rm -f tmpl-build.log
 	@touch tmpl-build.stamp
 
 tmpl.stamp: tmpl-build.stamp
@@ -193,11 +192,8 @@ sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common
 		--main-sgml-file=$(srcdir)/$(DOC_MAIN_SGML_FILE) \
 		--output-format=xml \
 		--ignore-files="$(IGNORE_HFILES) $(IGNORE_CFILES)" \
-		$(MKDB_OPTIONS) \
-		| tee sgml-build.log
-	@if grep "WARNING:" sgml-build.log > /dev/null; then true; fi # exit 1; fi
+		$(MKDB_OPTIONS)
 	@cp ../version.entities xml
-	@rm sgml-build.log
 	@touch sgml-build.stamp
 
 sgml.stamp: sgml-build.stamp
