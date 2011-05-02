@@ -117,7 +117,7 @@ scanobj-update:
 # instead of rewriting them, so that multiple maintainers can generate
 # a collective set of args and signals
 scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
-	@echo '*** Scanning GObjects ***'
+	@echo "  DOC   Introspecting gobjects"
 	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
@@ -145,7 +145,7 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 
 ### scan headers; done on every build ###
 scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
-	@echo '*** Scanning header files ***'
+	@echo '  DOC   Scanning header files'
 	@gtkdoc-scan							\
 	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 	    --module=$(DOC_MODULE)					\
@@ -159,7 +159,7 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 # in a non-srcdir build, we need to copy files from the previous step
 # and the files from previous runs of this step
 tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
-	@echo '*** Rebuilding template files ***'
+	@echo '  DOC   Rebuilding template files'
 	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
@@ -178,7 +178,7 @@ tmpl.stamp: tmpl-build.stamp
 
 ### FIXME: make this error out again when docs are fixed for 0.9
 sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
-	@echo '*** Building XML ***'
+	@echo '  DOC   Building XML'
 	@-mkdir -p xml
 	@for a in $(srcdir)/$(INSPECT_DIR)/*.xml; do \
 	    xsltproc --stringparam module $(MODULE) \
@@ -202,7 +202,7 @@ sgml.stamp: sgml-build.stamp
 #### build html; done on every step ####
 
 html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
-	@echo '*** Building HTML ***'
+	@echo '  DOC   Building HTML'
 	@if test -d html; then rm -rf html; fi
 	@mkdir html
 	@cp $(srcdir)/$(DOC_MAIN_SGML_FILE) html
@@ -218,7 +218,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@rm -f html/version.entities
 	@test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
 	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
-	@echo '-- Fixing Crossreferences'
+	@echo '  DOC   Fixing cross-references'
 	@gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	@touch html-build.stamp
 

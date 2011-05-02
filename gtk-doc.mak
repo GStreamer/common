@@ -53,6 +53,7 @@ all-local: html-build.stamp
 
 setup-build.stamp: $(content_files)
 	-@if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
+	    echo '  DOC   Preparing build'; \
 	    files=`echo $(DOC_MAIN_SGML_FILE) $(DOC_OVERRIDES) $(DOC_MODULE)-sections.txt $(DOC_MODULE).types $(content_files)`; \
 	    if test "x$$files" != "x" ; then \
 	        for file in $$files ; do \
@@ -68,9 +69,19 @@ setup-build.stamp: $(content_files)
 # in the case of non-srcdir builds, the built gst directory gets added
 # to gtk-doc scanning; but only then, to avoid duplicates
 scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
-	@echo '*** Scanning header files ***'
-	@if grep -l '^..*$$' $(DOC_MODULE).types > /dev/null;	\
+	@echo '  DOC   Scanning header files'
+	@if test "x$(top_srcdir)" != "x$(top_builddir)";			\
 	then								\
+	  export BUILT_OPTIONS="--source-dir=$(DOC_BUILD_DIR)";		\
+	fi;								\
+	gtkdoc-scan							\
+		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
+		--module=$(DOC_MODULE)					\
+		--source-dir=$(DOC_SOURCE_DIR)				\
+		$$BUILT_OPTIONS						\
+		--ignore-headers="$(IGNORE_HFILES)"
+	@if grep -l '^..*$$' $(DOC_MODULE).types > /dev/null; then	\
+	    echo "  DOC   Introspecting gobjects"; \
 	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
 	    GST_PLUGIN_PATH=						\
 	    GST_REGISTRY=doc-registry.xml				\
@@ -85,16 +96,6 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
 	       test -f $$i || touch $$i ;				\
 	    done							\
 	fi
-	@if test "x$(top_srcdir)" != "x$(top_builddir)";			\
-	then								\
-	  export BUILT_OPTIONS="--source-dir=$(DOC_BUILD_DIR)";		\
-	fi;								\
-	gtkdoc-scan							\
-		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
-		--module=$(DOC_MODULE)					\
-		--source-dir=$(DOC_SOURCE_DIR)				\
-		$$BUILT_OPTIONS						\
-		--ignore-headers="$(IGNORE_HFILES)"
 	@touch scan-build.stamp
 
 $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_MODULE)-overrides.txt: scan-build.stamp
@@ -104,7 +105,7 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_MODULE)
 
 ### FIXME: make this error out again when docs are complete
 sgml-build.stamp: setup-build.stamp $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(expand_content_files)
-	@echo '*** Building XML ***'
+	@echo '  DOC   Building XML'
 	@gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)  --expand-content-files="$(expand_content_files)" --main-sgml-file=$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS)
 	@cp ../version.entities xml
 	@touch sgml-build.stamp
@@ -115,7 +116,7 @@ sgml.stamp: sgml-build.stamp
 #### html ####
 
 html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
-	@echo '*** Building HTML ***'
+	@echo '  DOC   Building HTML'
 	@rm -rf html
 	@mkdir html
 	@cp -pr xml html
@@ -132,7 +133,7 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@rm -rf html/xml
 	@rm -f version.entities
 	@test "x$(HTML_IMAGES)" = "x" ||  ( cd $(srcdir) && cp $(HTML_IMAGES) $(abs_builddir)/html )
-	@echo '-- Fixing Crossreferences'
+	@echo '  DOC   Fixing cross-references'
 	@gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
 	@touch html-build.stamp
 
