@@ -53,17 +53,13 @@ all-local: html-build.stamp
 
 setup-build.stamp: $(content_files)
 	-@if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
-	   cp -p $(abs_srcdir)/$(DOC_MAIN_SGML_FILE) \
-	     $(abs_srcdir)/$(DOC_MODULE)-overrides.txt \
-	     $(abs_srcdir)/$(DOC_MODULE)-sections.txt \
-	     $(abs_srcdir)/$(DOC_MODULE).types \
-	     $(abs_builddir)/; \
-	   if test "x$(content_files)" != "x" ; then \
-	       for file in $(content_files) ; do \
-	           test -f $(abs_srcdir)/$$file || \
-	               cp -p $(abs_srcdir)/$$file $(abs_builddir)/; \
-	       done \
-	   fi \
+	    files=`echo $(DOC_MAIN_SGML_FILE) $(DOC_OVERRIDES) $(DOC_MODULE)-sections.txt $(DOC_MODULE).types $(content_files)`; \
+	    if test "x$$files" != "x" ; then \
+	        for file in $$files ; do \
+	            test -f $(abs_srcdir)/$$file && \
+	                cp -pu $(abs_srcdir)/$$file $(abs_builddir)/ || true; \
+	        done; \
+	    fi; \
 	fi
 	@touch setup-build.stamp
 
@@ -162,10 +158,10 @@ distclean-local:
 	@rm -f $(DOC_MODULE).hierarchy
 	@rm -f *.stamp || true
 	@if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
-	    rm -f $(DOC_MODULE)-docs.sgml ; \
+	    rm -f $(DOC_MAIN_SGML_FILE) ; \
+	    rm -f $(DOC_OVERRIDES) ; \
 	    rm -f $(DOC_MODULE).types ; \
 	    rm -f $(DOC_MODULE).interfaces ; \
-	    rm -f $(DOC_MODULE)-overrides.txt ; \
 	    rm -f $(DOC_MODULE).prerequisites ; \
 	    rm -f $(DOC_MODULE)-sections.txt ; \
 	    rm -rf tmpl/*.sgml ; \
