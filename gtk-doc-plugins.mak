@@ -146,7 +146,7 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 ### scan headers; done on every build ###
 scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	@echo '*** Scanning header files ***'
-	gtkdoc-scan							\
+	@gtkdoc-scan							\
 	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 	    --module=$(DOC_MODULE)					\
 	    --source-dir=$(DOC_SOURCE_DIR)				\
@@ -166,11 +166,11 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
 	    done;							\
 	fi
-	gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
-	$(PYTHON) \
+	@gtkdoc-mktmpl --module=$(DOC_MODULE) | tee tmpl-build.log
+	@$(PYTHON) \
 		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
 	@rm -f tmpl-build.log
-	touch tmpl-build.stamp
+	@touch tmpl-build.stamp
 
 tmpl.stamp: tmpl-build.stamp
 	@true
@@ -186,7 +186,7 @@ sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common
 		$(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
 	@for f in $(EXAMPLE_CFILES); do \
 		$(PYTHON) $(top_srcdir)/common/c-to-xml.py $$f > xml/element-`basename $$f .c`.xml; done
-	gtkdoc-mkdb \
+	@gtkdoc-mkdb \
 		--module=$(DOC_MODULE) \
 		--source-dir=$(DOC_SOURCE_DIR) \
 		 --expand-content-files="$(expand_content_files)" \
@@ -196,9 +196,9 @@ sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common
 		$(MKDB_OPTIONS) \
 		| tee sgml-build.log
 	@if grep "WARNING:" sgml-build.log > /dev/null; then true; fi # exit 1; fi
-	cp ../version.entities xml
-	rm sgml-build.log
-	touch sgml-build.stamp
+	@cp ../version.entities xml
+	@rm sgml-build.log
+	@touch sgml-build.stamp
 
 sgml.stamp: sgml-build.stamp
 	@true
@@ -207,29 +207,29 @@ sgml.stamp: sgml-build.stamp
 
 html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@echo '*** Building HTML ***'
-	if test -d html; then rm -rf html; fi
-	mkdir html
-	cp $(srcdir)/$(DOC_MAIN_SGML_FILE) html
+	@if test -d html; then rm -rf html; fi
+	@mkdir html
+	@cp $(srcdir)/$(DOC_MAIN_SGML_FILE) html
 	@for f in $(content_files); do cp $(srcdir)/$$f html; done
-	cp -pr xml html
-	cp ../version.entities html
-	cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
-	mv html/index.sgml html/index.sgml.bak
-	$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
-	rm -f html/index.sgml.bak
-	rm -f html/$(DOC_MAIN_SGML_FILE)
-	rm -rf html/xml
-	rm -f html/version.entities
-	test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
+	@cp -pr xml html
+	@cp ../version.entities html
+	@cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
+	@mv html/index.sgml html/index.sgml.bak
+	@$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
+	@rm -f html/index.sgml.bak
+	@rm -f html/$(DOC_MAIN_SGML_FILE)
+	@rm -rf html/xml
+	@rm -f html/version.entities
+	@test "x$(HTML_IMAGES)" = "x" || for i in "" $(HTML_IMAGES) ; do \
 	    if test "$$i" != ""; then cp $(srcdir)/$$i html ; fi; done
 	@echo '-- Fixing Crossreferences'
-	gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
-	touch html-build.stamp
+	@gtkdoc-fixxref --module=$(DOC_MODULE) --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+	@touch html-build.stamp
 
 clean-local-gtkdoc:
-	rm -rf xml tmpl html
+	@rm -rf xml tmpl html
 # clean files copied for nonsrcdir templates build
-	if test x"$(srcdir)" != x. ; then \
+	@if test x"$(srcdir)" != x. ; then \
 	    rm -rf $(SCANOBJ_FILES) $(SCAN_FILES) $(REPORT_FILES) \
 	        $(MAINTAINER_DOC_STAMPS); \
 	fi
@@ -239,16 +239,16 @@ clean-local-gtkdoc:
 endif
 
 clean-local: clean-local-gtkdoc
-	rm -f *~ *.bak
-	rm -rf .libs
+	@rm -f *~ *.bak
+	@rm -rf .libs
 
 distclean-local:
-	rm -f $(REPORT_FILES) \
+	@rm -f $(REPORT_FILES) \
 	        $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
-	rm -rf tmpl/*.sgml.bak
-	rm -f $(DOC_MODULE).hierarchy
-	rm -f *.stamp || true
-	if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
+	@rm -rf tmpl/*.sgml.bak
+	@rm -f $(DOC_MODULE).hierarchy
+	@rm -f *.stamp || true
+	@if test "$(abs_srcdir)" != "$(abs_builddir)" ; then \
 	    rm -f $(DOC_MODULE)-docs.sgml ; \
 	    rm -f $(DOC_MODULE).types ; \
 	    rm -f $(DOC_MODULE).interfaces ; \
@@ -258,7 +258,7 @@ distclean-local:
 	    rm -rf tmpl/*.sgml ; \
 	    rm -rf $(INSPECT_DIR); \
 	fi
-	rm -rf *.o
+	@rm -rf *.o
 
 MAINTAINERCLEANFILES = $(MAINTAINER_DOC_STAMPS)
 
