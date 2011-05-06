@@ -3934,7 +3934,6 @@
    fun:*strcasecmp*
    ...
    fun:__dcigettext
-   fun:_gst_tag_initialize
 }
 
 {
@@ -3943,7 +3942,6 @@
    fun:*strcasecmp*
    ...
    fun:__dcigettext
-   fun:_gst_tag_initialize
 }
 
 {
