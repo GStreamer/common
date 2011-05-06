@@ -3927,3 +3927,22 @@
    fun:_gst_plugin_loader_client_run
    fun:main
 }
+
+{
+   <warning with libc 2.13-2 as in Debian/unstable on amd64>
+   Memcheck:Cond
+   fun:*strcasecmp*
+   ...
+   fun:__dcigettext
+   fun:_gst_tag_initialize
+}
+
+{
+   <warning with libc 2.13-2 as in Debian/unstable on amd64>
+   Memcheck:Value8
+   fun:*strcasecmp*
+   ...
+   fun:__dcigettext
+   fun:_gst_tag_initialize
+}
+
