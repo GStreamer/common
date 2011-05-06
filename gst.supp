@@ -3946,3 +3946,13 @@
    fun:_gst_tag_initialize
 }
 
+{
+   <GstSystemClock is a singleton and does not leak>
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:gst_poll_new
+   fun:gst_poll_new_timer
+   fun:gst_system_clock_init
+}
+
