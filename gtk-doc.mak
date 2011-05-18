@@ -121,6 +121,12 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@cp -pr xml html
 	@cp ../version.entities ./
 	@mkhtml_options=""; \
+	gtkdoc-mkhtml 2>&1 --help | grep  >/dev/null "\-\-verbose"; \
+	if test "$(?)" = "0"; then \
+	  if test "x$(V)" = "x1"; then \
+	    mkhtml_options="$$mkhtml_options --verbose"; \
+	  fi; \
+	fi; \
 	@gtkdoc-mkhtml 2>&1 --help | grep  >/dev/null "\-\-path"; \
 	if test "$(?)" = "0"; then \
 	  mkhtml_options=--path="$(abs_srcdir)"; \

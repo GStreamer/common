@@ -207,8 +207,11 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@cp -pr xml html
 	@cp ../version.entities html
 	@mkhtml_options=""; \
-	if test "x$(V)" = "x1"; then \
-	    mkhtml_options="--verbose"; \
+	gtkdoc-mkhtml 2>&1 --help | grep  >/dev/null "\-\-verbose"; \
+	if test "$(?)" = "0"; then \
+	  if test "x$(V)" = "x1"; then \
+	    mkhtml_options="$$mkhtml_options --verbose"; \
+	  fi; \
 	fi; \
 	cd html && gtkdoc-mkhtml $$mkhtml_options $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
 	@mv html/index.sgml html/index.sgml.bak
