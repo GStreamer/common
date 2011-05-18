@@ -43,6 +43,7 @@ require "gtkdoc-common.pl";
 my $MODULE;
 my $OUTPUT_DIR;
 my $INSPECT_DIR;
+my $VERBOSE;
 my $PRINT_VERSION;
 my $PRINT_HELP;
 my $TYPE_INIT_FUNC="g_type_init ()";
@@ -55,10 +56,11 @@ my $TYPE_INIT_FUNC="g_type_init ()";
 	   'type-init-func' => \$TYPE_INIT_FUNC,
 	   'output-dir' => \$OUTPUT_DIR,
 	   'inspect-dir' => \$INSPECT_DIR,
+	   'verbose' => \$VERBOSE,
 	   'version' => \$PRINT_VERSION,
 	   'help' => \$PRINT_HELP);
 
-GetOptions(\%optctl, "module=s", "source=s", "types:s", "output-dir:s", "inspect-dir:s", "nogtkinit", "type-init-func:s", "version", "help");
+GetOptions(\%optctl, "module=s", "source=s", "types:s", "output-dir:s", "inspect-dir:s", "nogtkinit", "type-init-func:s", "verbose", "version", "help");
 
 if ($NO_GTK_INIT) {
   # Do nothing. This just avoids a warning.
@@ -75,15 +77,19 @@ if (!$MODULE) {
 }
 
 if ($PRINT_HELP) {
-    print "gstdoc-scangobj version 1.5\n";
-    print "\n--module=MODULE_NAME  Name of the doc module being parsed";
-    print "\n--source=SOURCE_NAME  Name of the source module for plugins";
-    print "\n--types=FILE          The name of the file to store the types in";
-    print "\n--type-init-func=FUNC The init function to call instead of g_type_init ()";
-    print "\n--output-dir=DIRNAME  The directory where the results are stored";
-    print "\n--inspect-dir=DIRNAME  The directory where the plugin inspect data is stored";
-    print "\n--version             Print the version of this program";
-    print "\n--help                Print this help\n";
+    print <<EOF;
+gstdoc-scangobj version 1.5 - introspect gstreamer-plugins
+
+--module=MODULE_NAME          Name of the doc module being parsed
+--source=SOURCE_NAME          Name of the source module for plugins
+--types=FILE                  The name of the file to store the types in
+--type-init-func=FUNC         The init function to call instead of g_type_init()
+--output-dir=DIRNAME          The directory where the results are stored
+--inspect-dir=DIRNAME         The directory where the plugin inspect data is stored
+--verbose                     Print extra output while processing
+--version                     Print the version of this program
+--help                        Print this help
+EOF
     exit 0;
 }
 
@@ -1546,15 +1552,20 @@ if ($CC =~ /libtool/) {
   $o_file = "$MODULE-scan.o"
 }
 
-print "gtk-doc: Compiling scanner\n";
-$command = "$CC $CFLAGS -c -o $o_file $MODULE-scan.c";
-system($command) == 0 or die "Compilation of scanner failed: $!\n";
+my $stdout="";
+if (!defined($VERBOSE) or $VERBOSE eq "0") {
+    $stdout=">/dev/null";
+}
 
-print "gtk-doc: Linking scanner\n";
-$command = "$LD -o $MODULE-scan $o_file $LDFLAGS";
+# Compiling scanner
+$command = "$CC $stdout $CFLAGS -c -o $o_file $MODULE-scan.c";
+system("($command)") == 0 or die "Compilation of scanner failed: $!\n";
+
+# Linking scanner
+$command = "$LD $stdout -o $MODULE-scan $o_file $LDFLAGS";
 system($command) == 0 or die "Linking of scanner failed: $!\n";
 
-print "gtk-doc: Running scanner $MODULE-scan\n";
+# Running scanner $MODULE-scan ";
 system("sh -c ./$MODULE-scan") == 0 or die "Scan failed: $!\n";
 
 if (!defined($ENV{"GTK_DOC_KEEP_INTERMEDIATE"})) {

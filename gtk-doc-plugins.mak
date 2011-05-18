@@ -124,12 +124,17 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
 	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
 	    done;							\
 	fi;								\
+	scanobj_options=""; \
+	if test "x$(V)" = "x1"; then \
+	    scanobj_options="--verbose"; \
+	fi; \
 	$(INSPECT_ENVIRONMENT) 					\
 	CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
 	CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS) $(WARNING_CFLAGS)"	\
 	LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
-	$(GST_DOC_SCANOBJ) --type-init-func="gst_init(NULL,NULL)"	\
+	$(GST_DOC_SCANOBJ) $$scanobj_options --type-init-func="gst_init(NULL,NULL)"	\
 	    --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir=$(INSPECT_DIR) &&		\
+	    echo "  DOC   Merging introspection data" && \
 	    $(PYTHON)						\
 	    $(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
 	if test x"$(srcdir)" != x. ; then				\
@@ -209,7 +214,11 @@ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@for f in $(content_files); do cp $(srcdir)/$$f html; done
 	@cp -pr xml html
 	@cp ../version.entities html
-	@cd html && gtkdoc-mkhtml $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
+	@mkhtml_options=""; \
+	if test "x$(V)" = "x1"; then \
+	    mkhtml_options="--verbose"; \
+	fi; \
+	cd html && gtkdoc-mkhtml $$mkhtml_options $(DOC_MODULE) $(DOC_MAIN_SGML_FILE)
 	@mv html/index.sgml html/index.sgml.bak
 	@$(SED) "s/ href=\"$(DOC_MODULE)\// href=\"$(DOC_MODULE)-@GST_MAJORMINOR@\//g" html/index.sgml.bak >html/index.sgml
 	@rm -f html/index.sgml.bak
