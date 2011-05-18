@@ -16,9 +16,9 @@ def debug(*args):
 # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/107747
 # Licensed under the Python License
 class OrderedDict(dict):
-    def __init__(self, dict = None):
+    def __init__(self):
         self._keys = []
-        dict.__init__(self, dict)
+        dict.__init__(self)
 
     def __delitem__(self, key):
         dict.__delitem__(self, key)
@@ -264,7 +264,6 @@ def main(argv):
         sys.stderr.write('Please provide a documentation module name\n')
         sys.exit(1)
 
-    print "Merging scangobj output for %s" % modulename
     signals = Signals()
     signals.load_file(modulename + '.signals')
     signals.load_file(modulename + '.signals.new')
