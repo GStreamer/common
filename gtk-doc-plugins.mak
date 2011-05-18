@@ -55,12 +55,12 @@ DOC_STAMPS =				\
 
 # files generated/updated by gtkdoc-scangobj
 SCANOBJ_FILES =				\
-	$(DOC_MODULE).signals           \
+	$(DOC_MODULE).args              \
 	$(DOC_MODULE).hierarchy         \
 	$(DOC_MODULE).interfaces        \
 	$(DOC_MODULE).prerequisites     \
-	$(DOC_MODULE).types		\
-	$(DOC_MODULE).args
+	$(DOC_MODULE).signals           \
+	$(DOC_MODULE).types
 
 SCANOBJ_FILES_O =			\
 	.libs/$(DOC_MODULE)-scan.o
@@ -78,11 +78,8 @@ REPORT_FILES = \
 	$(DOC_MODULE)-undeclared.txt \
 	$(DOC_MODULE)-unused.txt
 
-# FC3 seems to need -scan.c to be part of CLEANFILES for distcheck
-# no idea why FC4 can do without
 CLEANFILES = \
 	$(SCANOBJ_FILES_O) \
-	$(DOC_MODULE)-scan.c \
 	$(REPORT_FILES) \
 	$(DOC_STAMPS) \
 	inspect-registry.xml
@@ -160,7 +157,6 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 
 #### update templates; done on every build ####
 
-### FIXME: make this error out again when docs are fixed for 0.X
 # in a non-srcdir build, we need to copy files from the previous step
 # and the files from previous runs of this step
 tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
@@ -179,9 +175,8 @@ tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections
 tmpl.stamp: tmpl-build.stamp
 	@true
 
-#### build xml; done on every build ####
+#### xml ####
 
-### FIXME: make this error out again when docs are fixed for 0.9
 sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
 	@echo '  DOC   Building XML'
 	@-mkdir -p xml
@@ -204,11 +199,11 @@ sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common
 sgml.stamp: sgml-build.stamp
 	@true
 
-#### build html; done on every step ####
+#### html ####
 
 html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
 	@echo '  DOC   Building HTML'
-	@if test -d html; then rm -rf html; fi
+	@rm -rf html
 	@mkdir html
 	@cp $(srcdir)/$(DOC_MAIN_SGML_FILE) html
 	@for f in $(content_files); do cp $(srcdir)/$$f html; done
