@@ -106,9 +106,13 @@ scanobj-update:
 	-rm scanobj-build.stamp
 	$(MAKE) scanobj-build.stamp
 
-# TODO: finish elite script that updates the output files of this step
-# instead of rewriting them, so that multiple maintainers can generate
-# a collective set of args and signals
+# gstdoc-scanobj produces 5 output files (.new)
+# scangobj-merge.py merges them into the file which we commit later
+# TODO: scangobj-merge.py only merges signals and args
+#  - for interfaces and prerequisites do:
+#    'sort -du file file.new' and update file if changed
+#  - do that either in gstdoc-scanobj (which we change already) or in
+#    scangobj-merge.py
 scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	@echo "  DOC   Introspecting gobjects"
 	@if test x"$(srcdir)" != x. ; then				\
