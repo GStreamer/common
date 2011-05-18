@@ -285,9 +285,7 @@ install-data-local:
 	      $(INSTALL_DATA) $$i $(DESTDIR)$(TARGET_DIR); \
 	    done; \
 	  fi; \
-	  echo '-- Installing $(builddir)/html/$(DOC_MODULE).devhelp' ; \
-	  $(INSTALL_DATA) $(builddir)/html/$(DOC_MODULE).devhelp \
-	    $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp; \
+	  echo '-- Installing $(builddir)/html/$(DOC_MODULE).devhelp2' ; \
 	  if test -e $(builddir)/html/$(DOC_MODULE).devhelp2; then \
 	            $(INSTALL_DATA) $(builddir)/html/$(DOC_MODULE).devhelp2 \
 	            $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_MAJORMINOR@.devhelp2; \
