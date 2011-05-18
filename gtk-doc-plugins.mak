@@ -101,10 +101,6 @@ INSPECT_ENVIRONMENT=\
 	PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" \
 	$(INSPECT_EXTRA_ENVIRONMENT)
 
-# update the element and plugin XML descriptions; store in inspect/
-inspect:
-	@-mkdir -p $(INSPECT_DIR)
-
 #### scan gobjects; done by documentation maintainer ####
 scanobj-update:
 	-rm scanobj-build.stamp
@@ -113,7 +109,7 @@ scanobj-update:
 # TODO: finish elite script that updates the output files of this step
 # instead of rewriting them, so that multiple maintainers can generate
 # a collective set of args and signals
-scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
+scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	@echo "  DOC   Introspecting gobjects"
 	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
@@ -121,6 +117,7 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles) inspect
 	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
 	    done;							\
 	fi;								\
+	mkdir -p $(INSPECT_DIR); \
 	scanobj_options=""; \
 	if test "x$(V)" = "x1"; then \
 	    scanobj_options="--verbose"; \
