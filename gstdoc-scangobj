@@ -111,6 +111,11 @@ my $new_prerequisites_filename = "$OUTPUT_DIR/$MODULE.prerequisites.new";
 my $old_args_filename = "$OUTPUT_DIR/$MODULE.args";
 my $new_args_filename = "$OUTPUT_DIR/$MODULE.args.new";
 
+my $debug_log="g_message";
+if (!defined($VERBOSE) or $VERBOSE eq "0") {
+    $debug_log="//$debug_log";
+}
+
 # write a C program to scan the types
 
 $includes = "";
@@ -235,7 +240,7 @@ get_object_types (void)
       if (gst_plugin_get_filename (plugin) == NULL)
         continue;
 
-      /*g_message ("plugin: %s source: %s", plugin->desc.name, source);*/
+      $debug_log ("plugin: %s source: %s", plugin->desc.name, source);
 
       if (reinspect) {
         inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
@@ -282,7 +287,7 @@ get_object_types (void)
           const gchar *pad_pres[] = { "always","sometimes","request" };
           GList *pads, *pad;
 
-          /*g_message ("  feature: %s", feature->name);*/
+          $debug_log ("  feature: %s", feature->name);
 
           factory = GST_ELEMENT_FACTORY (feature);
           factories = g_list_prepend (factories, factory);
@@ -325,7 +330,7 @@ get_object_types (void)
 
     g_string_free (xmlstr, TRUE);
 
-    g_message ("number of element factories: %d", g_list_length (factories));
+    $debug_log ("number of element factories: %d", g_list_length (factories));
 
     /* allocate the object_types array to hold them */
     object_types = g_new0 (GType, g_list_length (factories)+$ntypes+1);
@@ -338,7 +343,7 @@ get_object_types (void)
       factory = GST_ELEMENT_FACTORY (l->data);
       type = gst_element_factory_get_element_type (factory);
       if (type != 0) {
-        /*g_message ("adding type for factory %s", gst_element_factory_get_longname (factory));*/
+        $debug_log ("adding type for factory %s", gst_element_factory_get_longname (factory));
         object_types[i++] = type;
       } else {
         g_message ("type info for factory %s not found",
@@ -527,7 +532,7 @@ output_object_signal (FILE *fp,
   gchar signal_name[128];
   gchar flags[16];
 
-  /*g_message ("Object: %s Signal: %u", object_name, signal_id);*/
+  $debug_log ("Object: %s Signal: %u", object_name, signal_id);
 
   param_num = 1;
   widget_num = event_num = callback_num = 0;
