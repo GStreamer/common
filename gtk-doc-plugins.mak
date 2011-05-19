@@ -108,11 +108,7 @@ scanobj-update:
 
 # gstdoc-scanobj produces 5 output files (.new)
 # scangobj-merge.py merges them into the file which we commit later
-# TODO: scangobj-merge.py only merges signals and args
-#  - for interfaces and prerequisites do:
-#    'sort -du file file.new' and update file if changed
-#  - do that either in gstdoc-scanobj (which we change already) or in
-#    scangobj-merge.py
+# TODO: also merge the hierarchy
 scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	@echo "  DOC   Introspecting gobjects"
 	@if test x"$(srcdir)" != x. ; then				\

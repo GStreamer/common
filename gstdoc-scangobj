@@ -775,6 +775,16 @@ output_object_hierarchy (void)
   fclose (fp);
 }
 
+static int
+compare_types (const void *a, const void *b)
+{
+  const char *na = g_type_name (*((GType *)a));
+  const char *nb = g_type_name (*((GType *)b));
+
+  return g_strcmp0 (na, nb);
+}
+
+
 /* This is called recursively to output the hierarchy of a object. */
 static void
 output_hierarchy (FILE  *fp,
@@ -793,6 +803,8 @@ output_hierarchy (FILE  *fp,
   fprintf (fp, "%s\\n", g_type_name (type));
 
   children = g_type_children (type, &n_children);
+  qsort (children, n_children, sizeof (GType), compare_types);
+
 
   for (i=0; i < n_children; i++)
     output_hierarchy (fp, children[i], level + 1);
@@ -1578,9 +1590,9 @@ if (!defined($ENV{"GTK_DOC_KEEP_INTERMEDIATE"})) {
 }
 
 &UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
-&UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
-&UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
 # we will merge these in scangobj-merge.py
+#&UpdateFileIfChanged ($old_interfaces_filename, $new_interfaces_filename, 0);
+#&UpdateFileIfChanged ($old_prerequisites_filename, $new_prerequisites_filename, 0);
 #&UpdateFileIfChanged ($old_signals_filename, $new_signals_filename, 0);
 #&UpdateFileIfChanged ($old_args_filename, $new_args_filename, 0);
 
