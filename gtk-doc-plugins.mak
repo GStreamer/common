@@ -145,6 +145,12 @@ $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(SCANOBJ_FILES_O): scan-build.stamp
 ### scan headers; done on every build ###
 scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	@echo '  DOC   Scanning header files'
+	@if test x"$(srcdir)" != x. ; then				\
+	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
+	    do								\
+	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
+	    done;							\
+	fi
 	@gtkdoc-scan							\
 	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 	    --module=$(DOC_MODULE)					\
