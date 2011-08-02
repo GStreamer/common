@@ -22,7 +22,7 @@ set -x
 
 modules="gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
 	gst-plugins-ugly gst-ffmpeg gst-python \
-	gnonlin gst-plugins-gl"
+	gnonlin gst-plugins-gl gst-rtsp-server gst-editing-services"
 
 topdir=`pwd`
 dir=`mktemp -d $topdir/common-update-XXXXXX`

@@ -53,3 +53,15 @@ AC_DEFUN([AG_GST_PLATFORM],
       ;;
   esac
 ])
+
+AC_DEFUN([AG_GST_LIBTOOL_PREPARE],
+[
+  dnl Persuade libtool to also link (-l) a 'pure' (DirectX) static lib,
+  dnl i.e. as opposed to only import lib with dll counterpart.
+  dnl Needs to be tweaked before libtool's checks.
+  case $host_os in
+  cygwin* | mingw*)
+    lt_cv_deplibs_check_method=pass_all
+    ;;
+  esac
+])

@@ -38,7 +38,7 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
     [enable_gobject_cast_checks=auto])
 
   if test "x$enable_gobject_cast_checks" = "xauto"; then
-    dnl For releases, turn off the cast checks checks
+    dnl For releases, turn off the cast checks
     if test "x$PACKAGE_VERSION_NANO" = "x1"; then
       enable_gobject_cast_checks=yes
     else
@@ -48,6 +48,24 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
 
   if test "x$enable_gobject_cast_checks" = "xno"; then
     GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_CAST_CHECKS"
+  fi
+
+  AC_ARG_ENABLE(glib-asserts,
+    AS_HELP_STRING([--enable-glib-asserts[=@<:@no/auto/yes@:>@]],
+      [Enable GLib assertion]),, 
+    [enable_glib_assertions=auto])
+
+  if test "x$enable_glib_assertions" = "xauto"; then
+    dnl For releases, turn off the assertions
+    if test "x$PACKAGE_VERSION_NANO" = "x1"; then
+      enable_glib_assertions=yes
+    else
+      enable_glib_assertions=no
+    fi
+  fi
+
+  if test "x$enable_glib_assertions" = "xno"; then
+    GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_ASSERT"
   fi
 
   dnl for the poor souls who for example have glib in /usr/local

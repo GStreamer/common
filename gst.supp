@@ -3894,6 +3894,13 @@
    obj:*/sed
 }
 
+{
+   <weird one when re-reading registry>
+   Memcheck:Addr8
+   ...
+   obj:*/sed
+}
+
 # GLib 2.23 interface vtable
 {
    <insert_a_suppression_name_here>
@@ -3908,5 +3915,49 @@
    Memcheck:Leak
    fun:*alloc
    obj:*/dash
+}
+
+# libtool/gentoo fake leak
+# it actually runs bash and valgrind complains
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   obj:/bin/bash
+}
+
+{
+   <ignore possbly-lost leaks in the plugin scanner which doesn't clean up properly>
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:_gst_plugin_loader_client_run
+   fun:main
+}
+
+{
+   <warning with libc 2.13-2 as in Debian/unstable on amd64>
+   Memcheck:Cond
+   fun:*strcasecmp*
+   ...
+   fun:__dcigettext
+}
+
+{
+   <warning with libc 2.13-2 as in Debian/unstable on amd64>
+   Memcheck:Value8
+   fun:*strcasecmp*
+   ...
+   fun:__dcigettext
+}
+
+{
+   <GstSystemClock is a singleton and does not leak>
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:gst_poll_new
+   fun:gst_poll_new_timer
+   fun:gst_system_clock_init
 }
 
