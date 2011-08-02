@@ -76,6 +76,12 @@ if test "x$NOUSE" = "xyes"; then
 fi
 NOUSE=
 
+dnl *** Check if it is ported or not
+if echo " [$GST_PLUGINS_NONPORTED] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
+  USE_[$1]="no"
+  AC_MSG_WARN(*** $3 not ported)
+fi
+
 dnl *** If it's enabled
 
 if test x$USE_[$1] = xyes; then
@@ -237,6 +243,12 @@ printf "configure: *** Plug-ins without external dependencies that will NOT be b
 	printf '\t'$i'\n'
 	;;
     esac
+  done ) | sort
+printf "\n"
+
+printf "configure: *** Plug-ins that have NOT been ported:\n"
+( for i in $GST_PLUGINS_NONPORTED; do
+	printf '\t'$i'\n'
   done ) | sort
 printf "\n"
 

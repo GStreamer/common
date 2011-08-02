@@ -225,9 +225,11 @@ AC_DEFUN([AG_GST_ARG_WITH_PLUGINS],
 
   GST_PLUGINS_ALL=""
   GST_PLUGINS_SELECTED=""
+  GST_PLUGINS_NONPORTED=""
 
   AC_SUBST(GST_PLUGINS_ALL)
   AC_SUBST(GST_PLUGINS_SELECTED)
+  AC_SUBST(GST_PLUGINS_NONPORTED)
 ])
 
 dnl AG_GST_CHECK_PLUGIN(PLUGIN-NAME)
@@ -263,10 +265,16 @@ AC_DEFUN([AG_GST_CHECK_PLUGIN],
   fi
   undefine([pname_def])
 
+  dnl First check inclusion
   if [[ -z "$WITH_PLUGINS" ]] || echo " [$WITH_PLUGINS] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
     GST_PLUGINS_SELECTED="$GST_PLUGINS_SELECTED [$1]"
   fi
+  dnl Then check exclusion
   if echo " [$WITHOUT_PLUGINS] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
+    GST_PLUGINS_SELECTED=`echo " $GST_PLUGINS_SELECTED " | $SED -e 's/ [$1] / /'`
+  fi
+  dnl Finally check if the plugin is ported or not
+  if echo " [$GST_PLUGINS_NONPORTED] " | tr , ' ' | grep -i " [$1] " > /dev/null; then
     GST_PLUGINS_SELECTED=`echo " $GST_PLUGINS_SELECTED " | $SED -e 's/ [$1] / /'`
   fi
   AM_CONDITIONAL([USE_PLUGIN_]translit([$1], a-z, A-Z), echo " $GST_PLUGINS_SELECTED " | grep -i " [$1] " > /dev/null)
