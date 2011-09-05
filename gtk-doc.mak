@@ -170,6 +170,7 @@ distclean-local:
 	    rm -f $(DOC_MODULE).interfaces ; \
 	    rm -f $(DOC_MODULE).prerequisites ; \
 	    rm -f $(DOC_MODULE)-sections.txt ; \
+	    rm -f $(content_files) ; \
 	    rm -rf tmpl/*.sgml ; \
 	fi
 	@rm -rf *.o
