@@ -155,7 +155,7 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	for i in $(DOC_SOURCE_DIR) ; do					\
 	    _source_dir="$${_source_dir} --source-dir=$$i" ;	        \
 	done ;							        \
-	@gtkdoc-scan							\
+	gtkdoc-scan							\
 	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 	    --module=$(DOC_MODULE)					\
 	    $${_source_dir}             				\
