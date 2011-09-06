@@ -70,15 +70,14 @@ setup-build.stamp: $(content_files)
 # to gtk-doc scanning; but only then, to avoid duplicates
 scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
 	@echo '  DOC   Scanning header files'
-	@if test "x$(top_srcdir)" != "x$(top_builddir)";			\
-	then								\
-	  export BUILT_OPTIONS="--source-dir=$(DOC_BUILD_DIR)";		\
-	fi;								\
+	@_source_dir='' ;						\
+	for i in $(DOC_SOURCE_DIR) ; do					\
+	    _source_dir="$${_source_dir} --source-dir=$$i" ;	        \
+	done ;							        \
 	gtkdoc-scan							\
 		$(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 		--module=$(DOC_MODULE)					\
-		--source-dir=$(DOC_SOURCE_DIR)				\
-		$$BUILT_OPTIONS						\
+		$${_source_dir}         				\
 		--ignore-headers="$(IGNORE_HFILES)"
 	@if grep -l '^..*$$' $(DOC_MODULE).types > /dev/null; then	\
 	    echo "  DOC   Introspecting gobjects"; \
