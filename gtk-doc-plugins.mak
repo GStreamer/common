@@ -151,10 +151,14 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
 	    done;							\
 	fi
-	@gtkdoc-scan							\
+	@_source_dir='' ;						\
+	for i in $(DOC_SOURCE_DIR) ; do					\
+	    _source_dir="$${_source_dir} --source-dir=$$i" ;	        \
+	done ;							        \
+	gtkdoc-scan							\
 	    $(SCAN_OPTIONS) $(EXTRA_HFILES)				\
 	    --module=$(DOC_MODULE)					\
-	    --source-dir=$(DOC_SOURCE_DIR)				\
+	    $${_source_dir}             				\
 	    --ignore-headers="$(IGNORE_HFILES)";			\
 	touch scan-build.stamp
 
