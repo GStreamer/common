@@ -41,9 +41,7 @@ fi
 # BSS symbol, unlike on linux where it's a local absolute symbol.
 nm $NMARGS $lib_path | awk \
 	'{
-		if ($3 !~ /^_gst_parse_yy/ && \
-		    $3 !~ /^_gst_[a-z]*_init/ && \
-		    $3 !~ /^_gst_parse_launch/ && \
+		if ($3 !~ /^_gst_[a-z]*_init/ && \
 		    $3 !~ /^__gst_element_details_/ && \
 		    $3 !~ /^__gst_element_factory_add_/ && \
 		    $3 !~ /^gst_interfaces_marshal/ && \
