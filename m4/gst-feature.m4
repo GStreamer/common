@@ -224,7 +224,37 @@ AC_DEFUN([AG_GST_PARSE_SUBSYSTEM_DISABLES],
   AG_GST_PARSE_SUBSYSTEM_DISABLE($1,XML)
 ])
 
+dnl AG_GST_CHECK_GST_DEBUG_DISABLED(ACTION-IF-DISABLED, ACTION-IF-NOT-DISABLED)
+dnl
+dnl Checks if the GStreamer debugging system is disabled in the core version
+dnl we are compiling against (by checking gstconfig.h)
+dnl
+AC_DEFUN([AG_GST_CHECK_GST_DEBUG_DISABLED],
+[
+  AC_REQUIRE([AG_GST_CHECK_GST])
 
+  AC_MSG_CHECKING([whether the GStreamer debugging system is enabled])
+  AC_LANG_PUSH([C])
+  save_CFLAGS="$CFLAGS"
+  CFLAGS="$GST_CFLAGS $CFLAGS"
+  AC_COMPILE_IFELSE([
+      #include <gst/gstconfig.h>
+      #ifdef GST_DISABLE_GST_DEBUG
+      #error "debugging disabled, make compiler fail"
+      #endif], [ debug_system_enabled=yes], [debug_system_enabled=no])
+  CFLAGS="$save_CFLAGS"
+  AC_LANG_POP([C])
+
+  AC_MSG_RESULT([$debug_system_enabled])
+
+  if test "x$debug_system_enabled" = "xyes" ; then
+    $2
+    true
+  else
+    $1
+    true
+  fi
+])
 
 dnl relies on GST_PLUGINS_ALL, GST_PLUGINS_SELECTED, GST_PLUGINS_YES,
 dnl GST_PLUGINS_NO, and BUILD_EXTERNAL
