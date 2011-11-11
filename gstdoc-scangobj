@@ -182,7 +182,9 @@ xmlprint (gint indent, const gchar *tag, const gchar *data)
 static gint
 gst_feature_sort_compare (gconstpointer a, gconstpointer b)
 {
-  return strcmp (((GstPluginFeature *)a)->name, ((GstPluginFeature *)b)->name);
+  const gchar *name_a = gst_plugin_feature_get_name ((GstPluginFeature *) a);
+  const gchar *name_b = gst_plugin_feature_get_name ((GstPluginFeature *) b);
+  return strcmp (name_a, name_b);
 }
 
 static gint
@@ -287,7 +289,7 @@ get_object_types (void)
           const gchar *pad_pres[] = { "always","sometimes","request" };
           GList *pads, *pad;
 
-          $debug_log ("  feature: %s", feature->name);
+          $debug_log ("  feature: %s", gst_plugin_feature_get_name (feature));
 
           factory = GST_ELEMENT_FACTORY (feature);
           factories = g_list_prepend (factories, factory);
@@ -295,7 +297,7 @@ get_object_types (void)
           if (reinspect) {
             /* output element data */
             fputs ("    <element>\\n", inspect);
-            fputs (xmlprint(6, "name", feature->name),inspect);
+            fputs (xmlprint(6, "name", gst_plugin_feature_get_name (feature)),inspect);
             fputs (xmlprint(6, "longname", gst_element_factory_get_longname (factory)),inspect);
             fputs (xmlprint(6, "class", gst_element_factory_get_klass (factory)),inspect);
             fputs (xmlprint(6, "description", gst_element_factory_get_description (factory)),inspect);
