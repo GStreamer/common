@@ -915,7 +915,7 @@
    fun:*alloc
    ...
    fun:g_type_init*
-   fun:init_pre
+   fun:init_pre*
 }
 
 {
