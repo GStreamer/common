@@ -15,6 +15,7 @@
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
 # network usage.
+BRANCH=0.10
 reference=~/gst
 
 set -e
@@ -38,11 +39,18 @@ do
     git clone ssh://git.freedesktop.org/git/gstreamer/$module
   fi
   cd $dir/$module
+
+  # ignore modules that don't have such a branch
+  if ! git show-ref origin/$BRANCH >/dev/null; then
+    continue;
+  fi
+
+  git checkout -b $BRANCH origin/$BRANCH
   git submodule init
   git submodule update
   cd $dir/$module/common
   ref_from=`git log --pretty=format:%h -n 1 HEAD`
-  git checkout master
+  git checkout -b $BRANCH origin/$BRANCH
   git pull origin
   ref_to=`git log --pretty=format:%h -n 1 HEAD`
   echo updating common from $ref_from to $ref_to
@@ -59,7 +67,9 @@ done
 for module in $modules
 do
   cd $dir/$module
-  git push origin
+  if git show-ref origin/$BRANCH >/dev/null; then
+    git push origin $BRANCH
+  fi
 done
 
 rm -rf $dir
