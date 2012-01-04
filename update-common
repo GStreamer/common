@@ -15,7 +15,7 @@
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
 # network usage.
-BRANCH=0.10
+BRANCH=0.11
 reference=~/gst
 
 set -e
