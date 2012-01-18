@@ -72,4 +72,20 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
   AS_SCRUB_INCLUDE(GLIB_CFLAGS)
 
   AC_SUBST(GLIB_EXTRA_CFLAGS)
+
+  dnl Now check for GIO
+  PKG_CHECK_MODULES(GIO, gio-2.0 >= $GLIB_REQ)
+  if test "x$HAVE_GIO" = "xno"; then
+    AC_MSG_ERROR([This package requires GIO >= $GLIB_REQ to compile.])
+  fi
+  
+  GIO_MODULE_DIR="`$PKG_CONFIG --variable=giomoduledir gio-2.0`"
+  AC_DEFINE_UNQUOTED(GIO_MODULE_DIR, "$GIO_MODULE_DIR",
+      [The GIO modules directory.])
+  GIO_LIBDIR="`$PKG_CONFIG --variable=libdir gio-2.0`"
+  AC_DEFINE_UNQUOTED(GIO_LIBDIR, "$GIO_LIBDIR",
+      [The GIO library directory.])
+  AC_SUBST(GIO_CFLAGS)
+  AC_SUBST(GIO_LIBS)
+  AC_SUBST(GIO_LDFLAGS)
 ])
