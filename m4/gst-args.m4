@@ -19,6 +19,7 @@ dnl AG_GST_ARG_ENABLE_EXTERNAL
 dnl AG_GST_ARG_ENABLE_EXPERIMENTAL
 dnl AG_GST_ARG_ENABLE_BROKEN
 
+dnl AG_GST_ARG_DISABLE_FATAL_WARNINGS
 AC_DEFUN([AG_GST_ARG_DEBUG],
 [
   dnl debugging stuff
@@ -332,4 +333,21 @@ AC_DEFUN([AG_GST_ARG_ENABLE_BROKEN],
     ],[
       AC_MSG_NOTICE([not building broken plug-ins])
     ])
+])
+
+dnl allow people (or build tools) to override default behaviour
+dnl for fatal compiler warnings
+AC_DEFUN([AG_GST_ARG_DISABLE_FATAL_WARNINGS],
+[
+  AC_ARG_ENABLE(fatal-warnings,
+    AC_HELP_STRING([--disable-fatal-warnings],
+                   [Don't turn compiler warnings into fatal errors]),
+    [
+      case "${enableval}" in
+        yes) FATAL_WARNINGS=yes ;;
+        no)  FATAL_WARNINGS=no ;;
+        *)   AC_MSG_ERROR(bad value ${enableval} for --disable-fatal-warnings) ;;
+      esac
+    ],
+    [FATAL_WARNINGS=$GST_GIT]) dnl Default value
 ])
