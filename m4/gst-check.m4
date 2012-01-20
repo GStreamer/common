@@ -117,6 +117,38 @@ AC_DEFUN([AG_GST_CHECK_GST_CHECK],
 ])
 
 dnl ===========================================================================
+dnl AG_GST_CHECK_UNINSTALLED_SETUP([ACTION-IF-UNINSTALLED], [ACTION-IF-NOT])
+dnl
+dnl ACTION-IF-UNINSTALLED  (optional) extra actions to perform if the setup
+dnl                        is an uninstalled setup
+dnl ACTION-IF-NOT          (optional) extra actions to perform if the setup
+dnl                        is not an uninstalled setup
+dnl ===========================================================================
+AC_DEFUN([AG_GST_CHECK_UNINSTALLED_SETUP],
+[
+  AC_MSG_CHECKING([whether this is an uninstalled GStreamer setup])
+  AC_CACHE_VAL(gst_cv_is_uninstalled_setup,[
+    gst_cv_is_uninstalled_setup=no
+    if (set -u; : $GST_PLUGIN_SYSTEM_PATH) 2>/dev/null ; then
+      if test -z "$GST_PLUGIN_SYSTEM_PATH" \
+           -a -n "$GST_PLUGIN_SCANNER"     \
+           -a -n "$GST_PLUGIN_PATH"        \
+           -a -n "$GST_REGISTRY"           \
+           -a -n "$DYLD_LIBRARY_PATH"      \
+           -a -n "$LD_LIBRARY_PATH"; then
+        gst_cv_is_uninstalled_setup=yes;
+      fi
+    fi
+  ])
+  AC_MSG_RESULT($gst_cv_is_uninstalled_setup)
+  if test "x$gst_cv_is_uninstalled_setup" = "xyes"; then
+    ifelse([$1], , :, [$1])
+  else
+    ifelse([$2], , :, [$2])
+  fi
+])
+
+dnl ===========================================================================
 dnl AG_GST_CHECK_GST_PLUGINS_BASE([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
 dnl
 dnl Sets GST_PLUGINS_BASE_CFLAGS and GST_PLUGINS_BASE_LIBS.
