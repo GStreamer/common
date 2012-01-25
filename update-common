@@ -17,6 +17,7 @@
 # network usage.
 BRANCH=0.10
 reference=~/gst
+PUSHURL=ssh://git.freedesktop.org/git/gstreamer
 
 set -e
 set -x
@@ -32,11 +33,17 @@ for module in $modules
 do
   cd $dir
   if test -e $reference/$module/.git ; then
+    pushd $reference/$module
+    PUSHURL=`git config remote.origin.url | sed 's@\(git/gstreamer\).*@\1@'`
+    popd
     git clone --reference $reference/$module/.git --shared ssh://git.freedesktop.org/git/gstreamer/$module
   elif test -e $topdir/$module/.git ; then
-    git clone --reference $topdir/$module/.git --shared ssh://git.freedesktop.org/git/gstreamer/$module
+    pushd $topdir/$module
+    PUSHURL=`git config remote.origin.url | sed 's@\(git/gstreamer\).*@\1@'`
+    popd
+    git clone --reference $topdir/$module/.git --shared $PUSHURL/$module
   else
-    git clone ssh://git.freedesktop.org/git/gstreamer/$module
+    git clone $PUSHURL/$module
   fi
   cd $dir/$module
 
