@@ -13,8 +13,7 @@ help:
 	@echo
 
 # update the stuff maintained by doc maintainers
-update:
-	$(MAKE) scanobj-update
+update: scanobj-update
 	$(MAKE) check-outdated-docs
 
 # We set GPATH here; this gives us semantics for GNU make
@@ -130,7 +129,7 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	    --module=$(DOC_MODULE) --source=$(PACKAGE) --inspect-dir=$(INSPECT_DIR) &&		\
 	    echo "  DOC   Merging introspection data" && \
 	    $(PYTHON)						\
-	    $(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE);	\
+	    $(top_srcdir)/common/scangobj-merge.py $(DOC_MODULE) || exit 1;	\
 	if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES);					\
 	    do								\
