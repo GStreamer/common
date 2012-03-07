@@ -24,6 +24,12 @@ LOOPS = 10
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
+# just like 'check', but don't run it again if it fails (useful for debugging)
+%.check-norepeat: %
+	@$(TESTS_ENVIRONMENT)					\
+	CK_DEFAULT_TIMEOUT=20					\
+	$*
+
 # run any given test in a loop
 %.torture: %
 	@for i in `seq 1 $(LOOPS)`; do				\
@@ -152,7 +158,8 @@ help:
 	@echo
 	@echo "make check                         -- run all checks"
 	@echo "make torture                       -- run all checks $(LOOPS) times"
-	@echo "make (dir)/(test).check            -- run the given check once"
+	@echo "make (dir)/(test).check            -- run the given check once, repeat with GST_DEBUG=*:2 if it fails"
+	@echo "make (dir)/(test).check-norepeat   -- run the given check once, but don't run it again if it fails"
 	@echo "make (dir)/(test).forever          -- run the given check forever"
 	@echo "make (dir)/(test).torture          -- run the given check $(LOOPS) times"
 	@echo
