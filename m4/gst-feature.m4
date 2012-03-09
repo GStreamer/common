@@ -232,10 +232,11 @@ AC_DEFUN([AG_GST_CHECK_GST_DEBUG_DISABLED],
   save_CFLAGS="$CFLAGS"
   CFLAGS="$GST_CFLAGS $CFLAGS"
   AC_COMPILE_IFELSE([
+    AC_LANG_SOURCE([[
       #include <gst/gstconfig.h>
       #ifdef GST_DISABLE_GST_DEBUG
       #error "debugging disabled, make compiler fail"
-      #endif], [ debug_system_enabled=yes], [debug_system_enabled=no])
+      #endif]])], [ debug_system_enabled=yes], [debug_system_enabled=no])
   CFLAGS="$save_CFLAGS"
   AC_LANG_POP([C])
 
