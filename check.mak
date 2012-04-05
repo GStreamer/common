@@ -146,7 +146,7 @@ valgrind.gen-suppressions: $(TESTS)
 	fi
 
 # inspect every plugin feature
-GST_INSPECT = $(GST_TOOLS_DIR)/gst-inspect-$(GST_MAJORMINOR)
+GST_INSPECT = $(GST_TOOLS_DIR)/gst-inspect-$(GST_API_VERSION)
 inspect:
 	@echo "Inspecting features ..."
 	@for e in `$(TESTS_ENVIRONMENT) $(GST_INSPECT) | head -n -2 	\

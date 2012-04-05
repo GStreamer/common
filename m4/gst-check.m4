@@ -149,7 +149,7 @@ AC_DEFUN([AG_GST_CHECK_UNINSTALLED_SETUP],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_BASE([GST-MAJORMINOR], [MIN-VERSION], [REQUIRED])
+dnl AG_GST_CHECK_GST_PLUGINS_BASE([GST-API_VERSION], [MIN-VERSION], [REQUIRED])
 dnl
 dnl Sets GST_PLUGINS_BASE_CFLAGS and GST_PLUGINS_BASE_LIBS.
 dnl
@@ -182,7 +182,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BASE],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_GOOD([GST-MAJORMINOR], [MIN-VERSION])
+dnl AG_GST_CHECK_GST_PLUGINS_GOOD([GST-API_VERSION], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_GOOD_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -good ships no .pc file and in
@@ -210,7 +210,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_GOOD],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_UGLY([GST-MAJORMINOR], [MIN-VERSION])
+dnl AG_GST_CHECK_GST_PLUGINS_UGLY([GST-API_VERSION], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_UGLY_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -bad ships no .pc file and in
@@ -238,7 +238,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_UGLY],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_BAD([GST-MAJORMINOR], [MIN-VERSION])
+dnl AG_GST_CHECK_GST_PLUGINS_BAD([GST-API_VERSION], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_BAD_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -ugly ships no .pc file and in
@@ -266,7 +266,7 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BAD],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_FFMPEG([GST-MAJORMINOR], [MIN-VERSION])
+dnl AG_GST_CHECK_GST_PLUGINS_FFMPEG([GST-API_VERSION], [MIN-VERSION])
 dnl
 dnl Will set GST_PLUGINS_FFMPEG_DIR for use in Makefile.am. Note that this will
 dnl only be set in an uninstalled setup, since -ffmpeg ships no .pc file and in
