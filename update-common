@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This script will update all the modules listed below so that
 # common points to master in the common module.
@@ -15,7 +15,7 @@
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
 # network usage.
-BRANCH=0.11
+BRANCH=master
 reference=~/gst
 PUSHURL=ssh://git.freedesktop.org/git/gstreamer
 
