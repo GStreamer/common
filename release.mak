@@ -1,12 +1,8 @@
 # include this snippet to add a common release: target by using
 # include $(top_srcdir)/common/release.mak
 
-# make bz2 as well
-AUTOMAKE_OPTIONS = dist-bzip2
-
 release: dist
-	$(MAKE) $(PACKAGE)-$(VERSION).tar.gz.md5
-	$(MAKE) $(PACKAGE)-$(VERSION).tar.bz2.md5
+	$(MAKE) $(PACKAGE)-$(VERSION).tar.xz.md5
 
 # generate md5 sum files
 %.md5: %
