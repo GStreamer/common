@@ -245,11 +245,13 @@ get_object_types (void)
       if (gst_plugin_get_filename (plugin) == NULL)
         continue;
 
-      $debug_log ("plugin: %s source: %s", plugin->desc.name, source);
+      $debug_log ("plugin: %s source: %s", gst_plugin_get_name (plugin), source);
 
       if (reinspect) {
+        gchar *basename;
+
         inspect_name = g_strdup_printf ("$INSPECT_DIR" G_DIR_SEPARATOR_S "plugin-%s.xml",
-            plugin->desc.name);
+            gst_plugin_get_name (plugin));
         inspect = fopen (inspect_name, "w");
         if (inspect == NULL) {
           g_error ("Could not open %s for writing: %s\\n", inspect_name,
@@ -257,23 +259,27 @@ get_object_types (void)
         }
         g_free (inspect_name);
 
+		  basename = g_path_get_basename (gst_plugin_get_filename (plugin));
+
         /* output plugin data */
         fputs ("<plugin>\\n",inspect);
-        fputs (xmlprint(2, "name", plugin->desc.name),inspect);
-        fputs (xmlprint(2, "description", plugin->desc.description),inspect);
-        fputs (xmlprint(2, "filename", plugin->filename),inspect);
-        fputs (xmlprint(2, "basename", plugin->basename),inspect);
-        fputs (xmlprint(2, "version", plugin->desc.version),inspect);
-        fputs (xmlprint(2, "license", plugin->desc.license),inspect);
-        fputs (xmlprint(2, "source", plugin->desc.source),inspect);
-        fputs (xmlprint(2, "package", plugin->desc.package),inspect);
-        fputs (xmlprint(2, "origin", plugin->desc.origin),inspect);
+        fputs (xmlprint(2, "name", gst_plugin_get_name (plugin)),inspect);
+        fputs (xmlprint(2, "description", gst_plugin_get_description (plugin)),inspect);
+        fputs (xmlprint(2, "filename", gst_plugin_get_filename (plugin)),inspect);
+        fputs (xmlprint(2, "basename", basename),inspect);
+        fputs (xmlprint(2, "version", gst_plugin_get_version (plugin)),inspect);
+        fputs (xmlprint(2, "license", gst_plugin_get_license (plugin)),inspect);
+        fputs (xmlprint(2, "source", gst_plugin_get_source (plugin)),inspect);
+        fputs (xmlprint(2, "package", gst_plugin_get_package (plugin)),inspect);
+        fputs (xmlprint(2, "origin", gst_plugin_get_origin (plugin)),inspect);
         fputs ("  <elements>\\n", inspect);
+
+		  g_free (basename);
       }
 
       features =
           gst_registry_get_feature_list_by_plugin (gst_registry_get (),
-          plugin->desc.name);
+          gst_plugin_get_name (plugin));
 
       /* sort factories by feature->name */
       features = g_list_sort (features, gst_feature_sort_compare);
