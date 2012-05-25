@@ -111,13 +111,13 @@ AC_DEFUN([AG_GST_ARG_GCOV],
     dnl if gcov is used, we do not want default -O2 CFLAGS
     if test "x$GST_GCOV_ENABLED" = "xyes"
     then
-      CFLAGS="-O0"
+      CFLAGS="$CFLAGS -O0"
       AC_SUBST(CFLAGS)
-      CXXFLAGS="-O0"
+      CXXFLAGS="$CXXFLAGS -O0"
       AC_SUBST(CXXFLAGS)
-      FFLAGS="-O0"
+      FFLAGS="$FFLAGS -O0"
       AC_SUBST(FFLAGS)
-      CCASFLAGS="-O0"
+      CCASFLAGS="$CCASFLAGS -O0"
       AC_SUBST(CCASFLAGS)
       AC_MSG_NOTICE([gcov enabled, setting CFLAGS and friends to $CFLAGS])
     fi
