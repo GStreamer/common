@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # This script will update all the modules listed below so that
 # common points to master in the common module.
