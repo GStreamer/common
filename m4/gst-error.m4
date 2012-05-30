@@ -228,9 +228,6 @@ AC_DEFUN([AG_GST_SET_ERROR_OBJCFLAGS],
 
     if test "x$ERROR_OBJCFLAGS" != "x"
     then
-        dnl add exceptions
-        AS_OBJC_COMPILER_FLAG([-Wno-non-virtual-dtor], ERROR_OBJCFLAGS="$ERROR_OBJCFLAGS -Wno-non-virtual-dtor")
-
 	dnl Add -fno-strict-aliasing for GLib versions before 2.19.8
 	dnl as before G_LOCK and friends caused strict aliasing compiler
 	dnl warnings.
