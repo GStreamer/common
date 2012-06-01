@@ -8,7 +8,6 @@ EXTRA_DIST = \
 	as-gcc-inline-assembly.m4 \
 	as-libtool.m4 \
 	as-libtool-tags.m4 \
-	as-objc.m4 \
 	as-python.m4 \
 	as-scrub-include.m4 \
 	as-version.m4 \
