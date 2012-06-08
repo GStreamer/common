@@ -5,9 +5,6 @@ dnl defines HOST_CPU
 
 AC_DEFUN([AG_GST_ARCH],
 [
-  AC_REQUIRE([AC_CANONICAL_HOST]) dnl we use host_ variables
-  AC_REQUIRE([AC_CANONICAL_TARGET]) dnl we use target_ variables
-
   dnl Determine CPU
   case "x${target_cpu}" in
     xi?86 | xk? | xi?86_64)

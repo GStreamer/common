@@ -3,10 +3,15 @@ dnl sets up use of GStreamer configure.ac macros
 dnl all GStreamer autoconf macros are prefixed
 dnl with AG_GST_ for public macros
 dnl with _AG_GST_ for private macros
+dnl
+dnl We call AC_CANONICAL_TARGET and AC_CANONICAL_HOST so that
+dnl it is valid before AC_ARG_PROGRAM is called
 
 AC_DEFUN([AG_GST_INIT],
 [
   m4_pattern_forbid(^_?AG_GST_)
+  AC_REQUIRE([AC_CANONICAL_HOST]) dnl we use host_ variables
+  AC_REQUIRE([AC_CANONICAL_TARGET]) dnl we use target_ variables
 ])
 
 dnl AG_GST_PKG_CONFIG_PATH
