@@ -68,6 +68,44 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
     GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_ASSERT"
   fi
 
+  dnl Find location of glib utils. People may want to or have to override these,
+  dnl e.g. in a cross-compile situation where PATH is a bit messed up. We need
+  dnl for these tools to work on the host, so can't just use the one from the
+  dnl GLib installation that pkg-config picks up, as that might be for a
+  dnl different target architecture.
+  dnl
+  dnl glib-genmarshal:
+  AC_MSG_CHECKING(for glib-genmarshal)
+  if test "x$GLIB_GENMARSHAL" != "x"; then
+    AC_MSG_RESULT([$GLIB_GENMARSHAL (from environment)])
+  else
+    GLIB_GENMARSHAL=`$PKG_CONFIG --variable=glib_genmarshal glib-2.0`
+    if $GLIB_GENMARSHAL --version 2>/dev/null >/dev/null; then
+      AC_MSG_RESULT([$GLIB_GENMARSHAL (from pkg-config path)])
+    else
+      AC_PATH_PROG(GLIB_GENMARSHAL, [glib-genmarshal], [glib-genmarshal])
+      AC_MSG_RESULT([$GLIB_GENMARSHAL])
+    fi
+  fi
+  if ! $GLIB_GENMARSHAL --version 2>/dev/null >/dev/null; then
+    AC_MSG_WARN([$GLIB_GENMARSHAL does not seem to work!])
+  fi
+  AC_SUBST(GLIB_GENMARSHAL)
+
+  dnl glib-mkenums:
+  AC_MSG_CHECKING(for glib-mkenums)
+  if test "x$GLIB_MKENUMS" != "x"; then
+    AC_MSG_RESULT([$GLIB_MKENUMS (from environment)])
+  else
+    dnl glib-mkenums is written in perl so should always work really
+    GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
+    AC_MSG_RESULT([$GLIB_MKENUMS])
+  fi
+  if ! $GLIB_MKENUMS --version 2>/dev/null >/dev/null; then
+    AC_MSG_WARN([$GLIB_MKENUMS does not seem to work!])
+  fi
+  AC_SUBST(GLIB_MKENUMS)
+
   dnl for the poor souls who for example have glib in /usr/local
   AS_SCRUB_INCLUDE(GLIB_CFLAGS)
 
