@@ -194,8 +194,7 @@ install-data-local:
 	            $(INSTALL_DATA) $(builddir)/html/$(DOC_MODULE).devhelp2 \
 	            $(DESTDIR)$(TARGET_DIR)/$(DOC_MODULE)-@GST_API_VERSION@.devhelp2; \
 	  fi; \
-	  (which gtkdoc-rebase >/dev/null && \
-	    gtkdoc-rebase --relative --dest-dir=$(DESTDIR) --html-dir=$(DESTDIR)$(TARGET_DIR)) || true ; \
+	  $(GTKDOC_REBASE) --relative --dest-dir=$(DESTDIR) --html-dir=$(DESTDIR)$(TARGET_DIR) || true ; \
 	fi)
 uninstall-local:
 	if test -d $(DESTDIR)$(TARGET_DIR); then \
