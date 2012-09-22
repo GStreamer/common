@@ -2,11 +2,11 @@
 # include $(top_srcdir)/common/release.mak
 
 release: dist
-	$(MAKE) $(PACKAGE)-$(VERSION).tar.xz.md5
+	$(MAKE) $(PACKAGE)-$(VERSION).tar.xz.sha256sum
 
-# generate md5 sum files
-%.md5: %
-	md5sum $< > $@
+# generate sha256 sum files
+%.sha256sum: %
+	sha256sum $< > $@
 
 # check that no marshal or enumtypes files are included
 # this in turn ensures that distcheck fails for missing .list files which is currently
