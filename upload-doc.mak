@@ -44,14 +44,12 @@ upload: $(FORMATS)
 	if echo $(FORMATS) | grep ps > /dev/null; then export SRC="$$SRC $(DOC).ps"; fi; \
 	if echo $(FORMATS) | grep pdf > /dev/null; then export SRC="$$SRC $(DOC).pdf"; fi; \
 	\
-	# upload releases to both 0.10.X/ and head/ subdirectories \
-	if test "x$(PACKAGE_VERSION_NANO)" = x0; then \
-	  export DIR=$(DOC_BASE)/gstreamer/$(VERSION)/$(DOC); \
-	  echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
-	  ssh $(DOC_SERVER) mkdir -p $$DIR; \
-	  rsync -rv -e ssh --delete $$SRC $(DOC_SERVER):$$DIR; \
-	  ssh $(DOC_SERVER) chmod -R g+w $$DIR; \
-	fi; \
+	# upload releases to both X.Y/ and head/ subdirectories \
+	export DIR=$(DOC_BASE)/gstreamer/$(PACKAGE_VERSION_MAJOR).$(PACKAGE_VERSION_MINOR)/$(DOC); \
+	echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
+	ssh $(DOC_SERVER) mkdir -p $$DIR; \
+	rsync -rv -e ssh --delete $$SRC $(DOC_SERVER):$$DIR; \
+	ssh $(DOC_SERVER) chmod -R g+w $$DIR; \
 	\
 	export DIR=$(DOC_BASE)/gstreamer/head/$(DOC); \
 	echo Uploading $$SRC to $(DOC_SERVER):$$DIR; \
