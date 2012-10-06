@@ -209,7 +209,7 @@ AC_DEFUN([AG_GST_PARSE_SUBSYSTEM_DISABLE],
 
 dnl Parse gstconfig.h and defines add the symbols and substitions
 dnl
-dnl GST_CONFIGPATH=`$PKG_CONFIG --variable=includedir gstreamer-0.10`"/gst/gstconfig.h"
+dnl GST_CONFIGPATH=`$PKG_CONFIG --variable=includedir gstreamer-1.0`"/gst/gstconfig.h"
 dnl AG_GST_PARSE_SUBSYSTEM_DISABLES(GST_CONFIGPATH)
 dnl
 AC_DEFUN([AG_GST_PARSE_SUBSYSTEM_DISABLES],
