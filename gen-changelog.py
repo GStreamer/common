@@ -74,7 +74,7 @@ def output_commits():
 
 def get_rel_tags():
     # Populate the release_refs dict with the tags for previous releases
-    reltagre = re.compile("^([a-z0-9]{40}) refs\/tags\/RELEASE-([0-9]+)[-_.]([0-9]+)[-_.]([0-9]+)")
+    reltagre = re.compile("^([a-z0-9]{40}) refs\/tags\/[RELEASE-]*([0-9]+)[-_.]([0-9]+)[-_.]([0-9]+)")
 
     cmd = ['git', 'show-ref', '--tags', '--dereference']
     p = subprocess.Popen(args=cmd, shell=False, stdout=subprocess.PIPE)
