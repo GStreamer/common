@@ -1,4 +1,4 @@
-dnl AG_GST_PLUGIN_DOCS([MINIMUM-GTK-DOC-VERSION],[MINIMUM-PYTHON-VERSION])
+dnl AG_GST_PLUGIN_DOCS([MINIMUM-GTK-DOC-VERSION])
 dnl
 dnl checks for prerequisites for the common/mangle-tmpl.py script
 dnl used when building the plugin documentation
@@ -6,7 +6,7 @@ dnl used when building the plugin documentation
 AC_DEFUN([AG_GST_PLUGIN_DOCS],
 [
   AC_BEFORE([GTK_DOC_CHECK],[$0])dnl check for gtk-doc first
-  AC_BEFORE([AS_PATH_PYTHON],[$1])dnl find python first
+  AC_BEFORE([AM_PATH_PYTHON],[2.1])dnl find python first
 
   build_plugin_docs=no
   AC_MSG_CHECKING([whether to build plugin documentation])
