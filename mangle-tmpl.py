@@ -15,6 +15,8 @@ insert/overwrite Short Description and Long Description
 # read in inspect/*.xml
 # for every tmpl/element-(name).xml: mangle with details from element
 
+from __future__ import print_function, unicode_literals
+
 import glob
 import re
 import sys
