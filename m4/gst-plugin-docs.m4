@@ -6,7 +6,7 @@ dnl used when building the plugin documentation
 AC_DEFUN([AG_GST_PLUGIN_DOCS],
 [
   AC_BEFORE([GTK_DOC_CHECK],[$0])dnl check for gtk-doc first
-  AC_BEFORE([AM_PATH_PYTHON],[2.7])dnl find python first
+  AC_REQUIRE([AM_PATH_PYTHON([2.7])])dnl find python first
 
   build_plugin_docs=no
   AC_MSG_CHECKING([whether to build plugin documentation])
