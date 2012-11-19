@@ -55,36 +55,6 @@ EOF
     AC_CHECK_PROG(HAVE_DVIPS, dvips, yes, no)
     AC_CHECK_PROG(HAVE_XMLLINT, xmllint, yes, no)
 
-    dnl check for image conversion tools
-    AC_CHECK_PROG(HAVE_FIG2DEV, fig2dev, yes, no)
-    if test "x$HAVE_FIG2DEV" = "xno" ; then
-      AC_MSG_WARN([Did not find fig2dev (from xfig), images will not be generated.])
-    fi
-
-    dnl The following is a hack: if fig2dev doesn't display an error message
-    dnl for the desired type, we assume it supports it.
-    HAVE_FIG2DEV_EPS=no
-    if test "x$HAVE_FIG2DEV" = "xyes" ; then
-      fig2dev_quiet=`fig2dev -L eps </dev/null 2>&1 >/dev/null`
-      if test "x$fig2dev_quiet" = "x" ; then
-        HAVE_FIG2DEV_EPS=yes
-      fi
-    fi
-    HAVE_FIG2DEV_PNG=no
-    if test "x$HAVE_FIG2DEV" = "xyes" ; then
-      fig2dev_quiet=`fig2dev -L png </dev/null 2>&1 >/dev/null`
-      if test "x$fig2dev_quiet" = "x" ; then
-        HAVE_FIG2DEV_PNG=yes
-      fi
-    fi
-    HAVE_FIG2DEV_PDF=no
-    if test "x$HAVE_FIG2DEV" = "xyes" ; then
-      fig2dev_quiet=`fig2dev -L pdf </dev/null 2>&1 >/dev/null`
-      if test "x$fig2dev_quiet" = "x" ; then
-        HAVE_FIG2DEV_PDF=yes
-      fi
-    fi
-
     AC_CHECK_PROG(HAVE_PNGTOPNM, pngtopnm, yes, no)
     AC_CHECK_PROG(HAVE_PNMTOPS,  pnmtops,  yes, no)
     AC_CHECK_PROG(HAVE_EPSTOPDF, epstopdf, yes, no)
@@ -92,8 +62,7 @@ EOF
     dnl check if we can generate HTML
     if test "x$HAVE_DOCBOOK2HTML" = "xyes" && \
        test "x$enable_docbook" = "xyes" && \
-       test "x$HAVE_XMLLINT" = "xyes" && \
-       test "x$HAVE_FIG2DEV_PNG" = "xyes"; then
+       test "x$HAVE_XMLLINT" = "xyes"; then
       DOC_HTML=yes
       AC_MSG_NOTICE(Will output HTML documentation)
      else
@@ -106,7 +75,6 @@ EOF
        test "x$enable_docbook" = "xyes" && \
        test "x$HAVE_XMLLINT" = "xyes" && \
        test "x$HAVE_JADETEX" = "xyes" && \
-       test "x$HAVE_FIG2DEV_EPS" = "xyes" && \
        test "x$HAVE_DVIPS" = "xyes" && \
        test "x$HAVE_PNGTOPNM" = "xyes" && \
        test "x$HAVE_PNMTOPS" = "xyes"; then
