@@ -307,10 +307,10 @@ get_object_types (void)
             /* output element data */
             fputs ("    <element>\\n", inspect);
             fputs (xmlprint(6, "name", gst_plugin_feature_get_name (feature)),inspect);
-            fputs (xmlprint(6, "longname", gst_element_factory_get_longname (factory)),inspect);
-            fputs (xmlprint(6, "class", gst_element_factory_get_klass (factory)),inspect);
-            fputs (xmlprint(6, "description", gst_element_factory_get_description (factory)),inspect);
-            fputs (xmlprint(6, "author", gst_element_factory_get_author (factory)),inspect);
+            fputs (xmlprint(6, "longname", gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_LONGNAME)),inspect);
+            fputs (xmlprint(6, "class", gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_KLASS)),inspect);
+            fputs (xmlprint(6, "description", gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_DESCRIPTION)),inspect);
+            fputs (xmlprint(6, "author", gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_AUTHOR)),inspect);
             fputs ("      <pads>\\n", inspect);
 
             /* output pad-template data */
@@ -354,11 +354,11 @@ get_object_types (void)
       factory = GST_ELEMENT_FACTORY (l->data);
       type = gst_element_factory_get_element_type (factory);
       if (type != 0) {
-        $debug_log ("adding type for factory %s", gst_element_factory_get_longname (factory));
+        $debug_log ("adding type for factory %s", gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_LONGNAME));
         object_types[i++] = type;
       } else {
         g_message ("type info for factory %s not found",
-            gst_element_factory_get_longname (factory));
+            gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_LONGNAME));
       }
       l = g_list_next (l);
     }
