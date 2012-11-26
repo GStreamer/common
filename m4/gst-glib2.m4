@@ -16,7 +16,7 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
 
   dnl Check for glib with everything
   AG_GST_PKG_CHECK_MODULES(GLIB,
-    glib-2.0 >= $GLIB_REQ gobject-2.0 gthread-2.0 gmodule-no-export-2.0)
+    glib-2.0 >= $GLIB_REQ gobject-2.0 gmodule-no-export-2.0)
 
   if test "x$HAVE_GLIB" = "xno"; then
     AC_MSG_ERROR([This package requires GLib >= $GLIB_REQ to compile.])
