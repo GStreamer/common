@@ -3961,3 +3961,11 @@
    fun:gst_system_clock_init
 }
 
+{
+   <glib types are singletons>
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:gobject_init_ctor
+}
+
