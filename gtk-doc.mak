@@ -81,9 +81,9 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
 		--ignore-headers="$(IGNORE_HFILES)"
 	@if grep -l '^..*$$' $(DOC_MODULE).types > /dev/null; then	\
 	    echo "  DOC   Introspecting gobjects"; \
-	    GST_PLUGIN_SYSTEM_PATH=`cd $(top_builddir) && pwd`		\
-	    GST_PLUGIN_PATH=						\
-	    GST_REGISTRY=doc-registry.xml				\
+	    GST_PLUGIN_SYSTEM_PATH_1_0=`cd $(top_builddir) && pwd`		\
+	    GST_PLUGIN_PATH_1_0=						\
+	    GST_REGISTRY_1_0=doc-registry.xml				\
 	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\

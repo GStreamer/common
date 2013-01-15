@@ -94,9 +94,9 @@ all-local: html-build.stamp
 INSPECT_REGISTRY=$(top_builddir)/docs/plugins/inspect-registry.xml
 INSPECT_ENVIRONMENT=\
 	LC_ALL=C \
-	GST_PLUGIN_SYSTEM_PATH= \
-	GST_PLUGIN_PATH=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
-	GST_REGISTRY=$(INSPECT_REGISTRY) \
+	GST_PLUGIN_SYSTEM_PATH_1_0= \
+	GST_PLUGIN_PATH_1_0=$(top_builddir)/gst:$(top_builddir)/sys:$(top_builddir)/ext:$(top_builddir)/plugins:$(top_builddir)/src:$(top_builddir)/gnl \
+	GST_REGISTRY_1_0=$(INSPECT_REGISTRY) \
 	PKG_CONFIG_PATH="$(GST_PKG_CONFIG_PATH)" \
 	$(INSPECT_EXTRA_ENVIRONMENT)
 
