@@ -1,5 +1,5 @@
 ## .PHONY so it always rebuilds it
-.PHONY: lcov-reset lcov lcov-run lcov-report lcov-upload
+.PHONY: lcov-reset lcov lcov-run lcov-report lcov-upload lcov-clean
 
 # run lcov from scratch, always
 lcov-reset:
@@ -11,10 +11,14 @@ lcov:
 	$(MAKE) lcov-reset
 
 if GST_GCOV_ENABLED
-# reset run coverage tests
-lcov-run:
+# reset lcov stats
+lcov-clean:
 	@-rm -rf lcov
 	lcov --directory . --zerocounters
+
+# reset run coverage tests
+lcov-run:
+	-$(MAKE) lcov-clean
 	-if test -d tests/check; then $(MAKE) -C tests/check inspect; fi
 	-$(MAKE) check
 

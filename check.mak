@@ -86,6 +86,31 @@ LOOPS = 10
 	$(LIBTOOL) --mode=execute				\
 	gdb $*
 
+%.lcov-reset:
+	$(MAKE) $*.lcov-run
+	$(MAKE) $*.lcov-report
+
+%.lcov: %
+	$(MAKE) $*.lcov-reset
+
+if GST_GCOV_ENABLED
+%.lcov-clean:
+	$(MAKE) -C $(top_builddir) lcov-clean
+
+%.lcov-run:
+	$(MAKE) $*.lcov-clean
+	$(MAKE) $*.check
+
+%.lcov-report:
+	$(MAKE) -C $(top_builddir) lcov-report
+else
+%.lcov-run:
+	echo "Need to reconfigure with --enable-gcov"
+
+%.lcov-report:
+	echo "Need to reconfigure with --enable-gcov"
+endif
+
 # torture tests
 torture: $(TESTS)
 	-rm test-registry.xml
