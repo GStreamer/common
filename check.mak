@@ -11,7 +11,7 @@ check-valgrind:
 	@true
 endif
 
-LOOPS = 10
+LOOPS ?= 10
 
 # run any given test by running make test.check
 # if the test fails, run it again at at least debug level 2
