@@ -266,29 +266,29 @@ AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_BAD],
 ])
 
 dnl ===========================================================================
-dnl AG_GST_CHECK_GST_PLUGINS_FFMPEG([GST-API_VERSION], [MIN-VERSION])
+dnl AG_GST_CHECK_GST_PLUGINS_LIBAV([GST-API_VERSION], [MIN-VERSION])
 dnl
-dnl Will set GST_PLUGINS_FFMPEG_DIR for use in Makefile.am. Note that this will
-dnl only be set in an uninstalled setup, since -ffmpeg ships no .pc file and in
+dnl Will set GST_PLUGINS_LIBAV_DIR for use in Makefile.am. Note that this will
+dnl only be set in an uninstalled setup, since -libav ships no .pc file and in
 dnl an installed setup all plugins will be found in GST_PLUGINS_DIR anyway.
 dnl ===========================================================================
-AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_FFMPEG],
+AC_DEFUN([AG_GST_CHECK_GST_PLUGINS_LIBAV],
 [
-  AG_GST_CHECK_MODULES(GST_PLUGINS_FFMPEG, gstreamer-plugins-ffmpeg-[$1], [$2],
-    [GStreamer FFmpeg Plugins], [no])
+  AG_GST_CHECK_MODULES(GST_PLUGINS_LIBAV, gstreamer-plugins-libav-[$1], [$2],
+    [GStreamer Libav Plugins], [no])
 
-  if test "x$HAVE_GST_PLUGINS_FFMPEG" = "xyes"; then
-    dnl check for where ffmpeg plugins got installed
+  if test "x$HAVE_GST_PLUGINS_LIBAV" = "xyes"; then
+    dnl check for where libav plugins got installed
     dnl this is used for unit tests
     dnl allow setting before calling this macro to override
-    if test -z $GST_PLUGINS_FFMPEG_DIR; then
-      GST_PLUGINS_FFMPEG_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-ffmpeg-[$1]`
-      if test -z $GST_PLUGINS_FFMPEG_DIR; then
-        AC_MSG_ERROR([no pluginsdir set in GStreamer FFmpeg Plugins pkg-config file])
+    if test -z $GST_PLUGINS_LIBAV_DIR; then
+      GST_PLUGINS_LIBAV_DIR=`$PKG_CONFIG --variable=pluginsdir gstreamer-plugins-libav-[$1]`
+      if test -z $GST_PLUGINS_LIBAV_DIR; then
+        AC_MSG_ERROR([no pluginsdir set in GStreamer Libav Plugins pkg-config file])
       fi
     fi
-    GST_PLUGINS_FFMPEG_DIR="$GST_PLUGINS_FFMPEG_DIR/ext/ffmpeg"
-    AC_MSG_NOTICE([using GStreamer FFmpeg Plugins in $GST_PLUGINS_FFMPEG_DIR])
-    AC_SUBST(GST_PLUGINS_FFMPEG_DIR)
+    GST_PLUGINS_LIBAV_DIR="$GST_PLUGINS_LIBAV_DIR/ext/libav"
+    AC_MSG_NOTICE([using GStreamer Libav Plugins in $GST_PLUGINS_LIBAV_DIR])
+    AC_SUBST(GST_PLUGINS_LIBAV_DIR)
   fi
 ])
