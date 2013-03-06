@@ -152,6 +152,16 @@ valgrind: $(TESTS)
 		false;							\
 	fi
 
+# valgrind all tests until failure
+valgrind-forever: $(TESTS)
+	-rm test-registry.xml
+	@echo "Forever valgrinding tests ..."
+	@while true; do						\
+		$(MAKE) valgrind ||				\
+		(echo "Failure"; exit 1) ||			\
+		exit 1;						\
+	done
+
 # valgrind all tests and generate suppressions
 valgrind.gen-suppressions: $(TESTS)
 	@echo "Valgrinding tests ..."
@@ -191,6 +201,7 @@ help:
 	@echo "make (dir)/(test).gdb              -- start up gdb for the given test"
 	@echo
 	@echo "make valgrind                      -- valgrind all tests"
+	@echo "make valgrind-forever              -- valgrind all tests forever"
 	@echo "make valgrind.gen-suppressions     -- generate suppressions for all tests"
 	@echo "                                      and save to suppressions.log"
 	@echo "make (dir)/(test).valgrind         -- valgrind the given test"
