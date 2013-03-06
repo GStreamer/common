@@ -124,7 +124,7 @@ endif
 
 # torture tests
 torture: $(TESTS)
-	-rm test-registry.xml
+	-rm test-registry.*
 	@echo "Torturing tests ..."
 	@for i in `seq 1 $(LOOPS)`; do				\
 		$(MAKE) check ||				\
@@ -137,7 +137,7 @@ torture: $(TESTS)
 
 # forever tests
 forever: $(TESTS)
-	-rm test-registry.xml
+	-rm test-registry.*
 	@echo "Forever tests ..."
 	@while true; do						\
 		$(MAKE) check ||				\
@@ -165,7 +165,7 @@ valgrind: $(TESTS)
 
 # valgrind all tests until failure
 valgrind-forever: $(TESTS)
-	-rm test-registry.xml
+	-rm test-registry.*
 	@echo "Forever valgrinding tests ..."
 	@while true; do						\
 		$(MAKE) valgrind ||				\
@@ -175,7 +175,7 @@ valgrind-forever: $(TESTS)
 
 # valgrind torture all tests
 valgrind-torture: $(TESTS)
-	-rm test-registry.xml
+	-rm test-registry.*
 	@echo "Torturing and valgrinding tests ..."
 	@for i in `seq 1 $(LOOPS)`; do				\
 		$(MAKE) valgrind ||				\
