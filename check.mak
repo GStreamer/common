@@ -74,6 +74,17 @@ LOOPS = 10
 	--gen-suppressions=all					\
 	./$* 2>&1 | tee suppressions.log
 	
+# valgrind torture any given test
+%.valgrind-torture: %
+	@for i in `seq 1 $(LOOPS)`; do				\
+		$(MAKE) $*.valgrind ||				\
+		(echo "Failure after $$i runs"; exit 1) ||	\
+		exit 1;						\
+	done
+	@banner="All $(LOOPS) loops passed";			\
+	dashes=`echo "$$banner" | sed s/./=/g`;			\
+	echo $$dashes; echo $$banner; echo $$dashes
+
 # valgrind any given test until failure by running make test.valgrind-forever
 %.valgrind-forever: %
 	@while $(MAKE) $*.valgrind; do				\
@@ -162,6 +173,19 @@ valgrind-forever: $(TESTS)
 		exit 1;						\
 	done
 
+# valgrind torture all tests
+valgrind-torture: $(TESTS)
+	-rm test-registry.xml
+	@echo "Torturing and valgrinding tests ..."
+	@for i in `seq 1 $(LOOPS)`; do				\
+		$(MAKE) valgrind ||				\
+		(echo "Failure after $$i runs"; exit 1) ||	\
+		exit 1;						\
+	done
+	@banner="All $(LOOPS) loops passed";			\
+	dashes=`echo "$$banner" | sed s/./=/g`;			\
+	echo $$dashes; echo $$banner; echo $$dashes
+
 # valgrind all tests and generate suppressions
 valgrind.gen-suppressions: $(TESTS)
 	@echo "Valgrinding tests ..."
@@ -202,10 +226,12 @@ help:
 	@echo
 	@echo "make valgrind                      -- valgrind all tests"
 	@echo "make valgrind-forever              -- valgrind all tests forever"
+	@echo "make valgrind-torture              -- valgrind all tests $(LOOPS) times"
 	@echo "make valgrind.gen-suppressions     -- generate suppressions for all tests"
 	@echo "                                      and save to suppressions.log"
 	@echo "make (dir)/(test).valgrind         -- valgrind the given test"
 	@echo "make (dir)/(test).valgrind-forever -- valgrind the given test forever"
+	@echo "make (dir)/(test).valgrind-torture -- valgrind the given test $(LOOPS) times"
 	@echo "make (dir)/(test).valgrind.gen-suppressions -- generate suppressions"
 	@echo "                                               and save to suppressions.log"
 	@echo "make inspect                       -- inspect all plugin features"
