@@ -28,9 +28,9 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
   GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_THREADS_MANDATORY"
 
   dnl Define G_DISABLE_DEPRECATED for GIT versions
-  if test "x$PACKAGE_VERSION_NANO" = "x1"; then
-    GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_DEPRECATED"
-  fi
+  dnl if test "x$PACKAGE_VERSION_NANO" = "x1"; then
+  dnl   GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_DEPRECATED"
+  dnl fi
 
   AC_ARG_ENABLE(gobject-cast-checks,
     AS_HELP_STRING([--enable-gobject-cast-checks[=@<:@no/auto/yes@:>@]],
