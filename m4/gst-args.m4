@@ -341,5 +341,5 @@ AC_DEFUN([AG_GST_ARG_DISABLE_FATAL_WARNINGS],
         *)   AC_MSG_ERROR(bad value ${enableval} for --disable-fatal-warnings) ;;
       esac
     ],
-    [FATAL_WARNINGS=$GST_GIT]) dnl Default value
+    [FATAL_WARNINGS=no]) dnl Default value
 ])
