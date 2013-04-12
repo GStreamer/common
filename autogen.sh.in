@@ -48,8 +48,8 @@ autogen_options $@
 
 printf "+ check for build tools"
 if test ! -z "$NOCHECK"; then echo ": skipped version checks"; else  echo; fi
-version_check "autoconf" "$AUTOCONF autoconf autoconf270 autoconf269 autoconf268 autoconf267 autoconf266 autoconf265 autoconf264 autoconf263 autoconf262" \
-              "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 62 || DIE=1
+version_check "autoconf" "$AUTOCONF autoconf autoconf270 autoconf269 autoconf268 " \
+              "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 68 || DIE=1
 version_check "automake" "$AUTOMAKE automake automake-1.11" \
               "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 || DIE=1
 version_check "autopoint" "autopoint" \
