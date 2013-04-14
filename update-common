@@ -74,11 +74,7 @@ do
     cd $dir/$module
     # update autogen.sh for selected modules
     case $module in
-      gstreamer)
-      gst-plugins-base)
-      gst-plugins-good)
-      gst-plugins-ugly)
-      gst-plugins-bad)
+      gstreamer|gst-plugins-base|gst-plugins-good|gst-plugins-ugly|gst-plugins-bad )
         ./common/update-autogen
         git add autogen.sh
         ;;
