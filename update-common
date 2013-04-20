@@ -15,7 +15,7 @@
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
 # network usage.
-BRANCH=master
+BRANCH=1.0
 reference=~/gst
 PUSHURL=ssh://git.freedesktop.org/git/gstreamer
 
@@ -23,8 +23,10 @@ set -e
 set -x
 
 modules="gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
-	gst-plugins-ugly gst-ffmpeg gst-omx \
-	gnonlin gst-plugins-gl gst-rtsp-server gst-editing-services"
+	gst-plugins-ugly gst-libav"
+
+# These modules do not have a 1.0 yet, so skip for now
+# gst-omx gnonlin gst-plugins-gl gst-rtsp-server gst-editing-services"
 
 topdir=`pwd`
 dir=`mktemp -d $topdir/common-update-XXXXXX`
