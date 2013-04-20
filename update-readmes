@@ -34,3 +34,7 @@ for f in $README_FILES ; do
    exit 1;
  }
 done
+
+if test x$1 = "x--run-git-add"; then
+  git add $README_FILES;
+fi
