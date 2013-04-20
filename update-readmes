@@ -22,18 +22,20 @@ fi
 
 let m=$MINOR_VERSION%2
 if test $m = 0; then
-  VERSION="$MAJOR_VERSION.$MINOR_VERSION.x stable series"
+  SERIES_VERSION="$MAJOR_VERSION.$MINOR_VERSION.x stable series"
 else
-  VERSION="$MAJOR_VERSION.$MINOR_VERSION.x development series"
+  SERIES_VERSION="$MAJOR_VERSION.$MINOR_VERSION.x development series"
 fi
-#echo "$VERSION"
+#echo "$SERIES_VERSION"
 
 for f in $README_FILES ; do
- cp --preserve --update --verbose "common/$f" $f || {
+ cp --preserve "common/$f" $f || {
    echo "Failed to update $f"
    exit 1;
  }
 done
+
+sed -i "s/@SERIES_VERSION@/$SERIES_VERSION/g" README
 
 if test x$1 = "x--run-git-add"; then
   git add $README_FILES;
