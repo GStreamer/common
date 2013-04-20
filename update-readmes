@@ -5,7 +5,7 @@
 # Updates a module's README and MAINTAINERS files from the copy in the
 # common submodule.
 
-README_FILES="README MAINTAINERS"
+README_FILES="README README.static-linking MAINTAINERS"
 
 if [ ! -f "common/update-readmes" -o ! -f configure.ac ]; then
   echo "Run ./common/update-readmes from the top-level source directory of a GStreamer module";
