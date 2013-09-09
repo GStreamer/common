@@ -33,7 +33,7 @@ AC_DEFUN([AG_GST_SET_PACKAGE_RELEASE_DATETIME],
   elif test "x$1" = "xyes"; then
     dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([no], ["YYYY-MM-DD"])
     dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([no], [DOAP-FILE], [RELEASE-VERSION])
-    if ( echo $1 | grep -e '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
+    if ( echo $1 | grep '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
       GST_PACKAGE_RELEASE_DATETIME=$1
     else
       dnl we assume the .doap file contains the date as YYYY-MM-DD
@@ -47,7 +47,7 @@ AC_DEFUN([AG_GST_SET_PACKAGE_RELEASE_DATETIME],
       fi
     fi
   dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([YYYY-MM-DD])
-  elif ( echo $1 | grep -e '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
+  elif ( echo $1 | grep '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
     GST_PACKAGE_RELEASE_DATETIME=$1
   else
     AC_MSG_WARN([SET_PACKAGE_RELEASE_DATETIME: invalid first argument])

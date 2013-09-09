@@ -18,12 +18,12 @@ fi
 
 awk 'BEGIN {x=0}
 {
-if ($0~"<release>") {x=1; chunk=""}
+if ( $0 ~ /<release>/ ) {x=1; chunk=""}
 if (x==1) {
-  if ($0~"<revision>") { chunk = chunk $0 }
-  if ($0~"<created>") { chunk = chunk $0 }
+  if ($0 ~ /<revision>/) { chunk = chunk $0 }
+  if ($0 ~ /<created>/) { chunk = chunk $0 }
 }
-if ($0~"</release>") {x=0; print chunk}
+if ($0 ~ /<\/release>/) {x=0; print chunk}
 }' < "$2" | \
 \
 grep '<revision>'"$1"'</revision>' | \
