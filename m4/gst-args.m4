@@ -337,6 +337,7 @@ AC_DEFUN([AG_GST_ARG_ENABLE_BROKEN],
 
 dnl allow people (or build tools) to override default behaviour
 dnl for fatal compiler warnings
+dnl Enable fatal warnings by default only for development versions
 AC_DEFUN([AG_GST_ARG_DISABLE_FATAL_WARNINGS],
 [
   AC_ARG_ENABLE(fatal-warnings,
@@ -349,5 +350,11 @@ AC_DEFUN([AG_GST_ARG_DISABLE_FATAL_WARNINGS],
         *)   AC_MSG_ERROR(bad value ${enableval} for --disable-fatal-warnings) ;;
       esac
     ],
-    [FATAL_WARNINGS=$GST_GIT]) dnl Default value
+    [
+      if test "x`expr $PACKAGE_VERSION_MINOR % 2`" = "x1" -a "x`expr $PACKAGE_VERSION_MICRO '<' 90`" = "x1"; then
+        FATAL_WARNINGS=yes
+      else
+        FATAL_WARNINGS=no
+      fi
+    ])
 ])
