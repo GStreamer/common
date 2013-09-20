@@ -34,7 +34,7 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
 
   AC_ARG_ENABLE(gobject-cast-checks,
     AS_HELP_STRING([--enable-gobject-cast-checks[=@<:@no/auto/yes@:>@]],
-      [Enable GObject cast checks]),, 
+      [Enable GObject cast checks]),[enable_gobject_cast_checks=$enableval],
     [enable_gobject_cast_checks=auto])
 
   if test "x$enable_gobject_cast_checks" = "xauto"; then
@@ -52,7 +52,7 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
 
   AC_ARG_ENABLE(glib-asserts,
     AS_HELP_STRING([--enable-glib-asserts[=@<:@no/auto/yes@:>@]],
-      [Enable GLib assertion]),, 
+      [Enable GLib assertion]),[enable_glib_assertions=$enableval],
     [enable_glib_assertions=auto])
 
   if test "x$enable_glib_assertions" = "xauto"; then
