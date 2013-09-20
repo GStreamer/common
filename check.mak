@@ -53,6 +53,7 @@ LOOPS ?= 10
 	$(VALGRIND_PATH) -q					\
 	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
+	--show-possibly-lost=no                                 \
 	--leak-resolution=high --num-callers=20			\
 	./$* 2>&1 | tee valgrind.log
 	@if grep "==" valgrind.log > /dev/null 2>&1; then	\
@@ -60,7 +61,7 @@ LOOPS ?= 10
 	    exit 1;						\
 	fi
 	@rm valgrind.log
-	
+
 # valgrind any given test and generate suppressions for it
 %.valgrind.gen-suppressions: %
 	@$(TESTS_ENVIRONMENT)					\
@@ -70,10 +71,11 @@ LOOPS ?= 10
 	$(VALGRIND_PATH) -q 					\
 	$(foreach s,$(SUPPRESSIONS),--suppressions=$(s))	\
 	--tool=memcheck --leak-check=full --trace-children=yes	\
+	--show-possibly-lost=no                                 \
 	--leak-resolution=high --num-callers=20			\
 	--gen-suppressions=all					\
 	./$* 2>&1 | tee suppressions.log
-	
+
 # valgrind torture any given test
 %.valgrind-torture: %
 	@for i in `seq 1 $(LOOPS)`; do				\
