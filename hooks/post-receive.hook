@@ -28,8 +28,11 @@ my $debug = 0;
 
 # configuration parameters
 
+my $project_name = 'gstreamer';
+
 # base URL of the gitweb repository browser
-my $gitweb_url = "http://cgit.freedesktop.org/gstreamer";
+my $gitweb_url = "http://cgit.freedesktop.org/$project_name";
+
 
 # default repository name
 my $repos_name = get_repos_name();
@@ -39,7 +42,7 @@ my $max_diff_size = 10000;
 
 # address for mail notices
 my $commitlist_address = 'gstreamer-commits@lists.freedesktop.org';
-#my $commitlist_address = "bilboed";
+#my $commitlist_address = 'tpm';
 
 # max number of individual notices before falling back to a single global notice
 my $max_individual_notices = 100;
@@ -101,14 +104,14 @@ sub mail_notification($$$@)
     }
 }
 
-# get the default repository name
+# get the default repository name (includes subdirectory, if any)
 sub get_repos_name()
 {
     my $dir = `git rev-parse --git-dir`;
     chomp $dir;
     my $repos = realpath($dir);
     $repos =~ s/(.*?)((\.git\/)?\.git)$/$1/;
-    $repos =~ s/(.*)\/([^\/]+)\/?$/$2/;
+    $repos =~ s%(.*\/$project_name)/([^/]+/?[^/]*)/?$%$2%;
     return $repos;
 }
 
