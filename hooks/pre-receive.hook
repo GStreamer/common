@@ -117,6 +117,14 @@ pushvalid = True
 error_badcommon = False
 error_badcommit = False
 
+openbranches = ["1.2", "1.0", "master"]
+
+def branch_closed(ref):
+    for branch in openbranches:
+        if branch in ref:
+            return False
+    return True
+
 for line in sys.stdin.readlines():
     # ref is the ref to be modified
     # old is the old commit it was pointing to
@@ -125,6 +133,13 @@ for line in sys.stdin.readlines():
 
     pushvalid = has_valid_common_change(old, new, ref)
     if pushvalid == False:
+        break
+    if branch_closed(ref):
+        print ">>>> Attempting to push to", ref
+        print ">>>> BRANCH READ-ONLY OR FORBIDDEN"
+        print ">>>> PUSH DENIED"
+        print
+        pushvalid = False
         break
     pushvalid = contains_valid_merge(old, new, ref)
     if pushvalid == False:
