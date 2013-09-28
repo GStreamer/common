@@ -43,11 +43,12 @@ if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
 fi
 
 # --- Config
-allowunannotated=$(git config --bool hooks.allowunannotated)
-allowdeletebranch=$(git config --bool hooks.allowdeletebranch)
-denycreatebranch=$(git config --bool hooks.denycreatebranch)
-allowdeletetag=$(git config --bool hooks.allowdeletetag)
-allowmodifytag=$(git config --bool hooks.allowmodifytag)
+allowunannotated=false        #$(git config --bool hooks.allowunannotated)
+allowdeletebranch=false       #$(git config --bool hooks.allowdeletebranch)
+denycreatebranch=false        #$(git config --bool hooks.denycreatebranch)
+denynonversionbranches=true
+allowdeletetag=false          #$(git config --bool hooks.allowdeletetag)
+allowmodifytag=true           #$(git config --bool hooks.allowmodifytag)
 
 # check for no description
 projectdesc=$(sed -e '1q' "$GIT_DIR/description")
@@ -98,6 +99,14 @@ case "$refname","$newrev_type" in
 		if [ "$oldrev" = "$zero" -a "$denycreatebranch" = "true" ]; then
 			echo "*** Creating a branch is not allowed in this repository" >&2
 			exit 1
+		fi
+		# we only want version branches like 1.2 not named/working branches (tpm)
+		if [ "$oldrev" = "$zero" -a "$denynonversionbranches" = "true" ]; then
+			if ( echo $refname | grep '^refs/heads/.*[[:alpha:]]' >/dev/null ) ; then
+				echo "*** Creating working branches is not allowed in this repository" >&2
+				echo "*** refname: $refname" >&2
+				exit 1
+			fi
 		fi
 		;;
 	refs/heads/*,delete)
