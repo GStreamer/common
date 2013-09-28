@@ -61,10 +61,11 @@ def has_valid_common_change(old, new, ref):
             print "   First push your changes to common/ before pushing the changes"
             print "   to the module using it."
             print
-            pushvalid = False
+            return False
 
     print "   [OK]"
     print
+    return True
 
 def commit_in_valid_branch(sha):
     sub = subprocess.Popen(["git", "branch", "--contains", sha],
