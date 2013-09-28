@@ -113,6 +113,20 @@ def contains_valid_merge(old, new, ref):
             print
     return res
 
+# checks whether the first line of any commit message contains a marker
+# that indicates that it's work-in-progress that shouldn't be pushed
+def contains_wip_commits(old, new):
+    # Get the commit message header
+    sub = subprocess.Popen(["git", "log", "--format=%s", "%s..%s" % (old, new, )], stdout=subprocess.PIPE)
+    stdout, stderr = sub.communicate()
+    if stdout != "":
+        for line in stdout.strip().rsplit('\n',1):
+            if line.startswith("!"):
+                return True
+            if line.startswith("WIP:") or line.startswith("wip:"):
+                return True
+    return False
+
 pushvalid = True
 error_badcommon = False
 error_badcommit = False
@@ -144,6 +158,10 @@ for line in sys.stdin.readlines():
     pushvalid = contains_valid_merge(old, new, ref)
     if pushvalid == False:
         break
+    if contains_wip_commits(old, new):
+        error_badcommit = True
+        pushvalid = False
+        break
 
 if pushvalid:
     print "   Incoming packet valid, proceeding to actual commit"
@@ -152,9 +170,9 @@ if pushvalid:
 else:
     if error_badcommit:
         print "   Attempting to push commits with commit messages that start"
-        print "   with '!'.  Commit messages starting with '!' are reserved"
-        print "   for private branches to prevent the commits from accidentally"
-        print "   getting to the main repository."
+        print "   with '!' or 'WIP:'. Such commit messages are reserved for"
+        print "   private branches and work in progress to prevent the commits"
+        print "   from accidentally being pushed to the main repository."
     if error_badcommon:
         print "   Attempting to push commits containing modifications to common"
         print "   that have not been commited to the actuall common module."
