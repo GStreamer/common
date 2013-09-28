@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+# install-hooks
+#
+# install hooks on git server
+#
+# usage: install-hooks [GIT_REPOSITORY_DIR]
+
+set -e
+
+HOOKS="update post-receive"
+
+if ! test -z $1 ; then
+  cd $1;
+fi
+
+if ! ls *.git */*.git 2>/dev/null >&2 ; then
+  echo "No git repositories in $(pwd) ?!"
+  exit;
+fi
+
+echo "git repository base dir: $(pwd)"
+
+for repo in *.git */*.git ; do
+  if test "$repo" = "sdk/glib.git"; then
+    echo "Skipping $repo"
+    continue
+  fi
+  echo "Updating hooks in $repo"
+  for hook in $HOOKS; do
+    # make sure target hook script actually exists
+    if ! test -e $hook ; then
+      echo "Hook '$hook' does not exist in $(pwd). Aborting.";
+      exit 1;
+    fi
+    # create new hook
+    rm -f $repo/hooks/$hook.new
+    pushd $repo/hooks >/dev/null
+    if [ -e "../../$hook" ] ; then
+      ln -s "../../$hook" $hook.new
+    elif [ -e "../../../$hook" ] ; then
+      ln -s "../../../$hook" $hook.new
+    else
+      echo "could not find hook script in parent directories ?!"
+      exit 1
+    fi
+    # put new hook in place atomically
+    #echo "installing $repo/hooks/$hook"
+    mv $hook.new $hook
+    # test it to make sure all is good
+    cat $hook >/dev/null
+    popd >/dev/null
+  done
+done
+
+
