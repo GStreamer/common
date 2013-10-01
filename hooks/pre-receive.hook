@@ -134,9 +134,16 @@ error_badcommit = False
 openbranches = ["1.2", "1.0", "master"]
 
 def branch_closed(ref):
-    for branch in openbranches:
-        if branch in ref:
-            return False
+    # We only care about branches
+    if not ref.startswith("refs/heads/"):
+        return False
+
+    # Check if it's in the allowed branches
+    brname = ref.rsplit("/", 1)[-1]
+    if brname in openbranches:
+        return False
+
+    # Else it's not allowed
     return True
 
 for line in sys.stdin.readlines():
