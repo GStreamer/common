@@ -139,7 +139,7 @@ def branch_closed(ref):
         return False
 
     # Check if it's in the allowed branches
-    brname = ref.rsplit("/", 1)[-1]
+    brname = ref.rsplit("/", 1)[-1].strip()
     if brname in openbranches:
         return False
 
