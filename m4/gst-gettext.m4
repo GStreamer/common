@@ -15,7 +15,7 @@ AC_DEFUN([AG_GST_GETTEXT],
                      [gettext package name])
 
   dnl make sure po/Makevars is kept in sync with GETTEXT_PACKAGE
-  if test -d "${srcdir}/po"; then
+  if test -e "${srcdir}/po/Makevars"; then
     if ! grep -e "$1" "${srcdir}/po/Makevars"; then
       AC_MSG_ERROR([DOMAIN in po/Makevars does not match GETTEXT_PACKAGE $1])
     fi
