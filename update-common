@@ -59,7 +59,30 @@ do
   fi
 
   git submodule init
+
+  # avoid downloading common submodule by re-using existing common checkout
+  if test -e $reference/common/.git ; then
+    git submodule update --reference $reference/common -- common
+  elif test -e $topdir/common/.git ; then
+    git submodule update --reference $topdir/common -- common
+  else
+    git submodule update
+  fi
+
+  # avoid downloading libav submodule by re-using existing checkout
+  if test "$module" = "gst-libav"; then
+    if test -e $reference/gst-libav/gst-libs/ext/libav/.git ; then
+      git submodule update --reference $reference/gst-libav/gst-libs/ext/libav -- gst-libs/ext/gst-libav
+    elif test -e $topdir/gst-libav/gst-libs/ext/libav/.git ; then
+      git submodule update --reference $topdir/gst-libav/gst-libs/ext/libav/ -- gst-libs/ext/libav
+    else
+      git submodule update
+    fi
+  fi
+
+  # for good measure in case there are any other submodules anywhere
   git submodule update
+
   cd $dir/$module/common
   ref_from=`git log --pretty=format:%h -n 1 HEAD`
   if test $BRANCH = 'master'; then
