@@ -11,6 +11,10 @@
 # the refs in your existing checkout when cloning the temporary
 # checkout.  Alternatively, you can use the reference variable below.
 #
+# Options:
+#
+#   --dry-run : pass --dry-run to git push, don't actually push the changes
+#   --keep    : keep temporary checkouts around instead of deleting them
 
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
@@ -18,6 +22,8 @@
 BRANCH=master
 reference=~/gst
 PUSHURL=ssh://git.freedesktop.org/git/gstreamer
+DRY_RUN=
+KEEP=no
 
 set -e
 set -x
@@ -29,6 +35,37 @@ modules="gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
 topdir=`pwd`
 dir=`mktemp -d $topdir/common-update-XXXXXX`
 
+# process command line arguments
+set +x
+for arg in $@
+do
+  case $arg in
+    --dry-run)
+      DRY_RUN="--dry-run";
+      ;;
+    --keep)
+      KEEP="yes";
+      ;;
+    --help)
+      echo
+      echo "update-common supported command line options:"
+      echo
+      echo " --dry-run   Don't actually push changes to the repository, use git push --dry-run"
+      echo
+      echo " --keep      Don't delete temporary git checkout used for update operation, keep it around"
+      echo
+      exit 0;
+      ;;
+    *)
+      echo "Unknown command line argument $arg"
+      echo "Supported: --dry-run, --keep"
+      exit 1;
+      ;;
+  esac
+done
+set -x
+
+# create temporary checkouts of the modules
 for module in $modules
 do
   cd $dir
@@ -125,8 +162,11 @@ for module in $modules
 do
   cd $dir/$module
   if git show-ref origin/$BRANCH >/dev/null; then
-    git push origin $BRANCH
+    git push $DRY_RUN origin $BRANCH
   fi
 done
 
-rm -rf $dir
+# delete temporary checkouts again
+if test "x$KEEP" != "xyes"; then
+  rm -rf $dir
+fi
