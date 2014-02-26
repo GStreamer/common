@@ -150,6 +150,8 @@ print OUTPUT <<EOT;
 #include <stdio.h>
 #include <errno.h>
 
+#include <gst/gst.h>
+
 $includes
 
 #ifdef GTK_IS_WIDGET_CLASS
