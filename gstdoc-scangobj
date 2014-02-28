@@ -464,11 +464,8 @@ static void output_args (void);
 static void output_object_args (FILE *fp, GType object_type);
 
 int
-main (int argc, char *argv[])
+main (G_GNUC_UNUSED int argc, G_GNUC_UNUSED char *argv[])
 {
-  /* Silence the compiler: */
-  if (argv != argv) argc = argc;
-
   $TYPE_INIT_FUNC;
 
   get_object_types ();
