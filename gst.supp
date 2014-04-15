@@ -1298,6 +1298,15 @@
    fun:snd_config_update
 }
 {
+   <alsa leak snd_config_searcha_hooks>
+   Memcheck:Leak
+   fun:*alloc
+   fun:_dl_close_worker
+   ...
+   fun:snd_config_searcha_hooks
+}
+
+{
    <nss lookup within ALSA>
    Memcheck:Leak
    fun:malloc
