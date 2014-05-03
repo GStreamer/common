@@ -16,7 +16,7 @@
 # git # checkouts, and git will pull objects from there, decreasing
 # network usage.
 BRANCH=master
-reference=~/Projects/gstreamer/head
+reference=~/gst
 PUSHURL=ssh://git.freedesktop.org/git/gstreamer
 
 set -e
