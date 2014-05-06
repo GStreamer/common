@@ -13,7 +13,7 @@ AC_DEFUN([AG_GST_CHECK_X],
   AC_CHECK_HEADER([X11/Xlib.h], [
     dnl and then the library with the most uniquitous function
     AC_CHECK_LIB(X11, [XSync], [HAVE_X="yes"], [], [$X_LIBS $X_PRE_LIBS $X_EXTRA_LIBS])
-  ])
+  ], [], [AC_INCLUDES_DEFAULT])
 
   if test "x$HAVE_X" = "xno"
   then
