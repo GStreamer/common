@@ -76,14 +76,6 @@ AC_DEFUN([AG_GST_SET_ERROR_CFLAGS],
             ])
           done
       ])
-    else
-      dnl Add -fno-strict-aliasing for GLib versions before 2.19.8
-      dnl as before G_LOCK and friends caused strict aliasing compiler
-      dnl warnings.
-      PKG_CHECK_EXISTS([glib-2.0 < 2.19.8], [
-        AS_COMPILER_FLAG(-fno-strict-aliasing,
-            ERROR_CFLAGS="$ERROR_CFLAGS -fno-strict-aliasing")
-	])
     fi
   fi
 
