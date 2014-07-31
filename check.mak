@@ -215,6 +215,9 @@ inspect:
 	  do echo Inspecting $$e;					\
 	     $(GST_INSPECT) $$e > /dev/null 2>&1; done
 
+# build all tests
+build-checks: $(TESTS)
+
 help:
 	@echo
 	@echo "make check                         -- run all checks"
@@ -237,6 +240,7 @@ help:
 	@echo "make (dir)/(test).valgrind.gen-suppressions -- generate suppressions"
 	@echo "                                               and save to suppressions.log"
 	@echo "make inspect                       -- inspect all plugin features"
+	@echo "make build-checks                  -- build all checks (but don't run them)"
 	@echo
 	@echo
 	@echo "Additionally, you can use the GST_CHECKS environment variable to"
