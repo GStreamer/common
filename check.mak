@@ -151,19 +151,13 @@ forever: $(TESTS)
 # valgrind all tests
 valgrind: $(TESTS)
 	@echo "Valgrinding tests ..."
-	@failed=0;							\
+	@failed=0; valgrind_targets="";					\
 	for t in $(filter-out $(VALGRIND_TESTS_DISABLE),$(TESTS)); do	\
-		$(MAKE) $$t.valgrind;					\
-		if test "$$?" -ne 0; then                               \
-			echo "Valgrind error for test $$t";		\
-			failed=`expr $$failed + 1`;			\
-			whicht="$$whicht $$t";				\
-		fi;							\
+	  valgrind_targets="$$valgrind_targets $$t.valgrind";		\
 	done;								\
-	if test "$$failed" -ne 0; then					\
-		echo "$$failed tests had leaks or errors under valgrind:";	\
-		echo "$$whicht";					\
-		false;							\
+	if ! $(MAKE) $$valgrind_targets ; then				\
+	  echo "Some tests had leaks or errors under valgrind";		\
+	  false;							\
 	fi
 
 # valgrind all tests until failure
