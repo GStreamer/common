@@ -46,7 +46,8 @@ LOOPS ?= 10
 
 # valgrind any given test by running make test.valgrind
 %.valgrind: %
-	@$(TESTS_ENVIRONMENT)					\
+	@valgrind_log=$(subst /,-,$*-valgrind.log);		\
+	$(TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
 	$(LIBTOOL) --mode=execute				\
@@ -55,12 +56,12 @@ LOOPS ?= 10
 	--tool=memcheck --leak-check=full --trace-children=yes	\
 	--show-possibly-lost=no                                 \
 	--leak-resolution=high --num-callers=20			\
-	./$* 2>&1 | tee valgrind.log
-	@if grep "==" valgrind.log > /dev/null 2>&1; then	\
-	    rm valgrind.log;					\
+	./$* 2>&1 | tee $$valgrind_log ;			\
+	if grep "==" $$valgrind_log > /dev/null 2>&1; then	\
+	    rm $$valgrind_log;					\
 	    exit 1;						\
-	fi
-	@rm valgrind.log
+	fi ;							\
+	rm $$valgrind_log
 
 # valgrind any given test and generate suppressions for it
 %.valgrind.gen-suppressions: %
