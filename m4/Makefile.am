@@ -1,5 +1,6 @@
 EXTRA_DIST = \
 	README \
+	acx_pthread.m4 \
 	as-ac-expand.m4 \
 	as-auto-alt.m4 \
 	as-compiler-flag.m4 \
