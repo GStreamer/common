@@ -27,12 +27,12 @@ dnl ===========================================================================
 AC_DEFUN([AG_GST_SET_PACKAGE_RELEASE_DATETIME],
 [
   dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME()
-  dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([yes]...)
+  dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([no]...)
   if test "x$1" = "xno" -o "x$1" = "x"; then
     GST_PACKAGE_RELEASE_DATETIME=`date -u "+%Y-%m-%dT%H:%MZ"`
   elif test "x$1" = "xyes"; then
-    dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([no], ["YYYY-MM-DD"])
-    dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([no], [DOAP-FILE], [RELEASE-VERSION])
+    dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([yes], [YYYY-MM-DD])
+    dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([yes], [DOAP-FILE], [RELEASE-VERSION])
     if ( echo $1 | grep '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
       GST_PACKAGE_RELEASE_DATETIME=$1
     else
