@@ -34,9 +34,9 @@ AC_DEFUN([AG_GST_SET_PACKAGE_RELEASE_DATETIME],
     dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([yes], [YYYY-MM-DD])
     dnl AG_GST_SET_PACKAGE_RELEASE_DATETIME([yes], [DOAP-FILE], [RELEASE-VERSION])
 changequote(<<, >>)dnl
-    if ( echo $1 | grep '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
+    if ( echo $2 | grep '^20[1-9][0-9]-[0-1][0-9]-[0-3][0-9]' >/dev/null ) ; then
 changequote([, ])dnl
-      GST_PACKAGE_RELEASE_DATETIME=$1
+      GST_PACKAGE_RELEASE_DATETIME=$2
     else
       dnl we assume the .doap file contains the date as YYYY-MM-DD
       YYYY_MM_DD=`sh "${srcdir}/common/extract-release-date-from-doap-file" $3 $2`;
