@@ -51,6 +51,9 @@ AC_DEFUN([AG_GST_ARCH],
     xarm*)
       HAVE_CPU_ARM=yes
       AC_DEFINE(HAVE_CPU_ARM, 1, [Define if the target CPU is an ARM]) ;;
+    xaarch64*)
+      HAVE_CPU_AARCH64=yes
+      AC_DEFINE(HAVE_CPU_AARCH64, 1, [Define if the target CPU is AARCH64]) ;;
     xsparc*)
       HAVE_CPU_SPARC=yes
       AC_DEFINE(HAVE_CPU_SPARC, 1, [Define if the target CPU is a SPARC]) ;;
@@ -108,7 +111,7 @@ AC_DEFUN([AG_GST_UNALIGNED_ACCESS], [
   AC_MSG_CHECKING([if unaligned memory access works correctly])
   if test x"$as_cv_unaligned_access" = x ; then
     case $host in
-      alpha*|arc*|arm*|hp*|mips*|sh*|sparc*|ia64*)
+      alpha*|arc*|arm*|aarch64*|hp*|mips*|sh*|sparc*|ia64*)
         _AS_ECHO_N([(blacklisted) ])
         as_cv_unaligned_access=no
 	;;
