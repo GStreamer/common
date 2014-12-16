@@ -3965,3 +3965,10 @@
    ...
    fun:g_quark_from*_string
 }
+
+{
+  <timer_create suppressions for earlier valgrind versions that complain>
+  Memcheck:Param
+  timer_create(evp)
+  fun:timer_create@@GLIBC_2.3.3
+}
