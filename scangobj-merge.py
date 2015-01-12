@@ -109,6 +109,8 @@ class GDoc:
             self.load_data("".join(lines))
         except IOError:
             print ("WARNING - could not read from %s" % filename)
+        except UnicodeDecodeError as e:
+            print ("WARNING - could not parse %s: %s" % (filename, e))
 
     def save_file(self, filename, backup=False):
         """
