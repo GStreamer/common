@@ -8,8 +8,9 @@ parse, merge and write gstdoc-scanobj files
 
 from __future__ import print_function, unicode_literals
 
-import sys
+import codecs
 import os
+import sys
 
 def debug(*args):
     pass
@@ -105,7 +106,7 @@ class Arg(Docable):
 class GDoc:
     def load_file(self, filename):
         try:
-            lines = open(filename).readlines()
+            lines = codecs.open(filename, encoding='utf-8').readlines()
             self.load_data("".join(lines))
         except IOError:
             print ("WARNING - could not read from %s" % filename)
@@ -118,7 +119,7 @@ class GDoc:
         """
         olddata = None
         try:
-            lines = open(filename).readlines()
+            lines = codecs.open(filename, encoding='utf-8').readlines()
             olddata = "".join(lines)
         except IOError:
             print ("WARNING - could not read from %s" % filename)
@@ -130,7 +131,7 @@ class GDoc:
             if backup:
                 os.rename(filename, filename + '.bak')
 
-        handle = open(filename, "w")
+        handle = codecs.open(filename, "w", encoding='utf-8')
         handle.write(newdata)
         handle.close()
 
