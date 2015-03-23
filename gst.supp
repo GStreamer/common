@@ -3972,3 +3972,30 @@
   timer_create(evp)
   fun:timer_create@@GLIBC_2.3.3
 }
+
+{
+   closures aren't valgrind friendly (bgo#739850)
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   ...
+   fun:g_cclosure_new
+}
+
+{
+   closures aren't valgrind friendly (bgo#739850)
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc
+   ...
+   fun:g_closure_add_invalidate_notifier
+}
+
+{
+   closures aren't valgrind friendly (bgo#739850)
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:calloc
+   ...
+   fun:g_closure_new_simple
+}
