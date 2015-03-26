@@ -3999,3 +3999,10 @@
    ...
    fun:g_closure_new_simple
 }
+
+{
+   glib/giomodules2 (from libsoup.supp)
+   Memcheck:Leak
+   ...
+   fun:_g_io_module_get_default
+}
