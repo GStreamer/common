@@ -169,54 +169,6 @@ version_check ()
   return 1;
 }
 
-aclocal_check ()
-{
-  # normally aclocal is part of automake
-  # so we expect it to be in the same place as automake
-  # so if a different automake is supplied, we need to adapt as well
-  # so how's about replacing automake with aclocal in the set var,
-  # and saving that in $aclocal ?
-  # note, this will fail if the actual automake isn't called automake*
-  # or if part of the path before it contains it
-  if [ -z "$automake" ]; then
-    echo "Error: no automake variable set !"
-    return 1
-  else
-    aclocal=`echo $automake | sed s/automake/aclocal/`
-    debug "aclocal: $aclocal"
-    if [ "$aclocal" != "aclocal" ];
-    then
-      CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-aclocal=$aclocal"
-    fi
-    if [ ! -x `which $aclocal` ]; then
-      echo "Error: cannot execute $aclocal !"
-      return 1
-    fi
-  fi
-}
-
-autoheader_check ()
-{
-  # same here - autoheader is part of autoconf
-  # use the same voodoo
-  if [ -z "$autoconf" ]; then
-    echo "Error: no autoconf variable set !"
-    return 1
-  else
-    autoheader=`echo $autoconf | sed s/autoconf/autoheader/`
-    debug "autoheader: $autoheader"
-    if [ "$autoheader" != "autoheader" ];
-    then
-      CONFIGURE_DEF_OPT="$CONFIGURE_DEF_OPT --with-autoheader=$autoheader"
-    fi
-    if [ ! -x `which $autoheader` ]; then
-      echo "Error: cannot execute $autoheader !"
-      return 1
-    fi
-  fi
-
-}
-
 die_check ()
 {
   # call with $DIE
