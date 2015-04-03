@@ -24,6 +24,7 @@ reference=~/gst
 PUSHURL=ssh://git.freedesktop.org/git/gstreamer
 DRY_RUN=
 KEEP=no
+COMMON_COMMIT=
 
 set -e
 set -x
@@ -46,6 +47,11 @@ do
     --keep)
       KEEP="yes";
       ;;
+    --commit=*)
+      COMMON_COMMIT="${arg#*=}";
+      DRY_RUN="--dry-run";
+      KEEP="yes";
+      ;;
     --help)
       echo
       echo "update-common supported command line options:"
@@ -53,6 +59,8 @@ do
       echo " --dry-run   Don't actually push changes to the repository, use git push --dry-run"
       echo
       echo " --keep      Don't delete temporary git checkout used for update operation, keep it around"
+      echo
+      echo " --commit=REF  Update common to commit reference REF (for local testing, implies --dry-run --keep)"
       echo
       exit 0;
       ;;
@@ -128,6 +136,13 @@ do
     git checkout -b $BRANCH origin/$BRANCH
   fi
   git pull origin
+  if [ -n "$COMMON_COMMIT" ] ; then
+    echo "Forcing common to commit $COMMON_COMMIT";
+    git reset --hard $COMMON_COMMIT || {
+      echo "Failed to git reset to $COMMON_COMMIT";
+      exit 1;
+    }
+  fi
   ref_to=`git log --pretty=format:%h -n 1 HEAD`
   echo updating common from $ref_from to $ref_to
   if [ "$ref_from" != "$ref_to" ] ; then
