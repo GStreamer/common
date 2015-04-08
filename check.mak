@@ -16,38 +16,38 @@ LOOPS ?= 10
 # run any given test by running make test.check
 # if the test fails, run it again at at least debug level 2
 %.check: %
-	@$(TESTS_ENVIRONMENT)					\
+	@$(AM_TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$* ||							\
-	$(TESTS_ENVIRONMENT)					\
+	$(AM_TESTS_ENVIRONMENT)					\
 	GST_DEBUG=$$GST_DEBUG,*:2				\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
 # just like 'check', but don't run it again if it fails (useful for debugging)
 %.check-norepeat: %
-	@$(TESTS_ENVIRONMENT)					\
+	@$(AM_TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*
 
 # run any given test in a loop
 %.torture: %
 	@for i in `seq 1 $(LOOPS)`; do				\
-	$(TESTS_ENVIRONMENT)					\
+	$(AM_TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$*; done
 
 # run any given test in an infinite loop
 %.forever: %
 	@while true; do						\
-	$(TESTS_ENVIRONMENT)					\
+	$(AM_TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=20					\
 	$* || break; done
 
 # valgrind any given test by running make test.valgrind
 %.valgrind: %
 	@valgrind_log=$(subst /,-,$*-valgrind.log);		\
-	$(TESTS_ENVIRONMENT)					\
+	$(AM_TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
 	$(LIBTOOL) --mode=execute				\
@@ -65,7 +65,7 @@ LOOPS ?= 10
 
 # valgrind any given test and generate suppressions for it
 %.valgrind.gen-suppressions: %
-	@$(TESTS_ENVIRONMENT)					\
+	@$(AM_TESTS_ENVIRONMENT)					\
 	CK_DEFAULT_TIMEOUT=360					\
 	G_SLICE=always-malloc					\
 	$(LIBTOOL) --mode=execute				\
@@ -95,7 +95,7 @@ LOOPS ?= 10
 
 # gdb any given test by running make test.gdb
 %.gdb: %
-	@$(TESTS_ENVIRONMENT)					\
+	@$(AM_TESTS_ENVIRONMENT)					\
 	CK_FORK=no						\
 	$(LIBTOOL) --mode=execute				\
 	gdb $*
@@ -205,7 +205,7 @@ valgrind.gen-suppressions: $(TESTS)
 GST_INSPECT = $(GST_TOOLS_DIR)/gst-inspect-$(GST_API_VERSION)
 inspect:
 	@echo "Inspecting features ..."
-	@for e in `$(TESTS_ENVIRONMENT) $(GST_INSPECT) | head -n -2 	\
+	@for e in `$(AM_TESTS_ENVIRONMENT) $(GST_INSPECT) | head -n -2 	\
 	  | cut -d: -f2`;						\
 	  do echo Inspecting $$e;					\
 	     $(GST_INSPECT) $$e > /dev/null 2>&1; done
