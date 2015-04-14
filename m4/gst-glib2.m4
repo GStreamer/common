@@ -120,6 +120,10 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
   GIO_LIBDIR="`$PKG_CONFIG --variable=libdir gio-2.0`"
   AC_DEFINE_UNQUOTED(GIO_LIBDIR, "$GIO_LIBDIR",
       [The GIO library directory.])
+  GIO_PREFIX="`$PKG_CONFIG --variable=prefix gio-2.0`"
+  AC_DEFINE_UNQUOTED(GIO_PREFIX, "$GIO_PREFIX",
+      [The GIO install prefix.])
+
   AC_SUBST(GIO_CFLAGS)
   AC_SUBST(GIO_LIBS)
   AC_SUBST(GIO_LDFLAGS)
