@@ -4006,3 +4006,11 @@
    ...
    fun:_g_io_module_get_default
 }
+
+{
+   <valgrind bug when trying to parse "infinity" from "interleaved">
+   Memcheck:Addr8
+   fun:__GI___strncasecmp_l
+   fun:____strtod_l_internal
+   fun:gst_value_deserialize_double
+}
