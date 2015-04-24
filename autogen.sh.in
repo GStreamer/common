@@ -79,7 +79,7 @@ toplevel_check $srcfile
 
 # autopoint
 if test -d po ; then
-if test -d po && grep ^AM_GNU_GETTEXT_VERSION configure.ac ; then
+if test -d po && grep ^AM_GNU_GETTEXT_VERSION configure.ac >/dev/null ; then
   tool_run "autopoint" "--force"
 fi
 
