@@ -4014,3 +4014,9 @@
    fun:____strtod_l_internal
    fun:gst_value_deserialize_double
 }
+
+{
+   <glibc overreads/conditionals>
+   Memcheck:Addr8
+   fun:do_lookup_x
+}
