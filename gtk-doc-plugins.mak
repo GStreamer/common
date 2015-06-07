@@ -16,6 +16,16 @@ help:
 update: scanobj-update
 	$(MAKE) check-outdated-docs
 
+if GTK_DOC_USE_LIBTOOL
+GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+GTKDOC_RUN = $(LIBTOOL) --mode=execute
+else
+GTKDOC_CC = $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+GTKDOC_LD = $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+GTKDOC_RUN =
+endif
+
 # We set GPATH here; this gives us semantics for GNU make
 # which are more like other make's VPATH, when it comes to
 # whether a source that is a target of one rule is then
@@ -122,7 +132,7 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	    scanobj_options="--verbose"; \
 	fi; \
 	$(INSPECT_ENVIRONMENT) 					\
-	CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
+	CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" RUN="$(GTKDOC_RUN)"	\
 	CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS) $(WARNING_CFLAGS)"	\
 	LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
 	$(GST_DOC_SCANOBJ) $$scanobj_options --type-init-func="gst_init(NULL,NULL)"	\

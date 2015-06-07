@@ -3,7 +3,16 @@
 ###########################################################################
 # thomas: except of course that we did
 
-# thomas: copied from glib-2
+if GTK_DOC_USE_LIBTOOL
+GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+GTKDOC_RUN = $(LIBTOOL) --mode=execute
+else
+GTKDOC_CC = $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+GTKDOC_LD = $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+GTKDOC_RUN =
+endif
+
 # We set GPATH here; this gives us semantics for GNU make
 # which are more like other make's VPATH, when it comes to
 # whether a source that is a target of one rule is then
@@ -81,15 +90,22 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
 		--ignore-headers="$(IGNORE_HFILES)"
 	@if grep -l '^..*$$' $(DOC_MODULE).types > /dev/null; then	\
 	    echo "  DOC   Introspecting gobjects"; \
+	    scanobj_options=""; \
+	    gtkdoc-scangobj 2>&1 --help | grep  >/dev/null "\-\-verbose"; \
+	    if test "$$?" = "0"; then \
+	        if test "x$(V)" = "x1"; then \
+	            scanobj_options="--verbose"; \
+	        fi; \
+	    fi; \
 	    GST_PLUGIN_SYSTEM_PATH_1_0=`cd $(top_builddir) && pwd`		\
 	    GST_PLUGIN_PATH_1_0=						\
 	    GST_REGISTRY_1_0=doc-registry.xml				\
 	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
-	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)"				\
+	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" RUN="$(GTKDOC_RUN)"	\
 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
 	    gtkdoc-scangobj --type-init-func="gst_init(NULL,NULL)"	\
-	        --module=$(DOC_MODULE) ;				\
+	        $$scanobj_options --module=$(DOC_MODULE) ;				\
 	else								\
 	    for i in $(SCANOBJ_FILES) ; do				\
 	       test -f $$i || touch $$i ;				\
