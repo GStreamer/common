@@ -171,19 +171,10 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	    --ignore-headers="$(IGNORE_HFILES)";			\
 	touch scan-build.stamp
 
-#### update templates; done on every build ####
+#### generate templates; done on every build ####
 
-# in a non-srcdir build, we need to copy files from the previous step
-# and the files from previous runs of this step
-tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
-	@echo '  DOC   Rebuilding template files'
-	@if test x"$(srcdir)" != x. ; then				\
-	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
-	    do								\
-	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
-	    done;							\
-	fi
-	@gtkdoc-mktmpl --module=$(DOC_MODULE)
+tmpl-build.stamp:
+	@echo '  DOC   Building template files'
 	@$(PYTHON) \
 		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
 	@touch tmpl-build.stamp

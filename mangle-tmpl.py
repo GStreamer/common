@@ -2,23 +2,14 @@
 # vi:si:et:sw=4:sts=4:ts=4
 
 """
-use the output from gst-xmlinspect.py to mangle tmpl/*.sgml and
-insert/overwrite Short Description and Long Description
+use the files from inspect/*.xml to create mininal tmpl/*.sgml files containing
+'Short Description' and 'Long Description' to inject element details into the
+docbook files produced by gtkdoc-mkdb
 """
-
-# FIXME: right now it uses pygst and scans on its own;
-# we really should use inspect/*.xml instead since the result of
-# gst-xmlinspect.py is committed by the docs maintainer, who can be
-# expected to have pygst, but this step should be done for every docs build,
-# so no pygst allowed
-
-# read in inspect/*.xml
-# for every tmpl/element-(name).xml: mangle with details from element
 
 from __future__ import print_function, unicode_literals
 
 import glob
-import re
 import sys
 import os
 
@@ -28,37 +19,12 @@ class Tmpl:
         self._sectionids = []
         self._sections = {}
 
-    def read(self):
-        """
-        Read and parse the sections from the given file.
-        """
-        lines = open(self.filename).readlines()
-        matcher = re.compile("<!-- ##### SECTION (\S+) ##### -->\n")
-        id = None
-
-        for line in lines:
-            match = matcher.search(line)
-            if match:
-                id = match.expand("\\1")
-                self._sectionids.append(id)
-                self._sections[id] = []
-            else:
-                if not id:
-                    sys.stderr.write(
-                        "WARNING: line before a SECTION header: %s" % line)
-                else:
-                    self._sections[id].append(line)
-
-    def get_section(self, id):
-        """
-        Get the content from the given section.
-        """
-        return self._sections[id]
-
     def set_section(self, id, content):
         """
         Replace the given section id with the given content.
         """
+        if not id in self._sectionids:
+            self._sectionids.append(id)
         self._sections[id] = content
 
     def output(self):
@@ -73,14 +39,10 @@ class Tmpl:
 
         return "".join(lines)
 
-    def write(self, backup=False):
+    def write(self):
         """
         Write out the template file again, backing up the previous one.
         """
-        if backup:
-            target = self.filename + ".mangle.bak"
-            os.rename(self.filename, target)
-
         handle = open(self.filename, "w")
         handle.write(self.output())
         handle.close()
@@ -136,30 +98,28 @@ def main():
     inspectdir = sys.argv[1]
     tmpldir = sys.argv[2]
 
+    if not os.path.exists (tmpldir):
+        os.mkdir(tmpldir)
+
     # parse all .xml files; build map of element name -> short desc
     #for file in glob.glob("inspect/plugin-*.xml"):
     elements = {}
     for file in glob.glob("%s/plugin-*.xml" % inspectdir):
         elements.update(get_elements(file))
 
-    for file in glob.glob("%s/element-*.sgml" % tmpldir):
-        base = os.path.basename(file)
-        element = base[len("element-"):-len(".sgml")]
+    for element in elements.keys():
+        file = "%s/element-%s.sgml" % (tmpldir, element)
         tmpl = Tmpl(file)
-        tmpl.read()
-        if element in elements.keys():
-            description = elements[element]['description']
-            tmpl.set_section("Short_Description", "%s\n\n" % description)
 
-        # put in an include if not yet there
+        description = elements[element]['description']
+        tmpl.set_section("Short_Description", "%s\n" % description)
+
+        # add include for details
         line = '<include xmlns="http://www.w3.org/2003/XInclude" href="' + \
             'element-' + element + '-details.xml">' + \
             '<fallback xmlns="http://www.w3.org/2003/XInclude" />' + \
             '</include>\n'
-        section = tmpl.get_section("Long_Description")
-        if not section[0]  == line:
-            section.insert(0, line)
-        tmpl.set_section("Long_Description", section)
+        tmpl.set_section("Long_Description", line)
         tmpl.write()
 
 main()
