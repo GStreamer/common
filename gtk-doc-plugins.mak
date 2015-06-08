@@ -54,11 +54,9 @@ EXTRA_DIST = 				\
 # maintainers and result is commited to git
 DOC_STAMPS =				\
 	scan-build.stamp		\
-	tmpl-build.stamp		\
 	sgml-build.stamp		\
 	html-build.stamp		\
 	scan.stamp			\
-	tmpl.stamp			\
 	sgml.stamp			\
 	html.stamp
 
@@ -171,20 +169,9 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	    --ignore-headers="$(IGNORE_HFILES)";			\
 	touch scan-build.stamp
 
-#### generate templates; done on every build ####
-
-tmpl-build.stamp:
-	@echo '  DOC   Building template files'
-	@$(PYTHON) \
-		$(top_srcdir)/common/mangle-tmpl.py $(srcdir)/$(INSPECT_DIR) tmpl
-	@touch tmpl-build.stamp
-
-tmpl.stamp: tmpl-build.stamp
-	@true
-
 #### xml ####
 
-sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
+sgml-build.stamp: scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
 	@echo '  DOC   Building XML'
 	@-mkdir -p xml
 	@for a in $(srcdir)/$(INSPECT_DIR)/*.xml; do \
@@ -200,6 +187,7 @@ sgml-build.stamp: tmpl.stamp scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common
 		--output-format=xml \
 		--ignore-files="$(IGNORE_HFILES) $(IGNORE_CFILES)" \
 		$(MKDB_OPTIONS)
+	@$(PYTHON) $(top_srcdir)/common/mangle-db.py xml
 	@cp ../version.entities xml
 	@touch sgml-build.stamp
 
