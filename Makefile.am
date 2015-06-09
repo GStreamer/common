@@ -8,7 +8,7 @@ EXTRA_DIST = \
 	parallel-subdirs.mak \
 	gst-autogen.sh \
 	check-exports \
-	c-to-xml.py mangle-tmpl.py scangobj-merge.py \
+	c-to-xml.py mangle-db.py scangobj-merge.py \
 	gtk-doc-plugins.mak \
 	plugins.xsl gstdoc-scangobj \
 	gst.supp check.mak \
