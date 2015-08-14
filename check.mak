@@ -57,7 +57,7 @@ LOOPS ?= 10
 	--show-possibly-lost=no                                 \
 	--leak-resolution=high --num-callers=20			\
 	./$* 2>&1 | tee $$valgrind_log ;			\
-	if grep "==" $$valgrind_log > /dev/null 2>&1; then	\
+	if grep "^==" $$valgrind_log > /dev/null 2>&1; then	\
 	    rm $$valgrind_log;					\
 	    exit 1;						\
 	fi ;							\
