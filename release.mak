@@ -14,6 +14,9 @@ release: dist
 	@if [ -d ../www/data/src ]; then \
 	  mv -v $(PACKAGE)-$(VERSION).tar.xz ../www/data/src/$(PACKAGE)/ ; \
 	  mv -v $(PACKAGE)-$(VERSION).tar.xz.sha256sum ../www/data/src/$(PACKAGE)/ ; \
+	elif [ -d ../../www/data/src ]; then \
+	  mv -v $(PACKAGE)-$(VERSION).tar.xz ../../www/data/src/$(PACKAGE)/ ; \
+	  mv -v $(PACKAGE)-$(VERSION).tar.xz.sha256sum ../../www/data/src/$(PACKAGE)/ ; \
 	fi
 	@echo "================================================================================================="
 
