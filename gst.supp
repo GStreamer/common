@@ -4020,3 +4020,12 @@
    Memcheck:Addr8
    fun:do_lookup_x
 }
+
+{
+   <quark tables are leaked on purpose when they are expanded, observed with glib 2.46 and gst-rtsp-server tests>
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:g_quark_init
+   fun:glib_init_ctor
+}
