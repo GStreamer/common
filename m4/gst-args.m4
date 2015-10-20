@@ -358,3 +358,29 @@ AC_DEFUN([AG_GST_ARG_DISABLE_FATAL_WARNINGS],
       fi
     ])
 ])
+
+dnl Enable extra checks by default only for development versions
+AC_DEFUN([AG_GST_ARG_ENABLE_EXTRA_CHECKS],
+[
+  AC_ARG_ENABLE(extra-check,
+    AC_HELP_STRING([--enable-extra-checks],
+                   [Enable extra runtime checks]),
+    [
+      case "${enableval}" in
+        yes) EXTRA_CHECKS=yes ;;
+        no)  EXTRA_CHECKS=no ;;
+        *)   AC_MSG_ERROR(bad value ${enableval} for --enable-extra-checks) ;;
+      esac
+    ],
+    [
+      if test "x`expr $PACKAGE_VERSION_MINOR % 2`" = "x1" -a "x`expr $PACKAGE_VERSION_MICRO '<' 90`" = "x1"; then
+        EXTRA_CHECKS=yes
+      else
+        EXTRA_CHECKS=no
+      fi
+    ])
+
+    if test "x$EXTRA_CHECKS" = "xyes"; then
+        AC_DEFINE(GST_ENABLE_EXTRA_CHECKS, 1, [Define if extra runtime checks should be enabled])
+    fi
+])

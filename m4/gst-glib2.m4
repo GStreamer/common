@@ -51,18 +51,9 @@ AC_DEFUN([AG_GST_GLIB_CHECK],
   fi
 
   AC_ARG_ENABLE(glib-asserts,
-    AS_HELP_STRING([--enable-glib-asserts[=@<:@no/auto/yes@:>@]],
+    AS_HELP_STRING([--enable-glib-asserts[=@<:@no/yes@:>@]],
       [Enable GLib assertion]),[enable_glib_assertions=$enableval],
-    [enable_glib_assertions=auto])
-
-  if test "x$enable_glib_assertions" = "xauto"; then
-    dnl Enable assertions only for development versions
-    if test "x`expr $PACKAGE_VERSION_MINOR % 2`" = "x1" -a "x`expr $PACKAGE_VERSION_MICRO '<' 90`" = "x1"; then
-      enable_glib_assertions=yes
-    else
-      enable_glib_assertions=no
-    fi
-  fi
+    [enable_glib_assertions=yes])
 
   if test "x$enable_glib_assertions" = "xno"; then
     GLIB_EXTRA_CFLAGS="$GLIB_EXTRA_CFLAGS -DG_DISABLE_ASSERT"
