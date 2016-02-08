@@ -97,17 +97,18 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
 	            scanobj_options="--verbose"; \
 	        fi; \
 	    fi; \
-	    GST_PLUGIN_SYSTEM_PATH_1_0=`cd $(top_builddir) && pwd`		\
-	    GST_PLUGIN_PATH_1_0=						\
+	    GST_PLUGIN_SYSTEM_PATH_1_0=`cd $(top_builddir) && pwd`	\
+	    GST_PLUGIN_PATH_1_0=					\
 	    GST_REGISTRY_1_0=doc-registry.xml				\
 	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" RUN="$(GTKDOC_RUN)"	\
 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
 	    gtkdoc-scangobj --type-init-func="gst_init(NULL,NULL)"	\
-	        $$scanobj_options --module=$(DOC_MODULE) ;				\
+	        $$scanobj_options --module=$(DOC_MODULE) ;		\
 	else								\
 	    for i in $(SCANOBJ_FILES) ; do				\
+	       $(MKDIR_P) $(dirname $$i) ;				\
 	       test -f $$i || touch $$i ;				\
 	    done							\
 	fi
