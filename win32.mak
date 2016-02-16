@@ -44,7 +44,10 @@ check-exports:
 	  if test "x$$libso" != "x"; then \
 	    echo Checking symbols in $$libso; \
 	    if ! ($(top_srcdir)/common/check-exports $$libdef $$libso) ; then \
-	      fail=1; \
+	      echo "$$libdef"; \
+	      if test "$$libbase" != "libgstgl"; then \
+	        fail=1; \
+	      fi; \
 	    fi; \
 	  fi; \
 	done ; \
