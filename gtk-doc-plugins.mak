@@ -174,7 +174,7 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 sgml-build.stamp: scan-build.stamp $(CFILE_GLOB) $(top_srcdir)/common/plugins.xsl $(expand_content_files)
 	@echo '  DOC   Building XML'
 	@-mkdir -p xml
-	@for a in $(srcdir)/$(INSPECT_DIR)/*.xml; do \
+	@for a in $(inspect_files); do \
 	    xsltproc --stringparam module $(MODULE) \
 		$(top_srcdir)/common/plugins.xsl $$a > xml/`basename $$a`; done
 	@for f in $(EXAMPLE_CFILES); do \
