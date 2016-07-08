@@ -125,7 +125,7 @@ sgml-build.stamp: setup-build.stamp $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DO
 	for i in $(DOC_SOURCE_DIR) ; do					\
 	    _source_dir="$${_source_dir} --source-dir=$$i" ;	        \
 	done ;							        \
-	gtkdoc-mkdb --module=$(DOC_MODULE) $$(_source_dir)  --expand-content-files="$(expand_content_files)" --main-sgml-file=$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS)
+	gtkdoc-mkdb --module=$(DOC_MODULE) $${_source_dir}  --expand-content-files="$(expand_content_files)" --main-sgml-file=$(DOC_MAIN_SGML_FILE) --output-format=xml $(MKDB_OPTIONS)
 	@cp ../version.entities xml
 	@touch sgml-build.stamp
 
