@@ -61,9 +61,9 @@ check-exports:
 
 update-exports:
 	make check-exports 2>&1 | patch -p1
-	git add win32/common/libgst*.def
-	git diff --cached -- win32/common/
-	echo '^^^--- updated and staged changes above'
+	git add $(top_srcdir)/win32/common/libgst*.def
+	git diff --cached -- $(top_srcdir)/win32/common/
+	echo '^^^--- updated and staged changes above (excluding libgstgl.def)'
 
 # complain about nonportable printf format strings (%lld, %llu, %zu etc.)
 check-nonportable-print-format:
