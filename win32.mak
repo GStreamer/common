@@ -66,7 +66,7 @@ update-exports:
 	fi
 	git add $(top_srcdir)/win32/common/libgst*.def
 	git diff --cached -- $(top_srcdir)/win32/common/
-	echo '^^^--- updated and staged changes above (excluding libgstgl.def)'
+	echo '^^^--- updated and staged changes above'
 
 # complain about nonportable printf format strings (%lld, %llu, %zu etc.)
 check-nonportable-print-format:
