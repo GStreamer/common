@@ -61,6 +61,9 @@ check-exports:
 
 update-exports:
 	make check-exports 2>&1 | patch -p1
+	if test -f "$(top_srcdir)/win32/common/libgstgl.def"; then \
+	  git checkout "$(top_srcdir)/win32/common/libgstgl.def";  \
+	fi
 	git add $(top_srcdir)/win32/common/libgst*.def
 	git diff --cached -- $(top_srcdir)/win32/common/
 	echo '^^^--- updated and staged changes above (excluding libgstgl.def)'
