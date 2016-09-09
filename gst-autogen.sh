@@ -6,7 +6,11 @@ if [ -f "autoregen.sh" ]; then
   rm autoregen.sh
 fi
 echo "#!/bin/sh" > autoregen.sh
-echo "./autogen.sh $@ \$@" >> autoregen.sh
+echo -n "./autogen.sh " >> autoregen.sh
+for v in "$@"; do
+  echo -n "\"$v\" " >> autoregen.sh
+done
+echo "\$@" >> autoregen.sh
 chmod +x autoregen.sh
 
 # helper functions for autogen.sh
@@ -77,13 +81,13 @@ autogen_options ()
       --) shift ; break ;;
       *)
           echo "+ passing argument $1 to configure"
-	  CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $1"
+          CONFIGURE_EXT_OPT=("$CONFIGURE_EXT_OPT" "$1")
           shift
           ;;
     esac
   done
 
-  for arg do CONFIGURE_EXT_OPT="$CONFIGURE_EXT_OPT $arg"; done
+  for arg do CONFIGURE_EXT_OPT=("$CONFIGURE_EXT_OPT" "$arg"); done
   if test ! -z "$CONFIGURE_EXT_OPT"
   then
     echo "+ options passed to configure: $CONFIGURE_EXT_OPT"
