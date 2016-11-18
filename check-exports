@@ -29,7 +29,7 @@ fi
 # BSS symbol, unlike on linux where it's a local absolute symbol.
 nm $NMARGS $lib_path | awk \
 	'{
-		if ($3 ~ /^[_]?(gst_|Gst|GST_).*/)
+		if ($3 ~ /^[_]?(gst_|Gst|GST_|ges_|Ges|GES_).*/)
 		{
 			if ($2 ~ /^[BSDG]$/)
 				print "\t" $3 " DATA"

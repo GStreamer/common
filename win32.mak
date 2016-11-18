@@ -64,7 +64,7 @@ update-exports:
 	if test -f "$(top_srcdir)/win32/common/libgstgl.def"; then \
 	  git checkout "$(top_srcdir)/win32/common/libgstgl.def";  \
 	fi
-	git add $(top_srcdir)/win32/common/libgst*.def
+	git add $(top_srcdir)/win32/common/lib*.def
 	git diff --cached -- $(top_srcdir)/win32/common/
 	echo '^^^--- updated and staged changes above'
 
