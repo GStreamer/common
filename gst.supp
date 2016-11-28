@@ -4025,3 +4025,12 @@
    ...
    fun:g_quark_init
 }
+
+{
+   Leak of debug function list
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:g_slist_prepend
+   fun:gst_debug_add_log_function
+}
