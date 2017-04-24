@@ -35,3 +35,11 @@ distcheck-hook:
 	  find $(distdir) -name \*-enumtypes.[ch] | grep -v win32 && \
 	  find $(distdir) -name \*-marshal.[ch] && \
 	  false )
+
+dist-hook:
+	@if test -f meson.build && ! $(GREP) -e "version.*'$(VERSION)'" meson.build >/dev/null ; then \
+	  echo "*******************************************************"; \
+	  echo "* meson.build needs to be updated for version $(VERSION)"; \
+	  echo "*******************************************************"; \
+	  false; \
+	fi
