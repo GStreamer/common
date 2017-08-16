@@ -27,16 +27,6 @@
 
 use Getopt::Long;
 
-my $GTK_DOC_PREFIX=`pkg-config --variable prefix gtk-doc`;
-if ($GTK_DOC_PREFIX) {
-  chomp $GTK_DOC_PREFIX;
-  #print "Adding $GTK_DOC_PREFIX/share/gtk-doc/data to \@INC\n";
-  unshift @INC, "$GTK_DOC_PREFIX/share/gtk-doc/data";
-} else {
-  unshift @INC, '/usr/share/gtk-doc/data';
-}
-require "gtkdoc-common.pl";
-
 # Options
 
 # name of documentation module
@@ -1741,6 +1731,59 @@ system("sh -c ./$MODULE-scan") == 0 or die "Scan failed: $!\n";
 
 if (!defined($ENV{"GTK_DOC_KEEP_INTERMEDIATE"})) {
   unlink "./$MODULE-scan.c", "./$MODULE-scan.o", "./$MODULE-scan.lo", "./$MODULE-scan";
+}
+
+# Copied from gtk-doc 1db161bd708cdfb88b362ea0b5d047034d9c3272
+#############################################################################
+# Function    : UpdateFileIfChanged
+# Description : Compares the old version of the file with the new version and
+#                if the file has changed it moves the new version into the old
+#                versions place. This is used so we only change files if
+#                needed, so we can do proper dependency tracking and we don't
+#                needlessly check files into version control systems that haven't
+#               changed.
+#                It returns 0 if the file hasn't changed, and 1 if it has.
+# Arguments   : $old_file - the pathname of the old file.
+#                $new_file - the pathname of the new version of the file.
+#                $make_backup - 1 if a backup of the old file should be kept.
+#                        It will have the .bak suffix added to the file name.
+#############################################################################
+
+sub UpdateFileIfChanged {
+    my ($old_file, $new_file, $make_backup) = @_;
+
+    #@TRACE@("Comparing $old_file with $new_file...");
+
+    # If the old file doesn't exist we want this to default to 1.
+    my $exit_code = 1;
+
+    if (-e $old_file) {
+        `cmp -s "$old_file" "$new_file"`;
+        $exit_code = $? >> 8;
+        #@TRACE@("   cmp exit code: $exit_code ($?)");
+    }
+
+    if ($exit_code > 1) {
+        die "Error running 'cmp $old_file $new_file'";
+    }
+
+    if ($exit_code == 1) {
+        #@TRACE@("   files changed - replacing old version with new version.");
+        if ($make_backup && -e $old_file) {
+            rename ($old_file, "$old_file.bak")
+                || die "Can't move $old_file to $old_file.bak: $!";
+        }
+        rename ($new_file, $old_file)
+            || die "Can't move $new_file to $old_file: $!";
+
+        return 1;
+    } else {
+        #@TRACE@("   files the same - deleting new version.");
+        unlink ("$new_file")
+            || die "Can't delete file: $new_file: $!";
+
+        return 0;
+    }
 }
 
 &UpdateFileIfChanged ($old_hierarchy_filename, $new_hierarchy_filename, 0);
