@@ -19,7 +19,7 @@
 # Set this variable to point to any directory containing existing
 # git # checkouts, and git will pull objects from there, decreasing
 # network usage.
-BRANCH=master
+BRANCH=1.10
 reference=~/gst
 PUSHURL=ssh://git.freedesktop.org/git/gstreamer
 DRY_RUN=
