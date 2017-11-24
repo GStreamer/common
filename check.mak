@@ -94,7 +94,11 @@ AM_TESTS_ENVIRONMENT = CK_DEFAULT_TIMEOUT=20
 	@$(AM_TESTS_ENVIRONMENT)					\
 	CK_FORK=no						\
 	$(LIBTOOL) --mode=execute				\
-	gdb $*
+	gdb $(GDB_ARGS) $*
+
+%.gdb-forever: %
+	@while $(MAKE) GDB_ARGS="-ex run -ex quit" $*.gdb ; do	\
+	  sleep 1; done
 
 %.lcov-reset:
 	$(MAKE) $*.lcov-run
