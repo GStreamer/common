@@ -295,6 +295,7 @@ get_object_types (void)
           g_warning ("Could not load plugin feature %s",
                      gst_plugin_feature_get_name (feature));
         }
+        factories = g_list_prepend (factories, feature);
 
         if (GST_IS_ELEMENT_FACTORY (feature)) {
           const gchar *pad_dir[] = { "unknown","source","sink" };
@@ -304,7 +305,6 @@ get_object_types (void)
           $debug_log ("  feature: %s", gst_plugin_feature_get_name (feature));
 
           factory = GST_ELEMENT_FACTORY (feature);
-          factories = g_list_prepend (factories, factory);
 
           if (reinspect) {
             /* output element data */
@@ -332,6 +332,16 @@ get_object_types (void)
             g_list_free (pads);
             fputs ("      </pads>\\n    </element>\\n", inspect);
           }
+        } else if (GST_IS_TRACER_FACTORY (feature)) {
+          $debug_log ("  feature: %s", gst_plugin_feature_get_name (feature));
+
+          if (reinspect) {
+            /* output element data */
+            fputs ("    <tracer>\\n", inspect);
+            fputs (xmlprint(6, "name", gst_plugin_feature_get_name (feature)),inspect);
+
+            fputs ("    </tracer>\\n", inspect);
+          }
         }
         features = g_list_next (features);
       }
@@ -354,14 +364,22 @@ get_object_types (void)
 
     /* fill it */
     while (l) {
-      factory = GST_ELEMENT_FACTORY (l->data);
-      type = gst_element_factory_get_element_type (factory);
+      const gchar *name = NULL;
+      type = 0;
+      if (GST_IS_ELEMENT_FACTORY (l->data)) {
+        factory = GST_ELEMENT_FACTORY (l->data);
+        type = gst_element_factory_get_element_type (factory);
+        name = gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_LONGNAME);
+      } else if (GST_IS_TRACER_FACTORY (l->data)) {
+        GstTracerFactory *t = GST_TRACER_FACTORY (l->data);
+        type = gst_tracer_factory_get_tracer_type (t);
+        name = gst_plugin_feature_get_name (GST_PLUGIN_FEATURE (t));
+      }
       if (type != 0) {
-        $debug_log ("adding type for factory %s", gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_LONGNAME));
+        $debug_log ("adding type for factory %s", name);
         object_types[i++] = type;
       } else {
-        g_message ("type info for factory %s not found",
-            gst_element_factory_get_metadata (factory, GST_ELEMENT_METADATA_LONGNAME));
+        g_message ("type info for factory %s not found", name);
       }
       l = g_list_next (l);
     }

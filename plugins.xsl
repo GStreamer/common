@@ -111,6 +111,45 @@
     </exsl:document>
   </xsl:template>
 
+  <xsl:template match="tracer">
+    <xsl:element name="varlistentry">
+      <xsl:element name="term">
+        <xsl:element name="link">
+          <xsl:attribute name="linkend"><xsl:value-of select="$module" />-plugins-<xsl:value-of select="name"/>tracer</xsl:attribute>
+          <xsl:value-of select="name" />
+        </xsl:element>
+      </xsl:element>
+      <!--<xsl:element name="listitem">
+        <xsl:element name="simpara"><xsl:value-of select="description" /></xsl:element>
+      </xsl:element>-->
+    </xsl:element>
+    <xsl:variable name="name"><xsl:copy-of select="name"/></xsl:variable>
+    <exsl:document href="{concat ('xml/tracer-', $name, '-details.xml')}" method="xml" indent="yes">
+
+      <xsl:element name="refsynopsisdiv">
+        <xsl:element name="refsect2">
+          <xsl:element name="title">Tracer Information</xsl:element>
+          <xsl:element name="variablelist">
+
+            <!-- plugin name and link -->
+            <xsl:element name="varlistentry">
+              <xsl:element name="term">plugin</xsl:element>
+              <xsl:element name="listitem">
+                <xsl:element name="simpara">
+                  <xsl:element name="link">
+                    <xsl:attribute name="linkend">plugin-<xsl:value-of select="../../name"/></xsl:attribute>
+                    <xsl:value-of select="../../name" />
+                  </xsl:element>
+                </xsl:element>
+              </xsl:element>
+            </xsl:element>
+          </xsl:element> <!-- variablelist -->
+        </xsl:element> <!-- refsect2 -->
+      </xsl:element> <!-- refsynopsisdiv -->
+
+    </exsl:document>
+  </xsl:template>
+
   <xsl:template match="plugin">
     <xsl:element name="refentry">
       <xsl:attribute name="id"><xsl:value-of select="$module" />-plugins-plugin-<xsl:value-of select="name"/></xsl:attribute>
