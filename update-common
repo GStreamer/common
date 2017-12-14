@@ -116,10 +116,10 @@ do
 
   # avoid downloading libav submodule by re-using existing checkout
   if test "$module" = "gst-libav"; then
-    if test -e $reference/gst-libav/gst-libs/ext/ffmpeg/.git ; then
-      git submodule update --reference $reference/gst-libav/gst-libs/ext/ffmpeg -- gst-libs/ext/gst-libav
-    elif test -e $topdir/gst-libav/gst-libs/ext/ffmpeg/.git ; then
-      git submodule update --reference $topdir/gst-libav/gst-libs/ext/ffmpeg/ -- gst-libs/ext/ffmpeg
+    if test -e $reference/gst-libav/gst-libs/ext/libav/.git ; then
+      git submodule update --reference $reference/gst-libav/gst-libs/ext/libav -- gst-libs/ext/libav
+    elif test -e $topdir/gst-libav/gst-libs/ext/libav/.git ; then
+      git submodule update --reference $topdir/gst-libav/gst-libs/ext/libav/ -- gst-libs/ext/libav
     else
       git submodule update
     fi
