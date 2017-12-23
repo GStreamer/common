@@ -121,7 +121,9 @@ scanobj-build.stamp: $(SCANOBJ_DEPS) $(basefiles)
 	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
-	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
+	        if test -e $(srcdir)/$$f; then				\
+	            cp -u $(srcdir)/$$f . || cp $(srcdir)/$$f . ;	\
+	        fi;							\
 	    done;							\
 	fi;								\
 	mkdir -p $(INSPECT_DIR); \
@@ -155,7 +157,9 @@ scan-build.stamp: $(HFILE_GLOB) $(EXTRA_HFILES) $(basefiles) scanobj-build.stamp
 	@if test x"$(srcdir)" != x. ; then				\
 	    for f in $(SCANOBJ_FILES) $(SCAN_FILES);			\
 	    do								\
-	        if test -e $(srcdir)/$$f; then cp -u $(srcdir)/$$f . ; fi;	\
+	        if test -e $(srcdir)/$$f; then				\
+	            cp -u $(srcdir)/$$f . || cp $(srcdir)/$$f .;	\
+	        fi;							\
 	    done;							\
 	fi
 	@_source_dir='' ;						\
