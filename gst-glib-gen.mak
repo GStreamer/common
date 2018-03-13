@@ -6,6 +6,7 @@
 #glib_gen_prefix=gst_color_balance
 #glib_gen_basename=colorbalance
 #glib_gen_decl_banner=GST_EXPORT
+#glib_gen_decl_include=\#include <gst/foo/foo-prelude.h>
 
 enum_headers=$(foreach h,$(glib_enum_headers),\n\#include \"$(h)\")
 
@@ -21,7 +22,7 @@ $(glib_gen_basename)-marshal.c: $(glib_gen_basename)-marshal.list
 
 $(glib_gen_basename)-enumtypes.h: $(glib_enum_headers)
 	$(AM_V_GEN)$(GLIB_MKENUMS) \
-	--fhead "#ifndef __$(glib_enum_define)_ENUM_TYPES_H__\n#define __$(glib_enum_define)_ENUM_TYPES_H__\n\n#include <gst/gst.h>\n\nG_BEGIN_DECLS\n" \
+	--fhead "#ifndef __$(glib_enum_define)_ENUM_TYPES_H__\n#define __$(glib_enum_define)_ENUM_TYPES_H__\n\n#include <gst/gst.h>\n$(glib_gen_decl_include)\nG_BEGIN_DECLS\n" \
 	--fprod "\n/* enumerations from \"@filename@\" */\n" \
 	--vhead "$(glib_gen_decl_banner)\nGType @enum_name@_get_type (void);\n#define GST_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n"         \
 	--ftail "G_END_DECLS\n\n#endif /* __$(glib_enum_define)_ENUM_TYPES_H__ */" \
