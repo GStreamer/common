@@ -312,7 +312,7 @@ check: check-hierarchy
 endif
 
 # wildcard is apparently not portable to other makes, hence the use of find
-inspect_files = $(shell find $(srcdir)/$(INSPECT_DIR) -name '*.xml')
+inspect_files = $(sort $(shell find $(srcdir)/$(INSPECT_DIR) -name '*.xml'))
 
 check-inspected-versions:
 	@echo Checking plugin versions of inspected plugin data ...; \
