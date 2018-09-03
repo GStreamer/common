@@ -16,7 +16,7 @@ $(glib_gen_basename)-marshal.h: $(glib_gen_basename)-marshal.list
 	mv $(glib_gen_basename)-marshal.h.tmp $(glib_gen_basename)-marshal.h
 
 $(glib_gen_basename)-marshal.c: $(glib_gen_basename)-marshal.list
-	$(AM_V_GEN)echo "#include \"$(glib_gen_basename)-marshal.h\"" >> $(glib_gen_basename)-marshal.c.tmp && \
+	$(AM_V_GEN)echo "#include \"config.h\"\n#include \"$(glib_gen_basename)-marshal.h\"" >> $(glib_gen_basename)-marshal.c.tmp && \
 	$(GLIB_GENMARSHAL) --body --prefix=$(glib_gen_prefix)_marshal $^ >> $(glib_gen_basename)-marshal.c.tmp && \
 	mv $(glib_gen_basename)-marshal.c.tmp $(glib_gen_basename)-marshal.c
 
