@@ -1390,6 +1390,17 @@
    fun:_gst_tag_initialize
 }
 
+# system-wide tags
+# these tags are registered once
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:gst_tag_register_static
+}
+
 # system-wide type classes that we keep referenced
 
 {
