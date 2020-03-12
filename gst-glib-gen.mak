@@ -8,7 +8,8 @@
 #glib_gen_decl_banner=GST_EXPORT
 #glib_gen_decl_include=\#include <gst/foo/foo-prelude.h>
 
-enum_headers=$(foreach h,$(glib_enum_headers),\n\#include \"$(h)\")
+hash:=\#
+enum_headers=$(foreach h,$(glib_enum_headers),\n$(hash)include \"$(h)\")
 
 # these are all the rules generating the relevant files
 $(glib_gen_basename)-marshal.h: $(glib_gen_basename)-marshal.list
