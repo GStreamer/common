@@ -99,6 +99,14 @@
 }
 
 {
+   <g_type_init leaks>
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   fun:g_option_context_parse
+}
+
+{
    <g_type_register_fundamental leaks>
    Memcheck:Leak
    fun:*alloc
